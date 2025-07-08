@@ -1,0 +1,50 @@
+# Configuration settings in YAML format
+config:
+  # Default settings for the application
+  output_dir: "./output"
+  log_level: "INFO"
+  excel_path: "./excel"
+  excel_pattern: "*.xlsx"
+  template_path: "./template"
+  log_path: "./log"
+  yaml_path: "./yaml"
+  project_name: "Primark Reclassification"
+  author_name: "Mr Primark"
+  created_date: "2025-01-01"
+  excel_sheets:
+
+    TABLE :
+      modelname_cell: [1, 1]
+      databasename_cell: [2, 1]
+      table_name_cell: [3, 1]
+      table_description_cell: [4, 1]
+      table_kind_cell: [6, 1] 
+      primary_index_cell: [5, 1]
+      table_option_cell: [7, 1]
+      control_columns_cell: [8, 1]
+      patterns_column_cell: [9, 1]
+      table_quote_cell: [10, 1]
+      column_row: 13
+      column_name: 1
+      column_type: 2
+      column_description: 3
+      column_is_null: 4
+      column_quote: 5
+      column_default: 6
+      column_format: 7
+      column_compression: 8
+      column_option: 9
+      column_tests: 10
+  DATABASE_MAPPING:
+    VVIEW: {'T_ACC_FND': 'V_ACC_FND'}
+    AVIEW: {'T_ACC_FND': 'A_ACC_FND'}
+    CVIEW: {'T_ACC_FND': 'C_ACC_FND'}
+  TYPE_MAPPING:
+    AMOUNT: 'DECIMAL(18,10)'
+    UNIT: 'INTEGER'
+    UNITS: 'INTEGER'
+    LOC: 'INTEGER'
+    ITEM: 'BIGINT'
+    DATE: 'DATE'
+    LOCATION: 'INTEGER'
+    COUNT: 'INTEGER'

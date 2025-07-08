@@ -30,6 +30,8 @@ An Excel to DDL generator for Databases based on Jinja Templates.
 
 To install `td_cents_table_generator`, you can clone the repository and install the necessary dependencies:
 
+TODO: Convert to package , prototype phase
+
 ```sh
 git clone https://github.com/clydewatts1/td_cents_table_generator.git
 cd td_cents_table_generator

@@ -1,0 +1,86 @@
+modelname: DW_FND_LOC_ITEM_DIM
+databasename: T_ACC_FND
+table_name: DW_FND_LOC_ITEM_DIM
+table_description: This is the foundation date dimension
+table_kind: MULTISET
+primary_index: UNIQUE PRIMARY INDEX(ITEM_ID,LOC_ID)
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- TABLE
+- AVIEW
+- VVIEW
+- CVIEW
+- TABLE_HIST
+- AVIEW_HIST
+- VVIEW_HIST
+- CVIEW_HIST
+table_quote: ''
+columns:
+- column_name: LOC_ID
+  column_type: INTEGER
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: ''
+  compression: ''
+  quote: ''
+- column_name: ITEM_ID
+  column_type: BIGINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: ''
+  compression: ''
+  quote: ''
+- column_name: LFL_IND
+  column_type: BYTEINT
+  column_format: '''9'''
+  is_null: Y
+  option: ''
+  description: Like for like indictor 0 - Not Like for like , 1 - Like for Like
+  compression: '1'
+  quote: ''
+- column_name: Sales_1st_Date
+  column_type: DATE
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: First day when store start selling an item.Date of SALES 1ST DATE
+  compression: ''
+  quote: ''
+- column_name: Sales_1st_Week
+  column_type: DATE
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: First Week when store start selling an item.WEEK of SALES 1ST WEEK
+    (This is at SKU ORIN level)
+  compression: ''
+  quote: ''
+- column_name: Item_Grade_Area
+  column_type: VARCHAR(3)
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: This Column is used identify the Grade of the location
+  compression: ''
+  quote: ''
+- column_name: Item_Grade_Region
+  column_type: VARCHAR(3)
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: This Column is used identify the Primark Item(Sku) Selling Price of
+    the item.
+  compression: ''
+  quote: ''
+- column_name: Location_Grade
+  column_type: VARCHAR(3)
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: 'Name of the Cal season the product was categorized into. Example:
+    AW2017. Autumn Winter'
+  compression: ''
+  quote: ''

@@ -1,0 +1,7 @@
+{% macro control_columns() %}
+    created_by VARCHAR(50) NOT NULL,
+    effective_from_date DATE NOT NULL,
+    effective_to_date DATE NOT NULL,
+    current_flag CHAR(1) NOT NULL,
+    run_id BIGINT NOT NULL
+{% endmacro -%}

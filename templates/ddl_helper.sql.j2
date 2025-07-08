@@ -1,0 +1,46 @@
+{# Create macro to generate standard comment block#}
+{% macro header(filename,project_name,databasename,schema_name,author_name,created_date) %}
+/*----------------------------------------------------------------------
+* FileName: {{ filename }}
+* Project: {{ project_name }}
+* Database: DW${INSTANCE}{{ databasename }}
+* Schema: {{ schema_name }}
+* Author: {{ author_name }}
+* Created: {{ created_date }} 
+-----------------------------------------------------------------------*/
+{% endmacro %}
+{# Control Columns #}
+{% macro control_columns(control,table_quote) %}
+    /* Control columns for auditing */
+    effective_from_date DATE NOT NULL,
+    effective_to_date DATE NOT NULL,
+    current_flag CHAR(1) NOT NULL,
+    run_id BIGINT NOT NULL
+{% endmacro -%}
+
+{# Control Columns #}
+{% macro control_columns_view(control,table_quote) %}
+    /* Control columns for auditing */
+    effective_from_date,
+    effective_to_date,
+    current_flag,
+    run_id
+{% endmacro -%}
+
+
+
+{% macro control_columns_comments(control,databasename,table_name,table_quote) %}
+    /* Control columns for auditing */
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.effective_from_date AS 'The date from which the record is valid'
+;
+
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.effective_to_date AS 'The date until which the record is valid'
+;
+
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.current_flag AS 'Indicates if the record is current (Y) or not (N)'
+;
+
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.run_id AS 'The run id of the ETL job that created the record'
+;
+
+{% endmacro -%}

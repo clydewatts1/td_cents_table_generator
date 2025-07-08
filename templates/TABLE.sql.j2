@@ -1,0 +1,41 @@
+{% import 'ddl_helper.sql.j2' as dd -%}
+{{ dd.header(filename,project_name,databasename,schema_name,config.author_name,config.created_date)-}}
+/* Create table for {{ table_name }} = {{table_quote}}*/
+{% set table_quote = '"' if table_quote=='Y' else ''-%}
+CREATE {{ table_kind }} TABLE DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote-}}
+ {{ table_options }}
+    (
+{%- for column in columns %}
+{% set quote = '"' if column.quote == 'Y' else '' -%}
+{% set is_null = 'NOT NULL' if column.is_null == 'Y' else '' -%}
+{% set column_format = 'FORMAT ' + column.column_format if column.column_format else '' -%}
+{% if  column.column_type in config.TYPE_MAPPING -%}
+{% set column_type = config.TYPE_MAPPING[column.column_type]-%}
+{% else -%}
+{% set column_type = column.column_type -%}
+{% endif -%}
+{{"    "}}{{quote}}{{ column.column_name }}{{quote}} {{ column_type }} {{ is_null }} {{ column_format }}{{option}}{%if not loop.last %},{%else%},{% endif -%}
+{% endfor -%}
+{{ dd.control_columns(control_columns,table_quote) -}}
+{{"    "}})
+{{"    "}}{{primary_index}}
+;
+
+/*-----------------------------------------------------------------------------
+* Comments for tables and columns
+*-------------------------------------------------------------------------------*/
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}} AS '{{ table_description }}'
+;
+{% for column in columns %}
+{% set quote = '"' if column.quote == 'Y' else '' -%}
+{% if column.description != '' -%}
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.{{quote}}{{ column.column_name }}{{quote}} AS '{{ column.description }}'
+;
+{% endif -%}
+{% endfor %}
+
+{{ dd.control_columns_comments(control_columns,databasename,table_name,table_quote) -}}
+
+/*-----------------------------------------------------------------------------
+* END OF TABLE CREATION
+*-------------------------------------------------------------------------------*/

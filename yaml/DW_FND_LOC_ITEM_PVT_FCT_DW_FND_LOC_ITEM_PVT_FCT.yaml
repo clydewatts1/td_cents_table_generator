@@ -1,0 +1,80 @@
+modelname: DW_FND_LOC_ITEM_PVT_FCT
+databasename: T_ACC_FND
+table_name: DW_FND_LOC_ITEM_PVT_FCT
+table_description: This is the foundation date dimension
+table_kind: MULTISET
+primary_index: PRIMARY INDEX ( Loc_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date
+  BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- TABLE
+- AVIEW
+- VVIEW
+- CVIEW
+table_quote: ''
+columns:
+- column_name: business_date
+  column_type: DATE
+  column_format: '''FORMAT ''yyyy-mm-dd'''
+  is_null: Y
+  option: ''
+  description: Business Date (PK)
+  compression: ''
+  quote: ''
+- column_name: loc_id
+  column_type: INTEGER
+  column_format: '''FORMAT ''99999'''
+  is_null: Y
+  option: ''
+  description: Location ID - this can either be a store or depot (PK)
+  compression: ''
+  quote: ''
+- column_name: item_id
+  column_type: BIGINT
+  column_format: '''FORMAT ''999999999999'''
+  is_null: Y
+  option: ''
+  description: Item ID - this is the SKU Orin ( PK)
+  compression: ''
+  quote: ''
+- column_name: ly_business_dt
+  column_type: DATE
+  column_format: '''FORMAT ''yyyy-mm-dd'''
+  is_null: Y
+  option: ''
+  description: Last year business date
+  compression: ''
+  quote: ''
+- column_name: ty_sales_ind
+  column_type: BYTEINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Indicates if the sales data was present for this row
+  compression: '1'
+  quote: ''
+- column_name: ty_stock_ind
+  column_type: BYTEINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Indicates if the sales data was present for this year
+  compression: '1'
+  quote: ''
+- column_name: ly_sales_ind
+  column_type: BYTEINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Indicates if the sales data for last year primark calendar date
+  compression: '1'
+  quote: ''
+- column_name: ly_stock_ind
+  column_type: BYTEINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Indicates if the sales data for last year primark calendar date
+  compression: '1'
+  quote: ''
