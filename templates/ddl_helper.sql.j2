@@ -12,35 +12,47 @@
 {# Control Columns #}
 {% macro control_columns(control,table_quote) %}
     /* Control columns for auditing */
-    effective_from_date DATE NOT NULL,
-    effective_to_date DATE NOT NULL,
-    current_flag CHAR(1) NOT NULL,
-    run_id BIGINT NOT NULL
+    eff_from_dt DATE NOT NULL,
+    eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
+    del_ind BYTEINT NOT NULL COMPRESS(0),
+    run_id INTEGER NOT NULL,
+    update_run_id INTEGER COMPRESS(NULL) ,
+    job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
+    update_job_id VARCHAR(30) COMPRESS(NULL)
 {% endmacro -%}
 
 {# Control Columns #}
 {% macro control_columns_view(control,table_quote) %}
     /* Control columns for auditing */
-    effective_from_date,
-    effective_to_date,
-    current_flag,
-    run_id
+    eff_from_dt,
+    eff_to_dt,
+    del_ind,
+    run_id,
+    update_run_id,
+    job_id,
+    update_job_id
 {% endmacro -%}
-
 
 
 {% macro control_columns_comments(control,databasename,table_name,table_quote) %}
     /* Control columns for auditing */
-COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.effective_from_date AS 'The date from which the record is valid'
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.eff_from_dt AS 'The date from which the record is valid'
 ;
 
-COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.effective_to_date AS 'The date until which the record is valid'
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.eff_to_dt AS 'The date until which the record is valid'
 ;
 
-COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.current_flag AS 'Indicates if the record is current (Y) or not (N)'
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.del_ind AS 'The deletion indicator for the record, 0 for active, 1 for deleted'
 ;
 
 COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.run_id AS 'The run id of the ETL job that created the record'
+;
+
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.update_run_id AS 'The run id of the ETL job that last updated the record'
+;
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.job_id AS 'The job id of the ETL job that created the record'
+;
+COMMENT ON DW${INSTANCE}{{ databasename }}.{{table_quote}}{{ table_name }}{{table_quote}}.update_job_id AS 'The job id of the ETL job that last updated the record'
 ;
 
 {% endmacro -%}

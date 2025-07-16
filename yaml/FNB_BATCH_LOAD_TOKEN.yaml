@@ -1,0 +1,79 @@
+modelname: FNB_BATCH_LOAD_TOKEN
+databasename: T_ACC_FND
+table_name: FNB_BATCH_LOAD_TOKEN
+table_description: ''
+table_kind: MULTISET
+primary_index: UNIQUE PRIMARY INDEX(FNB_TOKEN_GROUP)
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- TABLE
+- AVIEW
+- VVIEW
+table_quote: ''
+columns:
+- column_name: FNB_TOKEN_GROUP
+  column_type: VARCHAR(30)
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Load token group - like stream
+  compression: ''
+  quote: ''
+- column_name: FNB_TOKEN_GROUP_NAME
+  column_type: VARCHAR(128)
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Load token group - name
+  compression: ''
+  quote: ''
+- column_name: FNB_TOKEN_DATE
+  column_type: DATE
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Load token date
+  compression: ''
+  quote: ''
+- column_name: FNB_TOKEN_NEXT_DATE
+  column_type: DATE
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Next Load token date
+  compression: ''
+  quote: ''
+- column_name: FNB_TOKEN_PREV_DATE
+  column_type: DATE
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Prev Successful Load token date
+  compression: ''
+  quote: ''
+- column_name: FNB_TOKEN_STATUS
+  column_type: VARCHAR(30)
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: The status of the stream OPEN , CLOSED
+  compression: ''
+  quote: ''
+- column_name: OPEN_STATUS_TS
+  column_type: TIMESTAMP(0)
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: The time the status became open
+  compression: ''
+  quote: ''
+- column_name: CLOSE_STATUS_TS
+  column_type: TIMESTAMP(0)
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: The time the status became closed - NULL If open
+  compression: ''
+  quote: ''
+BUILD: []

@@ -1,0 +1,50 @@
+modelname: FND_STK_FCT_PVT_STG
+databasename: T_TMP_ACC_FND
+table_name: FND_STK_FCT_PVT_STG
+table_description: This is the foundation date dimension
+table_kind: MULTISET
+primary_index: PRIMARY INDEX ( Loc_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date
+  BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+table_option: ''
+control_columns: ''
+patterns:
+- TABLE
+table_quote: ''
+columns:
+- column_name: business_date
+  column_type: DATE
+  column_format: '''yyyy-mm-dd'''
+  is_null: Y
+  option: ''
+  description: Business Date (PK)
+  compression: ''
+  quote: ''
+- column_name: loc_id
+  column_type: INTEGER
+  column_format: '''99999'''
+  is_null: Y
+  option: ''
+  description: Location ID - this can either be a store or depot (PK)
+  compression: ''
+  quote: ''
+- column_name: item_id
+  column_type: BIGINT
+  column_format: '''999999999999'''
+  is_null: Y
+  option: ''
+  description: Item ID - this is the SKU Orin ( PK)
+  compression: ''
+  quote: ''
+- column_name: fct_src_map
+  column_type: BYTEINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Mapping of source of each row in Pivot - used in debuging
+  compression: ''
+  quote: ''
+BUILD:
+- jobname: ''
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND_STK_FCT_PVT_STG
+  pattern: TABLE_NO_CONTROL

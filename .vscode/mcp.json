@@ -1,0 +1,9 @@
+{
+    "servers": {
+        "my-mcp-server-01e279d4": {
+            "type": "stdio",
+            "command": "http://127.0.0.1:25565",
+            "args": []
+        }
+    }
+}

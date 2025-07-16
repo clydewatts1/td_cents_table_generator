@@ -1,50 +1,110 @@
-# Configuration settings in YAML format
 config:
-  # Default settings for the application
-  output_dir: "./output"
-  log_level: "INFO"
-  excel_path: "./excel"
-  excel_pattern: "*.xlsx"
-  template_path: "./template"
-  log_path: "./log"
-  yaml_path: "./yaml"
-  project_name: "Primark Reclassification"
-  author_name: "Mr Primark"
-  created_date: "2025-01-01"
-  excel_sheets:
-
-    TABLE :
-      modelname_cell: [1, 1]
-      databasename_cell: [2, 1]
-      table_name_cell: [3, 1]
-      table_description_cell: [4, 1]
-      table_kind_cell: [6, 1] 
-      primary_index_cell: [5, 1]
-      table_option_cell: [7, 1]
-      control_columns_cell: [8, 1]
-      patterns_column_cell: [9, 1]
-      table_quote_cell: [10, 1]
-      column_row: 13
-      column_name: 1
-      column_type: 2
-      column_description: 3
-      column_is_null: 4
-      column_quote: 5
-      column_default: 6
-      column_format: 7
-      column_compression: 8
-      column_option: 9
-      column_tests: 10
   DATABASE_MAPPING:
-    VVIEW: {'T_ACC_FND': 'V_ACC_FND'}
-    AVIEW: {'T_ACC_FND': 'A_ACC_FND'}
-    CVIEW: {'T_ACC_FND': 'C_ACC_FND'}
+    AVIEW:
+      T_ACC_FND: A_ACC_FND
+    CVIEW:
+      T_ACC_FND: C_ACC_FND
+    VVIEW:
+      T_ACC_FND: V_ACC_FND
   TYPE_MAPPING:
-    AMOUNT: 'DECIMAL(18,10)'
-    UNIT: 'INTEGER'
-    UNITS: 'INTEGER'
-    LOC: 'INTEGER'
-    ITEM: 'BIGINT'
-    DATE: 'DATE'
-    LOCATION: 'INTEGER'
-    COUNT: 'INTEGER'
+    AMOUNT: DECIMAL(18,10)
+    COUNT: INTEGER
+    DATE: DATE
+    ITEM: BIGINT
+    LOC: INTEGER
+    LOCATION: INTEGER
+    UNIT: INTEGER
+    UNITS: INTEGER
+  author_name: Mr Primark
+  created_date: '2025-01-01'
+  template_path:
+  excel_mapping_directory: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2.
+    Define (Req. & Solution Design)/Design/Detailed Design/Mapping_Design
+  excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
+    (Req. & Solution Design)/Design/Detailed Design/Physical_Design
+  excel_pattern: '*.xlsx'
+  excel_sheets:
+    BUILD:
+      build_row: 2
+      database_name: 2
+      job_name: 1
+      pattern: 4
+      table_name: 3
+    TABLE:
+      column_compression: 8
+      column_default: 6
+      column_description: 3
+      column_format: 7
+      column_is_null: 4
+      column_name: 1
+      column_option: 9
+      column_quote: 5
+      column_row: 13
+      column_tests: 10
+      column_type: 2
+      control_columns_cell:
+      - 8
+      - 1
+      databasename_cell:
+      - 2
+      - 1
+      modelname_cell:
+      - 1
+      - 1
+      patterns_column_cell:
+      - 9
+      - 1
+      primary_index_cell:
+      - 5
+      - 1
+      table_description_cell:
+      - 4
+      - 1
+      table_kind_cell:
+      - 6
+      - 1
+      table_name_cell:
+      - 3
+      - 1
+      table_option_cell:
+      - 7
+      - 1
+      table_quote_cell:
+      - 10
+      - 1
+    required_sheets:
+    - TABLE
+    - BUILD
+  mapping_excel_sheet:
+    STEPS:
+      build_row: 1
+      database_name: 2
+      job_name: 1
+      pattern: 4
+      table_name: 3
+    MAPPING:
+      job_name: [1, 2]
+      column_compression: 8
+      column_default: 6
+      column_description: 3
+      column_format: 7
+      column_is_null: 4
+      column_name: 1
+      column_option: 9
+      column_quote: 5
+      column_row: 13
+      column_tests: 10
+      column_type: 2
+
+  ignore_ddl_excel_files:
+  - ignore_this_file.xlsx
+  - Physical_Design_Standardization.xlsx
+  log_level: INFO
+  log_path: ./log
+  output_dir: ./output
+  project_name: Primark Reclassification
+  template_path: ./templates
+  yaml_path: ./yaml
+  mapping_yaml_path: ./mapping_yaml
+excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
+  (Req. & Solution Design)/Design/Detailed Design/Physical_Design

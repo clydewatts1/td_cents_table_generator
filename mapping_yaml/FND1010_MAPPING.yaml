@@ -1,0 +1,11 @@
+control_columns: .nan
+job_name_from_file: FND1010
+job_name_from_mapping: T_TMP_ACC_FND
+mapping_sheet_name: MAPPING
+pattern: .nan
+primary_key:
+- calendar_dt
+target_database_name: DW_FND_DATE_DIM
+target_table_name: Staging
+transformation_key:
+- nan

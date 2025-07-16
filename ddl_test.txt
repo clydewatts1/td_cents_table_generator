@@ -1,0 +1,266 @@
+import sqlfluff.dialects
+import teradatasql
+import sqlparse
+from string import Template
+import glob
+import os
+import sys
+import sqlfluff
+
+
+
+# connect to teradata
+import yaml
+from pathlib import Path
+
+
+# Load connection info from ~/.tencents/connect.yml
+config_path = Path.home() / ".tencents" / "connect.yml"
+print(f"Loading connection info from {config_path}...")
+if not config_path.exists():
+    print(f"Connection info file {config_path} does not exist. Please create it with your Teradata connection details.")
+    sys.exit(1)
+with open(config_path, 'r') as f:
+    conn_info = yaml.safe_load(f)
+
+if not conn_info or not isinstance(conn_info, dict):
+    print(f"Connection info file {config_path} is empty or not in the expected format.")
+    sys.exit(1)
+
+print("Connecting to Teradata...")
+conn = teradatasql.connect(
+    host=conn_info["host"],
+    user=conn_info["user"],
+    password=conn_info["password"])
+if not conn:
+    print("Connection failed. Please check your connection info in ~/.tencents/connect.yml")
+    sys.exit(1)
+print("Connected to Teradata.")
+
+exit(0)
+
+if False:
+    #print("Creating databases...")
+    with conn.cursor() as csr:
+        print("Creating database DWD10T_ACC_FND...")
+        csr.execute("""CREATE DATABASE DWD10T_ACC_FND  FROM demo_user AS PERM=1000000
+                       """,ignoreErrors=[5612])
+
+    with conn.cursor() as csr:
+        print("Creating database DWD10T_TMP_ACC_FND...")
+        csr.execute("""CREATE DATABASE DWD10T_TMP_ACC_FND  FROM demo_user AS PERM=1000000
+                       """,ignoreErrors=[5612])
+
+    with conn.cursor() as csr:
+        print("Creating database DWD10A_ACC_FND...")
+        csr.execute("""CREATE DATABASE DWD10A_ACC_FND FROM demo_user  AS PERM=0
+                       """,ignoreErrors=[5612])
+
+    with conn.cursor() as csr:
+        print("Creating database DWD10V_ACC_FND...")
+        csr.execute("""CREATE DATABASE DWD10V_ACC_FND FROM demo_user  AS PERM=0
+                       """,ignoreErrors=[5612])
+
+    with conn.cursor() as csr:
+        print("Creating database DWD10C_ACC_FND...")
+        csr.execute("""CREATE DATABASE DWD10C_ACC_FND FROM demo_user  AS PERM=0
+                       """,ignoreErrors=[5612])
+        
+    # now delete all objects in databases
+    with conn.cursor() as csr:
+        print("Deleting objects in DWD10T_ACC_FND...")
+        csr.execute("""DELETE DATABASE DWD10T_ACC_FND""",ignoreErrors=[5612])
+        print("Deleting objects in DWD10T_ACC_FND...")
+        csr.execute("""DELETE DATABASE DWD10T_TMP_ACC_FND""",ignoreErrors=[5612])
+        print("Deleting objects in DWD10A_ACC_FND...")
+        csr.execute("""DELETE DATABASE DWD10A_ACC_FND""",ignoreErrors=[5612])
+        print("Deleting objects in DWD10V_ACC_FND...")
+        csr.execute("""DELETE DATABASE DWD10V_ACC_FND""",ignoreErrors=[5612])
+        print("Deleting objects in DWD10C_ACC_FND...")
+        csr.execute("""DELETE DATABASE DWD10C_ACC_FND""",ignoreErrors=[5612])
+
+    # grant between view database and table database
+    with conn.cursor() as csr:
+        print("Granting access to DWD10T_ACC_FND...")
+        csr.execute("""GRANT SELECT ON DWD10T_ACC_FND TO DWD10A_ACC_FND WITH GRANT OPTION""",ignoreErrors=[5612])
+        csr.execute("""GRANT SELECT ON DWD10T_ACC_FND TO DWD10V_ACC_FND WITH GRANT OPTION""",ignoreErrors=[5612])
+        csr.execute("""GRANT SELECT ON DWD10T_ACC_FND TO DWD10C_ACC_FND WITH GRANT OPTION""",ignoreErrors=[5612])
+
+# now create all objects
+table_name = "*"
+tables_glob= f"output_files/T{table_name}.ddl"
+aviews_glob= f"output_files/A{table_name}.ddl"
+vviews_glob= f"output_files/V{table_name}.ddl"
+cviews_glob= f"output_files/C{table_name}.ddl"
+# delete all files in tmp directory
+for filename in glob.glob("tmp/*"):
+    os.remove(filename)
+
+for filename in glob.glob(tables_glob):
+    print("File Name: ", filename)
+    # get file name without path
+    file_name = os.path.basename(filename)
+    # Extract the filename without the extension
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    # add out to the file name
+    file_name_without_ext = "tmp/" + file_name_without_ext + "_err.out"
+
+
+    print(file_name_without_ext)  # Output: TABLE1
+    fho = open(file_name_without_ext, "w")
+    print("Creating file: ", file_name_without_ext,file=fho)
+
+    # read file into string
+    with open(filename, 'r') as file:
+        sql = file.read()
+    #print("SQL: ", sql,file=fho)
+    # substitute ${INSTANCE} with D10
+    sql = sql.replace("${INSTANCE}", "D10")
+
+    # split using sqlparse
+    statements = sqlparse.split(sql)
+    for statement in statements:
+        print("Executing statement: ", statement)
+        with conn.cursor() as csr:
+            try:
+                csr.execute(statement)
+            except teradatasql.DatabaseError as e:
+                print("Error executing statement: ", e)
+                print("Statement: ", statement)
+
+                print("Statement: \n", statement, file=fho)
+                print("Error: \n", str(e).splitlines()[0], file=fho)
+
+
+for filename in glob.glob(aviews_glob):
+    print("File Name: ", filename)
+    # get file name without path
+    file_name = os.path.basename(filename)
+    # Extract the filename without the extension
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    # add out to the file name
+    file_name_without_ext = "tmp/" + file_name_without_ext + "_err.out"
+
+
+    print(file_name_without_ext)  # Output: TABLE1
+    fho = open(file_name_without_ext, "w")
+    print("Creating file: ", file_name_without_ext,file=fho)
+
+    # read file into string
+    with open(filename, 'r') as file:
+        sql = file.read()
+    #print("SQL: ", sql,file=fho)
+    # substitute ${INSTANCE} with D10
+    sql = sql.replace("${INSTANCE}", "D10")
+
+    # split using sqlparse
+    statements = sqlparse.split(sql)
+    for statement in statements:
+        print("Executing statement: ", statement)
+
+        with conn.cursor() as csr:
+            try:
+                csr.execute(statement)
+            except teradatasql.DatabaseError as e:
+                print("Error executing statement: ", e)
+                print("Statement: ", statement)
+
+                print("Statement: \n", statement, file=fho)
+                print("Error: \n", str(e).splitlines()[0], file=fho)
+
+
+for filename in glob.glob(vviews_glob):
+    print("File Name: ", filename)
+    # get file name without path
+    file_name = os.path.basename(filename)
+    # Extract the filename without the extension
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    # add out to the file name
+    file_name_without_ext = "tmp/" + file_name_without_ext + "_err.out"
+
+
+    print(file_name_without_ext)  # Output: TABLE1
+    fho = open(file_name_without_ext, "w")
+    print("Creating file: ", file_name_without_ext,file=fho)
+
+    # read file into string
+    with open(filename, 'r') as file:
+        sql = file.read()
+    #print("SQL: ", sql,file=fho)
+    # substitute ${INSTANCE} with D10
+    sql = sql.replace("${INSTANCE}", "D10")
+
+    # split using sqlparse
+    statements = sqlparse.split(sql)
+    for statement in statements:
+        print("Executing statement: ", statement)
+
+        with conn.cursor() as csr:
+            try:
+                csr.execute(statement)
+            except teradatasql.DatabaseError as e:
+                print("Error executing statement: ", e)
+                print("Statement: ", statement)
+
+                print("Statement: \n", statement, file=fho)
+                print("Error: \n", str(e).splitlines()[0], file=fho)
+
+
+
+for filename in glob.glob(cviews_glob):
+    print("File Name: ", filename)
+    # get file name without path
+    file_name = os.path.basename(filename)
+    # Extract the filename without the extension
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    # add out to the file name
+    file_name_without_ext = "tmp/" + file_name_without_ext + "_err.out"
+
+
+    print(file_name_without_ext)  # Output: TABLE1
+    fho = open(file_name_without_ext, "w")
+    print("Creating file: ", file_name_without_ext,file=fho)
+
+    # read file into string
+    with open(filename, 'r') as file:
+        sql = file.read()
+    #print("SQL: ", sql,file=fho)
+    # substitute ${INSTANCE} with D10
+    sql = sql.replace("${INSTANCE}", "D10")
+
+    # split using sqlparse
+    statements = sqlparse.split(sql)
+    for statement in statements:
+        print("Executing statement: ", statement)
+
+        with conn.cursor() as csr:
+            try:
+                csr.execute(statement)
+            except teradatasql.DatabaseError as e:
+                print("Error executing statement: ", e)
+                print("Statement: ", statement)
+
+                print("Statement: \n", statement, file=fho)
+                print("Error: \n", str(e).splitlines()[0], file=fho)
+
+
+
+# show objects in database
+with conn.cursor() as csr:
+    print("Objects in DWD10T_ACC_FND...")
+    csr.execute("""SELECT databasename,tablename FROM DBC.tablesv where databasename='DWD10T_ACC_FND' """)
+    for row in csr.fetchall():
+        print(row)
+    print("Objects in DWD10A_ACC_FND...")
+    csr.execute("""SELECT databasename,tablename FROM DBC.tablesv where databasename='DWD10A_ACC_FND' """)
+    for row in csr.fetchall():
+        print(row)
+    print("Objects in DWD10V_ACC_FND...")
+    csr.execute("""SELECT databasename,tablename FROM DBC.tablesv where databasename='DWD10V_ACC_FND' """)
+    for row in csr.fetchall():
+        print(row)
+    print("Objects in DWD10C_ACC_FND...")
+    csr.execute("""SELECT databasename,tablename FROM DBC.tablesv where databasename='DWD10C_ACC_FND' """)
+    for row in csr.fetchall():
+        print(row)
+    print("Objects in demo_user...")

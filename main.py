@@ -13,11 +13,15 @@ import glob
 import pandas as pd
 import openpyxl
 from excel_handler import read_excel_files_and_convert_to_yaml_files
+from excel_handler import validate_ddl_excel_files
 from ddl_generator import generate_ddl_from_yaml_files
 
 
 # Set up logging configuration
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s'
+)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -41,12 +45,17 @@ def main():
     if not isinstance(config, dict):
         logger.error("Configuration is not in the expected format.")
         return
-
+    config = config.get('config', {})
+    if not config:
+        logger.error("Configuration is empty or not in the expected format.")
+        return
     logger.info("Configuration loaded successfully.")
     logger.info("Config: %s", pprint.pformat(config))
+    # validate excel files
+    validate_ddl_excel_files(config)
     
     # Read Excel files and convert them to YAML files
-    read_excel_files_and_convert_to_yaml_files(config['config'])
+    read_excel_files_and_convert_to_yaml_files(config)
 
     # Process the YAML files
     generate_ddl_from_yaml_files(config)

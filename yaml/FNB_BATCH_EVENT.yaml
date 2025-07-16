@@ -1,0 +1,13 @@
+modelname: FNB_BATCH_EVENT
+databasename: T_ACC_FND
+table_name: FNB_BATCH_EVENT
+table_description: TBC
+table_kind: MULTISET
+primary_index: TBC
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- TBC
+table_quote: ''
+columns: []
+BUILD: []

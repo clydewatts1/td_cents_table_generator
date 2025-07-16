@@ -1,0 +1,382 @@
+modelname: FND_STK_FCT_02_FCT_STG
+databasename: T_ACC_FND
+table_name: FND_STK_FCT_02_FCT_STG
+table_description: This is the foundation date dimension
+table_kind: MULTISET
+primary_index: PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date
+  BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- TABLE
+table_quote: ''
+columns:
+- column_name: business_date
+  column_type: DATE
+  column_format: '''yyyy-mm-dd'''
+  is_null: Y
+  option: ''
+  description: Business Date (PK)
+  compression: ''
+  quote: ''
+- column_name: location_id
+  column_type: LOCATION
+  column_format: '''99999'''
+  is_null: Y
+  option: ''
+  description: Location ID - this can either be a store or depot (PK)
+  compression: ''
+  quote: ''
+- column_name: item_id
+  column_type: ITEM
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Item ID - this is the SKU Orin ( PK)
+  compression: ''
+  quote: ''
+- column_name: location_soh_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Primark Location stock on hand units
+  compression: '0'
+  quote: ''
+- column_name: depot_soh_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This column is used to identify the Depot Stock On Hand Units
+  compression: '0'
+  quote: ''
+- column_name: location_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Primark Location pack units
+  compression: '0'
+  quote: ''
+- column_name: depot_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: SOH_Pack_Units from the stock position table for the specific WH
+  compression: '0'
+  quote: ''
+- column_name: location_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Primark Location retail amount
+  compression: '0'
+  quote: ''
+- column_name: depot_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: SOH_Retail_Amount from the stock position table for the specific WH
+  compression: '0'
+  quote: ''
+- column_name: unit_cost_amount
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Unit cost price of an item
+  compression: '0'
+  quote: ''
+- column_name: unit_retail_amount
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unit price value at retail for the specific item.
+  compression: '0'
+  quote: ''
+- column_name: on_order_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unit quantity at point of ordering of items on order (commitment ordered
+    and not yet received).
+  compression: '0'
+  quote: ''
+- column_name: on_order_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Value quantity of items on order (ordered and not yet received = COMMITMENT
+    COST VALUE).
+  compression: '0'
+  quote: ''
+- column_name: on_order_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Retail Value of Packs on order (commitment ordered and not yet received).
+  compression: '0'
+  quote: ''
+- column_name: on_order_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Quantity of packs ordered on the destination PO. (Packing Method -
+    Cartons and Sets)
+  compression: '0'
+  quote: ''
+- column_name: return_to_vendor_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Retail value of the RTV units (RTV
+    units * Unit retail price)
+  compression: '0'
+  quote: ''
+- column_name: return_to_vendor_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Cost value for the item being returned that is expected to be recovered
+    from the supplier. RTV NON MERCH COST VALUE + RTV MERCH COST VALUE
+  compression: '0'
+  quote: ''
+- column_name: return_to_vendor_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Sum of Units for the item being returned that is expected to be recovered
+    from the supplier.
+  compression: '0'
+  quote: ''
+- column_name: return_to_vendor_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Sum of Units for the Pack being returned that is expected to be recovered
+    from the supplier.
+  compression: '0'
+  quote: ''
+- column_name: transfer_expected_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Supplier cost Value of the units transfer Supplier unit cost * Transfer
+    qty
+  compression: '0'
+  quote: ''
+- column_name: transfer_expected_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Pack units of the transfer quantity
+  compression: '0'
+  quote: ''
+- column_name: transfer_expected_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Retail Value of the transfer quantity Retail price * Transfer qty
+  compression: '0'
+  quote: ''
+- column_name: transfer_expected_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Units of the transfer quantity
+  compression: '0'
+  quote: ''
+- column_name: transfer_reserved_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Supplier cost amount of units confirmed for Transfer
+  compression: '0'
+  quote: ''
+- column_name: transfer_reserved_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Pack Units confirmed for Transfer But yet to transferred
+  compression: '0'
+  quote: ''
+- column_name: transfer_reserved_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Retail amount of units confirmed for Transfer
+  compression: '0'
+  quote: ''
+- column_name: transfer_reserved_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Units confirmed for Transfer
+  compression: '0'
+  quote: ''
+- column_name: in_transit_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Supplier cost value of the items in-transit Supplier unit cost * in
+    transit qty
+  compression: '0'
+  quote: ''
+- column_name: in_transit_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Pack units of the items in transit
+  compression: '0'
+  quote: ''
+- column_name: in_transit_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Quantity of transfers in Transit between two locations.TRANSFER SHIPPED
+    UNITS - TRANSFER RECEIVED UNITS
+  compression: '0'
+  quote: ''
+- column_name: in_transit_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Quantity of transfers in Transit between two locations. TRANSFER SHIPPED
+    VALUE - TRANSFER RECEIVED VALUE
+  compression: '0'
+  quote: ''
+- column_name: non_sellable_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Supplier cost of the items which are not marked for sale supplier cost
+    * count(items) where sellable ind = N
+  compression: '0'
+  quote: ''
+- column_name: non_sellable_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Count of Pack units which are not marked for sale count(pack units)
+    where sellable ind = N
+  compression: '0'
+  quote: ''
+- column_name: non_sellable_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Retail Value of the items which are not marked for sale Retail price
+    * count(items) where sellable ind = N
+  compression: '0'
+  quote: ''
+- column_name: non_sellable_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Supplier cost Value of the units transfer Supplier unit cost * Transfer
+    qty
+  compression: '0'
+  quote: ''
+- column_name: psr_blocked_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Count of units which are not marked for PSR BLOCKED
+  compression: '0'
+  quote: ''
+- column_name: psr_retail_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Retail Value of the items which are not marked for PSR BLOCKED
+  compression: '0'
+  quote: ''
+- column_name: psr_blocked_pack_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Count of Pack units which are not marked for PSR BLOCKED count(pack
+    units) where PSR BLOCKED ind = Y
+  compression: '0'
+  quote: ''
+- column_name: psr_blocked_cost_amount
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Cost amount Blocked from Primark stock replenishment system
+  compression: '0'
+  quote: ''
+- column_name: carryover_units
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unit quantity of stock on hand for Items being carried over from current
+    season to the next (at pack component level - sellable items).SOH UNITS where
+    CARRYOVER FLAG = Y
+  compression: '0'
+  quote: ''
+- column_name: carryover_value
+  column_type: AMOUNT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Value of stock on hand for Items being carried over from current season
+    to the next (at pack component level - sellable items).SOH VALUE where CARRYOVER
+    FLAG = Y
+  compression: '0'
+  quote: ''
+- column_name: stock_unit_av_cost_amount
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Average cost amount of stock unit
+  compression: '0'
+  quote: ''
+- column_name: regular_unit_retail_amt
+  column_type: UNITS
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unit Retail amount for regular price
+  compression: '0'
+  quote: ''
+BUILD:
+- jobname: ''
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND_STK_FCT_02_FCT_STG
+  pattern: TABLE_NO_CONTROL

@@ -1,0 +1,92 @@
+Script
+------
+
+name: ddl_build_gui.py
+
+Modules to use
+--------------
+
+pyqt5
+pyqt5-tools
+teradatasql
+ddl_generator
+excel_handler
+logging
+yam
+
+Load local config.yml and assign to config["config"]
+
+# GUI Format (Updated July 2025)
+
+Main window title: "Primark SSBI Project DDL Builder"
+
+## Menu bar options:
+
+- **DDL Excels**
+  - Sub-menu: Process DDL Excel Files
+    - Shows a label called directory and displays the Excel directory used to list all files (default to config/excel_path)
+    - Button to select a new directory (opens a file dialog)
+    - Lists all .xlsx files in the directory with checkboxes (file names only)
+    - Button to check all files
+    - Button to clear all checkboxes
+    - Button to process the selected files (calls excel_handler.read_excel_file(file_path, config=config) for each file, then generates DDL)
+    - Cancel button to close the dialog
+    - Progress bar for file processing
+    - Wildcard filter for file list
+    - Dialog remains open after processing for iterative selection
+
+- **Mapping Excel**
+  - Sub-menu: Process Mapping Excel
+    - Shows a label called directory and displays the mapping Excel directory (default to config/excel_mapping_directory)
+    - Button to select a new directory (opens a file dialog)
+    - Wildcard filter for file list (default filter: *MAPPING.xlsx)
+    - Lists all *MAPPING.xlsx files in the directory (file names only, single selection)
+    - Button to process the selected file
+    - Cancel button to close the dialog
+    - When "Process" is clicked, opens the Mapping Compile dialog
+
+    - **Mapping Compile Dialog**
+      - Shows "File Name" label and the selected file name
+      - Shows "Validation Return Code" label and the return code (with traffic signal: blue=not validated, green=success, red=failure)
+      - Shows a multi-line, read-only text box for the validation return text
+      - Button: Validate (calls validate_mapping_sheet from excel_mapping_to_yaml)
+      - Button: Convert To YAML (calls convert_excel_to_yaml from excel_mapping_to_yaml)
+      - Button: Cancel (closes only the Mapping Compile dialog)
+      - All results and errors are shown in message boxes and in the dialog
+
+- **DDL Test**
+  - Connect to Teradata: call ddl_test.connect_to_teradata() (traffic light indicator turns dark green)
+  - Disconnect from Teradata: call ddl_test.disconnect_from_teradata() (traffic light indicator turns red)
+  - Run DDL Test: lists DDL files from config['config']['output_dir'] (*.ddl), with checkboxes (file names only)
+    - Button to check all files
+    - Button to clear all checkboxes
+    - Button to run DDL Test (calls ddl_test.drop_using_file(file_path) and then ddl_test.create_using_file(file_path) for each selected file)
+    - Cancel button to close the dialog
+    - After test, file names are colored (red for failure, dark green for success), and DDL content is shown as a tooltip on hover (up to 2000 characters)
+    - The dialog remains open after running tests for review
+    - The main console is updated with each file generated
+
+- **Quit**: shows a dialog with "Are you sure" and options to Exit or Cancel
+
+## Additional Features
+
+- Console window at the top for logs (QTextEditStream)
+- Status bar at the bottom for status updates
+- Traffic light indicator in the top right corner shows Teradata connection status (red = disconnected, dark green = connected), labeled "Teradata Connection"
+- All errors and actions are logged to the console and a separate logging window
+- All configuration is managed via config.yaml and updated when directories are changed
+
+## Notes
+
+- The GUI only connects to Teradata when the user selects the menu item
+- The DDL Test dialog does not close after running tests, allowing review of results and DDL content
+- The main console is updated with each file generated during DDL test
+- DDL file tooltips show the DDL content (up to 2000 characters)
+- File name color in the DDL Test dialog: red = failed, dark green = success
+- Traffic light indicator: red = not connected, dark green = connected, labeled "Teradata Connection"
+- Mapping Compile dialog supports validation and YAML conversion with clear feedback and traffic signal
+
+
+
+
+

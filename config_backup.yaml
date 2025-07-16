@@ -1,0 +1,217 @@
+config:
+  DATABASE_MAPPING:
+    AVIEW:
+      T_ACC_FND: A_ACC_FND
+    CVIEW:
+      T_ACC_FND: C_ACC_FND
+    VVIEW:
+      T_ACC_FND: V_ACC_FND
+  TYPE_MAPPING:
+    AMOUNT: DECIMAL(18,10)
+    COUNT: INTEGER
+    DATE: DATE
+    ITEM: BIGINT
+    LOC: INTEGER
+    LOCATION: INTEGER
+    UNIT: INTEGER
+    UNITS: INTEGER
+  author_name: Mr Primark
+  created_date: '2025-01-01'
+  excel_mapping_directory: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2.
+    Define (Req. & Solution Design)/Design/Detailed Design/Mapping_Design
+  excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
+    (Req. & Solution Design)/Design/Detailed Design/Physical_Design
+  excel_pattern: '*.xlsx'
+  excel_sheets:
+    BUILD:
+      build_row: 2
+      database_name: 2
+      job_name: 1
+      pattern: 4
+      table_name: 3
+    TABLE:
+      column_compression: 8
+      column_default: 6
+      column_description: 3
+      column_format: 7
+      column_is_null: 4
+      column_name: 1
+      column_option: 9
+      column_quote: 5
+      column_row: 13
+      column_tests: 10
+      column_type: 2
+      control_columns_cell:
+      - 8
+      - 1
+      databasename_cell:
+      - 2
+      - 1
+      modelname_cell:
+      - 1
+      - 1
+      patterns_column_cell:
+      - 9
+      - 1
+      primary_index_cell:
+      - 5
+      - 1
+      table_description_cell:
+      - 4
+      - 1
+      table_kind_cell:
+      - 6
+      - 1
+      table_name_cell:
+      - 3
+      - 1
+      table_option_cell:
+      - 7
+      - 1
+      table_quote_cell:
+      - 10
+      - 1
+    required_sheets:
+    - TABLE
+    - BUILD
+  ignore_ddl_excel_files:
+  - ignore_this_file.xlsx
+  - Physical_Design_Standardization.xlsx
+  log_level: INFO
+  log_path: ./log
+  mapping_excel_sheet:
+    BUILD:
+      build_row: 2
+      database_name: 2
+      job_name: 1
+      pattern: 4
+      table_name: 3
+    MAPPING:
+      column_compression: 8
+      column_default: 6
+      column_description: 3
+      column_format: 7
+      column_is_null: 4
+      column_name: 1
+      column_option: 9
+      column_quote: 5
+      column_row: 13
+      column_tests: 10
+      column_type: 2
+  output_dir: ./output
+  process_sheets:
+    DM_FND_MERC_HIERARCHY_DIM.xlsx:
+      build_list:
+      - databasename: DWP01T_ACC_FND
+        jobname: FND1042
+        pattern: TABLE
+        tablename: FND_MERC_HIERARCHY_DIM
+      - databasename: DWP01A_ACC_FND
+        jobname: ''
+        pattern: AVIEW
+        tablename: FND_MERC_HIERARCHY_DIM
+      - databasename: DWP01C_ACC_FND
+        jobname: ''
+        pattern: CVIEW
+        tablename: FND_MERC_HIERARCHY_DIM
+      - databasename: DWP01V_ACC_FND
+        jobname: ''
+        pattern: VVIEW
+        tablename: FND_MERC_HIERARCHY_DIM
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1042
+        pattern: TABLE_NO_CONTROL
+        tablename: FND1042_TRANS
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1042
+        pattern: TABLE
+        tablename: FND1042_VALID
+      - databasename: DWP01T_ACC_FND
+        jobname: FND1043
+        pattern: TABLE
+        tablename: FND_MERC_HIERARCHY_HIST_DIM
+      - databasename: DWP01A_ACC_FND
+        jobname: ''
+        pattern: AVIEW
+        tablename: FND_MERC_HIERARCHY_HIST_DIM
+      - databasename: DWP01C_ACC_FND
+        jobname: ''
+        pattern: CVIEW
+        tablename: FND_MERC_HIERARCHY_HIST_DIM
+      - databasename: DWP01V_ACC_FND
+        jobname: ''
+        pattern: VVIEW
+        tablename: FND_MERC_HIERARCHY_HIST_DIM
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1043
+        pattern: TABLE_NO_CONTROL
+        tablename: FND1043_TRANS
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1043
+        pattern: TABLE
+        tablename: FND1043_VALID
+      file_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2.
+        Define (Req. & Solution Design)/Design/Detailed Design/Physical_Design\DM_FND_MERC_HIERARCHY_DIM.xlsx
+      status: processing
+      yaml_file: DM_FND_MERC_HIERARCHY_DIM.yaml
+      yaml_path: ./yaml
+    DM_FND_STORE_HIERARCHY_DIM.xlsx:
+      build_list:
+      - databasename: DWP01T_ACC_FND
+        jobname: FND1022
+        pattern: TABLE
+        tablename: DM_FND_STORE_HIER_DIM
+      - databasename: DWP01A_ACC_FND
+        jobname: ''
+        pattern: AVIEW
+        tablename: DM_FND_STORE_HIER_DIM
+      - databasename: DWP01C_ACC_FND
+        jobname: ''
+        pattern: CVIEW
+        tablename: DM_FND_STORE_HIER_DIM
+      - databasename: DWP01V_ACC_FND
+        jobname: ''
+        pattern: VVIEW
+        tablename: DM_FND_STORE_HIER_DIM
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1022
+        pattern: TABLE_NO_CONTROL
+        tablename: FND1022_TRANS
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1022
+        pattern: TABLE
+        tablename: FND1022_VALID
+      - databasename: DWP01T_ACC_FND
+        jobname: FND1023
+        pattern: TABLE
+        tablename: DM_FND_STORE_HIER_HIST_DIM
+      - databasename: DWP01A_ACC_FND
+        jobname: ''
+        pattern: AVIEW
+        tablename: DM_FND_STORE_HIER_HIST_DIM
+      - databasename: DWP01C_ACC_FND
+        jobname: ''
+        pattern: CVIEW
+        tablename: DM_FND_STORE_HIER_HIST_DIM
+      - databasename: DWP01V_ACC_FND
+        jobname: ''
+        pattern: VVIEW
+        tablename: DM_FND_STORE_HIER_HIST_DIM
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1023
+        pattern: TABLE_NO_CONTROL
+        tablename: FND1023_TRANS
+      - databasename: DWP01T_TMP_ACC_FND
+        jobname: FND1023
+        pattern: TABLE
+        tablename: FND1023_VALID
+      file_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2.
+        Define (Req. & Solution Design)/Design/Detailed Design/Physical_Design\DM_FND_STORE_HIERARCHY_DIM.xlsx
+      status: processing
+      yaml_file: DM_FND_STORE_HIERARCHY_DIM.yaml
+      yaml_path: ./yaml
+  project_name: Primark Reclassification
+  template_path: ./templates
+  yaml_path: ./yaml
+excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
+  (Req. & Solution Design)/Design/Detailed Design/Physical_Design

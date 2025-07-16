@@ -1,7 +1,9 @@
 {% macro control_columns() %}
-    created_by VARCHAR(50) NOT NULL,
-    effective_from_date DATE NOT NULL,
-    effective_to_date DATE NOT NULL,
-    current_flag CHAR(1) NOT NULL,
-    run_id BIGINT NOT NULL
+    eff_from_dt DATE NOT NULL,
+    eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
+    del_ind BYTEINT NOT NULL COMPRESS(0),
+    run_id INTEGER NOT NULL,
+    update_run_id INTEGER COMPRESS(NULL) ,
+    job_id VARCHAR(300) NOT NULL COMRESS('JOBID'),
+    update_job_id VARCHAR(30) COMPRESS(NULL)
 {% endmacro -%}

@@ -1,8 +1,8 @@
 {% import 'ddl_helper.sql.j2' as dd -%}
 {% set table_quote = '"' if table_quote=='Y' else ''-%}
-{{ dd.header(filename,project_name,config.DATABASE_MAPPING["AVIEW"][databasename],schema_name,config.author_name,config.created_date)-}}
+{{ dd.header(filename,project_name,build.databasename,schema_name,config.author_name,config.created_date)-}}
 /* Create table for {{ table_name }} */
-REPLACE VIEW DW${INSTANCE}{{ config.DATABASE_MAPPING["AVIEW"][databasename]}}.{{table_quote}}{{ table_name }}{{table_quote}}
+REPLACE VIEW DW${INSTANCE}{{ build.databasename}}.{{table_quote}}{{ build.tablename }}{{table_quote}}
     AS LOCKING ROW FOR ACCESS
 
 SELECT
@@ -19,15 +19,15 @@ FROM  DW${INSTANCE}{{databasename}}.{{table_quote}}{{ table_name }}{{table_quote
 * Comments for tables and columns
 *-------------------------------------------------------------------------------*/
 
-COMMENT ON VIEW DW${INSTANCE}{{ config.DATABASE_MAPPING["AVIEW"][databasename]}}.{{table_quote}}{{ table_name }}{{table_quote}} AS '{{ description }}'
+COMMENT ON VIEW DW${INSTANCE}{{ build.databasename}}.{{table_quote}}{{ build.tablename }}{{table_quote}} AS '{{ description }}'
 ;
 {% for column in columns %}
 {% set quote = '"' if column.quote == 'Y' else '' -%}
-COMMENT ON COLUMN DW${INSTANCE}{{ config.DATABASE_MAPPING["AVIEW"][databasename]}}.{{table_quote}}{{ table_name }}{{table_quote}}.{{quote}}{{ column.column_name }}{{quote}} AS '{{ column.description }}'
+COMMENT ON COLUMN DW${INSTANCE}{{ build.databasename}}.{{table_quote}}{{ build.tablename }}{{table_quote}}.{{quote}}{{ column.column_name }}{{quote}} AS '{{ column.description }}'
 ;
 {% endfor %}
 
-{{ dd.control_columns_comments(control_columns,databasename,table_name,table_quote) -}}
+{{ dd.control_columns_comments(control_columns,build.databasename,build.tablename,table_quote) -}}
 
 /*-----------------------------------------------------------------------------
 * END OF VIEW CREATION
