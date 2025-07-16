@@ -393,15 +393,33 @@ class MainWindow(QMainWindow):
                 self.file_path = file_path
                 self.config = config
                 layout = QVBoxLayout()
-                # File name row
+                # Excel File Name row
                 file_hbox = QHBoxLayout()
-                label = QLabel('File Name:')
+                label = QLabel('Excel File Name:')
                 label.setMinimumWidth(120)
                 file_hbox.addWidget(label)
                 file_name_label = QLabel(os.path.basename(file_path))
                 file_hbox.addWidget(file_name_label)
                 file_hbox.addStretch(1)
                 layout.addLayout(file_hbox)
+
+                # YAML File Name row
+                yaml_hbox = QHBoxLayout()
+                yaml_label = QLabel('YAML File Name:')
+                yaml_label.setMinimumWidth(120)
+                yaml_hbox.addWidget(yaml_label)
+                base_filename = os.path.splitext(os.path.basename(file_path))[0]
+                yaml_file_name = f"{base_filename}.yaml"
+                self.yaml_file_label = QLabel(yaml_file_name)
+                yaml_hbox.addWidget(self.yaml_file_label)
+                # Check existence
+                self.yaml_dir = config.get('mapping_yaml_path', 'mapping_yaml') if 'mapping_yaml_path' in config else 'mapping_yaml'
+                self.yaml_file_path = os.path.join(self.yaml_dir, yaml_file_name)
+                self.yaml_exists_label = QLabel()
+                self.update_yaml_existence_label()
+                yaml_hbox.addWidget(self.yaml_exists_label)
+                yaml_hbox.addStretch(1)
+                layout.addLayout(yaml_hbox)
 
                 # Validation Return Code row with traffic signal
                 val_hbox = QHBoxLayout()
@@ -428,9 +446,11 @@ class MainWindow(QMainWindow):
                 btn_hbox = QHBoxLayout()
                 self.validate_btn = QPushButton('Validate')
                 self.convert_btn = QPushButton('Convert To YAML')
+                self.build_job_btn = QPushButton('Build Job')
                 self.cancel_btn = QPushButton('Cancel')
                 btn_hbox.addWidget(self.validate_btn)
                 btn_hbox.addWidget(self.convert_btn)
+                btn_hbox.addWidget(self.build_job_btn)
                 btn_hbox.addWidget(self.cancel_btn)
                 btn_hbox.addStretch(1)
                 layout.addLayout(btn_hbox)
@@ -438,6 +458,19 @@ class MainWindow(QMainWindow):
                 self.validate_btn.clicked.connect(self.validate_file)
                 self.cancel_btn.clicked.connect(self.reject)
                 self.convert_btn.clicked.connect(self.convert_to_yaml)
+                self.build_job_btn.clicked.connect(self.build_job)
+
+            def build_job(self):
+                from excel_mapping_to_yaml import build_job
+                file_name_only = os.path.basename(self.file_path)
+                try:
+                    code, text = build_job(file_name_only, self.config)
+                    if code == 0:
+                        QMessageBox.information(self, 'Build Job', f'Success: {text}')
+                    else:
+                        QMessageBox.warning(self, 'Build Job', f'Error: {text}')
+                except Exception as e:
+                    QMessageBox.critical(self, 'Build Job Error', str(e))
 
             def set_traffic_signal(self, color):
                 # color: 'red', 'green', 'blue'
@@ -456,6 +489,14 @@ class MainWindow(QMainWindow):
                 painter.drawEllipse(2, 2, 20, 20)
                 painter.end()
                 self.traffic_signal.setPixmap(pixmap)
+
+            def update_yaml_existence_label(self):
+                if os.path.exists(self.yaml_file_path):
+                    self.yaml_exists_label.setText('(Exists)')
+                    self.yaml_exists_label.setStyleSheet('color: green')
+                else:
+                    self.yaml_exists_label.setText('(Does NOT exist)')
+                    self.yaml_exists_label.setStyleSheet('color: red')
 
             def validate_file(self):
                 # Call validate_mapping_sheet from excel_mapping_to_yaml
@@ -483,47 +524,12 @@ class MainWindow(QMainWindow):
                     if hasattr(excel_mapping_to_yaml, 'convert_excel_to_yaml'):
                         result = excel_mapping_to_yaml.convert_excel_to_yaml(file_name_only, self.config)
                         QMessageBox.information(self, 'YAML Conversion', f'YAML conversion complete.\n{result}')
+                        # Update YAML existence label color after conversion
+                        self.update_yaml_existence_label()
                     else:
                         QMessageBox.warning(self, 'YAML Conversion', 'convert_excel_to_yaml function not found in excel_mapping_to_yaml.')
                 except Exception as e:
                     QMessageBox.critical(self, 'YAML Conversion Error', str(e))
-
-            def set_traffic_signal(self, color):
-                # color: 'red', 'green', 'blue'
-                from PyQt5.QtGui import QPixmap, QPainter, QColor
-                pixmap = QPixmap(24, 24)
-                pixmap.fill(Qt.transparent)
-                painter = QPainter(pixmap)
-                if color == 'green':
-                    qcolor = QColor('#006400')
-                elif color == 'red':
-                    qcolor = QColor('red')
-                else:
-                    qcolor = QColor('blue')
-                painter.setBrush(qcolor)
-                painter.setPen(Qt.black)
-                painter.drawEllipse(2, 2, 20, 20)
-                painter.end()
-                self.traffic_signal.setPixmap(pixmap)
-
-            def validate_file(self):
-                # Call validate_mapping_sheet from excel_mapping_to_yaml
-                file_name_only = os.path.basename(self.file_path)
-                try:
-                    code, text = excel_mapping_to_yaml.validate_mapping_sheet(file_name_only, self.config)
-                    self.val_code_value.setText(str(code))
-                    self.val_text_box.setPlainText(str(text))
-                    if code == 0:
-                        self.set_traffic_signal('green')
-                        QMessageBox.information(self, 'Validation Successful', text)
-                    else:
-                        self.set_traffic_signal('red')
-                        QMessageBox.warning(self, 'Validation Failed', text)
-                except Exception as e:
-                    self.val_code_value.setText('Error')
-                    self.val_text_box.setPlainText(str(e))
-                    self.set_traffic_signal('red')
-                    QMessageBox.critical(self, 'Validation Error', str(e))
 
         class MappingExcelDialog(QDialog):
             def __init__(self, mapping_dir, parent=None):

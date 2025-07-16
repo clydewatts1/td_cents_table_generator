@@ -1,0 +1,397 @@
+control_columns: .nan
+job_name_from_file: FND1024
+job_name_from_mapping: FND1024
+mapping_columns:
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.LOC_ID
+  target_column_name: location_id
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.LOC_NAME
+  target_column_name: location_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.LOC_SBTYPE_CD
+  target_column_name: location_type
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.PMK_CURY_CD
+  target_column_name: currency_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.ADDR_LN_1_TXT
+  target_column_name: address_line1
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.ADDR_LN_2_TXT
+  target_column_name: address_line2
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.ADDR_LN_3_TXT
+  target_column_name: address_line3
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.PMK_TCTCL_CITY_NAME
+  target_column_name: city_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.PMK_TCTCL_POSTL_CD
+  target_column_name: postal_code_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.PMK_TCTCL_TERR_NAME
+  target_column_name: state_province_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.CTRY_ID
+  target_column_name: country_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ADR.TLPHN_NUM
+  target_column_name: phone_number
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LOC.PMK_TCTCL_MGR_NAME
+  target_column_name: location_mgr_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'LC.PMK_STK_HLDNG_IND  '
+  target_column_name: stock_holding_ind
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LOC.PMK_DFLT_DC_LOC_ID
+  target_column_name: default_warehouse_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'LC.TM_ZN_CD   '
+  target_column_name: time_zone
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: vat_region_id
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: vat_include_ind
+- column_order: nan
+  mapping_notes: cast as date
+  source_column_name: LC.LOC_OPN_DT(DATE)
+  target_column_name: store_open_dt
+- column_order: nan
+  mapping_notes: cast as date
+  source_column_name: LC.LOC_CLS_DT(DATE)
+  target_column_name: store_close_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'LC.PMK_STRT_ORD_DAYS '
+  target_column_name: start_order_days
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.PMK_SELFRIDGES_IND
+  target_column_name: selfridge_ind
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.PMK_FNSHR_IND
+  target_column_name: finisher_ind
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.PMK_TSF_ENTITY
+  target_column_name: transfer_entity
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.PMK_PHY_WHS_CD
+  target_column_name: physical_warehouse_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.PMK_DFLT_VRTUL_WHS_CD
+  target_column_name: default_virtual_warehouse_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: retail_store_hierarchy_wid
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.CHNL_ID
+  target_column_name: channel_id
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.CHNL_NAME
+  target_column_name: channel_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.company_cd
+  target_column_name: company_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.company_cd_vers_num
+  target_column_name: company_cd_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.zone_cd
+  target_column_name: zone_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.zone_cd_vers_num
+  target_column_name: zone_cd_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.region_cd
+  target_column_name: region_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.region_cd_vers_num
+  target_column_name: region_cd_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.area_cd
+  target_column_name: area_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.area_cd_vers_num
+  target_column_name: area_cd_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.company_name
+  target_column_name: company_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.zone_name
+  target_column_name: zone_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.region_name
+  target_column_name: region_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.region_old
+  target_column_name: region_old
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.org_area_name
+  target_column_name: org_area_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.org_hier_country_name
+  target_column_name: org_hier_country_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.zone_manager_name
+  target_column_name: zone_manager_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.region_manager_name
+  target_column_name: region_manager_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.org_area_manager_name
+  target_column_name: org_area_manager_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.org_hier_country_mgr_name
+  target_column_name: org_hier_country_mgr_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: latest_refit_date
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: profile
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.BASEMENT
+  target_column_name: basement
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.GRND_FLOOR
+  target_column_name: ground_floor
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.FRST_FLOOR
+  target_column_name: first_floor
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.SEC_FLOOR
+  target_column_name: second_floor
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.THIRD_FLOOR
+  target_column_name: third_floor
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.FRTH_FLOOR
+  target_column_name: fourth_floor
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.FIFTH_FLOOR
+  target_column_name: fifth_floor
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.TOT
+  target_column_name: total
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.MAL
+  target_column_name: male
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.FEM
+  target_column_name: female
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.AGE_YR_0_TO_17
+  target_column_name: age_year_0_to_17
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.AGE_YR_15_TO_64
+  target_column_name: age_year_15_to_64
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.AGE_YR_65_PLUS
+  target_column_name: age_year_65_plus
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.INDIGENOUS
+  target_column_name: indigenous
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.EU_WSTRN
+  target_column_name: eu_western
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.NON_WSTRN
+  target_column_name: non_western
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.UNIV
+  target_column_name: university
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SPL.TOURISM
+  target_column_name: tourism
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.org_hier_wid
+  target_column_name: org_hier_wid
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.org_hier_country_cd
+  target_column_name: org_hier_country_cd
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ???
+  target_column_name: 'linear_footage                '
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: HIER.Store_Hierarchy_Mgr_Name
+  target_column_name: 'Store_Hierarchy_Mgr_Name      '
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ???
+  target_column_name: 'store_format_cd               '
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ???
+  target_column_name: 'store_format_description      '
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ???
+  target_column_name: store_area_footage
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LC.OS_UNIT_ID
+  target_column_name: 'operating_unit                '
+- column_order: CTE
+  mapping_notes: nan
+  source_column_name: LC
+  target_column_name: DWP01A_IDW.LOC WHERE CUR_FLG=Y AND LOC_SBTYPE_CD IN ('S','W')
+    AND LOC_ID NOT LIKE 'ER_XXXX'
+- column_order: CTE
+  mapping_notes: Join on Location ID or WID
+  source_column_name: SPL
+  target_column_name: "SELECT \n\t SPL.LOC_ID \n\t,SPL.CTRY_ID \n\t--,SP.CTRY_WID\
+    \ \n\t,SPL.LOC_NAME \n\t,SPL.LOC_NAME \n\t,SPL.LOC_WID \n\t,SPL.Latest_Refit_Date\n\
+    \t,SPL.PRFL\n\t,SPL.BASEMENT \n\t,SPL.GRND_FLOOR \n\t,SPL.FRST_FLOOR \n\t,SPL.SEC_FLOOR\
+    \ \n\t,SPL.THIRD_FLOOR \n\t,SPL.FRTH_FLOOR \n\t,SPL.FIFTH_FLOOR \n\t,SPL.TOT \n\
+    \t,SPL.MAL \n\t,SPL.FEM \n\t,SPL.AGE_YR_0_TO_17 \n\t,SPL.AGE_YR_15_TO_64 \n\t\
+    ,SPL.AGE_YR_65_PLUS \n\t,SPL.INDIGENOUS \n\t,SPL.EU_WSTRN \n\t,SPL.NON_WSTRN \n\
+    \t,SPL.UNIV \n\t,SPL.TOURISM \nFROM DWP01A_IDW.STR_PRFLS AS SPL\nWHERE SPL.CUR_FLG\
+    \ = 'Y'"
+- column_order: CTE
+  mapping_notes: Join on Location ID or WID
+  source_column_name: LA
+  target_column_name: "(SELECT * FROM DWP01A_IDW.LOC_ADDR\n WHERE CUR_FLG=Y \n   AND\
+    \ ADDR_USGE_TYPE_CD = 'BUSN'"
+- column_order: CTE
+  mapping_notes: JOIN to LA ON ADDR_WID
+  source_column_name: ADR
+  target_column_name: (SELECT * FROM DWP01A_IDW.ADDR WHERE CURR_FLG='Y' )
+- column_order: CTE
+  mapping_notes: JOIN to LC.LOC_WID = XREF.LOC_WID
+  source_column_name: XREF
+  target_column_name: (SELECT * FROM DWP01C_ACC_FND.FND_RECLASFCN_LOC_ORG_XREF)
+- column_order: CTE
+  mapping_notes: JOIN TO XREF ON ORG_HIER_WID
+  source_column_name: HIER
+  target_column_name: (SELECT * FROM DWP01C_ACC_FNDDM_FND_STORE_HIER_DIM)
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- org_hiery_wid
+steps:
+- description: .nan
+  file_name: .nan
+  job_name: FND1024
+  notes: .nan
+  source_database: .nan
+  source_table: .nan
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: .nan
+  target_table: .nan
+- description: Maps source table to target with 121 Mapping
+  file_name: FND1024.190.TRANS.sql
+  job_name: FND1024
+  notes: See mapping
+  source_database: T_ACC_FND
+  source_table: DM_FND_STORE_HIER_DIM
+  step_pattern: STANSARD_TRANS
+  steps: 190
+  target_database: T_TMP_ACC_FND
+  target_table: FND1024_TRANS
+- description: Uses standard snapshot/full apply looking for changes between trans
+    and target table
+  file_name: FND1024.200.VALID.sql
+  job_name: FND1024
+  notes: .nan
+  source_database: T_TMP_ACC_FND
+  source_table: FND1024_TRANS
+  step_pattern: SNAPSHOT_VALID
+  steps: 200
+  target_database: T_TMP_ACC_FND
+  target_table: FND1024_VALID
+- description: 'Used standard snapshot/full apply '
+  file_name: FND1024.300.TARGET.sql
+  job_name: FND1024
+  notes: .nan
+  source_database: T_TMP_ACC_FND
+  source_table: FND1024_VALID
+  step_pattern: SNAPSHOT_TARGET
+  steps: 300
+  target_database: T_ACC_FND(via view)
+  target_table: DM_FND_STORE_HIER_HIST_DIM
+- description: .nan
+  file_name: .nan
+  job_name: FND1024
+  notes: .nan
+  source_database: .nan
+  source_table: .nan
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: .nan
+  target_table: .nan
+target_database_name: T_ACC_FND
+target_table_name: DM_FND_STORE_HIER_HIST_DIM
+transformation_key:
+- org_hiery_wid

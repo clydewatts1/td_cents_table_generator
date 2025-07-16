@@ -106,5 +106,7 @@ config:
   template_path: ./templates
   yaml_path: ./yaml
   mapping_yaml_path: ./mapping_yaml
+  job_path: ./samples/jobs
+  steps_path: ./samples/steps
 excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
   (Req. & Solution Design)/Design/Detailed Design/Physical_Design

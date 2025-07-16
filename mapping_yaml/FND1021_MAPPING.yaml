@@ -1,0 +1,148 @@
+control_columns: .nan
+job_name_from_file: FND1021
+job_name_from_mapping: FND1021
+mapping_columns:
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'OHIER.org_hiery_wid                 '
+  target_column_name: 'org_hiery_wid                 '
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'OHIER.org_hier_country_cd           '
+  target_column_name: 'org_hier_country_cd           '
+- column_order: nan
+  mapping_notes: 'CLW: Need to change this logic will not work : Using ordeded analytic
+    function partition on org_hier_wid , pick the COALESCE(max(XREF.max_del_vers_no),XREF.max_vers_no,0).
+    What you are looking for is the latest version of all the styles that are in the
+    hierarchy which impact the total.  So pick the highest / max version associated
+    with a loc that has moved out of the hierarchy ( logically deleted ). New loc
+    moving into the hierarchy version should not be used because it does not affect
+    the total ( something new is natural ) unless there is no changes locs then use
+    new.  and if there is no version then set to Zero'
+  source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
+  target_column_name: org_hiery_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'OHIER.company_cd                    '
+  target_column_name: 'company_cd                    '
+- column_order: nan
+  mapping_notes: See above but partition by company_cd
+  source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
+  target_column_name: company_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'OHIER.zone_cd                       '
+  target_column_name: 'zone_cd                       '
+- column_order: nan
+  mapping_notes: See above but partition by company_cd,zone_cd
+  source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
+  target_column_name: zone_vers_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'OHIER.region_cd                     '
+  target_column_name: 'region_cd                     '
+- column_order: nan
+  mapping_notes: See above but partition by company_cd,zone_cd,area_cd
+  source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
+  target_column_name: region_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: 'OHIER.area_cd                       '
+  target_column_name: 'area_cd                       '
+- column_order: nan
+  mapping_notes: See above but partition by company_cd,zone_cd,area_cd,region_num
+  source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
+  target_column_name: area_vers_num
+- column_order: CTE
+  mapping_notes: Join the various levels of hierarch
+  source_column_name: "WITH DST AS (SELECT * FROM DWP01A_IDW.DSTRCT DST WHERE CUR_FLG='Y')\n\
+    \    ,AREA AS (SELECT * FROM DWP01A_IDW.PMK_AREA AREA WHERE CUR_FLG='Y')\n\t,RGN\
+    \ AS (SELECT * FROM DWP01A_IDW.RGN WHERE CUR_FLG='Y')\n\t,ZN AS (SELECT * FROM\
+    \ DWP01A_IDW.PMK_ZN WHERE CUR_FLG='Y')\n\t,CO AS (SELECT * FROM DWP01A_IDW.PMK_CO\
+    \ WHERE CUR_FLG='Y')\n\t,OHIER AS )SELECT\n\t\t\t\tDST.DSTRCT_WID AS ORG_HIERY_WID,\n\
+    \t\t\t\tDECODE(DST.DSTRCT_CD,'DBO','0',DST.DSTRCT_CD) AS Org_Hier_Country_Cd,\n\
+    \t\t\t\tCO.PMK_CO_CD AS Company_Cd,\n\t\t\t\tZN.PMK_ZN_CD AS Zone_Cd,\n\t\t\t\t\
+    RGN.RGN_CD AS Region_Cd,\n\t\t\t\tDECODE(AREA.PMK_AREA_CD,'DBO','0',AREA.PMK_AREA_CD)\
+    \ AS Area_Cd\n\t\tFROM DST\n\t\tLEFT OUTER JOIN AREA\n\t\tON AREA.PMK_AREA_WID\
+    \ = DST.PMK_AREA_WID\n\t\tLEFT OUTER JOIN RGN\n\t\tON RGN.RGN_WID = AREA.RGN_WID\n\
+    \t\tLEFT OUTER JOIN ZN\n\t\tON ZN.PMK_ZN_WID = RGN.PMK_ZN_WID\n\t\tLEFT OUTER\
+    \ JOIN CO\n\t\tON CO.PMK_CO_WID = ZN.PMK_CO_WID\n\t\t)\nSELECT * FROM OHIER\n;"
+  target_column_name: OHIER
+- column_order: CTE
+  mapping_notes: 'CLW: Need to change this logic will not work : This is to find the
+    last version number associated with style/hier which is not deleted , and last
+    version number associated with loc/hier when logically deleted.  If a row is logically
+    deleted , it means that the style has moved. This implies that the number styles
+    ( non new ) in a hierarchy have changed , thus the version has changed.  The version
+    number in this table is based non-new loc in the hierarchy'
+  source_column_name: "SELECT org_hiery_wid\n/* Find the max version number for non\
+    \ deleted styles in hierarchy */\n,MAX(DECODE(RECORD_DEL_IND,'Y',loc_org_hier_vers_num,0))\
+    \ AS max_version_no\n/* Find the max versionnumber for deleted styles in hierarchy\
+    \ */\n,MAX(DECODE(RECORD_DEL_IND,'N',loc_org_hier_vers_num,0)) AS max_del_version_no\n\
+    FROM DWP01T_TMP_ACC_FND.FND_RECLASFCN_LOC_ORG_XREF \nWHERE CUR_FLG='Y' \nGROUP\
+    \ BY 1"
+  target_column_name: XREF
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: nan
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: nan
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: nan
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: nan
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: nan
+  target_column_name: nan
+- column_order: nan
+  mapping_notes: 'This is the joins and alias.  The base table is specified as either
+    CTE or Sub query '
+  source_column_name: nan
+  target_column_name: nan
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- org_hiery_wid
+steps:
+- description: .nan
+  file_name: .nan
+  job_name: FND1021
+  notes: .nan
+  source_database: .nan
+  source_table: .nan
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: .nan
+  target_table: .nan
+- description: This will increment the sequence number by one
+  file_name: FND_IncAndGetSeqNo.sql
+  job_name: FND1021
+  notes: .nan
+  source_database: .nan
+  source_table: .nan
+  step_pattern: SEQUENCE_NO,SEQ_NAME='ORG_HIER_VER_NO'
+  steps: 100
+  target_database: .nan
+  target_table: .nan
+- description: This will do a insert into target table based on mapping
+  file_name: FND1010.300.TARGET.sql
+  job_name: FND1021
+  notes: .nan
+  source_database: See Mapping
+  source_table: .nan
+  step_pattern: DELETE_INSERT,VERSION_NO=${ORG_HIER_VER_NO}
+  steps: 300
+  target_database: See Mapping
+  target_table: .nan
+target_database_name: T_TMP_ACC_FND
+target_table_name: DW_FND_DATE_DIM
+transformation_key:
+- org_hiery_wid

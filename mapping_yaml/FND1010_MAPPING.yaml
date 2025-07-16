@@ -1,11 +1,469 @@
 control_columns: .nan
 job_name_from_file: FND1010
-job_name_from_mapping: T_TMP_ACC_FND
+job_name_from_mapping: FND1010
+mapping_columns:
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: ' TYCD.GREG_DT AS calendar_dt'
+  target_column_name: calendar_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYYR.PMK_YR_STRT_DT AS year_start_dt
+  target_column_name: year_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYYR.PMK_YR_END_DT AS year_end_dt
+  target_column_name: year_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYPD.PMK_PRD_STRT_DT AS period_start_dt
+  target_column_name: period_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYPD.PMK_PRD_END_DT AS period_end_dt
+  target_column_name: period_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYWK.PMK_WK_STRT_DT AS week_start_dt
+  target_column_name: week_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYWK.PMK_WK_END_DT AS week_end_dt
+  target_column_name: week_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYCD.DY_OF_YR_NUM AS day_of_year_num
+  target_column_name: day_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYCD.DOM_NUM AS day_of_period_num
+  target_column_name: day_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYCD.DY_OF_WK_NUM AS day_of_week_num
+  target_column_name: day_of_week_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYWK.PMK_WK_OF_YR_NUM AS week_of_year_num
+  target_column_name: week_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYWK.PMK_WK_OF_PRD_NUM AS week_of_period_num
+  target_column_name: week_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYPD.PMK_PRD_OF_YR_NUM AS period_of_year_num
+  target_column_name: period_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYWK.CSTM_CAL_WK_ID  AS year_week
+  target_column_name: year_week
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYPD.CSTM_CAL_MTH_ID AS year_period
+  target_column_name: year_period
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: TYYR.CSTM_CAL_YR_ID AS year_num
+  target_column_name: year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SSN.season_code
+  target_column_name: season_code
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SSN.season_name
+  target_column_name: season_name
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SSN.season_description
+  target_column_name: season_description
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SSN.season_map
+  target_column_name: season_map
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: SSN.season_wid
+  target_column_name: season_wid
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYCD.GREG_DT AS ly_calendar_dt
+  target_column_name: ly_calendar_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYYR.PMK_YR_STRT_DT AS LY_Year_Start_Dt
+  target_column_name: ly_year_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYYR.PMK_YR_END_DT AS LY_Year_End_Dt
+  target_column_name: ly_year_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYPD.PMK_PRD_STRT_DT AS LY_Period_Start_Dt
+  target_column_name: ly_period_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYPD.PMK_PRD_END_DT AS LY_Period_End_Dt
+  target_column_name: ly_period_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYWK.PMK_WK_STRT_DT AS LY_Week_Start_Dt
+  target_column_name: ly_week_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYWK.PMK_WK_END_DT AS LY_Week_End_Dt
+  target_column_name: ly_week_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYCD.DY_OF_YR_NUM AS LY_Day_of_Year_Num
+  target_column_name: ly_day_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYCD.DOM_NUM AS LY_Day_of_Period_Num
+  target_column_name: ly_day_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYCD.DY_OF_WK_NUM AS LY_Day_of_Week_Num
+  target_column_name: ly_day_of_week_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYWK.PMK_WK_OF_YR_NUM AS LY_Week_of_Year_Num
+  target_column_name: ly_week_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYWK.PMK_WK_OF_PRD_NUM AS LY_Week_of_Period_Num
+  target_column_name: ly_week_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYPD.PMK_PRD_OF_YR_NUM AS LY_Period_of_Year_Num
+  target_column_name: ly_period_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYWK.CSTM_CAL_WK_ID  AS LY_Year_Week
+  target_column_name: ly_year_week
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYPD.CSTM_CAL_MTH_ID AS LY_Year_Period
+  target_column_name: ly_year_period
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LYYR.CSTM_CAL_YR_ID AS LY_Year_Num
+  target_column_name: ly_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYCD.GREG_DT AS LLY_Calendar_Dt
+  target_column_name: lly_calendar_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYYR.PMK_YR_STRT_DT AS LLY_Year_Start_Dt
+  target_column_name: lly_year_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYYR.PMK_YR_END_DT AS LLY_Year_End_Dt
+  target_column_name: lly_year_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYPD.PMK_PRD_STRT_DT AS LLY_Period_Start_Dt
+  target_column_name: lly_period_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYPD.PMK_PRD_END_DT AS LLY_Period_End_Dt
+  target_column_name: lly_period_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYWK.PMK_WK_STRT_DT AS LLY_Week_Start_Dt
+  target_column_name: lly_week_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYWK.PMK_WK_END_DT AS LLY_Week_End_Dt
+  target_column_name: lly_week_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYCD.DY_OF_YR_NUM AS LLY_Day_of_Year_Num
+  target_column_name: lly_day_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYCD.DOM_NUM AS LLY_Day_of_Period_Num
+  target_column_name: lly_day_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYCD.DY_OF_WK_NUM AS LLY_Day_of_Week_Num
+  target_column_name: lly_day_of_week_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYWK.PMK_WK_OF_YR_NUM AS LLY_Week_of_Year_Num
+  target_column_name: lly_week_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYWK.PMK_WK_OF_PRD_NUM AS LLY_Week_of_Period_Num
+  target_column_name: lly_week_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYPD.PMK_PRD_OF_YR_NUM AS LLY_Period_of_Year_Num
+  target_column_name: lly_period_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYWK.CSTM_CAL_WK_ID  AS LLY_Year_Week
+  target_column_name: lly_year_week
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYPD.CSTM_CAL_MTH_ID AS LLY_Year_Period
+  target_column_name: lly_year_period
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLYYR.CSTM_CAL_YR_ID AS LLY_Year_Num
+  target_column_name: lly_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: '--- Last Last Last year'
+  target_column_name: llly_calendar_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYCD.GREG_DT AS LLLY_Calendar_Dt
+  target_column_name: llly_year_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYYR.PMK_YR_STRT_DT AS LLLY_Year_Start_Dt
+  target_column_name: llly_year_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYYR.PMK_YR_END_DT AS LLLY_Year_End_Dt
+  target_column_name: llly_period_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYPD.PMK_PRD_STRT_DT AS LLLY_Period_Start_Dt
+  target_column_name: llly_period_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYPD.PMK_PRD_END_DT AS LLLY_Period_End_Dt
+  target_column_name: llly_week_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYWK.PMK_WK_STRT_DT AS LLLY_Week_Start_Dt
+  target_column_name: llly_week_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYWK.PMK_WK_END_DT AS LLLY_Week_End_Dt
+  target_column_name: llly_day_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYCD.DY_OF_YR_NUM AS LLLY_Day_of_Year_Num
+  target_column_name: llly_day_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYCD.DOM_NUM AS LLLY_Day_of_Period_Num
+  target_column_name: llly_day_of_week_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYCD.DY_OF_WK_NUM AS LLLY_Day_of_Week_Num
+  target_column_name: llly_week_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYWK.PMK_WK_OF_YR_NUM AS LLLY_Week_of_Year_Num
+  target_column_name: llly_week_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYWK.PMK_WK_OF_PRD_NUM AS LLLY_Week_of_Period_Num
+  target_column_name: llly_period_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYPD.PMK_PRD_OF_YR_NUM AS LLLY_Period_of_Year_Num
+  target_column_name: llly_year_week
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYWK.CSTM_CAL_WK_ID  AS LLLY_Year_Week
+  target_column_name: llly_year_period
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYPD.CSTM_CAL_MTH_ID AS LLLY_Year_Period
+  target_column_name: llly_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: LLLYYR.CSTM_CAL_YR_ID AS LLLY_Year_Num
+  target_column_name: ny_calendar_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYCD.GREG_DT AS NY_Calendar_Dt
+  target_column_name: ny_year_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYYR.PMK_YR_STRT_DT AS NY_Year_Start_Dt
+  target_column_name: ny_year_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYYR.PMK_YR_END_DT AS NY_Year_End_Dt
+  target_column_name: ny_period_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYPD.PMK_PRD_STRT_DT AS NY_Period_Start_Dt
+  target_column_name: ny_period_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYPD.PMK_PRD_END_DT AS NY_Period_End_Dt
+  target_column_name: ny_week_start_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYWK.PMK_WK_STRT_DT AS NY_Week_Start_Dt
+  target_column_name: ny_week_end_dt
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYWK.PMK_WK_END_DT AS NY_Week_End_Dt
+  target_column_name: ny_day_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYCD.DY_OF_YR_NUM AS NY_Day_of_Year_Num
+  target_column_name: ny_day_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYCD.DOM_NUM AS NY_Day_of_Period_Num
+  target_column_name: ny_day_of_week_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYCD.DY_OF_WK_NUM AS NY_Day_of_Week_Num
+  target_column_name: ny_week_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYWK.PMK_WK_OF_YR_NUM AS NY_Week_of_Year_Num
+  target_column_name: ny_week_of_period_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYWK.PMK_WK_OF_PRD_NUM AS NY_Week_of_Period_Num
+  target_column_name: ny_period_of_year_num
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYPD.PMK_PRD_OF_YR_NUM AS NY_Period_of_Year_Num
+  target_column_name: ny_year_week
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYWK.CSTM_CAL_WK_ID  AS NY_Year_Week
+  target_column_name: ny_year_period
+- column_order: nan
+  mapping_notes: nan
+  source_column_name: NYPD.CSTM_CAL_MTH_ID AS NY_Year_Period
+  target_column_name: ny_year_num
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: 'SELECT * FROM  DWP01A_IDW.CSTM_CAL_DY  WHERE CUR_FLG = ''Y'' '
+  target_column_name: ' DY'
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: SELECT * FROM  DWP01A_IDW.CSTM_CAL_WK  WHERE CUR_FLG = 'Y'
+  target_column_name: WK
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_MTH_WK \_WHERE CUR_FLG\
+    \ = 'Y' "
+  target_column_name: MT
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_MTH \_WHERE CUR_FLG = 'Y'"
+  target_column_name: PD
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_YR \_WHERE CUR_FLG = 'Y'"
+  target_column_name: YR
+- column_order: ALIAS/CTE
+  mapping_notes: nan
+  source_column_name: "\t\tSELECT SSD.greg_dt AS calendar_dt\n      \t,SSD.sson_cd\
+    \ AS season_code\n\t  \t,SSN.sson_name AS season_name\n\t  \t,SUBSTRING(season_name\
+    \ FROM 3 for 4)||' '||DECODE(SUBSTRING(season_name FROM 1 for 2),'AW','Autumn\
+    \ Winter','SS','Spring Summer','UA','Unknown 0',season_name) AS season_description\n\
+    \t  \t,SETBIT((CAST (TO_BYTES ('0', 'base10') as BYTE (14))),SSD.SSON_WID(SMALLINT))\
+    \ AS season_map\n       FROM DWP01A_IDW.PMK_SSON_DAY AS SSD\n\t\tINNER JOIN DWP01A_IDW.SSON\
+    \ AS SSN\n\t\tON SSD.SSON_WID = SSN.SSON_WID\n\t\tAND SSD.cur_flg = 'Y'\n\t\t\
+    AND SSN.cur_flg = 'Y'"
+  target_column_name: SSN
+- column_order: JOINS
+  mapping_notes: 'This is the joins and alias.  The base table is specified as either
+    CTE or Sub query '
+  source_column_name: "FROM DY AS TYCD\nLEFT OUTER JOIN DY AS LYCD\nON TYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = LYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS LLYCD\nON LYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = LLYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS LLLYCD\nON LLYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = LLLYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS NYCD\nON TYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = NYCD.CSTM_CAL_DY_WID\n/* Weeks */\nLEFT OUTER JOIN WK AS TYWK \nON TYCD.CSTM_CAL_WK_WID\
+    \ = TYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS LYWK \nON LYCD.CSTM_CAL_WK_WID\
+    \ = LYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS LLYWK \nON LLYCD.CSTM_CAL_WK_WID\
+    \ = LLYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS LLLYWK \nON LLLYCD.CSTM_CAL_WK_WID\
+    \ = LLLYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS NYWK \nON NYCD.CSTM_CAL_WK_WID\
+    \ = NYWK.CSTM_CAL_WK_WID\n/* Months */\nLEFT OUTER JOIN MT AS TYMT\nON TYWK.CSTM_CAL_WK_WID\
+    \ = TYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS LYMT\nON LYWK.CSTM_CAL_WK_WID\
+    \ = LYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS LLYMT\nON LLYWK.CSTM_CAL_WK_WID\
+    \ = LLYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS LLLYMT\nON LLLYWK.CSTM_CAL_WK_WID\
+    \ = LLLYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS NYMT\nON NYWK.CSTM_CAL_WK_WID\
+    \ = NYMT.CSTM_CAL_WK_WID\n/* Period */\nLEFT OUTER JOIN PD AS TYPD\nON TYMT.CSTM_CAL_PRD_WID\
+    \ = TYPD.CSTM_CAL_PRD_WID\nLEFT OUTER JOIN PD AS LYPD\nON LYMT.CSTM_CAL_PRD_WID\
+    \ = LYPD.CSTM_CAL_PRD_WID\nLEFT OUTER JOIN PD AS LLYPD\nON LLYMT.CSTM_CAL_PRD_WID\
+    \ = LLYPD.CSTM_CAL_PRD_WID\nLEFT OUTER JOIN PD AS LLLYPD\nON LLLYMT.CSTM_CAL_PRD_WID\
+    \ = LLLYPD.CSTM_CAL_PRD_WID   \nLEFT OUTER JOIN PD AS NYPD\nON NYMT.CSTM_CAL_PRD_WID\
+    \ = NYPD.CSTM_CAL_PRD_WID\n/* Years */\nLEFT OUTER JOIN YR AS TYYR\nON TYPD.CSTM_CAL_YR_WID\
+    \ = TYYR.CSTM_CAL_YR_WID                          \nLEFT OUTER JOIN YR AS LYYR\n\
+    ON LYPD.CSTM_CAL_YR_WID = LYYR.CSTM_CAL_YR_WID    \nLEFT OUTER JOIN YR AS LLYYR\n\
+    ON LLYPD.CSTM_CAL_YR_WID = LLYYR.CSTM_CAL_YR_WID    \nLEFT OUTER JOIN YR AS LLLYYR\n\
+    ON LLLYPD.CSTM_CAL_YR_WID = LLLYYR.CSTM_CAL_YR_WID  \nLEFT OUTER JOIN YR AS NYYR\n\
+    ON NYPD.CSTM_CAL_YR_WID = NYYR.CSTM_CAL_YR_WID  \n/* Season */\nLEFT OUTER JOIN\
+    \ SSN\nON SSN.calendar_dt = TYCD.GREG_DT\nLEFT OUTER JOIN DY AS LYCD\nON TYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = LYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS LLYCD\nON LYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = LLYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS LLLYCD\nON LLYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = LLLYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS NYCD\nON TYCD.PMK_PRIOR_CAL_DY_WID\
+    \ = NYCD.CSTM_CAL_DY_WID\n/* Weeks */\nLEFT OUTER JOIN WK AS TYWK \nON TYCD.CSTM_CAL_WK_WID\
+    \ = TYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS LYWK \nON LYCD.CSTM_CAL_WK_WID\
+    \ = LYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS LLYWK \nON LLYCD.CSTM_CAL_WK_WID\
+    \ = LLYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS LLLYWK \nON LLLYCD.CSTM_CAL_WK_WID\
+    \ = LLLYWK.CSTM_CAL_WK_WID\nLEFT OUTER JOIN WK AS NYWK \nON NYCD.CSTM_CAL_WK_WID\
+    \ = NYWK.CSTM_CAL_WK_WID\n/* Months */\nLEFT OUTER JOIN MT AS TYMT\nON TYWK.CSTM_CAL_WK_WID\
+    \ = TYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS LYMT\nON LYWK.CSTM_CAL_WK_WID\
+    \ = LYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS LLYMT\nON LLYWK.CSTM_CAL_WK_WID\
+    \ = LLYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS LLLYMT\nON LLLYWK.CSTM_CAL_WK_WID\
+    \ = LLLYMT.CSTM_CAL_WK_WID\nLEFT OUTER JOIN MT AS NYMT\nON NYWK.CSTM_CAL_WK_WID\
+    \ = NYMT.CSTM_CAL_WK_WID\n/* Period */\nLEFT OUTER JOIN PD AS TYPD\nON TYMT.CSTM_CAL_PRD_WID\
+    \ = TYPD.CSTM_CAL_PRD_WID\nLEFT OUTER JOIN PD AS LYPD\nON LYMT.CSTM_CAL_PRD_WID\
+    \ = LYPD.CSTM_CAL_PRD_WID\nLEFT OUTER JOIN PD AS LLYPD\nON LLYMT.CSTM_CAL_PRD_WID\
+    \ = LLYPD.CSTM_CAL_PRD_WID\nLEFT OUTER JOIN PD AS LLLYPD\nON LLLYMT.CSTM_CAL_PRD_WID\
+    \ = LLLYPD.CSTM_CAL_PRD_WID   \nLEFT OUTER JOIN PD AS NYPD\nON NYMT.CSTM_CAL_PRD_WID\
+    \ = NYPD.CSTM_CAL_PRD_WID\n/* Years */\nLEFT OUTER JOIN YR AS TYYR\nON TYPD.CSTM_CAL_YR_WID\
+    \ = TYYR.CSTM_CAL_YR_WID                          \nLEFT OUTER JOIN YR AS LYYR\n\
+    ON LYPD.CSTM_CAL_YR_WID = LYYR.CSTM_CAL_YR_WID    \nLEFT OUTER JOIN YR AS LLYYR\n\
+    ON LLYPD.CSTM_CAL_YR_WID = LLYYR.CSTM_CAL_YR_WID    \nLEFT OUTER JOIN YR AS LLLYYR\n\
+    ON LLLYPD.CSTM_CAL_YR_WID = LLLYYR.CSTM_CAL_YR_WID  \nLEFT OUTER JOIN YR AS NYYR\n\
+    ON NYPD.CSTM_CAL_YR_WID = NYYR.CSTM_CAL_YR_WID  "
+  target_column_name: nan
 mapping_sheet_name: MAPPING
-pattern: .nan
+pattern: Staging
 primary_key:
 - calendar_dt
-target_database_name: DW_FND_DATE_DIM
-target_table_name: Staging
+steps:
+- description: .nan
+  file_name: .nan
+  job_name: FND1010
+  notes: .nan
+  source_database: .nan
+  source_table: .nan
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: .nan
+  target_table: .nan
+- description: This will do a insert into target table based on mapping
+  file_name: FND1010.300.TARGET.sql
+  job_name: FND1010
+  notes: .nan
+  source_database: See Mapping
+  source_table: .nan
+  step_pattern: STANDARD_DELETE_INSERT
+  steps: 300
+  target_database: T_TMP_ACC_FND
+  target_table: .nan
+- description: .nan
+  file_name: .nan
+  job_name: FND1010
+  notes: .nan
+  source_database: .nan
+  source_table: .nan
+  step_pattern: STANDART_END
+  steps: End
+  target_database: .nan
+  target_table: .nan
+target_database_name: T_TMP_ACC_FND
+target_table_name: DW_FND_DATE_DIM
 transformation_key:
-- nan
+- calendar_dt

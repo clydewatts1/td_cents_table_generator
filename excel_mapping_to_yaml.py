@@ -7,6 +7,137 @@ import yaml
 import logging
 import pprint
 
+def read_excel_to_dataframe_mapping(filename, config_dict):
+    """Read the 'MAPPING' sheet from an Excel file into a pandas DataFrame.
+    Args:
+        filename (str): The name of the Excel file to read.
+        config_dict (dict): Configuration dictionary containing at least the
+            'excel_mapping_directory' key, or a nested 'config' key with this information.
+    Returns:
+        return_code (int): 0 if the operation is successful, -1 otherwise.
+        return_text (str): Description of the operation result or error encountered.
+        pd.DataFrame: DataFrame containing the data from the 'MAPPING' sheet.
+    """
+    df_mapping = None
+    if config_dict is None:
+        logging.error("Configuration dictionary is None. Cannot proceed with reading the Excel file.")
+        return -1, "Configuration dictionary is None.", df_mapping
+    if 'config' in config_dict:
+        config_local = config_dict['config']
+    else:
+        config_local = config_dict
+    if not isinstance(config_local, dict):
+        logging.error("Configuration is not in the expected format. Expected a dictionary.")
+        return -1, "Configuration is not in the expected format.", df_mapping
+    excel_mapping_dir = config_local.get('excel_mapping_directory', 'excel_mappings')
+    if not os.path.isdir(excel_mapping_dir):
+        logging.error(
+            "excel_mapping_directory %s does not exist. Please check your configuration.",
+            excel_mapping_dir,
+        )
+        return -1, "excel_mapping_directory does not exist.", None
+    filename_path = os.path.join(excel_mapping_dir, filename)
+    if not os.path.exists(filename_path):
+        logging.error(
+            "File %s does not exist. Please check the file path.",
+            filename_path,
+        )
+        return -1, "File %s does not exist." % filename_path, df_mapping
+    try:
+        df_mapping = pd.read_excel(
+            filename_path,
+            sheet_name=0,  # Load the first sheet
+        )
+        logging.info(
+            "Loaded first sheet into df_mapping with shape: %s",
+            str(df_mapping.shape),
+        )
+    except (OSError, ValueError) as e:
+        logging.error(
+            "Error processing file %s: %s",
+            filename_path,
+            str(e),
+        )
+        return -1, str(e), df_mapping  
+
+
+
+    return_code = 0
+    return_text = "Read successful."
+    return return_code, return_text, df_mapping  
+
+def read_excel_to_dataframe_steps(filename, config_dict):
+    """    Read the 'Steps' sheet from an Excel file into a pandas DataFrame.
+    Args:
+        filename (str): The name of the Excel file to read.
+        config_dict (dict): Configuration dictionary containing at least the
+            'excel_mapping_directory' key, or a nested 'config' key with this information.
+    Returns:
+        return_code (int): 0 if the operation is successful, -1 otherwise.
+        return_text (str): Description of the operation result or error encountered.
+        pd.DataFrame: DataFrame containing the data from the 'Steps' sheet.
+    """
+    df_steps = None
+    if config_dict is None:
+        logging.error("Configuration dictionary is None. Cannot proceed with reading the Excel file.")
+        return -1, "Configuration dictionary is None.", df_steps
+    if 'config' in config_dict:
+        config_local = config_dict['config']
+    else:
+        config_local = config_dict
+    
+    if not isinstance(config_local, dict):
+        logging.error("Configuration is not in the expected format. Expected a dictionary.")
+        return -1, "Configuration is not in the expected format.", df_steps
+    excel_mapping_dir = config_local.get('excel_mapping_directory', 'excel_mappings')
+    if not os.path.isdir(excel_mapping_dir):
+        logging.error(
+            "excel_mapping_directory %s does not exist. Please check your configuration.",
+            excel_mapping_dir,
+        )
+        return -1, "excel_mapping_directory does not exist.", df_steps
+    filename_path = os.path.join(excel_mapping_dir, filename)
+    if not os.path.exists(filename_path):
+        logging.error(
+            "File %s does not exist. Please check the file path.",
+            filename_path,
+        )
+        return -1, "File %s does not exist." % filename_path, df_steps
+    try:
+        df_steps = pd.read_excel(
+            filename_path,
+            sheet_name='Steps',
+        )
+        logging.info(
+            "Loaded 'Steps' sheet into df_steps with shape: %s",
+            str(df_steps.shape),
+        )
+    except (OSError, ValueError) as e:
+        logging.error(
+            "Error processing file %s: %s",
+            filename_path,
+            str(e),
+        )
+        return -1, str(e), df_steps
+    # now covert all column names to lowercase
+    df_steps.columns = [col.lower() for col in df_steps.columns]
+    # remove trailing and leading whitespace from column names
+    df_steps.columns = df_steps.columns.str.strip()
+    # change spaces to underscores in column names
+    df_steps.columns = df_steps.columns.str.replace(' ', '_', regex=False)
+    logging.info(
+        "Steps: Columns %s",
+        str(df_steps.columns)
+    )
+    # Remove empty rows from df_steps
+    df_steps = df_steps.dropna(how='all')
+    logging.info(
+        "After dropping empty rows, df_steps shape: %s",
+        str(df_steps.shape),
+    )
+    return 0, "Read successful.", df_steps
+
+
 def validate_mapping_sheet(filename, config_dict):
     """
     Validate the structure and contents of an Excel mapping sheet file.
@@ -181,40 +312,36 @@ def convert_excel_to_yaml(filename, config_dict):
         return -1, "excel_mapping_directory does not exist."
 
     # load the Excel file
-    try:
-        df_mapping = pd.read_excel(
-            os.path.join(excel_mapping_dir, filename),
-            sheet_name=0,
-        )
-        mapping_sheet_name = pd.ExcelFile(os.path.join(excel_mapping_dir, filename)).sheet_names[0]
-        logging.info(
-            "Loaded first sheet into df_mapping with shape: %s",
-            str(df_mapping.shape),
-        )
-        # Load 'Steps' sheet into df_steps
-        df_steps = pd.read_excel(
-            os.path.join(excel_mapping_dir, filename),
-            sheet_name='Steps',
-        )
-        logging.info(
-            "Loaded 'Steps' sheet into df_steps with shape: %s",
-            str(df_steps.shape),
-        )
-    except (OSError, ValueError) as e:
+    return_code, return_text ,df_steps = read_excel_to_dataframe_steps(filename, config_dict)
+    if return_code != 0:
         logging.error(
-            "Error processing file %s: %s",
+            "Error reading Excel file %s: %s",
             filename,
-            str(e),
+            return_text,
         )
-        return -1, str(e)
-    # write the YAML file
-    if df_mapping.empty:
+        return -1, return_text
+
+    # load the mapping sheet
+    return_code, return_text, df_mapping = read_excel_to_dataframe_mapping(filename, config_dict)
+    if return_code != 0:
         logging.error(
-            "Mapping sheet %s in %s is empty. Cannot convert to YAML.",
-            mapping_sheet_name,
+            "Error reading mapping sheet from %s: %s",
+            filename,
+            return_text,
+        )
+        return -1, return_text
+    if df_mapping is None:
+        logging.error(
+            "Mapping sheet could not be loaded from %s. Please check the file.",
             filename,
         )
-        return -1, "Mapping sheet is empty."
+        return -1, "Mapping sheet could not be loaded from %s." % filename
+    # check if mapping sheet has required columns
+
+
+
+ 
+
     # Get job id from name , it is the characters before the first underscore
     job_name_from_file = filename.split('_')[0]
     if not job_name_from_file:
@@ -312,25 +439,40 @@ def convert_excel_to_yaml(filename, config_dict):
         return -1, "Could not extract transformation key from mapping sheet."
     # convert transformation key to string and strip whitespace
     transformation_key = str(transformation_key).strip()
-    mapping_columns = []
-    # get from row 15 onwards and columns A-D in df_mapping
-    df_mapping_cols = df_mapping.iloc[14:, :4]
-    print(df_mapping_cols.head(4))
-    for col in df_mapping_cols.iterrows():
-        # check if col is empty
-        print(f"Processing column: {col}")
-        print(f"Column size: ", type(col))
-        # check if all values in the column are NaN and continue if so
-        if col[1].isnull().all():
-            logging.info("Skipping empty column: %s", col[0])
-            continue
-        # 
-        column_order = col[1].get('Column Order', None)
-        
-        col_dict = {
-            
-        }
-        mapping_columns.append(col_dict)
+
+
+    mapping_sheet_name = "MAPPING"  # Default mapping sheet name
+    # convert df_steps to a list of dictionaries
+    steps_data = df_steps.to_dict(orient='records') if df_steps is not None else []
+    # get a subset df_mapping 
+    df_mapping_detail = df_mapping.iloc[12:, :4] if len(df_mapping) > 12 else df_mapping
+    print(f"Mapping Detail: \n{df_mapping_detail.head(4)}")
+    # Check if df_mapping_detail[0,0] = 'Column Order' if not return error
+    if df_mapping_detail.empty or df_mapping_detail.iloc[0, 0] != 'Column Order':
+        logging.error(
+            "Mapping sheet %s in %s does not have the expected structure. "
+            "The first cell should contain 'Column Order'.",
+            mapping_sheet_name,
+            filename,
+        )
+    
+    # convert row 0 to column names
+    df_mapping_detail.columns = df_mapping_detail.iloc[0]
+    # make column names lowercase , trim and change whitespace to underscore
+    df_mapping_detail.columns = df_mapping_detail.columns.str.lower().str.strip().str.replace(' ', '_', regex=False)
+    # remove row 0
+    df_mapping_detail = df_mapping_detail[1:]
+    # reset index
+    df_mapping_detail.reset_index(drop=True, inplace=True)
+    # remove empty rows
+    df_mapping_detail = df_mapping_detail.dropna(how='all')
+    # convert all columns to string type
+    df_mapping_detail = df_mapping_detail.astype(str)
+    # convert NaN values to empty strings
+    df_mapping_detail = df_mapping_detail.fillna('')
+    # convert to list of dictionaries
+    data_mapping_detail = df_mapping_detail.to_dict(orient='records')
+    print(f"Mapping Detail: \n{df_mapping_detail.head(4)}")
 
 
         
@@ -346,23 +488,130 @@ def convert_excel_to_yaml(filename, config_dict):
         yaml_dict['control_columns'] = control_columns
         yaml_dict['primary_key'] = primary_key_list
         yaml_dict['transformation_key'] = transformation_key_list
-        yaml_dict['mapping_columns'] = mapping_columns
-        yaml_dict['mapping_columns'] = mapping_columns
+        yaml_dict['mapping_columns'] = data_mapping_detail
+ 
         #yaml_dict['mapping_data'] = df_mapping.to_dict(orient='records')
-        #yaml_dict['steps_data'] = df_steps.to_dict(orient='records')
+        yaml_dict['steps'] = steps_data
         yaml_path = config_local.get('mapping_yaml_path', 'mapping_yaml')
         # yaml file name is the same as excel file name but with .yaml extension
         # get the base name of the file without extension
         base_filename = os.path.splitext(filename)[0]
         yaml_file_path = os.path.join(yaml_path, f"{base_filename}.yaml")
-        with open(yaml_file_path, 'w') as yaml_file:
+        with open(yaml_file_path, 'w', encoding='utf-8') as yaml_file:
             yaml.dump(yaml_dict, yaml_file, default_flow_style=False)
         logging.info("Converted %s to %s", filename, yaml_file_path)
-    except Exception as e:
+    except (OSError, yaml.YAMLError) as e:
         logging.error("Error writing YAML file %s: %s", yaml_file_path, str(e))
         return -1, str(e)
 
-    return 0, "Converted successfully to YAML file: %s" % yaml_file_path
+    return 0, f"Converted successfully to YAML file: {yaml_file_path}"
+
+###############################################################################################
+# Function to validate and convert Excel mapping sheets to YAML files
+def build_job(filename, config_dict):
+    """
+    Validate and convert an Excel mapping sheet to a YAML file.
+
+    Args:
+        filename (str): The name of the Excel file to validate and convert.
+        config_dict (dict): Configuration dictionary containing at least the
+            'excel_mapping_directory' key, or a nested 'config' key with this information.
+
+    Returns:
+        tuple: (return_code, return_text)
+            return_code (int): 0 if validation and conversion are successful, -1 otherwise.
+            return_text (str): Description of the operation result or error encountered.
+    """
+    # this is a place holder to build a job
+    logging.info("Starting to process file: %s", filename)
+    # get job directory from config
+    config_local = config 
+    if config_dict is None:
+        logging.error("Configuration dictionary is None. Cannot proceed with processing the file.")
+        return -1, "Configuration dictionary is None."
+    if 'config' in config_dict:
+        config_local = config_dict['config']
+    else:
+        config_local = config_dict
+    if not isinstance(config_local, dict):
+        logging.error("Configuration is not in the expected format. Expected a dictionary.")
+        return -1, "Configuration is not in the expected format."
+    # job_path = config_local.get('job_path', 'jobs')
+    job_path = config_local.get('job_path', 'job_path')
+    # mapping yaml_path = config_local.get('mapping_yaml_path', 'mapping_yaml')
+    mapping_yaml_path = config_local.get('mapping_yaml_path', 'mapping_yaml')
+    if not os.path.isdir(job_path):
+        logging.error(
+            "Job path %s does not exist. Please check your configuration.",
+            job_path,
+        )
+        return -1, "Job path does not exist."
+    if not os.path.isdir(mapping_yaml_path):
+        logging.error(
+            "Mapping YAML path %s does not exist. Please check your configuration.",
+            mapping_yaml_path,
+        )
+        return -1, "Mapping YAML path does not exist."
+    # convert the Excel file name to a YAML file name
+    yaml_file_name = os.path.splitext(filename)[0] + '.yaml'
+    yaml_file_path = os.path.join(mapping_yaml_path, yaml_file_name)
+    # Check if the YAML file exists
+    if not os.path.exists(yaml_file_path):
+        logging.error(
+            "YAML file %s does not exist. Please check the file path.",
+            yaml_file_path,
+        )
+        return -1, "YAML file does not exist."
+    # check that job_path is a directory
+    if not os.path.isdir(job_path):
+        logging.error(
+            "Job path %s is not a directory. Please check your configuration.",
+            job_path,
+        )
+        return -1, "Job path is not a directory."
+    # Convert yaml file to job 
+    # load the YAML file
+    try:
+        with open(yaml_file_path, 'r', encoding='utf-8') as yaml_file:
+            yaml_dict = yaml.safe_load(yaml_file)
+        if yaml_dict is None:
+            logging.error(
+                "YAML file %s is empty or could not be loaded. Please check the file.",
+                yaml_file_path,
+            )
+            return -1, "YAML file is empty or could not be loaded."
+        logging.info("Loaded YAML file %s successfully.", yaml_file_path)
+    except (OSError, yaml.YAMLError) as e:
+        logging.error(
+            "Error loading YAML file %s: %s",
+            yaml_file_path,
+            str(e),
+        )
+        return -1, str(e)
+    # job_dict is yaml_dict with additional fields
+    job_dict = {
+        'job_name': yaml_dict.get('job_name_from_mapping', 'OOPS101'),
+        'job_description': yaml_dict.get('job_name_from_file', 'OOPS101'),
+        'yaml_file_path': yaml_file_path,
+    }
+    # create a job file name
+    job_file_name = f"{job_dict['job_name']}.job"
+    job_file_path = os.path.join(job_path, job_file_name)
+    # temporary write job file
+    try:
+        with open(job_file_path, 'w', encoding='utf-8') as job_file:
+            yaml.dump(job_dict, job_file, default_flow_style=False)
+        logging.info("Created job file %s successfully.", job_file_path)
+    except (OSError, yaml.YAMLError) as e:
+        logging.error(
+            "Error writing job file %s: %s",
+            job_file_path,
+            str(e),
+        )
+        return -1, str(e)
+
+    logging.info("Successfully processed %s", filename)
+    return 0, "Successfully processed."
 
 ###########################################################################################
 # Main function to validate and convert Excel mapping sheets to YAML files
@@ -409,20 +658,22 @@ if __name__ == "__main__":
         logger.error("No mapping files found in %s. Please check your configuration.", excel_mapping_directory)
         exit(1)
     logger.info("Found mapping files: %s", mapping_files)
-    for mapping_file in mapping_files:
-        logger.info("Processing mapping file: %s", mapping_file)
-        try:
-            df_mapping = pd.read_excel(mapping_file, sheet_name=0)
-            mapping_sheet_name = pd.ExcelFile(mapping_file).sheet_names[0]
-            logger.info("Mapping sheet name: %s", mapping_sheet_name)
-            logger.info("Loaded first sheet into df_mapping with shape: %s", df_mapping.shape)
+    #for mapping_file in mapping_files:
+    #    logger.info("Processing mapping file: %s", mapping_file)
+    #    try:
+    #        df_mapping = pd.read_excel(mapping_file, sheet_name=0)
+    #        mapping_sheet_name = pd.ExcelFile(mapping_file).sheet_names[0]
+    #        logger.info("Mapping sheet name: %s", mapping_sheet_name)
+    #        logger.info("Loaded first sheet into df_mapping with shape: %s", df_mapping.shape)
 
             # Load 'Steps' sheet into df_steps
-            df_steps = pd.read_excel(mapping_file, sheet_name='Steps')
-            logger.info("Loaded 'Steps' sheet into df_steps with shape: %s", df_steps.shape)
+    #        df_steps = pd.read_excel(mapping_file, sheet_name='Steps')
+    #        logger.info("Loaded 'Steps' sheet into df_steps with shape: %s", df_steps.shape)
 
-        except Exception as e:
-            logger.error("Error processing file %s: %s", mapping_file, e)
+    #    except Exception as e:
+    #        logger.error("Error processing file %s: %s", mapping_file, e)
+    convert_excel_to_yaml("FND1012_MAPPING.xlsx", config)
+    build_job("FND1012_MAPPING.xlsx", config)
 
 
 
