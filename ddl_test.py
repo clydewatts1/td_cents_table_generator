@@ -110,6 +110,8 @@ def create_using_file(filename,config):
             print(f"Error executing statement: {statement}\nError: {e}")
             error_code = -1
             error_text = str(e)
+            # log error and break / exit
+            break
     print(f"DDL execution completed for {filename}.")
     return error_code, error_text
 

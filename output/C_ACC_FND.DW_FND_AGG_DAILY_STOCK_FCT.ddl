@@ -68,9 +68,6 @@ SELECT
     trasfer_ship_units ,
     trasfer_ship_retail_amount ,
     trasfer_ship_cost_amount ,
-    ord_intake_units ,
-    ord_intake_retail_amount ,
-    ord_intake_cost_amount ,
     stock_cnt_adj_units ,
     stock_cnt_adj_retail_value ,
     soh_age_in_weeks ,
@@ -91,29 +88,8 @@ SELECT
     tsf_intake_qty ,
     tsf_intake_retail_amount ,
     tsf_intake_cost_amount ,
-    sales_value ,
-    sales_units ,
-    return_value ,
-    return_units ,
-    exchange_value ,
-    exchange_units ,
-    promotion_sales_value ,
-    promotion_sales_units ,
-    clearance_sales_value ,
-    clearance_sales_units ,
-    regular_sales_value ,
-    regular_sales_units ,
-    lcp_intake ,
-    lcp_gross ,
     ras_stock_value ,
     stock_unit_av_cost_amount ,
-    regular_unit_retail_amt ,
-    promotion_return_value ,
-    promotion_return_units ,
-    clearance_return_value ,
-    clearance_return_units ,
-    regular_return_value ,
-    regular_return_units ,
     wkly_flg ,
     listing_flg ,
     /* Control columns for auditing */
@@ -302,15 +278,6 @@ COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.trasfer_ship
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.trasfer_ship_cost_amount AS 'This Column is used identify the Shipment cost amount for Transfer'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ord_intake_units AS 'Quantity of sellable units (pack components) received in the location for ordered item'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ord_intake_retail_amount AS 'intake supplier retail order from order'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ord_intake_cost_amount AS 'intake supplier cost order from order'
-;
-
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.stock_cnt_adj_units AS 'Contains the quantity the inventory was adjusted by. This is a store measure'
 ;
 
@@ -371,73 +338,10 @@ COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.tsf_intake_r
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.tsf_intake_cost_amount AS 'This Column is used identify the Received cost amount for a transfer'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.sales_value AS 'Sales value*10000 (4 implied decimal places.), value of units sold in this prom type.'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.sales_units AS 'Number of net units of merchandise sold for a subclass/location for the day.'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.return_value AS 'Total Retail Value of the Items Returned'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.return_units AS 'Total Retail Units of the Items Returned'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.exchange_value AS 'Total Retail Value of the Items Exchange'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.exchange_units AS 'Total Retail Units of the Items Exchange'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_sales_value AS 'Sales value of items on promotion'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_sales_units AS 'This Column is used identify the Units sold in promotion'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_sales_value AS 'Sales Clearance Value including only like for like stores.'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_sales_units AS 'Sales Clearance Units including only like for like stores.'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_sales_value AS 'SALES VALUE where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance. This amount is inclusive of VAT and net of returns.This shouldnot include Gift Cards'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_sales_units AS 'SALES UNITS where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance.'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_intake AS 'This Column is used identify the LCP intake Value'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_gross AS 'This Column is used identify the LCP Gross Value'
-;
-
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ras_stock_value AS 'Value of RAS stock to measure impact of price reduction on gross and net margins'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.stock_unit_av_cost_amount AS 'This Column is used identify the Average cost amount of stock unit'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_unit_retail_amt AS 'Unit Retail amount for regular price'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_return_value AS 'Sales value of items returned which where sold in the promotion'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_return_units AS 'Units of items returned which where sold in the promotion'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_return_value AS 'Sales value of items returned which where sold in the clearance'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_return_units AS 'Units of items returned which where sold in the Clearance'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_return_value AS 'Sales value of items returned which where sold in the Regular price'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_return_units AS 'Units of items returned which where sold in the Regular price'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.wkly_flg AS 'Flag to identify the Data is at weekly level or daily level (Y- Yes, N-No)'

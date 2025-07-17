@@ -1,339 +1,339 @@
 control_columns: .nan
-job_name_from_file: FND1012
-job_name_from_mapping: FND1012
+job_name_from_file: FND1013
+job_name_from_mapping: FND1013
 mapping_columns:
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.calendar_dt
+  source_column_name: SRC.calendar_dt
   target_column_name: calendar_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.year_start_dt
+  source_column_name: SRC.year_start_dt
   target_column_name: year_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.year_end_dt
+  source_column_name: SRC.year_end_dt
   target_column_name: year_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.period_start_dt
+  source_column_name: SRC.period_start_dt
   target_column_name: period_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.period_end_dt
+  source_column_name: SRC.period_end_dt
   target_column_name: period_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.week_start_dt
+  source_column_name: SRC.week_start_dt
   target_column_name: week_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.week_end_dt
+  source_column_name: SRC.week_end_dt
   target_column_name: week_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.day_of_year_num
+  source_column_name: SRC.day_of_year_num
   target_column_name: day_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.day_of_period_num
+  source_column_name: SRC.day_of_period_num
   target_column_name: day_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.day_of_week_num
+  source_column_name: SRC.day_of_week_num
   target_column_name: day_of_week_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.week_of_year_num
+  source_column_name: SRC.week_of_year_num
   target_column_name: week_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.week_of_period_num
+  source_column_name: SRC.week_of_period_num
   target_column_name: week_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.period_of_year_num
+  source_column_name: SRC.period_of_year_num
   target_column_name: period_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.year_week
+  source_column_name: SRC.year_week
   target_column_name: year_week
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.year_period
+  source_column_name: SRC.year_period
   target_column_name: year_period
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.year_num
+  source_column_name: SRC.year_num
   target_column_name: year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_calendar_dt
+  source_column_name: SRC.ly_calendar_dt
   target_column_name: ly_calendar_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_year_start_dt
+  source_column_name: SRC.ly_year_start_dt
   target_column_name: ly_year_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_year_end_dt
+  source_column_name: SRC.ly_year_end_dt
   target_column_name: ly_year_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_period_start_dt
+  source_column_name: SRC.ly_period_start_dt
   target_column_name: ly_period_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_period_end_dt
+  source_column_name: SRC.ly_period_end_dt
   target_column_name: ly_period_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_week_start_dt
+  source_column_name: SRC.ly_week_start_dt
   target_column_name: ly_week_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_week_end_dt
+  source_column_name: SRC.ly_week_end_dt
   target_column_name: ly_week_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_day_of_year_num
+  source_column_name: SRC.ly_day_of_year_num
   target_column_name: ly_day_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_day_of_period_num
+  source_column_name: SRC.ly_day_of_period_num
   target_column_name: ly_day_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_day_of_week_num
+  source_column_name: SRC.ly_day_of_week_num
   target_column_name: ly_day_of_week_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_week_of_year_num
+  source_column_name: SRC.ly_week_of_year_num
   target_column_name: ly_week_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_week_of_period_num
+  source_column_name: SRC.ly_week_of_period_num
   target_column_name: ly_week_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_period_of_year_num
+  source_column_name: SRC.ly_period_of_year_num
   target_column_name: ly_period_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_year_week
+  source_column_name: SRC.ly_year_week
   target_column_name: ly_year_week
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_year_period
+  source_column_name: SRC.ly_year_period
   target_column_name: ly_year_period
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ly_year_num
+  source_column_name: SRC.ly_year_num
   target_column_name: ly_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_calendar_dt
+  source_column_name: SRC.lly_calendar_dt
   target_column_name: lly_calendar_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_year_start_dt
+  source_column_name: SRC.lly_year_start_dt
   target_column_name: lly_year_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_year_end_dt
+  source_column_name: SRC.lly_year_end_dt
   target_column_name: lly_year_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_period_start_dt
+  source_column_name: SRC.lly_period_start_dt
   target_column_name: lly_period_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_period_end_dt
+  source_column_name: SRC.lly_period_end_dt
   target_column_name: lly_period_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_week_start_dt
+  source_column_name: SRC.lly_week_start_dt
   target_column_name: lly_week_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_week_end_dt
+  source_column_name: SRC.lly_week_end_dt
   target_column_name: lly_week_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_day_of_year_num
+  source_column_name: SRC.lly_day_of_year_num
   target_column_name: lly_day_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_day_of_period_num
+  source_column_name: SRC.lly_day_of_period_num
   target_column_name: lly_day_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_day_of_week_num
+  source_column_name: SRC.lly_day_of_week_num
   target_column_name: lly_day_of_week_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_week_of_year_num
+  source_column_name: SRC.lly_week_of_year_num
   target_column_name: lly_week_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_week_of_period_num
+  source_column_name: SRC.lly_week_of_period_num
   target_column_name: lly_week_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_period_of_year_num
+  source_column_name: SRC.lly_period_of_year_num
   target_column_name: lly_period_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_year_week
+  source_column_name: SRC.lly_year_week
   target_column_name: lly_year_week
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_year_period
+  source_column_name: SRC.lly_year_period
   target_column_name: lly_year_period
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.lly_year_num
+  source_column_name: SRC.lly_year_num
   target_column_name: lly_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_calendar_dt
+  source_column_name: SRC.llly_calendar_dt
   target_column_name: llly_calendar_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_year_start_dt
+  source_column_name: SRC.llly_year_start_dt
   target_column_name: llly_year_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_year_end_dt
+  source_column_name: SRC.llly_year_end_dt
   target_column_name: llly_year_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_period_start_dt
+  source_column_name: SRC.llly_period_start_dt
   target_column_name: llly_period_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_period_end_dt
+  source_column_name: SRC.llly_period_end_dt
   target_column_name: llly_period_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_week_start_dt
+  source_column_name: SRC.llly_week_start_dt
   target_column_name: llly_week_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_week_end_dt
+  source_column_name: SRC.llly_week_end_dt
   target_column_name: llly_week_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_day_of_year_num
+  source_column_name: SRC.llly_day_of_year_num
   target_column_name: llly_day_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_day_of_period_num
+  source_column_name: SRC.llly_day_of_period_num
   target_column_name: llly_day_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_day_of_week_num
+  source_column_name: SRC.llly_day_of_week_num
   target_column_name: llly_day_of_week_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_week_of_year_num
+  source_column_name: SRC.llly_week_of_year_num
   target_column_name: llly_week_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_week_of_period_num
+  source_column_name: SRC.llly_week_of_period_num
   target_column_name: llly_week_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_period_of_year_num
+  source_column_name: SRC.llly_period_of_year_num
   target_column_name: llly_period_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_year_week
+  source_column_name: SRC.llly_year_week
   target_column_name: llly_year_week
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_year_period
+  source_column_name: SRC.llly_year_period
   target_column_name: llly_year_period
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.llly_year_num
+  source_column_name: SRC.llly_year_num
   target_column_name: llly_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_calendar_dt
+  source_column_name: SRC.ny_calendar_dt
   target_column_name: ny_calendar_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_year_start_dt
+  source_column_name: SRC.ny_year_start_dt
   target_column_name: ny_year_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_year_end_dt
+  source_column_name: SRC.ny_year_end_dt
   target_column_name: ny_year_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_period_start_dt
+  source_column_name: SRC.ny_period_start_dt
   target_column_name: ny_period_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_period_end_dt
+  source_column_name: SRC.ny_period_end_dt
   target_column_name: ny_period_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_week_start_dt
+  source_column_name: SRC.ny_week_start_dt
   target_column_name: ny_week_start_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_week_end_dt
+  source_column_name: SRC.ny_week_end_dt
   target_column_name: ny_week_end_dt
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_day_of_year_num
+  source_column_name: SRC.ny_day_of_year_num
   target_column_name: ny_day_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_day_of_period_num
+  source_column_name: SRC.ny_day_of_period_num
   target_column_name: ny_day_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_day_of_week_num
+  source_column_name: SRC.ny_day_of_week_num
   target_column_name: ny_day_of_week_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_week_of_year_num
+  source_column_name: SRC.ny_week_of_year_num
   target_column_name: ny_week_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_week_of_period_num
+  source_column_name: SRC.ny_week_of_period_num
   target_column_name: ny_week_of_period_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_period_of_year_num
+  source_column_name: SRC.ny_period_of_year_num
   target_column_name: ny_period_of_year_num
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_year_week
+  source_column_name: SRC.ny_year_week
   target_column_name: ny_year_week
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_year_period
+  source_column_name: SRC.ny_year_period
   target_column_name: ny_year_period
 - column_order: nan
   mapping_notes: One to One Column Mapping
-  source_column_name: STG.ny_year_num
+  source_column_name: SRC.ny_year_num
   target_column_name: ny_year_num
 - column_order: CTE
-  mapping_notes: nan
-  source_column_name: T_TMP_ACC_FND.DW_FND_DATE_DIM
-  target_column_name: STG
+  mapping_notes: WHERE CUR_FLG='Y' -- CURRENT ROWS only
+  source_column_name: DW${INSTANCE}A_TMP_ACC_FND.DW_FND_DATE_DIM
+  target_column_name: SRC
 mapping_sheet_name: MAPPING
-pattern: Staging
+pattern: SNAPSHOT
 primary_key:
 - calendar_dt
 steps:
 - description: .nan
   file_name: .nan
-  job_name: FND1012
+  job_name: FND1013
   notes: .nan
   source_database: .nan
   source_table: .nan
@@ -343,37 +343,38 @@ steps:
   target_table: .nan
 - description: Maps source table to target with 121 Mapping
   file_name: FND1013.190.TRANS.sql
-  job_name: FND1012
+  job_name: FND1013
   notes: See mapping
-  source_database: See mapping
-  source_table: .nan
-  step_pattern: STANDARD_TRANS
+  source_database: T_ACC_FND
+  source_table: DM_FND_STORE_HIER_DIM
+  step_pattern: STANSARD_TRANS
   steps: 190
   target_database: T_TMP_ACC_FND
   target_table: FND1013_TRANS
-- description: Uses standard update looking for changes between trans and target table
+- description: Uses standard snapshot/full apply looking for changes between trans
+    and target table
   file_name: FND1013.200.VALID.sql
-  job_name: FND1012
+  job_name: FND1013
   notes: .nan
   source_database: T_TMP_ACC_FND
   source_table: FND1013_TRANS
-  step_pattern: UPDATE_VALID
+  step_pattern: SNAPSHOT_VALID
   steps: 200
   target_database: T_TMP_ACC_FND
   target_table: FND1013_VALID
-- description: Used standard update
+- description: 'Used standard snapshot/full apply '
   file_name: FND1013.300.TARGET.sql
-  job_name: FND1012
+  job_name: FND1013
   notes: .nan
   source_database: T_TMP_ACC_FND
   source_table: FND1013_VALID
-  step_pattern: UPDATE_TARGET
+  step_pattern: SNAPSHOT_TARGET
   steps: 300
   target_database: T_ACC_FND(via view)
-  target_table: DM_FND_STORE_HIER_DIM
+  target_table: DM_FND_STORE_HIER_HIST_DIM
 - description: .nan
   file_name: .nan
-  job_name: FND1012
+  job_name: FND1013
   notes: .nan
   source_database: .nan
   source_table: .nan
@@ -381,7 +382,7 @@ steps:
   steps: End
   target_database: .nan
   target_table: .nan
-target_database_name: T_TMP_ACC_FND
-target_table_name: DW_FND_DATE_DIM
+target_database_name: T_ACC_FND
+target_table_name: DW_FND_DATE_DIM_HIST
 transformation_key:
 - calendar_dt

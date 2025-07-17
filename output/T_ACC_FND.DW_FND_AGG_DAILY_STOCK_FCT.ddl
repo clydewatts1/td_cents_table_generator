@@ -66,9 +66,6 @@ CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT
     trasfer_ship_units INTEGER NOT NULL ,
     trasfer_ship_retail_amount DECIMAL(18,10) NOT NULL ,
     trasfer_ship_cost_amount DECIMAL(18,10) NOT NULL ,
-    ord_intake_units INTEGER NOT NULL ,
-    ord_intake_retail_amount DECIMAL(18,10) NOT NULL ,
-    ord_intake_cost_amount DECIMAL(18,10) NOT NULL ,
     stock_cnt_adj_units INTEGER NOT NULL ,
     stock_cnt_adj_retail_value DECIMAL(18,10) NOT NULL ,
     soh_age_in_weeks SMALLINT NOT NULL ,
@@ -89,29 +86,8 @@ CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT
     tsf_intake_qty INTEGER NOT NULL ,
     tsf_intake_retail_amount DECIMAL(18,10) NOT NULL ,
     tsf_intake_cost_amount DECIMAL(18,10) NOT NULL ,
-    sales_value DECIMAL(18,10) NOT NULL ,
-    sales_units INTEGER NOT NULL ,
-    return_value DECIMAL(18,10) NOT NULL ,
-    return_units INTEGER NOT NULL ,
-    exchange_value DECIMAL(18,10) NOT NULL ,
-    exchange_units INTEGER NOT NULL ,
-    promotion_sales_value DECIMAL(18,10) NOT NULL ,
-    promotion_sales_units INTEGER NOT NULL ,
-    clearance_sales_value DECIMAL(18,10) NOT NULL ,
-    clearance_sales_units INTEGER NOT NULL ,
-    regular_sales_value DECIMAL(18,10) NOT NULL ,
-    regular_sales_units INTEGER NOT NULL ,
-    lcp_intake DECIMAL(18,10) NOT NULL ,
-    lcp_gross DECIMAL(18,10) NOT NULL ,
     ras_stock_value DECIMAL(18,10) NOT NULL ,
     stock_unit_av_cost_amount INTEGER NOT NULL ,
-    regular_unit_retail_amt INTEGER NOT NULL ,
-    promotion_return_value DECIMAL(18,10) NOT NULL ,
-    promotion_return_units INTEGER NOT NULL ,
-    clearance_return_value DECIMAL(18,10) NOT NULL ,
-    clearance_return_units INTEGER NOT NULL ,
-    regular_return_value DECIMAL(18,10) NOT NULL ,
-    regular_return_units INTEGER NOT NULL ,
     wkly_flg CHAR(1) NOT NULL ,
     listing_flg CHAR(1) NOT NULL ,
     /* Control columns for auditing */
@@ -300,15 +276,6 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.trasfer_ship_retail
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.trasfer_ship_cost_amount AS 'This Column is used identify the Shipment cost amount for Transfer'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ord_intake_units AS 'Quantity of sellable units (pack components) received in the location for ordered item'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ord_intake_retail_amount AS 'intake supplier retail order from order'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ord_intake_cost_amount AS 'intake supplier cost order from order'
-;
-
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.stock_cnt_adj_units AS 'Contains the quantity the inventory was adjusted by. This is a store measure'
 ;
 
@@ -369,73 +336,10 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.tsf_intake_retail_a
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.tsf_intake_cost_amount AS 'This Column is used identify the Received cost amount for a transfer'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.sales_value AS 'Sales value*10000 (4 implied decimal places.), value of units sold in this prom type.'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.sales_units AS 'Number of net units of merchandise sold for a subclass/location for the day.'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.return_value AS 'Total Retail Value of the Items Returned'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.return_units AS 'Total Retail Units of the Items Returned'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.exchange_value AS 'Total Retail Value of the Items Exchange'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.exchange_units AS 'Total Retail Units of the Items Exchange'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_sales_value AS 'Sales value of items on promotion'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_sales_units AS 'This Column is used identify the Units sold in promotion'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_sales_value AS 'Sales Clearance Value including only like for like stores.'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_sales_units AS 'Sales Clearance Units including only like for like stores.'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_sales_value AS 'SALES VALUE where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance. This amount is inclusive of VAT and net of returns.This shouldnot include Gift Cards'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_sales_units AS 'SALES UNITS where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance.'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_intake AS 'This Column is used identify the LCP intake Value'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_gross AS 'This Column is used identify the LCP Gross Value'
-;
-
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ras_stock_value AS 'Value of RAS stock to measure impact of price reduction on gross and net margins'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.stock_unit_av_cost_amount AS 'This Column is used identify the Average cost amount of stock unit'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_unit_retail_amt AS 'Unit Retail amount for regular price'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_return_value AS 'Sales value of items returned which where sold in the promotion'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.promotion_return_units AS 'Units of items returned which where sold in the promotion'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_return_value AS 'Sales value of items returned which where sold in the clearance'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.clearance_return_units AS 'Units of items returned which where sold in the Clearance'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_return_value AS 'Sales value of items returned which where sold in the Regular price'
-;
-
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.regular_return_units AS 'Units of items returned which where sold in the Regular price'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.wkly_flg AS 'Flag to identify the Data is at weekly level or daily level (Y- Yes, N-No)'

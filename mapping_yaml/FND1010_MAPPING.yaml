@@ -2,369 +2,551 @@ control_columns: .nan
 job_name_from_file: FND1010
 job_name_from_mapping: FND1010
 mapping_columns:
-- column_order: nan
-  mapping_notes: nan
+- column_action: Key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 92
   source_column_name: ' TYCD.GREG_DT AS calendar_dt'
   target_column_name: calendar_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 91
   source_column_name: TYYR.PMK_YR_STRT_DT AS year_start_dt
   target_column_name: year_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 90
   source_column_name: TYYR.PMK_YR_END_DT AS year_end_dt
   target_column_name: year_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 89
   source_column_name: TYPD.PMK_PRD_STRT_DT AS period_start_dt
   target_column_name: period_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 88
   source_column_name: TYPD.PMK_PRD_END_DT AS period_end_dt
   target_column_name: period_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 87
   source_column_name: TYWK.PMK_WK_STRT_DT AS week_start_dt
   target_column_name: week_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 86
   source_column_name: TYWK.PMK_WK_END_DT AS week_end_dt
   target_column_name: week_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 85
   source_column_name: TYCD.DY_OF_YR_NUM AS day_of_year_num
   target_column_name: day_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 84
   source_column_name: TYCD.DOM_NUM AS day_of_period_num
   target_column_name: day_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 83
   source_column_name: TYCD.DY_OF_WK_NUM AS day_of_week_num
   target_column_name: day_of_week_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 82
   source_column_name: TYWK.PMK_WK_OF_YR_NUM AS week_of_year_num
   target_column_name: week_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 81
   source_column_name: TYWK.PMK_WK_OF_PRD_NUM AS week_of_period_num
   target_column_name: week_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 80
   source_column_name: TYPD.PMK_PRD_OF_YR_NUM AS period_of_year_num
   target_column_name: period_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 79
   source_column_name: TYWK.CSTM_CAL_WK_ID  AS year_week
   target_column_name: year_week
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 78
   source_column_name: TYPD.CSTM_CAL_MTH_ID AS year_period
   target_column_name: year_period
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 77
   source_column_name: TYYR.CSTM_CAL_YR_ID AS year_num
   target_column_name: year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 76
   source_column_name: SSN.season_code
   target_column_name: season_code
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 75
   source_column_name: SSN.season_name
   target_column_name: season_name
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 74
   source_column_name: SSN.season_description
   target_column_name: season_description
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 73
   source_column_name: SSN.season_map
   target_column_name: season_map
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 72
   source_column_name: SSN.season_wid
   target_column_name: season_wid
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 71
   source_column_name: LYCD.GREG_DT AS ly_calendar_dt
   target_column_name: ly_calendar_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 23
+  column_sequence_reverse: 70
   source_column_name: LYYR.PMK_YR_STRT_DT AS LY_Year_Start_Dt
   target_column_name: ly_year_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 24
+  column_sequence_reverse: 69
   source_column_name: LYYR.PMK_YR_END_DT AS LY_Year_End_Dt
   target_column_name: ly_year_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 25
+  column_sequence_reverse: 68
   source_column_name: LYPD.PMK_PRD_STRT_DT AS LY_Period_Start_Dt
   target_column_name: ly_period_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 26
+  column_sequence_reverse: 67
   source_column_name: LYPD.PMK_PRD_END_DT AS LY_Period_End_Dt
   target_column_name: ly_period_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 27
+  column_sequence_reverse: 66
   source_column_name: LYWK.PMK_WK_STRT_DT AS LY_Week_Start_Dt
   target_column_name: ly_week_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 28
+  column_sequence_reverse: 65
   source_column_name: LYWK.PMK_WK_END_DT AS LY_Week_End_Dt
   target_column_name: ly_week_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 29
+  column_sequence_reverse: 64
   source_column_name: LYCD.DY_OF_YR_NUM AS LY_Day_of_Year_Num
   target_column_name: ly_day_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 30
+  column_sequence_reverse: 63
   source_column_name: LYCD.DOM_NUM AS LY_Day_of_Period_Num
   target_column_name: ly_day_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 31
+  column_sequence_reverse: 62
   source_column_name: LYCD.DY_OF_WK_NUM AS LY_Day_of_Week_Num
   target_column_name: ly_day_of_week_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 32
+  column_sequence_reverse: 61
   source_column_name: LYWK.PMK_WK_OF_YR_NUM AS LY_Week_of_Year_Num
   target_column_name: ly_week_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 33
+  column_sequence_reverse: 60
   source_column_name: LYWK.PMK_WK_OF_PRD_NUM AS LY_Week_of_Period_Num
   target_column_name: ly_week_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 34
+  column_sequence_reverse: 59
   source_column_name: LYPD.PMK_PRD_OF_YR_NUM AS LY_Period_of_Year_Num
   target_column_name: ly_period_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 35
+  column_sequence_reverse: 58
   source_column_name: LYWK.CSTM_CAL_WK_ID  AS LY_Year_Week
   target_column_name: ly_year_week
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 36
+  column_sequence_reverse: 57
   source_column_name: LYPD.CSTM_CAL_MTH_ID AS LY_Year_Period
   target_column_name: ly_year_period
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 37
+  column_sequence_reverse: 56
   source_column_name: LYYR.CSTM_CAL_YR_ID AS LY_Year_Num
   target_column_name: ly_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 38
+  column_sequence_reverse: 55
   source_column_name: LLYCD.GREG_DT AS LLY_Calendar_Dt
   target_column_name: lly_calendar_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 39
+  column_sequence_reverse: 54
   source_column_name: LLYYR.PMK_YR_STRT_DT AS LLY_Year_Start_Dt
   target_column_name: lly_year_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 40
+  column_sequence_reverse: 53
   source_column_name: LLYYR.PMK_YR_END_DT AS LLY_Year_End_Dt
   target_column_name: lly_year_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 41
+  column_sequence_reverse: 52
   source_column_name: LLYPD.PMK_PRD_STRT_DT AS LLY_Period_Start_Dt
   target_column_name: lly_period_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 42
+  column_sequence_reverse: 51
   source_column_name: LLYPD.PMK_PRD_END_DT AS LLY_Period_End_Dt
   target_column_name: lly_period_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 43
+  column_sequence_reverse: 50
   source_column_name: LLYWK.PMK_WK_STRT_DT AS LLY_Week_Start_Dt
   target_column_name: lly_week_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 44
+  column_sequence_reverse: 49
   source_column_name: LLYWK.PMK_WK_END_DT AS LLY_Week_End_Dt
   target_column_name: lly_week_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 45
+  column_sequence_reverse: 48
   source_column_name: LLYCD.DY_OF_YR_NUM AS LLY_Day_of_Year_Num
   target_column_name: lly_day_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 47
   source_column_name: LLYCD.DOM_NUM AS LLY_Day_of_Period_Num
   target_column_name: lly_day_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 47
+  column_sequence_reverse: 46
   source_column_name: LLYCD.DY_OF_WK_NUM AS LLY_Day_of_Week_Num
   target_column_name: lly_day_of_week_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 45
   source_column_name: LLYWK.PMK_WK_OF_YR_NUM AS LLY_Week_of_Year_Num
   target_column_name: lly_week_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 44
   source_column_name: LLYWK.PMK_WK_OF_PRD_NUM AS LLY_Week_of_Period_Num
   target_column_name: lly_week_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 43
   source_column_name: LLYPD.PMK_PRD_OF_YR_NUM AS LLY_Period_of_Year_Num
   target_column_name: lly_period_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 42
   source_column_name: LLYWK.CSTM_CAL_WK_ID  AS LLY_Year_Week
   target_column_name: lly_year_week
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 52
+  column_sequence_reverse: 41
   source_column_name: LLYPD.CSTM_CAL_MTH_ID AS LLY_Year_Period
   target_column_name: lly_year_period
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 53
+  column_sequence_reverse: 40
   source_column_name: LLYYR.CSTM_CAL_YR_ID AS LLY_Year_Num
   target_column_name: lly_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 54
+  column_sequence_reverse: 39
   source_column_name: '--- Last Last Last year'
   target_column_name: llly_calendar_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 55
+  column_sequence_reverse: 38
   source_column_name: LLLYCD.GREG_DT AS LLLY_Calendar_Dt
   target_column_name: llly_year_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 56
+  column_sequence_reverse: 37
   source_column_name: LLLYYR.PMK_YR_STRT_DT AS LLLY_Year_Start_Dt
   target_column_name: llly_year_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 57
+  column_sequence_reverse: 36
   source_column_name: LLLYYR.PMK_YR_END_DT AS LLLY_Year_End_Dt
   target_column_name: llly_period_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 58
+  column_sequence_reverse: 35
   source_column_name: LLLYPD.PMK_PRD_STRT_DT AS LLLY_Period_Start_Dt
   target_column_name: llly_period_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 59
+  column_sequence_reverse: 34
   source_column_name: LLLYPD.PMK_PRD_END_DT AS LLLY_Period_End_Dt
   target_column_name: llly_week_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 60
+  column_sequence_reverse: 33
   source_column_name: LLLYWK.PMK_WK_STRT_DT AS LLLY_Week_Start_Dt
   target_column_name: llly_week_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 61
+  column_sequence_reverse: 32
   source_column_name: LLLYWK.PMK_WK_END_DT AS LLLY_Week_End_Dt
   target_column_name: llly_day_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 62
+  column_sequence_reverse: 31
   source_column_name: LLLYCD.DY_OF_YR_NUM AS LLLY_Day_of_Year_Num
   target_column_name: llly_day_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 63
+  column_sequence_reverse: 30
   source_column_name: LLLYCD.DOM_NUM AS LLLY_Day_of_Period_Num
   target_column_name: llly_day_of_week_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 64
+  column_sequence_reverse: 29
   source_column_name: LLLYCD.DY_OF_WK_NUM AS LLLY_Day_of_Week_Num
   target_column_name: llly_week_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 65
+  column_sequence_reverse: 28
   source_column_name: LLLYWK.PMK_WK_OF_YR_NUM AS LLLY_Week_of_Year_Num
   target_column_name: llly_week_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 66
+  column_sequence_reverse: 27
   source_column_name: LLLYWK.PMK_WK_OF_PRD_NUM AS LLLY_Week_of_Period_Num
   target_column_name: llly_period_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 67
+  column_sequence_reverse: 26
   source_column_name: LLLYPD.PMK_PRD_OF_YR_NUM AS LLLY_Period_of_Year_Num
   target_column_name: llly_year_week
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 68
+  column_sequence_reverse: 25
   source_column_name: LLLYWK.CSTM_CAL_WK_ID  AS LLLY_Year_Week
   target_column_name: llly_year_period
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 69
+  column_sequence_reverse: 24
   source_column_name: LLLYPD.CSTM_CAL_MTH_ID AS LLLY_Year_Period
   target_column_name: llly_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 70
+  column_sequence_reverse: 23
   source_column_name: LLLYYR.CSTM_CAL_YR_ID AS LLLY_Year_Num
   target_column_name: ny_calendar_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 71
+  column_sequence_reverse: 22
   source_column_name: NYCD.GREG_DT AS NY_Calendar_Dt
   target_column_name: ny_year_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 72
+  column_sequence_reverse: 21
   source_column_name: NYYR.PMK_YR_STRT_DT AS NY_Year_Start_Dt
   target_column_name: ny_year_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 73
+  column_sequence_reverse: 20
   source_column_name: NYYR.PMK_YR_END_DT AS NY_Year_End_Dt
   target_column_name: ny_period_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 74
+  column_sequence_reverse: 19
   source_column_name: NYPD.PMK_PRD_STRT_DT AS NY_Period_Start_Dt
   target_column_name: ny_period_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 75
+  column_sequence_reverse: 18
   source_column_name: NYPD.PMK_PRD_END_DT AS NY_Period_End_Dt
   target_column_name: ny_week_start_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 76
+  column_sequence_reverse: 17
   source_column_name: NYWK.PMK_WK_STRT_DT AS NY_Week_Start_Dt
   target_column_name: ny_week_end_dt
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 77
+  column_sequence_reverse: 16
   source_column_name: NYWK.PMK_WK_END_DT AS NY_Week_End_Dt
   target_column_name: ny_day_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 78
+  column_sequence_reverse: 15
   source_column_name: NYCD.DY_OF_YR_NUM AS NY_Day_of_Year_Num
   target_column_name: ny_day_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 79
+  column_sequence_reverse: 14
   source_column_name: NYCD.DOM_NUM AS NY_Day_of_Period_Num
   target_column_name: ny_day_of_week_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 80
+  column_sequence_reverse: 13
   source_column_name: NYCD.DY_OF_WK_NUM AS NY_Day_of_Week_Num
   target_column_name: ny_week_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 81
+  column_sequence_reverse: 12
   source_column_name: NYWK.PMK_WK_OF_YR_NUM AS NY_Week_of_Year_Num
   target_column_name: ny_week_of_period_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 82
+  column_sequence_reverse: 11
   source_column_name: NYWK.PMK_WK_OF_PRD_NUM AS NY_Week_of_Period_Num
   target_column_name: ny_period_of_year_num
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 83
+  column_sequence_reverse: 10
   source_column_name: NYPD.PMK_PRD_OF_YR_NUM AS NY_Period_of_Year_Num
   target_column_name: ny_year_week
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 84
+  column_sequence_reverse: 9
   source_column_name: NYWK.CSTM_CAL_WK_ID  AS NY_Year_Week
   target_column_name: ny_year_period
-- column_order: nan
-  mapping_notes: nan
+- column_action: nan
+  column_order: nan
+  column_sequence: 85
+  column_sequence_reverse: 8
   source_column_name: NYPD.CSTM_CAL_MTH_ID AS NY_Year_Period
   target_column_name: ny_year_num
-- column_order: ALIAS/CTE
-  mapping_notes: nan
+- column_action: nan
+  column_order: ALIAS/CTE
+  column_sequence: 86
+  column_sequence_reverse: 7
   source_column_name: 'SELECT * FROM  DWP01A_IDW.CSTM_CAL_DY  WHERE CUR_FLG = ''Y'' '
   target_column_name: ' DY'
-- column_order: ALIAS/CTE
-  mapping_notes: nan
+- column_action: nan
+  column_order: ALIAS/CTE
+  column_sequence: 87
+  column_sequence_reverse: 6
   source_column_name: SELECT * FROM  DWP01A_IDW.CSTM_CAL_WK  WHERE CUR_FLG = 'Y'
   target_column_name: WK
-- column_order: ALIAS/CTE
-  mapping_notes: nan
+- column_action: nan
+  column_order: ALIAS/CTE
+  column_sequence: 88
+  column_sequence_reverse: 5
   source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_MTH_WK \_WHERE CUR_FLG\
     \ = 'Y' "
   target_column_name: MT
-- column_order: ALIAS/CTE
-  mapping_notes: nan
+- column_action: nan
+  column_order: ALIAS/CTE
+  column_sequence: 89
+  column_sequence_reverse: 4
   source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_MTH \_WHERE CUR_FLG = 'Y'"
   target_column_name: PD
-- column_order: ALIAS/CTE
-  mapping_notes: nan
+- column_action: nan
+  column_order: ALIAS/CTE
+  column_sequence: 90
+  column_sequence_reverse: 3
   source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_YR \_WHERE CUR_FLG = 'Y'"
   target_column_name: YR
-- column_order: ALIAS/CTE
-  mapping_notes: nan
+- column_action: nan
+  column_order: ALIAS/CTE
+  column_sequence: 91
+  column_sequence_reverse: 2
   source_column_name: "\t\tSELECT SSD.greg_dt AS calendar_dt\n      \t,SSD.sson_cd\
     \ AS season_code\n\t  \t,SSN.sson_name AS season_name\n\t  \t,SUBSTRING(season_name\
     \ FROM 3 for 4)||' '||DECODE(SUBSTRING(season_name FROM 1 for 2),'AW','Autumn\
@@ -374,9 +556,11 @@ mapping_columns:
     \ AS SSN\n\t\tON SSD.SSON_WID = SSN.SSON_WID\n\t\tAND SSD.cur_flg = 'Y'\n\t\t\
     AND SSN.cur_flg = 'Y'"
   target_column_name: SSN
-- column_order: JOINS
-  mapping_notes: 'This is the joins and alias.  The base table is specified as either
+- column_action: 'This is the joins and alias.  The base table is specified as either
     CTE or Sub query '
+  column_order: JOINS
+  column_sequence: 92
+  column_sequence_reverse: 1
   source_column_name: "FROM DY AS TYCD\nLEFT OUTER JOIN DY AS LYCD\nON TYCD.PMK_PRIOR_CAL_DY_WID\
     \ = LYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS LLYCD\nON LYCD.PMK_PRIOR_CAL_DY_WID\
     \ = LLYCD.CSTM_CAL_DY_WID\nLEFT OUTER JOIN DY AS LLLYCD\nON LLYCD.PMK_PRIOR_CAL_DY_WID\
@@ -437,6 +621,8 @@ steps:
   file_name: .nan
   job_name: FND1010
   notes: .nan
+  reverse_sequence_no: 3
+  sequence_no: 1
   source_database: .nan
   source_table: .nan
   step_pattern: STANDARD_START
@@ -447,6 +633,8 @@ steps:
   file_name: FND1010.300.TARGET.sql
   job_name: FND1010
   notes: .nan
+  reverse_sequence_no: 2
+  sequence_no: 2
   source_database: See Mapping
   source_table: .nan
   step_pattern: STANDARD_DELETE_INSERT
@@ -457,9 +645,11 @@ steps:
   file_name: .nan
   job_name: FND1010
   notes: .nan
+  reverse_sequence_no: 1
+  sequence_no: 3
   source_database: .nan
   source_table: .nan
-  step_pattern: STANDART_END
+  step_pattern: STANDARD_END
   steps: End
   target_database: .nan
   target_table: .nan

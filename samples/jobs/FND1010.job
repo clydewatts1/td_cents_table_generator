@@ -133,43 +133,7 @@ tjc_stepout -l|grep ^\!|cut -d\! -f2 >${JOB_PARAM_WORKFILE}
 
 # Overwrite parameters with command line
 export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
-#-------------------------------------------------------------------------------
-# Step 190 : Maps source table to target with 121 Mapping
-#-------------------------------------------------------------------------------
-
-step 190 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v MET_V="${MET_V}" \
-              -v STEP_NO="190" \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v TMP_T="${TMP_T:?}" \
-              -v RUN_ID="${RUN_ID:?}" \
-              -v RUNDATE="${RUNDATE:?}" \
-              -v RUNDTOFF="${RUNDTOFF:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND1013.190.TRANS.sql
-#------------------------------------------------------------------------------------
-# Step 200 : Uses standard update looking for changes between trans and target table
-#------------------------------------------------------------------------------------
-
-step 200 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v MET_V="${MET_V}" \
-              -v STEP_NO="200" \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v TMP_T="${TMP_T:?}" \
-              -v RUN_ID="${RUN_ID:?}"\
-              -v RUNDATE="${RUNDATE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND1013.200.VALID.sql
-#------------------------------------------------------------------------------------
-# Step 300 : Used standard update
-#------------------------------------------------------------------------------------
-
-step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v MET_V="${MET_V}" \
-              -v STEP_NO="300" \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v TMP_T="${TMP_T:?}" \
-              -v RUN_ID="${RUN_ID:?}"\
-              -v RUNDATE="${RUNDATE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND1013.300.TARGET.sql
+   
 #------------------------------------------------------------------------------------
 # Step 900 : Load Stop
 #------------------------------------------------------------------------------------

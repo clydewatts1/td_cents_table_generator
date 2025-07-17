@@ -6,6 +6,7 @@ import openpyxl
 import yaml
 import logging
 import pprint
+import jinja2
 
 def read_excel_to_dataframe_mapping(filename, config_dict):
     """Read the 'MAPPING' sheet from an Excel file into a pandas DataFrame.
@@ -59,6 +60,7 @@ def read_excel_to_dataframe_mapping(filename, config_dict):
             str(e),
         )
         return -1, str(e), df_mapping  
+
 
 
 
@@ -135,6 +137,12 @@ def read_excel_to_dataframe_steps(filename, config_dict):
         "After dropping empty rows, df_steps shape: %s",
         str(df_steps.shape),
     )
+
+    # add sequence_no column which is is the sequence of steps starting from 1
+    df_steps['sequence_no'] = range(1, len(df_steps) + 1)
+    # now add the reverse sequence_no column
+    df_steps['reverse_sequence_no'] = df_steps['sequence_no'].max() - df_steps['sequence_no'] + 1
+
     return 0, "Read successful.", df_steps
 
 
@@ -471,9 +479,33 @@ def convert_excel_to_yaml(filename, config_dict):
     # convert NaN values to empty strings
     df_mapping_detail = df_mapping_detail.fillna('')
     # convert to list of dictionaries
+
+    # if column column_action is missing then add it
+    if 'column_action' not in df_mapping_detail.columns:
+        logging.warning(
+            "Column 'column_action' is missing in the mapping detail. "
+            "Adding it with default value ''."
+        )
+        df_mapping_detail['column_action'] = ''
+    # convert to column column_action to values to lower case
+    df_mapping_detail['column_action'] = df_mapping_detail['column_action'].str.lower()
+    # set nan values in columns to empty string
+    df_mapping_detail = df_mapping_detail.fillna('')
+    # add column sequence to the mapping detail and populate with column_sequence starting from 1
+    if 'column_sequence' not in df_mapping_detail.columns:
+        logging.warning(
+            "Column 'column_sequence' is missing in the mapping detail. "
+            "Adding it with default value ''."
+        )
+        df_mapping_detail['column_sequence'] = ''
+    # set column_sequence to the index + 1
+    df_mapping_detail['column_sequence'] = df_mapping_detail.index + 1
+    # now create a reverse order sequence for column_sequence_reverse
+    df_mapping_detail['column_sequence_reverse'] = df_mapping_detail['column_sequence'].max() - df_mapping_detail['column_sequence'] + 1
+
     data_mapping_detail = df_mapping_detail.to_dict(orient='records')
     print(f"Mapping Detail: \n{df_mapping_detail.head(4)}")
-
+    
 
         
     # Convert Transformation Key to a list
@@ -525,11 +557,11 @@ def build_job(filename, config_dict):
     # this is a place holder to build a job
     logging.info("Starting to process file: %s", filename)
     # get job directory from config
-    config_local = config 
+    config_local = config_dict 
     if config_dict is None:
         logging.error("Configuration dictionary is None. Cannot proceed with processing the file.")
         return -1, "Configuration dictionary is None."
-    if 'config' in config_dict:
+    if 'config' in config_local:
         config_local = config_dict['config']
     else:
         config_local = config_dict
@@ -597,10 +629,110 @@ def build_job(filename, config_dict):
     # create a job file name
     job_file_name = f"{job_dict['job_name']}.job"
     job_file_path = os.path.join(job_path, job_file_name)
+    # A job consists of multiple templates used in sequence
+    # 1. Job header template 
+    # 2. Job steps template - each step has a template
+    # 3. Job footer template
+    # Load the Jinja2 templates
+    template_dir = config_local.get('template_directory', 'templates')
+    if not os.path.isdir(template_dir):
+        logging.error(
+            "Template directory %s does not exist. Please check your configuration.",
+            template_dir,
+        )
+        return -1, "Template directory does not exist."
+    # Load the Jinja2 environment
+    try:
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir))
+    except jinja2.exceptions.TemplateNotFound as e:
+        logging.error(
+            "Error loading Jinja2 templates from %s: %s",
+            template_dir,
+            str(e),
+        )
+        return -1, str(e)
+    # Load the job header template
+    try:
+        job_header_template = env.get_template('job_header.j2')
+    except jinja2.exceptions.TemplateNotFound as e:
+        logging.error(
+            "Job header template not found in %s: %s",
+            template_dir,
+            str(e),
+        )
+        return -1, str(e)
+    # Job header template rendering
+    try:
+        job_header_rendered = job_header_template.render(yaml_dict,job_dict=job_dict,config=config_local)
+    except jinja2.exceptions.TemplateError as e:
+        logging.error(
+            "Error rendering job header template: %s",
+            str(e),
+        )
+        return -1, str(e)
+    
+
+    steps_rendered = []
+
+    # Load the job steps template:$
+    for step in yaml_dict.get('steps', []):
+        step_pattern = step.get('step_pattern', 'default_step.j2')
+        if not step_pattern.endswith('.j2'):
+            step_pattern += '.j2'
+        step_template_name = 'JOB_' + step_pattern
+        try:
+            step_template = env.get_template(step_template_name)
+        except jinja2.exceptions.TemplateNotFound as e:
+            logging.error(
+                "Step template %s not found in %s: %s",
+                step_template_name,
+                template_dir,
+                str(e),
+            )
+            return -1, str(e)
+        # Render the step template
+        try:
+            step_rendered = step_template.render(step=step, mapping=yaml_dict, job_dict=job_dict, config=config_local)
+            # Append the rendered step to the job header
+            job_header_rendered += step_rendered
+        except jinja2.exceptions.TemplateError as e:
+            logging.error(
+                "Error rendering step template %s: %s",
+                step_template_name,
+                str(e),
+            )
+            return -1, str(e)
+    # Load the job footer template
+    try:
+        job_footer_template = env.get_template('job_footer.j2')
+    except jinja2.exceptions.TemplateNotFound as e:
+        logging.error(
+            "Job footer template not found in %s: %s",
+            template_dir,
+            str(e),
+        )
+        return -1, str(e)
+    # Job footer template rendering
+    try:
+        job_footer_rendered = job_footer_template.render(yaml_dict, job_dict=job_dict
+, config=config_local)
+    except jinja2.exceptions.TemplateError as e:
+        logging.error(
+            "Error rendering job footer template: %s",
+            str(e),
+        )
+        return -1, str(e)
     # temporary write job file
     try:
         with open(job_file_path, 'w', encoding='utf-8') as job_file:
-            yaml.dump(job_dict, job_file, default_flow_style=False)
+            # Write the job header
+            job_file.write(job_header_rendered)
+            # Write the job steps
+            for step in steps_rendered:
+                job_file.write(step)
+            # Write the job footer
+            job_file.write(job_footer_rendered)
+
         logging.info("Created job file %s successfully.", job_file_path)
     except (OSError, yaml.YAMLError) as e:
         logging.error(
@@ -609,7 +741,39 @@ def build_job(filename, config_dict):
             str(e),
         )
         return -1, str(e)
+    # Now build the steps in the job file
+    # This is a placeholder for building the job steps
+    for step in yaml_dict.get('steps', []):
+        step_name = step.get('step_name', 'default_step')
+        step_pattern = step.get('step_pattern', 'default_step.j2')
+        if step_pattern == 'STANDARD_END':
+            logging.info("Skipping step: %s (STANDARD_END)", step_name)
+            continue
+        if step_pattern == 'STANDARD_END':
+            logging.info("Skipping step: %s (STANDARD_END)", step_name)  
+            continue
+        # step template file name
+        if not step_pattern.endswith('.j2'):
+            step_pattern += '.j2'
+        step_template_name = 'STEP_' + step_pattern
+        try:
+            step_template = env.get_template(step_template_name)
+            # Render the step template
+            step_rendered = step_template.render(step=step, mapping=yaml_dict, job_dict=job_dict, config=config_local)
+        except jinja2.exceptions.TemplateNotFound as e:
+            logging.error(
+                "Step template %s not found in %s: %s",
+                step_template_name,
+                template_dir,
+                str(e),
+            )
+            return -1, str(e)
 
+        print("Processing step: %s with pattern: %s", step_name, step_pattern   )
+        logging.info("Processing step: %s", step_name)
+        # Here you would implement the logic to build each step
+        # For now, we just log the step details
+        logging.info("Step details: %s", pprint.pformat(step))
     logging.info("Successfully processed %s", filename)
     return 0, "Successfully processed."
 
@@ -672,8 +836,18 @@ if __name__ == "__main__":
 
     #    except Exception as e:
     #        logger.error("Error processing file %s: %s", mapping_file, e)
-    convert_excel_to_yaml("FND1012_MAPPING.xlsx", config)
-    build_job("FND1012_MAPPING.xlsx", config)
+    job_name = 'FND1010'  # Example job name
+    logger.info("Starting conversion and job building for %s", job_name)
+    excel_name = f"{job_name}_MAPPING.xlsx"
+    ret_code, ret_text = convert_excel_to_yaml(excel_name, config)
+    if ret_code != 0:
+        logger.error("Failed to convert Excel to YAML: %s", ret_text)
+        exit(1)
+    ret_code, ret_text = build_job(excel_name, config)
+    if ret_code != 0:
+        logger.error("Failed to build job: %s", ret_text)
+        exit(1)
+    print(f"Conversion and job {job_name} building completed successfully.")
 
 
 

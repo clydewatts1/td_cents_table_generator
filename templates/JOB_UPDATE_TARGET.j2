@@ -1,0 +1,12 @@
+#------------------------------------------------------------------------------------
+# Step {{step.steps}} : {{step.description}}
+#------------------------------------------------------------------------------------
+
+step {{step.steps}} Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
+              -v MET_V="${MET_V}" \
+              -v STEP_NO="{{step.steps}}" \
+              -v INSTANCE="${INSTANCE:?}" \
+              -v TMP_T="${TMP_T:?}" \
+              -v RUN_ID="${RUN_ID:?}"\
+              -v RUNDATE="${RUNDATE:?}" \
+              -v JOB=${JOB:?} ${STEP_DIR:?}/{{step.file_name}}

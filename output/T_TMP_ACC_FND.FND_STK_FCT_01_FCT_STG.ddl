@@ -13,6 +13,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
     business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
     location_id INTEGER NOT NULL FORMAT '99999',
     item_id BIGINT NOT NULL ,
+    fct_src_map BYTEINT NOT NULL ,
     location_soh_units INTEGER  ,
     depot_soh_units INTEGER  ,
     location_pack_units INTEGER  ,
@@ -62,6 +63,15 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
     other_adjustment_units INTEGER  ,
     other_adjustment_amount DECIMAL(18,10)  ,
     stock_cnt_adj_units INTEGER  ,
+    stock_cnt_adj_retail_value DECIMAL(18,10)  ,
+    listed_stock INTEGER  ,
+    listing_flg CHAR(1)  ,
+    nlp_stock_value DECIMAL(18,10)  ,
+    nlp_stock_units INTEGER  ,
+    ras_units INTEGER  ,
+    ras_stock_value DECIMAL(18,10)  ,
+    price_action_week INTEGER  ,
+    price_status VARCHAR(20)  ,
     /* Control columns for auditing */
     eff_from_dt DATE NOT NULL,
     eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
@@ -87,6 +97,9 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.location_id AS 'Loc
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.fct_src_map AS 'Bit Map of source of data used in pivot table ( 01 )'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.location_soh_units AS 'This Column is used identify the Primark Location stock on hand units'
@@ -234,6 +247,33 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.other_adjustment_am
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.stock_cnt_adj_units AS 'Contains the quantity the inventory was adjusted by. This is a store measure'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.stock_cnt_adj_retail_value AS 'TBD'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.listed_stock AS 'The number of units of listed stock based on listing_flag and location_stock on hand'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.listing_flg AS 'Indicates if the Markdown is Listed Y/N'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.nlp_stock_value AS 'NLP( next lowest price) On Hand Stock Value'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.nlp_stock_units AS 'NLP( next lowest price) On Hand Stock Units'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.ras_units AS 'RAS( Clearance) On Hand Stock Value'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.ras_stock_value AS 'RAS( next lowest price) On Hand Stock Units'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.price_action_week AS 'The Year Week the price was set'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.price_status AS 'The price status Regular,Clearance,Promotion'
 ;
 
 

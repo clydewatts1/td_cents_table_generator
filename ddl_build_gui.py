@@ -448,10 +448,13 @@ class MainWindow(QMainWindow):
                 self.convert_btn = QPushButton('Convert To YAML')
                 self.build_job_btn = QPushButton('Build Job')
                 self.cancel_btn = QPushButton('Cancel')
+                self.review_job_btn = QPushButton('Review Job')
+                self.update_review_job_btn_color()
                 btn_hbox.addWidget(self.validate_btn)
                 btn_hbox.addWidget(self.convert_btn)
                 btn_hbox.addWidget(self.build_job_btn)
                 btn_hbox.addWidget(self.cancel_btn)
+                btn_hbox.addWidget(self.review_job_btn)
                 btn_hbox.addStretch(1)
                 layout.addLayout(btn_hbox)
                 self.setLayout(layout)
@@ -459,6 +462,7 @@ class MainWindow(QMainWindow):
                 self.cancel_btn.clicked.connect(self.reject)
                 self.convert_btn.clicked.connect(self.convert_to_yaml)
                 self.build_job_btn.clicked.connect(self.build_job)
+                self.review_job_btn.clicked.connect(self.review_job)
 
             def build_job(self):
                 from excel_mapping_to_yaml import build_job
@@ -471,6 +475,7 @@ class MainWindow(QMainWindow):
                         QMessageBox.warning(self, 'Build Job', f'Error: {text}')
                 except Exception as e:
                     QMessageBox.critical(self, 'Build Job Error', str(e))
+                self.update_review_job_btn_color()
 
             def set_traffic_signal(self, color):
                 # color: 'red', 'green', 'blue'
@@ -497,6 +502,51 @@ class MainWindow(QMainWindow):
                 else:
                     self.yaml_exists_label.setText('(Does NOT exist)')
                     self.yaml_exists_label.setStyleSheet('color: red')
+
+            def update_review_job_btn_color(self):
+                job_dir = self.config['config'].get('job_path', 'job_path') if 'config' in self.config else 'job_path'
+                if not os.path.isdir(job_dir):
+                    QMessageBox.warning(self, 'Review Job', f'Job directory does not exist: {job_dir}')
+                    return
+                base_filename = os.path.splitext(os.path.basename(self.file_path))[0]
+                job_file_name = f"{base_filename}.job".replace('_MAPPING', '')  # Ensure no spaces in job file name
+                job_file_path = os.path.join(job_dir, job_file_name)
+                if os.path.exists(job_file_path):
+                    self.review_job_btn.setStyleSheet('background-color: green; color: white;')
+                else:
+                    self.review_job_btn.setStyleSheet('background-color: red; color: white;')
+
+            def review_job(self):
+                #job_dir = self.config.get('job_path', 'job_path') if 'job_path' in self.config else 'job_path'
+                job_dir = self.config['config'].get('job_path', 'job_path') if 'config' in self.config else 'job_path'
+                if not os.path.isdir(job_dir):
+                    QMessageBox.warning(self, 'Review Job', f'Job directory does not exist: {job_dir}')
+                    return
+                base_filename = os.path.splitext(os.path.basename(self.file_path))[0]
+                job_file_name = f"{base_filename}.job".replace('_MAPPING', '')  # Ensure no spaces in job file name
+                job_file_path = os.path.join(job_dir, job_file_name)
+                if not os.path.exists(job_file_path):
+                    QMessageBox.warning(self, 'Review Job', f'Job file does not exist: {job_file_path}')
+                    return
+                # Open job file for viewing
+                try:
+                    with open(job_file_path, 'r', encoding='utf-8') as f:
+                        job_content = f.read()
+                    view_dialog = QDialog(self)
+                    view_dialog.setWindowTitle(f'Review Job: {job_file_name}')
+                    view_dialog.resize(700, 500)
+                    vbox = QVBoxLayout()
+                    text_edit = QTextEdit()
+                    text_edit.setReadOnly(True)
+                    text_edit.setPlainText(job_content)
+                    vbox.addWidget(text_edit)
+                    close_btn = QPushButton('Close')
+                    close_btn.clicked.connect(view_dialog.accept)
+                    vbox.addWidget(close_btn)
+                    view_dialog.setLayout(vbox)
+                    view_dialog.exec_()
+                except Exception as e:
+                    QMessageBox.critical(self, 'Review Job Error', str(e))
 
             def validate_file(self):
                 # Call validate_mapping_sheet from excel_mapping_to_yaml
@@ -526,6 +576,7 @@ class MainWindow(QMainWindow):
                         QMessageBox.information(self, 'YAML Conversion', f'YAML conversion complete.\n{result}')
                         # Update YAML existence label color after conversion
                         self.update_yaml_existence_label()
+                        self.update_review_job_btn_color()
                     else:
                         QMessageBox.warning(self, 'YAML Conversion', 'convert_excel_to_yaml function not found in excel_mapping_to_yaml.')
                 except Exception as e:
@@ -629,8 +680,8 @@ class MainWindow(QMainWindow):
         pixmap = QPixmap(24, 24)
         pixmap.fill(Qt.transparent)
         painter = QPainter(pixmap)
-        # Use a dark green shade (e.g., #006400)
-        color = QColor('#006400') if self.teradata_connected else QColor('red')
+        # Use purple shade (e.g., #800080) for connected, red for not
+        color = QColor('#800080') if self.teradata_connected else QColor('red')
         painter.setBrush(color)
         painter.setPen(Qt.black)
         painter.drawEllipse(2, 2, 20, 20)
@@ -676,10 +727,12 @@ class MainWindow(QMainWindow):
                 self.check_all_btn = QPushButton('Check All')
                 self.clear_all_btn = QPushButton('Clear All')
                 self.test_btn = QPushButton('Run DDL Test')
+                self.edit_btn = QPushButton('Edit')
                 self.cancel_btn = QPushButton('Cancel')
                 btn_layout.addWidget(self.check_all_btn)
                 btn_layout.addWidget(self.clear_all_btn)
                 btn_layout.addWidget(self.test_btn)
+                btn_layout.addWidget(self.edit_btn)
                 btn_layout.addWidget(self.cancel_btn)
 
                 self.populate_file_list()
@@ -691,6 +744,7 @@ class MainWindow(QMainWindow):
                 self.check_all_btn.clicked.connect(self.check_all)
                 self.clear_all_btn.clicked.connect(self.clear_all)
                 self.test_btn.clicked.connect(self.run_test)
+                self.edit_btn.clicked.connect(self.edit_file)
                 self.cancel_btn.clicked.connect(self.reject)
 
             def populate_file_list(self):
@@ -713,6 +767,47 @@ class MainWindow(QMainWindow):
             def clear_all(self):
                 for i in range(self.file_list.count()):
                     self.file_list.item(i).setCheckState(Qt.Unchecked)
+            def edit_file(self):
+                # Only allow editing if exactly one file is highlighted (selected)
+                selected_items = self.file_list.selectedItems()
+                if len(selected_items) != 1:
+                    QMessageBox.warning(self, 'Edit DDL', 'Please highlight (select) exactly one DDL file to edit.')
+                    return
+                fname = selected_items[0].text()
+                file_path = os.path.join(self.output_dir, fname)
+                if not os.path.exists(file_path):
+                    QMessageBox.warning(self, 'Edit DDL', f'File does not exist: {file_path}')
+                    return
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        ddl_content = f.read()
+                    edit_dialog = QDialog(self)
+                    edit_dialog.setWindowTitle(f'Edit DDL: {fname}')
+                    edit_dialog.resize(700, 500)
+                    vbox = QVBoxLayout()
+                    text_edit = QTextEdit()
+                    text_edit.setPlainText(ddl_content)
+                    vbox.addWidget(text_edit)
+                    save_btn = QPushButton('Save')
+                    cancel_btn = QPushButton('Cancel')
+                    btn_hbox = QHBoxLayout()
+                    btn_hbox.addWidget(save_btn)
+                    btn_hbox.addWidget(cancel_btn)
+                    vbox.addLayout(btn_hbox)
+                    edit_dialog.setLayout(vbox)
+                    def save_changes():
+                        try:
+                            with open(file_path, 'w', encoding='utf-8') as f:
+                                f.write(text_edit.toPlainText())
+                            QMessageBox.information(edit_dialog, 'Save DDL', f'Saved changes to {fname}')
+                            edit_dialog.accept()
+                        except Exception as e:
+                            QMessageBox.critical(edit_dialog, 'Save Error', str(e))
+                    save_btn.clicked.connect(save_changes)
+                    cancel_btn.clicked.connect(edit_dialog.reject)
+                    edit_dialog.exec_()
+                except Exception as e:
+                    QMessageBox.critical(self, 'Edit DDL Error', str(e))
 
             def run_test(self):
                 self.selected_files = [self.file_list.item(i).text() for i in range(self.file_list.count()) if self.file_list.item(i).checkState() == Qt.Checked]
