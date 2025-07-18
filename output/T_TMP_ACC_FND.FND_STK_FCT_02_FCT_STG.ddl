@@ -31,7 +31,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG
     tsf_intake_cost_amount DECIMAL(18,10)  ,
     trasfer_ship_units INTEGER  ,
     trasfer_ship_retail_amount DECIMAL(18,10)  ,
-    trasfer_ship_cost_amount   ,
+    trasfer_ship_cost_amount DECIMAL(18,10)  ,
     /* Control columns for auditing */
     eff_from_dt DATE NOT NULL,
     eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
@@ -113,6 +113,8 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.trasfer_ship_units 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.trasfer_ship_retail_amount AS 'TBD'
 ;
 
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.trasfer_ship_cost_amount AS 'TBD'
+;
 
 
 

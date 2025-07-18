@@ -2,339 +2,586 @@ control_columns: .nan
 job_name_from_file: FND1012
 job_name_from_mapping: FND1012
 mapping_columns:
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 81
   mapping_notes: One to One Column Mapping
   source_column_name: STG.calendar_dt
   target_column_name: calendar_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 80
   mapping_notes: One to One Column Mapping
   source_column_name: STG.year_start_dt
   target_column_name: year_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 79
   mapping_notes: One to One Column Mapping
   source_column_name: STG.year_end_dt
   target_column_name: year_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 78
   mapping_notes: One to One Column Mapping
   source_column_name: STG.period_start_dt
   target_column_name: period_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 77
   mapping_notes: One to One Column Mapping
   source_column_name: STG.period_end_dt
   target_column_name: period_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 76
   mapping_notes: One to One Column Mapping
   source_column_name: STG.week_start_dt
   target_column_name: week_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 75
   mapping_notes: One to One Column Mapping
   source_column_name: STG.week_end_dt
   target_column_name: week_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 74
   mapping_notes: One to One Column Mapping
   source_column_name: STG.day_of_year_num
   target_column_name: day_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 73
   mapping_notes: One to One Column Mapping
   source_column_name: STG.day_of_period_num
   target_column_name: day_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 72
   mapping_notes: One to One Column Mapping
   source_column_name: STG.day_of_week_num
   target_column_name: day_of_week_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 71
   mapping_notes: One to One Column Mapping
   source_column_name: STG.week_of_year_num
   target_column_name: week_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 70
   mapping_notes: One to One Column Mapping
   source_column_name: STG.week_of_period_num
   target_column_name: week_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 69
   mapping_notes: One to One Column Mapping
   source_column_name: STG.period_of_year_num
   target_column_name: period_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 68
   mapping_notes: One to One Column Mapping
   source_column_name: STG.year_week
   target_column_name: year_week
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 67
   mapping_notes: One to One Column Mapping
   source_column_name: STG.year_period
   target_column_name: year_period
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 66
   mapping_notes: One to One Column Mapping
   source_column_name: STG.year_num
   target_column_name: year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 65
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_calendar_dt
   target_column_name: ly_calendar_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 64
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_year_start_dt
   target_column_name: ly_year_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 63
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_year_end_dt
   target_column_name: ly_year_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 62
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_period_start_dt
   target_column_name: ly_period_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 61
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_period_end_dt
   target_column_name: ly_period_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 60
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_week_start_dt
   target_column_name: ly_week_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 23
+  column_sequence_reverse: 59
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_week_end_dt
   target_column_name: ly_week_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 24
+  column_sequence_reverse: 58
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_day_of_year_num
   target_column_name: ly_day_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 25
+  column_sequence_reverse: 57
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_day_of_period_num
   target_column_name: ly_day_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 26
+  column_sequence_reverse: 56
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_day_of_week_num
   target_column_name: ly_day_of_week_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 27
+  column_sequence_reverse: 55
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_week_of_year_num
   target_column_name: ly_week_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 28
+  column_sequence_reverse: 54
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_week_of_period_num
   target_column_name: ly_week_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 29
+  column_sequence_reverse: 53
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_period_of_year_num
   target_column_name: ly_period_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 30
+  column_sequence_reverse: 52
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_year_week
   target_column_name: ly_year_week
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 31
+  column_sequence_reverse: 51
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_year_period
   target_column_name: ly_year_period
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 32
+  column_sequence_reverse: 50
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ly_year_num
   target_column_name: ly_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 33
+  column_sequence_reverse: 49
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_calendar_dt
   target_column_name: lly_calendar_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 34
+  column_sequence_reverse: 48
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_year_start_dt
   target_column_name: lly_year_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 35
+  column_sequence_reverse: 47
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_year_end_dt
   target_column_name: lly_year_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 36
+  column_sequence_reverse: 46
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_period_start_dt
   target_column_name: lly_period_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 37
+  column_sequence_reverse: 45
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_period_end_dt
   target_column_name: lly_period_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 38
+  column_sequence_reverse: 44
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_week_start_dt
   target_column_name: lly_week_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 39
+  column_sequence_reverse: 43
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_week_end_dt
   target_column_name: lly_week_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 40
+  column_sequence_reverse: 42
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_day_of_year_num
   target_column_name: lly_day_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 41
+  column_sequence_reverse: 41
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_day_of_period_num
   target_column_name: lly_day_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 42
+  column_sequence_reverse: 40
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_day_of_week_num
   target_column_name: lly_day_of_week_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 43
+  column_sequence_reverse: 39
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_week_of_year_num
   target_column_name: lly_week_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 44
+  column_sequence_reverse: 38
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_week_of_period_num
   target_column_name: lly_week_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 45
+  column_sequence_reverse: 37
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_period_of_year_num
   target_column_name: lly_period_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 36
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_year_week
   target_column_name: lly_year_week
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 47
+  column_sequence_reverse: 35
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_year_period
   target_column_name: lly_year_period
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 34
   mapping_notes: One to One Column Mapping
   source_column_name: STG.lly_year_num
   target_column_name: lly_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 33
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_calendar_dt
   target_column_name: llly_calendar_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 32
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_year_start_dt
   target_column_name: llly_year_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 31
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_year_end_dt
   target_column_name: llly_year_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 52
+  column_sequence_reverse: 30
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_period_start_dt
   target_column_name: llly_period_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 53
+  column_sequence_reverse: 29
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_period_end_dt
   target_column_name: llly_period_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 54
+  column_sequence_reverse: 28
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_week_start_dt
   target_column_name: llly_week_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 55
+  column_sequence_reverse: 27
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_week_end_dt
   target_column_name: llly_week_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 56
+  column_sequence_reverse: 26
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_day_of_year_num
   target_column_name: llly_day_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 57
+  column_sequence_reverse: 25
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_day_of_period_num
   target_column_name: llly_day_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 58
+  column_sequence_reverse: 24
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_day_of_week_num
   target_column_name: llly_day_of_week_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 59
+  column_sequence_reverse: 23
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_week_of_year_num
   target_column_name: llly_week_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 60
+  column_sequence_reverse: 22
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_week_of_period_num
   target_column_name: llly_week_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 61
+  column_sequence_reverse: 21
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_period_of_year_num
   target_column_name: llly_period_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 62
+  column_sequence_reverse: 20
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_year_week
   target_column_name: llly_year_week
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 63
+  column_sequence_reverse: 19
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_year_period
   target_column_name: llly_year_period
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 64
+  column_sequence_reverse: 18
   mapping_notes: One to One Column Mapping
   source_column_name: STG.llly_year_num
   target_column_name: llly_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 65
+  column_sequence_reverse: 17
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_calendar_dt
   target_column_name: ny_calendar_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 66
+  column_sequence_reverse: 16
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_year_start_dt
   target_column_name: ny_year_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 67
+  column_sequence_reverse: 15
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_year_end_dt
   target_column_name: ny_year_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 68
+  column_sequence_reverse: 14
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_period_start_dt
   target_column_name: ny_period_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 69
+  column_sequence_reverse: 13
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_period_end_dt
   target_column_name: ny_period_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 70
+  column_sequence_reverse: 12
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_week_start_dt
   target_column_name: ny_week_start_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 71
+  column_sequence_reverse: 11
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_week_end_dt
   target_column_name: ny_week_end_dt
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 72
+  column_sequence_reverse: 10
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_day_of_year_num
   target_column_name: ny_day_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 73
+  column_sequence_reverse: 9
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_day_of_period_num
   target_column_name: ny_day_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 74
+  column_sequence_reverse: 8
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_day_of_week_num
   target_column_name: ny_day_of_week_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 75
+  column_sequence_reverse: 7
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_week_of_year_num
   target_column_name: ny_week_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 76
+  column_sequence_reverse: 6
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_week_of_period_num
   target_column_name: ny_week_of_period_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 77
+  column_sequence_reverse: 5
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_period_of_year_num
   target_column_name: ny_period_of_year_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 78
+  column_sequence_reverse: 4
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_year_week
   target_column_name: ny_year_week
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 79
+  column_sequence_reverse: 3
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_year_period
   target_column_name: ny_year_period
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 80
+  column_sequence_reverse: 2
   mapping_notes: One to One Column Mapping
   source_column_name: STG.ny_year_num
   target_column_name: ny_year_num
-- column_order: CTE
+- column_action: ''
+  column_order: CTE
+  column_sequence: 81
+  column_sequence_reverse: 1
   mapping_notes: nan
   source_column_name: T_TMP_ACC_FND.DW_FND_DATE_DIM
   target_column_name: STG
+mapping_columns_count: 81
 mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - calendar_dt
+sql_steps: {}
 steps:
 - description: .nan
   file_name: .nan
   job_name: FND1012
   notes: .nan
+  reverse_sequence_no: 5
+  sequence_no: 1
   source_database: .nan
   source_table: .nan
   step_pattern: STANDARD_START
@@ -345,6 +592,8 @@ steps:
   file_name: FND1013.190.TRANS.sql
   job_name: FND1012
   notes: See mapping
+  reverse_sequence_no: 4
+  sequence_no: 2
   source_database: See mapping
   source_table: .nan
   step_pattern: STANDARD_TRANS
@@ -355,6 +604,8 @@ steps:
   file_name: FND1013.200.VALID.sql
   job_name: FND1012
   notes: .nan
+  reverse_sequence_no: 3
+  sequence_no: 3
   source_database: T_TMP_ACC_FND
   source_table: FND1013_TRANS
   step_pattern: UPDATE_VALID
@@ -365,6 +616,8 @@ steps:
   file_name: FND1013.300.TARGET.sql
   job_name: FND1012
   notes: .nan
+  reverse_sequence_no: 2
+  sequence_no: 4
   source_database: T_TMP_ACC_FND
   source_table: FND1013_VALID
   step_pattern: UPDATE_TARGET
@@ -375,6 +628,8 @@ steps:
   file_name: .nan
   job_name: FND1012
   notes: .nan
+  reverse_sequence_no: 1
+  sequence_no: 5
   source_database: .nan
   source_table: .nan
   step_pattern: STANDARD_END

@@ -108,5 +108,6 @@ config:
   mapping_yaml_path: ./mapping_yaml
   job_path: ./samples/jobs
   steps_path: ./samples/steps
+  sql_path: ./samples/sql
 excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
   (Req. & Solution Design)/Design/Detailed Design/Physical_Design

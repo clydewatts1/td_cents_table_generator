@@ -11,7 +11,7 @@
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG
     (
     business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    loc_id INTEGER NOT NULL FORMAT '99999',
+    location_id INTEGER NOT NULL FORMAT '99999',
     item_id BIGINT NOT NULL FORMAT '999999999999',
     fct_src_map BYTEINT NOT NULL ,
     /* Control columns for auditing */
@@ -23,7 +23,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG
     job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
     update_job_id VARCHAR(30) COMPRESS(NULL)
     )
-    PRIMARY INDEX ( Loc_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG AS 'This is the founda
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG.loc_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG.location_id AS 'Location ID - this can either be a store or depot (PK)'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG.item_id AS 'Item ID - this is the SKU Orin ( PK)'

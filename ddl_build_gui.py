@@ -289,6 +289,8 @@ class MainWindow(QMainWindow):
         self.traffic_light.setToolTip('Teradata Connection Status')
         self.teradata_label = QLabel('Teradata Connection')
         self.teradata_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self.menu_bar = QMenuBar(self)
+        self.setMenuBar(self.menu_bar)
         self.update_traffic_light()
         self.init_ui()
         self.setup_logging()
@@ -309,77 +311,90 @@ class MainWindow(QMainWindow):
         self.logger = logger
 
     def init_ui(self):
-        # Main widget and layouts
-        main_widget = QWidget()
-        main_vbox = QVBoxLayout()
-        main_widget.setLayout(main_vbox)
-
-        # Top bar: Console and Teradata Connect sub-window
-        top_hbox = QHBoxLayout()
-        self.console.setFixedHeight(120)
-        top_hbox.addWidget(self.console, 3)
-
-        # Teradata Connect sub-window
-        teradata_group = QtWidgets.QGroupBox('Teradata Connect')
-        teradata_vbox = QVBoxLayout()
-        # Traffic light and label
-        traffic_hbox = QHBoxLayout()
-        traffic_hbox.addWidget(self.traffic_light)
-        traffic_hbox.addWidget(self.teradata_label)
-        traffic_hbox.addStretch(1)
-        teradata_vbox.addLayout(traffic_hbox)
-        # Connect/Disconnect buttons
-        btn_hbox = QHBoxLayout()
-        self.connect_btn = QPushButton('Connect')
-        self.disconnect_btn = QPushButton('Disconnect')
-        btn_hbox.addWidget(self.connect_btn)
-        btn_hbox.addWidget(self.disconnect_btn)
-        btn_hbox.addStretch(1)
-        teradata_vbox.addLayout(btn_hbox)
-        teradata_group.setLayout(teradata_vbox)
-        top_hbox.addWidget(teradata_group, 1)
-        main_vbox.addLayout(top_hbox)
-
-        # Connect button actions
-        self.connect_btn.clicked.connect(self.connect_teradata)
-        self.disconnect_btn.clicked.connect(self.disconnect_teradata)
-
-        # Central widget area (placeholder for now)
-        self.central_area = QWidget()
-        self.central_layout = QVBoxLayout()
-        self.central_area.setLayout(self.central_layout)
-        main_vbox.addWidget(self.central_area)
-
-        self.setCentralWidget(main_widget)
-
-        # Status bar is already set in __init__
-
-        # Menu bar
-        menu_bar = QMenuBar(self)
-        self.setMenuBar(menu_bar)
+        # Only add menus and actions, do not recreate the menu bar
+        self.menu_bar.clear()  # Clear any existing menus to avoid duplicates
         # DDL Excels menu
-        ddl_excels_menu = menu_bar.addMenu('DDL Excels')
-        load_excels_action = QAction('Process DDL Excel Files', self)
-        load_excels_action.triggered.connect(self.load_ddl_excels)
-        ddl_excels_menu.addAction(load_excels_action)
+        self.ddl_excels_menu = self.menu_bar.addMenu('DDL Excels')
+        self.load_excels_action = QAction('Process DDL Excel Files', self)
+        self.load_excels_action.triggered.connect(self.load_ddl_excels)
+        self.ddl_excels_menu.addAction(self.load_excels_action)
 
         # Mapping Excel menu
-        mapping_excel_menu = menu_bar.addMenu('Mapping Excel')
-        process_mapping_action = QAction('Process Mapping Excel', self)
-        process_mapping_action.triggered.connect(self.process_mapping_excel)
-        mapping_excel_menu.addAction(process_mapping_action)
+        self.mapping_excel_menu = self.menu_bar.addMenu('Mapping Excel')
+        self.process_mapping_action = QAction('Process Mapping Excel', self)
+        self.process_mapping_action.triggered.connect(self.process_mapping_excel)
+        self.mapping_excel_menu.addAction(self.process_mapping_action)
 
         # DDL Test menu
-        ddl_test_menu = menu_bar.addMenu('DDL Test')
-        connect_action = QAction('Connect to Teradata', self)
-        connect_action.triggered.connect(self.connect_teradata)
-        ddl_test_menu.addAction(connect_action)
-        disconnect_action = QAction('Disconnect from Teradata', self)
-        disconnect_action.triggered.connect(self.disconnect_teradata)
-        ddl_test_menu.addAction(disconnect_action)
-        run_test_action = QAction('Run DDL Test', self)
-        run_test_action.triggered.connect(self.run_ddl_test_dialog)
-        ddl_test_menu.addAction(run_test_action)
+        self.ddl_test_menu = self.menu_bar.addMenu('DDL Test')
+        self.connect_action = QAction('Connect to Teradata', self)
+        self.connect_action.triggered.connect(self.connect_teradata)
+        self.ddl_test_menu.addAction(self.connect_action)
+        self.disconnect_action = QAction('Disconnect from Teradata', self)
+        self.disconnect_action.triggered.connect(self.disconnect_teradata)
+        self.ddl_test_menu.addAction(self.disconnect_action)
+        self.run_test_action = QAction('Run DDL Test', self)
+        self.run_test_action.triggered.connect(self.run_ddl_test_dialog)
+        self.ddl_test_menu.addAction(self.run_test_action)
+
+        # Run Job menu
+        self.run_job_menu = self.menu_bar.addMenu('Run Job')
+        self.run_job_action = QAction('Run Job', self)
+        self.run_job_action.triggered.connect(self.run_job_dialog)
+        self.run_job_menu.addAction(self.run_job_action)
+
+
+    def run_job_dialog(self):
+        import fnmatch
+        job_dir = self.config['config'].get('job_path', 'job_path') if 'config' in self.config else self.config.get('job_path', 'job_path')
+        steps_dir = self.config['config'].get('steps_path', 'steps_path') if 'config' in self.config else self.config.get('steps_path', 'steps_path')
+        class RunJobDialog(QDialog):
+            def __init__(self, job_dir, steps_dir, parent=None):
+                super().__init__(parent)
+                self.setWindowTitle('Run Job')
+                self.resize(800, 500)
+                self.job_dir = job_dir
+                self.steps_dir = steps_dir
+                self.selected_job = None
+                self.layout = QHBoxLayout()
+                self.setLayout(self.layout)
+                # Left: Job list
+                job_vbox = QVBoxLayout()
+                job_vbox.addWidget(QLabel('Jobs:'))
+                self.job_list = QListWidget()
+                self.job_list.setSelectionMode(QListWidget.SingleSelection)
+                job_vbox.addWidget(self.job_list)
+                self.layout.addLayout(job_vbox)
+                # Right: Step files list
+                step_vbox = QVBoxLayout()
+                step_vbox.addWidget(QLabel('Step SQL Files:'))
+                self.step_list = QListWidget()
+                self.step_list.setSelectionMode(QListWidget.SingleSelection)
+                step_vbox.addWidget(self.step_list)
+                self.layout.addLayout(step_vbox)
+                # Populate job list
+                self.all_jobs = []
+                if os.path.isdir(self.job_dir):
+                    for fname in os.listdir(self.job_dir):
+                        if fname.lower().endswith('.job'):
+                            self.all_jobs.append(fname)
+                for fname in sorted(self.all_jobs):
+                    item = QListWidgetItem(fname)
+                    self.job_list.addItem(item)
+                self.job_list.currentItemChanged.connect(self.update_step_list)
+            def update_step_list(self, current, previous):
+                self.step_list.clear()
+                if not current:
+                    return
+                job_name = os.path.splitext(current.text())[0]
+                if os.path.isdir(self.steps_dir):
+                    pattern = f"{job_name}*.sql"
+                    files = fnmatch.filter(os.listdir(self.steps_dir), pattern)
+                    for fname in sorted(files):
+                        item = QListWidgetItem(fname)
+                        self.step_list.addItem(item)
+        dialog = RunJobDialog(job_dir, steps_dir, self)
+        dialog.exec_()
 
     def process_mapping_excel(self):
 

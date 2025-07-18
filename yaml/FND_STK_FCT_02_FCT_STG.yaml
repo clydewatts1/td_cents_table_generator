@@ -180,11 +180,11 @@ columns:
   compression: ''
   quote: ''
 - column_name: trasfer_ship_cost_amount
-  column_type: ''
+  column_type: AMOUNT
   column_format: ''
-  is_null: ''
+  is_null: N
   option: ''
-  description: ''
+  description: TBD
   compression: ''
   quote: ''
 BUILD:

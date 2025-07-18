@@ -1,0 +1,63 @@
+modelname: FND_RECLASFCN_LOC_ORG_XREF
+databasename: T_ACC_FND
+table_name: FND_RECLASFCN_LOC_ORG_XREF
+table_description: Store Hierarchy Cross Reference
+table_kind: MULTISET
+primary_index: UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- See Build
+table_quote: ''
+columns:
+- column_name: org_hiery_wid
+  column_type: INTEGER
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unique identifier for Organization Hierarchy
+  compression: ''
+  quote: ''
+- column_name: loc_wid
+  column_type: INTEGER
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unique Identifier for Location ID this is either the store or the warehouse
+  compression: ''
+  quote: ''
+- column_name: loc_org_hier_vers_num
+  column_type: INTEGER
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: This is the version number of location in the organization hierarchy
+    - if there a new location - version is last version id for lowest level of hierarchy
+    , if changed then bumped version no for table
+  compression: ''
+  quote: ''
+BUILD:
+- jobname: FND1020
+  databasename: DWP01T_ACC_FND
+  tablename: FND_RECLASFCN_LOC_ORG_XREF
+  pattern: TABLE
+- jobname: ''
+  databasename: DWP01A_ACC_FND
+  tablename: FND_RECLASFCN_LOC_ORG_XREF
+  pattern: AVIEW
+- jobname: ''
+  databasename: DWP01C_ACC_FND
+  tablename: FND_RECLASFCN_LOC_ORG_XREF
+  pattern: CVIEW
+- jobname: ''
+  databasename: DWP01V_ACC_FND
+  tablename: FND_RECLASFCN_LOC_ORG_XREF
+  pattern: VVIEW
+- jobname: FND1020
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND1020_TRANS
+  pattern: TABLE_NO_CONTROL
+- jobname: FND1020
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND1020_VALID
+  pattern: TABLE

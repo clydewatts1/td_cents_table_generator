@@ -1,0 +1,161 @@
+modelname: FND_RECLASFCN_ORG_VERS_HIER
+databasename: T_ACC_FND
+table_name: FND_RECLASFCN_ORG_VERS_HIER tracks changes to the hierarchy versioning
+  as stores move within the hierarchy
+table_description: Store Hierarchy Versioning
+table_kind: MULTISET
+primary_index: UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
+table_option: ''
+control_columns: FND_STANDARD
+patterns:
+- TABLE
+- AVIEW
+- VVIEW
+- CVIEW
+- TABLE_HIST
+- AVIEW_HIST
+- VVIEW_HIST
+- CVIEW_HIST
+table_quote: ''
+columns:
+- column_name: org_hiery_wid
+  column_type: INTEGER
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Unique identifier for Organization Hierarchy
+  compression: ''
+  quote: ''
+- column_name: org_hiery_vers_num
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This is the version of the locs within hierarchy
+  compression: ''
+  quote: ''
+- column_name: org_hier_country_cd
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Contains the number of the country.
+  compression: ''
+  quote: ''
+- column_name: company_cd
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used to identify the Primark Company Code
+  compression: ''
+  quote: ''
+- column_name: company_vers_num
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: The is the version of locs within company
+  compression: ''
+  quote: ''
+- column_name: zone_cd
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Uniquely identifies a time zone.
+  compression: ''
+  quote: ''
+- column_name: zone_vers_num
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: The is the version of locs within zone
+  compression: ''
+  quote: ''
+- column_name: region_cd
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: This Column is used identify the Uniquely identifies a region.
+  compression: ''
+  quote: ''
+- column_name: region_vers_num
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: The is the version of locs within region
+  compression: ''
+  quote: ''
+- column_name: area_cd
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Code for Primark Area(Location)
+  compression: ''
+  quote: ''
+- column_name: area_vers_num
+  column_type: SMALLINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: ''
+  compression: ''
+  quote: ''
+BUILD:
+- jobname: FND1046
+  databasename: DWP01T_ACC_FND
+  tablename: FND_ITEM_DIM
+  pattern: TABLE
+- jobname: ''
+  databasename: DWP01A_ACC_FND
+  tablename: FND_ITEM_DIM
+  pattern: AVIEW
+- jobname: ''
+  databasename: DWP01C_ACC_FND
+  tablename: FND_ITEM_DIM
+  pattern: CVIEW
+- jobname: ''
+  databasename: DWP01C_ACC_FND
+  tablename: FND_ITEM_DIM
+  pattern: VVIEW
+- jobname: FND1046
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND1046_TRANS
+  pattern: TABLE_NO_CONTROL
+- jobname: FND1046
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND1046_VALID
+  pattern: TABLE
+- jobname: FND1047
+  databasename: DWP01T_ACC_FND
+  tablename: FND_ITEM_HIST_DIM
+  pattern: TABLE
+- jobname: ''
+  databasename: DWP01A_ACC_FND
+  tablename: FND_ITEM_HIST_DIM
+  pattern: AVIEW
+- jobname: ''
+  databasename: DWP01C_ACC_FND
+  tablename: FND_ITEM_HIST_DIM
+  pattern: CVIEW
+- jobname: ''
+  databasename: DWP01C_ACC_FND
+  tablename: FND_ITEM_HIST_DIM
+  pattern: VVIEW
+- jobname: FND1047
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND1047_TRANS
+  pattern: TABLE_NO_CONTROL
+- jobname: FND1047
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: FND1047_VALID
+  pattern: TABLE
+- jobname: FND1044
+  databasename: DWP01T_TMP_ACC_FND
+  tablename: DW_FND_ITEM_DIM_DQ
+  pattern: TABLE_NO_CONTROL

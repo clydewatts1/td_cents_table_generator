@@ -7,9 +7,10 @@
 * Author: Mr Primark
 * Created: 2025-01-01 
 -----------------------------------------------------------------------*/
-/* Create table for DW_FND_LOC_ITEM_PVT_FCT */
+/* Create view for DW_FND_LOC_ITEM_PVT_FCT */
 REPLACE VIEW DW${INSTANCE}C_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT
-    AS
+    AS LOCKING ROW FOR ACCESS
+
 SELECT
     business_date ,
     loc_id ,

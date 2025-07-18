@@ -8,6 +8,133 @@ import logging
 import pprint
 import jinja2
 
+def read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps):
+    #loop through steps looking for file name then search for File Name in sheet
+    return_code = 0
+    return_text = "Read successful."
+    # Get list of sheets in execel
+    if config_dict is None:
+        logging.error("Configuration dictionary is None. Cannot proceed with reading the Excel file.")
+        return -1, "Configuration dictionary is None.", None
+    if 'config' in config_dict:
+        config_local = config_dict['config']
+    else:
+        config_local = config_dict
+
+    if not isinstance(config_local, dict):
+        logging.error("Configuration is not in the expected format. Expected a dictionary.")
+        return -1, "Configuration is not in the expected format.", None
+    excel_mapping_dir = config_local.get('excel_mapping_directory', 'excel_mappings')
+    if not os.path.isdir(excel_mapping_dir):
+        logging.error(
+            "excel_mapping_directory %s does not exist. Please check your configuration.",
+            excel_mapping_dir,
+        )
+        return -1, "excel_mapping_directory does not exist.", None
+    filename_path = os.path.join(excel_mapping_dir, filename)
+    if not os.path.exists(filename_path):
+        logging.error(
+            "File %s does not exist. Please check the file path.",
+            filename_path,
+        )
+        return -1, "File %s does not exist." % filename_path, None
+    try:
+        wb = openpyxl.load_workbook(filename_path)
+        sheet_names = wb.sheetnames
+        logging.info(
+            "Sheet names in %s: %s",
+            filename_path,
+            sheet_names,
+        )
+    except (OSError, ValueError) as e:
+        logging.error(
+            "Error loading Excel file %s: %s",
+            filename_path,
+            str(e),
+        )
+        return -1, str(e), None   
+    # get sql path from config
+    sql_path = config_local.get('sql_path', 'sql_files') 
+    dict_sql_steps = {}
+    if df_steps is None:
+        logging.error("DataFrame df_steps is None. Cannot proceed with reading the Excel file.")
+        return -1, "DataFrame df_steps is None.", None
+    for step in df_steps.to_dict(orient='records'):
+        print(f"Step: {step}")
+        # get file name from step['file_name']
+        file_name = step.get('file_name', None)
+        print(f"File Name: {file_name}")
+        # if file_name is None:
+        if file_name is None or not isinstance(file_name, str):
+            logging.error(
+                "File name in step %s is None or not a string. Skipping this step.",
+                step,
+            )
+            continue
+        file_name = file_name.strip()
+        # if file name like nan
+        if re.match(r'^\s*nan\s*$', file_name, re.IGNORECASE):
+            logging.error(
+                "File name in step %s is 'nan'. Skipping this step.",
+                step,
+            )
+            continue
+        # remove file extension from file_name
+        file_name = os.path.splitext(file_name)[0]
+        # check if file_name is in sheet_names
+        if file_name not in sheet_names:
+            logging.error(
+                "File name %s not found in sheet names %s. Skipping this step.",
+                file_name,
+                sheet_names,
+            )
+            continue
+        # sheet name found in sheet_names , now load the sheet into a DataFrame
+        try:
+            # make sure 1st row is not header
+            # if the first row is not a header, we can set header=None
+            df_sheet = pd.read_excel(
+                filename_path,
+                sheet_name=file_name,
+                header=None,  # Load without header
+            )
+            logging.info(
+                "Loaded sheet %s into df_sheet with shape: %s",
+                file_name,
+                str(df_sheet.shape),
+            )
+        except (OSError, ValueError) as e:
+            logging.error(
+                "Error processing file %s: %s",
+                filename_path,
+                str(e),
+            )
+            return -1, str(e), None
+        # keep only first column
+        df_sheet = df_sheet.iloc[:, 0]
+        # convert sheet into a single sql statement a new line per row
+        sql_statement = df_sheet.dropna().astype(str).str.cat(sep='\n')
+        dict_sql_steps[file_name] = sql_statement
+        logging.info(
+            "SQL statement for file %s: %s",
+            file_name,
+            sql_statement,
+        )
+        # write sql_statement to a file in sql_path
+        if not os.path.exists(sql_path):
+            os.makedirs(sql_path)
+        sql_file_path = os.path.join(sql_path, f"{file_name}.sql")
+        with open(sql_file_path, 'w', encoding='utf-8') as sql_file:
+            sql_file.write(sql_statement)
+        logging.info(
+            "SQL statement written to file %s",
+            sql_file_path,
+        )
+
+    
+    return return_code, return_text, dict_sql_steps
+
+
 def read_excel_to_dataframe_mapping(filename, config_dict):
     """Read the 'MAPPING' sheet from an Excel file into a pandas DataFrame.
     Args:
@@ -506,7 +633,14 @@ def convert_excel_to_yaml(filename, config_dict):
     data_mapping_detail = df_mapping_detail.to_dict(orient='records')
     print(f"Mapping Detail: \n{df_mapping_detail.head(4)}")
     
-
+    return_code, return_text,dict_steps_sql = read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps)
+    if return_code != 0:
+        logging.error(
+            "Error reading SQL steps from %s: %s",
+            filename,
+            return_text,
+        )
+        return -1, return_text
         
     # Convert Transformation Key to a list
     transformation_key_list = [tk.strip() for tk in transformation_key.split(',')] if transformation_key else []
@@ -521,6 +655,8 @@ def convert_excel_to_yaml(filename, config_dict):
         yaml_dict['primary_key'] = primary_key_list
         yaml_dict['transformation_key'] = transformation_key_list
         yaml_dict['mapping_columns'] = data_mapping_detail
+        yaml_dict['mapping_columns_count'] = len(data_mapping_detail)
+        yaml_dict['sql_steps'] = dict_steps_sql
  
         #yaml_dict['mapping_data'] = df_mapping.to_dict(orient='records')
         yaml_dict['steps'] = steps_data

@@ -2,7 +2,7 @@ control_columns: .nan
 job_name_from_file: FND1010
 job_name_from_mapping: FND1010
 mapping_columns:
-- column_action: Key
+- column_action: key
   column_order: nan
   column_sequence: 1
   column_sequence_reverse: 92
@@ -512,38 +512,38 @@ mapping_columns:
   column_sequence_reverse: 8
   source_column_name: NYPD.CSTM_CAL_MTH_ID AS NY_Year_Period
   target_column_name: ny_year_num
-- column_action: nan
+- column_action: mapping
   column_order: ALIAS/CTE
   column_sequence: 86
   column_sequence_reverse: 7
   source_column_name: 'SELECT * FROM  DWP01A_IDW.CSTM_CAL_DY  WHERE CUR_FLG = ''Y'' '
   target_column_name: ' DY'
-- column_action: nan
+- column_action: mapping
   column_order: ALIAS/CTE
   column_sequence: 87
   column_sequence_reverse: 6
   source_column_name: SELECT * FROM  DWP01A_IDW.CSTM_CAL_WK  WHERE CUR_FLG = 'Y'
   target_column_name: WK
-- column_action: nan
+- column_action: mapping
   column_order: ALIAS/CTE
   column_sequence: 88
   column_sequence_reverse: 5
   source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_MTH_WK \_WHERE CUR_FLG\
     \ = 'Y' "
   target_column_name: MT
-- column_action: nan
+- column_action: mapping
   column_order: ALIAS/CTE
   column_sequence: 89
   column_sequence_reverse: 4
   source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_MTH \_WHERE CUR_FLG = 'Y'"
   target_column_name: PD
-- column_action: nan
+- column_action: mapping
   column_order: ALIAS/CTE
   column_sequence: 90
   column_sequence_reverse: 3
   source_column_name: "SELECT * FROM \_DWP01A_IDW.CSTM_CAL_YR \_WHERE CUR_FLG = 'Y'"
   target_column_name: YR
-- column_action: nan
+- column_action: mapping
   column_order: ALIAS/CTE
   column_sequence: 91
   column_sequence_reverse: 2
@@ -556,8 +556,7 @@ mapping_columns:
     \ AS SSN\n\t\tON SSD.SSON_WID = SSN.SSON_WID\n\t\tAND SSD.cur_flg = 'Y'\n\t\t\
     AND SSN.cur_flg = 'Y'"
   target_column_name: SSN
-- column_action: 'This is the joins and alias.  The base table is specified as either
-    CTE or Sub query '
+- column_action: mapping
   column_order: JOINS
   column_sequence: 92
   column_sequence_reverse: 1
@@ -612,10 +611,115 @@ mapping_columns:
     ON LLLYPD.CSTM_CAL_YR_WID = LLLYYR.CSTM_CAL_YR_WID  \nLEFT OUTER JOIN YR AS NYYR\n\
     ON NYPD.CSTM_CAL_YR_WID = NYYR.CSTM_CAL_YR_WID  "
   target_column_name: nan
+mapping_columns_count: 92
 mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - calendar_dt
+sql_steps:
+  FND1010.300.TARGET: "/*\nThis query builds a comprehensive custom calendar dimension\
+    \ table.\nIt gathers data for days, weeks, months, periods, and years, and then\n\
+    joins them to create a record for each day with corresponding information\nfor\
+    \ the current year (TY), last year (LY), the year before last (LLY), \nthree years\
+    \ ago (LLLY), and the next year (NY). It also includes seasonal information.\n\
+    */\n-- Common Table Expressions (CTEs) to pre-filter calendar tables for current\
+    \ records.\nWITH\n  -- Day level calendar data\n  DY AS (\n    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_DY\n\
+    \    WHERE\n      cur_flg = 'Y'\n  ),\n  -- Week level calendar data\n  WK AS\
+    \ (\n    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_WK\n    WHERE\n      cur_flg\
+    \ = 'Y'\n  ),\n  -- Month-Week mapping data\n  MT AS (\n    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_MTH_WK\n\
+    \    WHERE\n      cur_flg = 'Y'\n  ),\n  -- Period (Month) level calendar data\n\
+    \  PD AS (\n    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_MTH\n    WHERE\n   \
+    \   cur_flg = 'Y'\n  ),\n  -- Year level calendar data\n  YR AS (\n    SELECT\
+    \ * FROM DW${INSTANCE}A_IDW.CSTM_CAL_YR\n    WHERE\n      cur_flg = 'Y'\n  ),\n\
+    \  -- Seasonal information based on Gregorian date\n  SSN AS (\n    SELECT\n \
+    \     SSD.greg_dt AS calendar_dt,\n      SSD.sson_cd AS season_code,\n      SSN.sson_name\
+    \ AS season_name,\n      -- Creates a more descriptive season name (e.g., \"2023\
+    \ Spring Summer\")\n      SUBSTRING(season_name FROM 3 FOR 4) || ' ' || DECODE(\n\
+    \        SUBSTRING(season_name FROM 1 FOR 2),\n        'AW', 'Autumn Winter',\n\
+    \        'SS', 'Spring Summer',\n        'UA', 'Unknown 0',\n        season_name\n\
+    \      ) AS season_description,\n      -- Creates a bitmap for the season\n  \
+    \    SETBIT(\n        (CAST(TO_BYTES('0', 'base10') AS BYTE(14))),\n        SSD.sson_wid(SMALLINT)\n\
+    \      ) AS season_map\n    FROM\n      DW${INSTANCE}A_IDW.PMK_SSON_DAY AS SSD\n\
+    \      INNER JOIN DW${INSTANCE}A_IDW.SSON AS SSN ON SSD.sson_wid = SSN.sson_wid\n\
+    \      AND SSD.cur_flg = 'Y'\n      AND SSN.cur_flg = 'Y'\n  )\n-- Main SELECT\
+    \ statement to construct the final calendar dimension\nSELECT\n  -- This Year\
+    \ (TY) columns\n  TYCD.greg_dt AS calendar_dt,\n  TYYR.pmk_yr_strt_dt AS year_start_dt,\n\
+    \  TYYR.pmk_yr_end_dt AS year_end_dt,\n  TYPD.pmk_prd_strt_dt AS period_start_dt,\n\
+    \  TYPD.pmk_prd_end_dt AS period_end_dt,\n  TYWK.pmk_wk_strt_dt AS week_start_dt,\n\
+    \  TYWK.pmk_wk_end_dt AS week_end_dt,\n  TYCD.dy_of_yr_num AS day_of_year_num,\n\
+    \  TYCD.dom_num AS day_of_period_num,\n  TYCD.dy_of_wk_num AS day_of_week_num,\n\
+    \  TYWK.pmk_wk_of_yr_num AS week_of_year_num,\n  TYWK.pmk_wk_of_prd_num AS week_of_period_num,\n\
+    \  TYPD.pmk_prd_of_yr_num AS period_of_year_num,\n  TYWK.cstm_cal_wk_id AS year_week,\n\
+    \  TYPD.cstm_cal_mth_id AS year_period,\n  TYYR.cstm_cal_yr_id AS year_num,\n\
+    \  -- Season columns\n  SSN.season_code,\n  SSN.season_name,\n  SSN.season_description,\n\
+    \  SSN.season_map,\n  -- Last Year (LY) columns\n  LYCD.greg_dt AS ly_calendar_dt,\n\
+    \  LYYR.pmk_yr_strt_dt AS ly_year_start_dt,\n  LYYR.pmk_yr_end_dt AS ly_year_end_dt,\n\
+    \  LYPD.pmk_prd_strt_dt AS ly_period_start_dt,\n  LYPD.pmk_prd_end_dt AS ly_period_end_dt,\n\
+    \  LYWK.pmk_wk_strt_dt AS ly_week_start_dt,\n  LYWK.pmk_wk_end_dt AS ly_week_end_dt,\n\
+    \  LYCD.dy_of_yr_num AS ly_day_of_year_num,\n  LYCD.dom_num AS ly_day_of_period_num,\n\
+    \  LYCD.dy_of_wk_num AS ly_day_of_week_num,\n  LYWK.pmk_wk_of_yr_num AS ly_week_of_year_num,\n\
+    \  LYWK.pmk_wk_of_prd_num AS ly_week_of_period_num,\n  LYPD.pmk_prd_of_yr_num\
+    \ AS ly_period_of_year_num,\n  LYWK.cstm_cal_wk_id AS ly_year_week,\n  LYPD.cstm_cal_mth_id\
+    \ AS ly_year_period,\n  LYYR.cstm_cal_yr_id AS ly_year_num,\n  -- Last Last Year\
+    \ (LLY) columns\n  LLYCD.greg_dt AS lly_calendar_dt,\n  LLYYR.pmk_yr_strt_dt AS\
+    \ lly_year_start_dt,\n  LLYYR.pmk_yr_end_dt AS lly_year_end_dt,\n  LLYPD.pmk_prd_strt_dt\
+    \ AS lly_period_start_dt,\n  LLYPD.pmk_prd_end_dt AS lly_period_end_dt,\n  LLYWK.pmk_wk_strt_dt\
+    \ AS lly_week_start_dt,\n  LLYWK.pmk_wk_end_dt AS lly_week_end_dt,\n  LLYCD.dy_of_yr_num\
+    \ AS lly_day_of_year_num,\n  LLYCD.dom_num AS lly_day_of_period_num,\n  LLYCD.dy_of_wk_num\
+    \ AS lly_day_of_week_num,\n  LLYWK.pmk_wk_of_yr_num AS lly_week_of_year_num,\n\
+    \  LLYWK.pmk_wk_of_prd_num AS lly_week_of_period_num,\n  LLYPD.pmk_prd_of_yr_num\
+    \ AS lly_period_of_year_num,\n  LLYWK.cstm_cal_wk_id AS lly_year_week,\n  LLYPD.cstm_cal_mth_id\
+    \ AS lly_year_period,\n  LLYYR.cstm_cal_yr_id AS lly_year_num,\n  -- Last Last\
+    \ Last year (LLLY) columns\n  LLLYCD.greg_dt AS llly_calendar_dt,\n  LLLYYR.pmk_yr_strt_dt\
+    \ AS llly_year_start_dt,\n  LLLYYR.pmk_yr_end_dt AS llly_year_end_dt,\n  LLLYPD.pmk_prd_strt_dt\
+    \ AS llly_period_start_dt,\n  LLLYPD.pmk_prd_end_dt AS llly_period_end_dt,\n \
+    \ LLLYWK.pmk_wk_strt_dt AS llly_week_start_dt,\n  LLLYWK.pmk_wk_end_dt AS llly_week_end_dt,\n\
+    \  LLLYCD.dy_of_yr_num AS llly_day_of_year_num,\n  LLLYCD.dom_num AS llly_day_of_period_num,\n\
+    \  LLLYCD.dy_of_wk_num AS llly_day_of_week_num,\n  LLLYWK.pmk_wk_of_yr_num AS\
+    \ llly_week_of_year_num,\n  LLLYWK.pmk_wk_of_prd_num AS llly_week_of_period_num,\n\
+    \  LLLYPD.pmk_prd_of_yr_num AS llly_period_of_year_num,\n  LLLYWK.cstm_cal_wk_id\
+    \ AS llly_year_week,\n  LLLYPD.cstm_cal_mth_id AS llly_year_period,\n  LLLYYR.cstm_cal_yr_id\
+    \ AS llly_year_num,\n  -- Next Year (NY) columns\n  NYCD.greg_dt AS ny_calendar_dt,\n\
+    \  NYYR.pmk_yr_strt_dt AS ny_year_start_dt,\n  NYYR.pmk_yr_end_dt AS ny_year_end_dt,\n\
+    \  NYPD.pmk_prd_strt_dt AS ny_period_start_dt,\n  NYPD.pmk_prd_end_dt AS ny_period_end_dt,\n\
+    \  NYWK.pmk_wk_strt_dt AS ny_week_start_dt,\n  NYWK.pmk_wk_end_dt AS ny_week_end_dt,\n\
+    \  NYCD.dy_of_yr_num AS ny_day_of_year_num,\n  NYCD.dom_num AS ny_day_of_period_num,\n\
+    \  NYCD.dy_of_wk_num AS ny_day_of_week_num,\n  NYWK.pmk_wk_of_yr_num AS ny_week_of_year_num,\n\
+    \  NYWK.pmk_wk_of_prd_num AS ny_week_of_period_num,\n  NYPD.pmk_prd_of_yr_num\
+    \ AS ny_period_of_year_num,\n  NYWK.cstm_cal_wk_id AS ny_year_week,\n  NYPD.cstm_cal_mth_id\
+    \ AS ny_year_period,\n  NYYR.cstm_cal_yr_id AS ny_year_num\nFROM\n  -- Start with\
+    \ the Day table for the current year (TYCD)\n  DY AS TYCD\n  -- Join to get the\
+    \ corresponding day for the previous year (LYCD)\n  LEFT OUTER JOIN DY AS LYCD\
+    \ ON TYCD.pmk_prior_cal_dy_wid = LYCD.cstm_cal_dy_wid\n  -- Join to get the corresponding\
+    \ day for two years ago (LLYCD)\n  LEFT OUTER JOIN DY AS LLYCD ON LYCD.pmk_prior_cal_dy_wid\
+    \ = LLYCD.cstm_cal_dy_wid\n  -- Join to get the corresponding day for three years\
+    \ ago (LLLYCD)\n  LEFT OUTER JOIN DY AS LLLYCD ON LLYCD.pmk_prior_cal_dy_wid =\
+    \ LLLYCD.cstm_cal_dy_wid\n  -- Join to get the corresponding day for the next\
+    \ year (NYCD)\n  LEFT OUTER JOIN DY AS NYCD ON TYCD.pmk_prior_cal_dy_wid = NYCD.cstm_cal_dy_wid\n\
+    \  /* Join to Week level for all years */\n  LEFT OUTER JOIN WK AS TYWK ON TYCD.cstm_cal_wk_wid\
+    \ = TYWK.cstm_cal_wk_wid\n  LEFT OUTER JOIN WK AS LYWK ON LYCD.cstm_cal_wk_wid\
+    \ = LYWK.cstm_cal_wk_wid\n  LEFT OUTER JOIN WK AS LLYWK ON LLYCD.cstm_cal_wk_wid\
+    \ = LLYWK.cstm_cal_wk_wid\n  LEFT OUTER JOIN WK AS LLLYWK ON LLLYCD.cstm_cal_wk_wid\
+    \ = LLLYWK.cstm_cal_wk_wid\n  LEFT OUTER JOIN WK AS NYWK ON NYCD.cstm_cal_wk_wid\
+    \ = NYWK.cstm_cal_wk_wid\n  /* Join to Month-Week mapping for all years */\n \
+    \ LEFT OUTER JOIN MT AS TYMT ON TYWK.cstm_cal_wk_wid = TYMT.cstm_cal_wk_wid\n\
+    \  LEFT OUTER JOIN MT AS LYMT ON LYWK.cstm_cal_wk_wid = LYMT.cstm_cal_wk_wid\n\
+    \  LEFT OUTER JOIN MT AS LLYMT ON LLYWK.cstm_cal_wk_wid = LLYMT.cstm_cal_wk_wid\n\
+    \  LEFT OUTER JOIN MT AS LLLYMT ON LLLYWK.cstm_cal_wk_wid = LLLYMT.cstm_cal_wk_wid\n\
+    \  LEFT OUTER JOIN MT AS NYMT ON NYWK.cstm_cal_wk_wid = NYMT.cstm_cal_wk_wid\n\
+    \  /* Join to Period (Month) level for all years */\n  LEFT OUTER JOIN PD AS TYPD\
+    \ ON TYMT.cstm_cal_prd_wid = TYPD.cstm_cal_prd_wid\n  LEFT OUTER JOIN PD AS LYPD\
+    \ ON LYMT.cstm_cal_prd_wid = LYPD.cstm_cal_prd_wid\n  LEFT OUTER JOIN PD AS LLYPD\
+    \ ON LLYMT.cstm_cal_prd_wid = LLYPD.cstm_cal_prd_wid\n  LEFT OUTER JOIN PD AS\
+    \ LLLYPD ON LLLYMT.cstm_cal_prd_wid = LLLYPD.cstm_cal_prd_wid\n  LEFT OUTER JOIN\
+    \ PD AS NYPD ON NYMT.cstm_cal_prd_wid = NYPD.cstm_cal_prd_wid\n  /* Join to Year\
+    \ level for all years */\n  LEFT OUTER JOIN YR AS TYYR ON TYPD.cstm_cal_yr_wid\
+    \ = TYYR.cstm_cal_yr_wid\n  LEFT OUTER JOIN YR AS LYYR ON LYPD.cstm_cal_yr_wid\
+    \ = LYYR.cstm_cal_yr_wid\n  LEFT OUTER JOIN YR AS LLYYR ON LLYPD.cstm_cal_yr_wid\
+    \ = LLYYR.cstm_cal_yr_wid\n  LEFT OUTER JOIN YR AS LLLYYR ON LLLYPD.cstm_cal_yr_wid\
+    \ = LLLYYR.cstm_cal_yr_wid\n  LEFT OUTER JOIN YR AS NYYR ON NYPD.cstm_cal_yr_wid\
+    \ = NYYR.cstm_cal_yr_wid\n  /* Join to Seasonal data */\n  LEFT OUTER JOIN SSN\
+    \ ON SSN.calendar_dt = TYCD.greg_dt;"
 steps:
 - description: .nan
   file_name: .nan
@@ -640,7 +744,7 @@ steps:
   step_pattern: STANDARD_DELETE_INSERT
   steps: 300
   target_database: T_TMP_ACC_FND
-  target_table: .nan
+  target_table: FND1010_DW_FND_DATE_DIM
 - description: .nan
   file_name: .nan
   job_name: FND1010
@@ -654,6 +758,6 @@ steps:
   target_database: .nan
   target_table: .nan
 target_database_name: T_TMP_ACC_FND
-target_table_name: DW_FND_DATE_DIM
+target_table_name: FND1010_DW_FND_DATE_DIM
 transformation_key:
 - calendar_dt
