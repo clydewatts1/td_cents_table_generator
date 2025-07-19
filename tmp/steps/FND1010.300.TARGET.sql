@@ -21,12 +21,12 @@
 */
 
 
-DELETE FROM DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM
+DELETE FROM DWT04T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM
 ;
 
 .IF ERRORCODE <> 0 THEN .QUIT 101
 
-INSERT INTO DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM
+INSERT INTO DWT04T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM
 (
     calendar_dt,
     year_start_dt,
@@ -125,31 +125,31 @@ three years ago (LLLY), and the next year (NY). It also includes seasonal inform
 WITH
   -- Day level calendar data
   DY AS (
-    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_DY
+    SELECT * FROM DWT04A_IDW.CSTM_CAL_DY
     WHERE
       cur_flg = 'Y'
   ),
   -- Week level calendar data
   WK AS (
-    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_WK
+    SELECT * FROM DWT04A_IDW.CSTM_CAL_WK
     WHERE
       cur_flg = 'Y'
   ),
   -- Month-Week mapping data
   MT AS (
-    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_MTH_WK
+    SELECT * FROM DWT04A_IDW.CSTM_CAL_MTH_WK
     WHERE
       cur_flg = 'Y'
   ),
   -- Period (Month) level calendar data
   PD AS (
-    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_MTH
+    SELECT * FROM DWT04A_IDW.CSTM_CAL_MTH
     WHERE
       cur_flg = 'Y'
   ),
   -- Year level calendar data
   YR AS (
-    SELECT * FROM DW${INSTANCE}A_IDW.CSTM_CAL_YR
+    SELECT * FROM DWT04A_IDW.CSTM_CAL_YR
     WHERE
       cur_flg = 'Y'
   ),
@@ -173,8 +173,8 @@ WITH
         SSD.sson_wid(SMALLINT)
       ) AS season_map
     FROM
-      DW${INSTANCE}A_IDW.PMK_SSON_DAY AS SSD
-      INNER JOIN DW${INSTANCE}A_IDW.SSON AS SSN ON SSD.sson_wid = SSN.sson_wid
+      DWT04A_IDW.PMK_SSON_DAY AS SSD
+      INNER JOIN DWT04A_IDW.SSON AS SSN ON SSD.sson_wid = SSN.sson_wid
       AND SSD.cur_flg = 'Y'
       AND SSN.cur_flg = 'Y'
   )

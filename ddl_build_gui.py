@@ -293,6 +293,9 @@ class MainWindow(QMainWindow):
         self.setMenuBar(self.menu_bar)
         self.update_traffic_light()
         self.init_ui()
+        # Add traffic light and label to the status bar (right side)
+        self.status_bar.addPermanentWidget(self.traffic_light)
+        self.status_bar.addPermanentWidget(self.teradata_label)
         self.setup_logging()
 
     # load_config is no longer needed, config is loaded globally
@@ -688,15 +691,14 @@ class MainWindow(QMainWindow):
         dialog.exec_()
 
     def update_traffic_light(self):
-        # Draw a colored circle: dark green if connected, red if not
+        # Draw a colored circle: green if connected, red if not
         QPixmap = QtGui.QPixmap
         QPainter = QtGui.QPainter
         QColor = QtGui.QColor
         pixmap = QPixmap(24, 24)
         pixmap.fill(Qt.transparent)
         painter = QPainter(pixmap)
-        # Use purple shade (e.g., #800080) for connected, red for not
-        color = QColor('#800080') if self.teradata_connected else QColor('red')
+        color = QColor('#008000') if self.teradata_connected else QColor('red')
         painter.setBrush(color)
         painter.setPen(Qt.black)
         painter.drawEllipse(2, 2, 20, 20)

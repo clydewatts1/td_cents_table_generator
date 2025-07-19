@@ -7,8 +7,9 @@ import yaml
 import logging
 import pprint
 import jinja2
+from datetime import datetime
 
-def read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps):
+def read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps,steps_data):
     #loop through steps looking for file name then search for File Name in sheet
     return_code = 0
     return_text = "Read successful."
@@ -59,11 +60,26 @@ def read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps):
     if df_steps is None:
         logging.error("DataFrame df_steps is None. Cannot proceed with reading the Excel file.")
         return -1, "DataFrame df_steps is None.", None
-    for step in df_steps.to_dict(orient='records'):
+    # 
+    # loop the steps getting index , and data
+    if not isinstance(steps_data, list):
+        logging.error("Steps data is not in the expected format. Expected a list.")
+        return -1, "Steps data is not in the expected format.", None
+    if not steps_data:
+        logging.error("Steps data is empty. Cannot proceed with reading the Excel file.")
+        return -1, "Steps data is empty.", None
+    logging.info("Processing %d steps from df_steps.", len(steps_data))
+    # loop through steps_data
+    for index, step in enumerate(steps_data):
+        # add step file present indicator to step
+        steps_data[index]['file_present'] = False
+        steps_data[index]['sql_statement'] = "/* ERROR : no steps found for this step */"
+        # print step:
         print(f"Step: {step}")
         # get file name from step['file_name']
         file_name = step.get('file_name', None)
         print(f"File Name: {file_name}")
+        
         # if file_name is None:
         if file_name is None or not isinstance(file_name, str):
             logging.error(
@@ -120,6 +136,8 @@ def read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps):
             file_name,
             sql_statement,
         )
+        steps_data[index]['file_present'] = True  # Mark the file as present in the step data
+        steps_data[index]['sql_statement'] = sql_statement  # Add SQL statement to step data
         # write sql_statement to a file in sql_path
         if not os.path.exists(sql_path):
             os.makedirs(sql_path)
@@ -631,9 +649,12 @@ def convert_excel_to_yaml(filename, config_dict):
     df_mapping_detail['column_sequence_reverse'] = df_mapping_detail['column_sequence'].max() - df_mapping_detail['column_sequence'] + 1
 
     data_mapping_detail = df_mapping_detail.to_dict(orient='records')
+    # delete any row in column_action = mapping
+    data_mapping_detail = [row for row in data_mapping_detail if row['column_action'] != 'mapping']
+
     print(f"Mapping Detail: \n{df_mapping_detail.head(4)}")
     
-    return_code, return_text,dict_steps_sql = read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps)
+    return_code, return_text,dict_steps_sql = read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps,steps_data)
     if return_code != 0:
         logging.error(
             "Error reading SQL steps from %s: %s",
@@ -882,8 +903,8 @@ def build_job(filename, config_dict):
     for step in yaml_dict.get('steps', []):
         step_name = step.get('step_name', 'default_step')
         step_pattern = step.get('step_pattern', 'default_step.j2')
-        if step_pattern == 'STANDARD_END':
-            logging.info("Skipping step: %s (STANDARD_END)", step_name)
+        if step_pattern == 'STANDARD_START':
+            logging.info("Skipping step: %s (STANDARD_START)", step_name)
             continue
         if step_pattern == 'STANDARD_END':
             logging.info("Skipping step: %s (STANDARD_END)", step_name)  
@@ -895,6 +916,8 @@ def build_job(filename, config_dict):
         try:
             step_template = env.get_template(step_template_name)
             # Render the step template
+            step['build_date'] = datetime.now().strftime('%Y-%m-%d')
+            step['build_time'] = datetime.now().strftime('%H:%M:%S')
             step_rendered = step_template.render(step=step, mapping=yaml_dict, job_dict=job_dict, config=config_local)
         except jinja2.exceptions.TemplateNotFound as e:
             logging.error(
@@ -909,6 +932,26 @@ def build_job(filename, config_dict):
         logging.info("Processing step: %s", step_name)
         # Here you would implement the logic to build each step
         # For now, we just log the step details
+        # Get step directory from config
+        step_directory = config_local.get('steps_path', 'steps')
+        if not os.path.isdir(step_directory):
+            logging.error(
+                "Step directory %s does not exist. Please check your configuration.",
+                step_directory,
+            )
+            return -1, "Step directory does not exist."
+        step_file_path = os.path.join(step_directory, step['file_name'])
+        # Write the step to a file
+        try:
+            with open(step_file_path, 'w', encoding='utf-8') as step_file:
+                step_file.write(step_rendered)
+        except (OSError, yaml.YAMLError) as e:
+            logging.error(
+                "Error writing step file %s: %s",
+                step_file_path,
+                str(e),
+            )
+            return -1, str(e)
         logging.info("Step details: %s", pprint.pformat(step))
     logging.info("Successfully processed %s", filename)
     return 0, "Successfully processed."

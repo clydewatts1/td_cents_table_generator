@@ -64,11 +64,11 @@ def drop_using_file(filename,config):
     instance = config.get('instance', 'T04')
 
     ddl_drop_content = ddl_drop_content.replace('${INSTANCE}', instance)    
-    ddl_drop_content = ddl_drop_content.replace('T_TMP_ACC_FND','T_TMP_ACC_OLR')
-    ddl_drop_content = ddl_drop_content.replace('T_ACC_FND','T_ACC_OLR')
-    ddl_drop_content = ddl_drop_content.replace('A_ACC_FND','A_ACC_OLR')    
-    ddl_drop_content = ddl_drop_content.replace('C_ACC_FND','C_ACC_OLR')        
-    ddl_drop_content = ddl_drop_content.replace('V_ACC_FND','V_ACC_OLR')    
+    #ddl_drop_content = ddl_drop_content.replace('T_TMP_ACC_FND','T_TMP_ACC_OLR')
+    #ddl_drop_content = ddl_drop_content.replace('T_ACC_FND','T_ACC_OLR')
+    #ddl_drop_content = ddl_drop_content.replace('A_ACC_FND','A_ACC_OLR')    
+    #ddl_drop_content = ddl_drop_content.replace('C_ACC_FND','C_ACC_OLR')        
+    #ddl_drop_content = ddl_drop_content.replace('V_ACC_FND','V_ACC_OLR')    
     print(ddl_drop_content)
     try:
         with conn.cursor() as cursor:
@@ -91,10 +91,10 @@ def create_using_file(filename,config):
     #filename = filename.replace('${INSTANCE}', instance)    
     print(f"Executing DDL for {filename} on Teradata...")
     ddl_content = ddl_content.replace('T_TMP_ACC_FND','T_TMP_ACC_OLR')
-    ddl_content = ddl_content.replace('T_ACC_FND','T_ACC_OLR')
-    ddl_content = ddl_content.replace('A_ACC_FND','A_ACC_OLR')    
-    ddl_content = ddl_content.replace('C_ACC_FND','C_ACC_OLR')        
-    ddl_content = ddl_content.replace('V_ACC_FND','V_ACC_OLR')            
+    #ddl_content = ddl_content.replace('T_ACC_FND','T_ACC_OLR')
+    #ddl_content = ddl_content.replace('A_ACC_FND','A_ACC_OLR')    
+    #ddl_content = ddl_content.replace('C_ACC_FND','C_ACC_OLR')        
+    #ddl_content = ddl_content.replace('V_ACC_FND','V_ACC_OLR')            
 
     ddl_statements = sqlparse.split(ddl_content)
     for statement in ddl_statements:
@@ -115,6 +115,85 @@ def create_using_file(filename,config):
     print(f"DDL execution completed for {filename}.")
     return error_code, error_text
 
+
+#-------------------------------------------------------------------------------------
+# Run File
+#-------------------------------------------------------------------------------------
+def run_step_file(conn , filename, config,params=None):
+    """
+    Run a DDL file by dropping and creating the table using the provided config.
+    """
+    print(f"Processing DDL file: {filename}")
+    # if config in config then config = config['config']
+    if 'config' in config:
+        config = config['config']
+    if params is None:
+        params = {'INSTANCE': 'T04'}
+    # get steps paths
+    steps_path = config.get('steps_path', 'steps')
+    if not steps_path:
+        print("Steps path is not specified in the config file. Please check the config file.")
+        return 0, ''
+    # now create tmp path
+    tmp_path = config.get('tmp_path', 'tmp')
+    # if path does not exist create
+    # append steps to tmp path
+    tmp_path = Path(tmp_path) / 'steps'
+    if not tmp_path.exists():
+        tmp_path.mkdir(parents=True, exist_ok=True)
+    # now check if file exists in steps path
+    sql_file = Path(steps_path) / filename
+    if not sql_file.exists():
+        print(f"File {sql_file} does not exist in steps path {steps_path}. Please check the config file.")
+        return 0, ''
+
+    # now check if file exists in tmp path
+    tmp_file = tmp_path / filename
+    # delete if tmp file exists
+    if tmp_file.exists():
+        tmp_file.unlink()
+    # read sql file content
+    with open(sql_file, 'r') as f:
+        sql_content = f.read()
+    # Using strings template module to substitute params in the sql_content
+    from string import Template
+    sql_template = Template(sql_content)
+    # substitute params in the sql_content ,substitute INSTANCE with T04
+    # using regex replace line that starts with .   , replace the . with --
+    import re
+    sql_content = re.sub(r'^\.', r'\--.', sql_content)
+    
+    try:
+        sql_content = sql_template.substitute(params)
+    except KeyError as e:
+        print(f"Error substituting parameters in SQL content: {e}")
+        return -1, f"Error substituting parameters in SQL content: {e}"
+    # write to tmp file
+
+    with open(tmp_file, 'w') as f:
+        f.write(sql_content)
+
+    # now split each statement in the sql_content
+    sql_statements = sqlparse.split(sql_content)
+    if not sql_statements:
+        print(f"No SQL statements found in {filename}.")
+        return 0, ''
+
+    # now execute each statement
+    for statement in sql_statements:
+        statement = statement.strip()
+        if not statement:
+            continue
+        try:
+            with conn.cursor() as cursor:
+                print(f"Executing statement: {statement}")
+                cursor.execute(statement)
+                print(f"Executed: {statement}")
+        except Exception as e:
+            print(f"Error executing statement: {statement}\nError: {e}")
+            return -1, str(e)
+
+    return 0, ''
 
 if __name__ == "__main__":
 
@@ -145,13 +224,15 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # now glob all ddl files T_*.ddl in the output directory
-    ddl_files = list(Path(output_dir).glob('T_*.ddl'))
-    for ddl_file in ddl_files:
-        print(f"Processing DDL file: {ddl_file}")
-        # drop using file
-        drop_using_file(ddl_file,config)
-        # create using file
-        create_using_file(ddl_file,config)
+    #ddl_files = list(Path(output_dir).glob('T_*.ddl'))
+    #for ddl_file in ddl_files:
+    #    print(f"Processing DDL file: {ddl_file}")
+    #    # drop using file
+    #    drop_using_file(ddl_file,config)
+    #    # create using file
+    #    create_using_file(ddl_file,config)
+    run_step_file(conn , 'FND1010.300.TARGET.sql', config,params=None)
+
 
 
 
