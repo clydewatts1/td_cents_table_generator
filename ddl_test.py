@@ -90,7 +90,7 @@ def create_using_file(filename,config):
     ddl_content = ddl_content.replace('${INSTANCE}', instance)
     #filename = filename.replace('${INSTANCE}', instance)    
     print(f"Executing DDL for {filename} on Teradata...")
-    ddl_content = ddl_content.replace('T_TMP_ACC_FND','T_TMP_ACC_OLR')
+    #ddl_content = ddl_content.replace('T_TMP_ACC_FND','T_TMP_ACC_OLR')
     #ddl_content = ddl_content.replace('T_ACC_FND','T_ACC_OLR')
     #ddl_content = ddl_content.replace('A_ACC_FND','A_ACC_OLR')    
     #ddl_content = ddl_content.replace('C_ACC_FND','C_ACC_OLR')        
@@ -149,6 +149,14 @@ def run_step_file(conn , filename, config,params=None):
 
     # now check if file exists in tmp path
     tmp_file = tmp_path / filename
+    # add file for spliting
+    tmp_split_path = tmp_path / 'split'
+    if not tmp_split_path.exists():
+        tmp_split_path.mkdir(parents=True, exist_ok=True)
+    # delete all files in tmp_split_path
+    for file in tmp_split_path.glob('*.sql'):
+        file.unlink()
+    # if tmp_file exists delete it
     # delete if tmp file exists
     if tmp_file.exists():
         tmp_file.unlink()
@@ -157,13 +165,17 @@ def run_step_file(conn , filename, config,params=None):
         sql_content = f.read()
     # Using strings template module to substitute params in the sql_content
     from string import Template
-    sql_template = Template(sql_content)
+
     # substitute params in the sql_content ,substitute INSTANCE with T04
     # using regex replace line that starts with .   , replace the . with --
     import re
     sql_content = re.sub(r'^\.', r'\--.', sql_content)
+    # try brute force substitution for tjc commands
+    sql_content = sql_content.replace('.IF','--.IF')
+    
     
     try:
+        sql_template = Template(sql_content)
         sql_content = sql_template.substitute(params)
     except KeyError as e:
         print(f"Error substituting parameters in SQL content: {e}")
@@ -180,17 +192,33 @@ def run_step_file(conn , filename, config,params=None):
         return 0, ''
 
     # now execute each statement
-    for statement in sql_statements:
+    for split_index, statement in enumerate(sql_statements):
         statement = statement.strip()
+        filename_without_ext = Path(filename).stem
+        file_name_split = tmp_split_path / f"{filename_without_ext}.{split_index}.sql"
+        # write each statement to a file
+        fh = open(file_name_split, 'w')
+        fh.write(statement)
+        fh.flush()
+        print("\n-------------------------------------------------------------------------------------\n", file=fh)
         if not statement:
+            print("\n-- Skipping empty statement.\n",file=fh)
+            fh.close()
             continue
         try:
+            # file name is filename.<split index>.sql
+            # remove file extension from filename
+
             with conn.cursor() as cursor:
                 print(f"Executing statement: {statement}")
                 cursor.execute(statement)
                 print(f"Executed: {statement}")
+                fh.write(f"-- EXECUTED SUCCESSFULLY\n")
+                fh.close()
         except Exception as e:
             print(f"Error executing statement: {statement}\nError: {e}")
+            fh.write(f"-- ERROR: {e}\n")
+            fh.close()
             return -1, str(e)
 
     return 0, ''

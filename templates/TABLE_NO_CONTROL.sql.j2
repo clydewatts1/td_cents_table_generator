@@ -14,9 +14,8 @@ CREATE {{ table_kind }} TABLE DW${INSTANCE}{{ build.databasename }}.{{table_quot
 {% else -%}
 {% set column_type = column.column_type -%}
 {% endif -%}
-{{"    "}}{{quote}}{{ column.column_name }}{{quote}} {{ column_type }} {{ is_null }} {{ column_format }}{{option}}{%if not loop.last %},{%else%},{% endif -%}
+{{"    "}}{{quote}}{{ column.column_name }}{{quote}} {{ column_type }} {{ is_null }} {{ column_format }}{{option}}{%if not loop.last %},{%else%} {% endif -%}
 {% endfor -%}
-{{ dd.control_columns(control_columns,table_quote) -}}
 {{"    "}})
 {{"    "}}{{primary_index}}
 ;
@@ -34,7 +33,6 @@ COMMENT ON DW${INSTANCE}{{ build.databasename }}.{{table_quote}}{{ build.tablena
 {% endif -%}
 {% endfor %}
 
-{{ dd.control_columns_comments(control_columns,build.databasename,build.tablename,table_quote) -}}
 
 /*-----------------------------------------------------------------------------
 * END OF TABLE CREATION

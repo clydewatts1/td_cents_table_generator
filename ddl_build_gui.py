@@ -374,6 +374,9 @@ class MainWindow(QMainWindow):
                 self.step_list = QListWidget()
                 self.step_list.setSelectionMode(QListWidget.SingleSelection)
                 step_vbox.addWidget(self.step_list)
+                # Add Run Step button
+                self.run_step_btn = QPushButton('Run Step')
+                step_vbox.addWidget(self.run_step_btn)
                 self.layout.addLayout(step_vbox)
                 # Populate job list
                 self.all_jobs = []
@@ -385,6 +388,114 @@ class MainWindow(QMainWindow):
                     item = QListWidgetItem(fname)
                     self.job_list.addItem(item)
                 self.job_list.currentItemChanged.connect(self.update_step_list)
+                self.run_step_btn.clicked.connect(self.open_run_step_dialog)
+
+            def update_step_list(self, current, previous):
+                self.step_list.clear()
+                if not current:
+                    return
+                job_name = os.path.splitext(current.text())[0]
+                if os.path.isdir(self.steps_dir):
+                    pattern = f"{job_name}*.sql"
+                    files = fnmatch.filter(os.listdir(self.steps_dir), pattern)
+                    for fname in sorted(files):
+                        item = QListWidgetItem(fname)
+                        self.step_list.addItem(item)
+
+            def open_run_step_dialog(self):
+                selected_items = self.step_list.selectedItems()
+                if not selected_items:
+                    QMessageBox.warning(self, 'No Step Selected', 'Please select a Step SQL file to run.')
+                    return
+                step_file = selected_items[0].text()
+                step_file_path = os.path.join(self.steps_dir, step_file)
+                if not os.path.exists(step_file_path):
+                    QMessageBox.warning(self, 'File Not Found', f'Step file does not exist: {step_file_path}')
+                    return
+                # Read the step SQL file content
+                try:
+                    with open(step_file_path, 'r', encoding='utf-8') as f:
+                        step_sql_content = f.read()
+                except Exception as e:
+                    QMessageBox.critical(self, 'Read Error', f'Error reading step file: {e}')
+                    return
+                # Open the Run Step dialog
+                run_step_dialog = QDialog(self)
+                run_step_dialog.setWindowTitle(f'Run Step: {step_file}')
+                run_step_dialog.resize(900, 600)
+                vbox = QVBoxLayout()
+                # Step SQL label and text window
+                step_sql_label = QLabel('Step SQL:')
+                vbox.addWidget(step_sql_label)
+                step_sql_text = QTextEdit()
+                step_sql_text.setReadOnly(True)
+                step_sql_text.setPlainText(step_sql_content)
+                vbox.addWidget(step_sql_text)
+                # Results label and text window
+                results_label = QLabel('Results:')
+                vbox.addWidget(results_label)
+                results_text = QTextEdit()
+                results_text.setReadOnly(True)
+                vbox.addWidget(results_text)
+                # Traffic light
+                traffic_light = QLabel()
+                traffic_light.setFixedSize(24, 24)
+                def set_traffic_light_color(ok):
+                    from PyQt5.QtGui import QPixmap, QPainter, QColor
+                    pixmap = QPixmap(24, 24)
+                    pixmap.fill(Qt.transparent)
+                    painter = QPainter(pixmap)
+                    color = QColor('#008000') if ok else QColor('red')
+                    painter.setBrush(color)
+                    painter.setPen(Qt.black)
+                    painter.drawEllipse(2, 2, 20, 20)
+                    painter.end()
+                    traffic_light.setPixmap(pixmap)
+                set_traffic_light_color(True)  # Default to green
+                # Run button
+                run_btn = QPushButton('Run')
+                copy_btn = QPushButton('Copy Results to Clipboard')
+                copy_sql_btn = QPushButton('Copy SQL to Clipboard')
+                def run_step():
+                    import ddl_test
+                    # Use config from parent MainWindow
+                    config = self.parent().config if hasattr(self.parent(), 'config') else {}
+                    # Use global conn if available
+                    conn = None
+                    try:
+                        import sys
+                        sys.path.append(os.getcwd())
+                        from ddl_test import conn as global_conn
+                        conn = global_conn
+                    except Exception:
+                        pass
+                    # Run the step file
+                    try:
+                        ret_code, ret_text = ddl_test.run_step_file(conn, step_file, config)
+                        results_text.setPlainText(str(ret_text))
+                        set_traffic_light_color(ret_code == 0)
+                    except Exception as e:
+                        results_text.setPlainText(f'Error: {e}')
+                        set_traffic_light_color(False)
+                def copy_results():
+                    clipboard = QApplication.clipboard()
+                    clipboard.setText(results_text.toPlainText())
+                def copy_sql():
+                    clipboard = QApplication.clipboard()
+                    clipboard.setText(step_sql_text.toPlainText())
+                copy_btn.clicked.connect(copy_results)
+                copy_sql_btn.clicked.connect(copy_sql)
+                run_btn.clicked.connect(run_step)
+                # Layout for run button, copy buttons, and traffic light
+                hbox = QHBoxLayout()
+                hbox.addWidget(run_btn)
+                hbox.addWidget(copy_btn)
+                hbox.addWidget(copy_sql_btn)
+                hbox.addWidget(traffic_light)
+                hbox.addStretch(1)
+                vbox.addLayout(hbox)
+                run_step_dialog.setLayout(vbox)
+                run_step_dialog.exec_()
             def update_step_list(self, current, previous):
                 self.step_list.clear()
                 if not current:

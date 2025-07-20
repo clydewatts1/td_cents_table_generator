@@ -55,7 +55,8 @@ WITH
       SETBIT(
         (CAST(TO_BYTES('0', 'base10') AS BYTE(14))),
         SSD.sson_wid(SMALLINT)
-      ) AS season_map
+      ) AS season_map,
+      SSN.sson_wid AS season_wid
     FROM
       DW${INSTANCE}A_IDW.PMK_SSON_DAY AS SSD
       INNER JOIN DW${INSTANCE}A_IDW.SSON AS SSN ON SSD.sson_wid = SSN.sson_wid
@@ -76,7 +77,7 @@ SELECT
   TYCD.dom_num AS day_of_period_num,
   TYCD.dy_of_wk_num AS day_of_week_num,
   TYWK.pmk_wk_of_yr_num AS week_of_year_num,
-  TYWK.pmk_wk_of_prd_num AS week_of_period_num,
+  COALESCE(TYWK.pmk_wk_of_prd_num,0) AS week_of_period_num,
   TYPD.pmk_prd_of_yr_num AS period_of_year_num,
   TYWK.cstm_cal_wk_id AS year_week,
   TYPD.cstm_cal_mth_id AS year_period,
@@ -86,6 +87,7 @@ SELECT
   SSN.season_name,
   SSN.season_description,
   SSN.season_map,
+  SSN.season_wid,
   -- Last Year (LY) columns
   LYCD.greg_dt AS ly_calendar_dt,
   LYYR.pmk_yr_strt_dt AS ly_year_start_dt,
@@ -190,4 +192,4 @@ FROM
   LEFT OUTER JOIN YR AS LLLYYR ON LLLYPD.cstm_cal_yr_wid = LLLYYR.cstm_cal_yr_wid
   LEFT OUTER JOIN YR AS NYYR ON NYPD.cstm_cal_yr_wid = NYYR.cstm_cal_yr_wid
   /* Join to Seasonal data */
-  LEFT OUTER JOIN SSN ON SSN.calendar_dt = TYCD.greg_dt;
+  LEFT OUTER JOIN SSN ON SSN.calendar_dt = TYCD.greg_dt

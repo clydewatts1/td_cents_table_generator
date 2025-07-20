@@ -94,16 +94,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM
     ny_period_of_year_num BIGINT  FORMAT '99',
     ny_year_week INTEGER  FORMAT '999999',
     ny_year_period INTEGER  FORMAT '999999',
-    ny_year_num INTEGER  FORMAT '9999',
-    /* Control columns for auditing */
-    eff_from_dt DATE NOT NULL,
-    eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
-    del_ind BYTEINT NOT NULL COMPRESS(0),
-    run_id INTEGER NOT NULL,
-    update_run_id INTEGER COMPRESS(NULL) ,
-    job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
-    update_job_id VARCHAR(30) COMPRESS(NULL)
-    )
+    ny_year_num INTEGER  FORMAT '9999'     )
     UNIQUE PRIMARY INDEX(calendar_dt)
 ;
 
@@ -369,26 +360,6 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.ny_year_num AS 'ne
 ;
 
 
-
-    /* Control columns for auditing */
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.eff_from_dt AS 'The date from which the record is valid'
-;
-
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.eff_to_dt AS 'The date until which the record is valid'
-;
-
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.del_ind AS 'The deletion indicator for the record, 0 for active, 1 for deleted'
-;
-
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.run_id AS 'The run id of the ETL job that created the record'
-;
-
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.update_run_id AS 'The run id of the ETL job that last updated the record'
-;
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.job_id AS 'The job id of the ETL job that created the record'
-;
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1010_DW_FND_DATE_DIM.update_job_id AS 'The job id of the ETL job that last updated the record'
-;
 
 /*-----------------------------------------------------------------------------
 * END OF TABLE CREATION

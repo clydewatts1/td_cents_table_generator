@@ -282,11 +282,36 @@ def read_excel_to_dataframe_steps(filename, config_dict):
         "After dropping empty rows, df_steps shape: %s",
         str(df_steps.shape),
     )
+    # confert all columns to string type
+    df_steps = df_steps.astype(str)
+    # convert NaN values to empty strings
+    df_steps = df_steps.fillna('')
+    # if string column = 'nan' then replace with empty string
+    df_steps = df_steps.replace(r'^\s*nan\s*$', '', regex=True)
 
     # add sequence_no column which is is the sequence of steps starting from 1
     df_steps['sequence_no'] = range(1, len(df_steps) + 1)
     # now add the reverse sequence_no column
     df_steps['reverse_sequence_no'] = df_steps['sequence_no'].max() - df_steps['sequence_no'] + 1
+    # if column 'stats' does not exist add it
+    if 'stats' not in df_steps.columns:
+        logging.warning(
+            "Column 'stats' is missing in the 'Steps' sheet. Adding it with default value ''."
+        )
+        df_steps['stats'] = ''
+
+    # post_sql does not exist then add it
+    if 'post_sql' not in df_steps.columns:
+        logging.warning(
+            "Column 'post_sql' is missing in the 'Steps' sheet. Adding it with default value ''."
+        )
+        df_steps['post_sql'] = ''
+    # pre_sql does not exist then add it
+    if 'pre_sql' not in df_steps.columns:
+        logging.warning(
+            "Column 'pre_sql' is missing in the 'Steps' sheet. Adding it with default value ''."
+        )
+        df_steps['pre_sql'] = ''
 
     return 0, "Read successful.", df_steps
 
