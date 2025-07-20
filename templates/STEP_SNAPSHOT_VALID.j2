@@ -26,6 +26,16 @@ DELETE FROM DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
 
 .IF ERRORCODE <> 0 THEN .QUIT 101
 
+/*----------------------------------------------------------------------------
+
+# Insert into target table
+# This step inserts data into the target table from the source table.
+# It uses a left outer join to detect changes and only inserts records that are new or have changed.
+# The control columns are set to indicate the effective date range and deletion status.
+# The run_id and job_id are also set for tracking purposes.
+
+-------------------------------------------------------------------------------*/
+
 INSERT INTO DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
 (
     {%- for column in mapping.mapping_columns%}
@@ -79,11 +89,54 @@ OR (TRG.{{ column.target_column_name }} IS NOT NULL AND TRANS.{{ column.source_c
 {% endif %}
 .IF ERRORCODE <> 0 THEN .QUIT 101
 
-/* End of INSERT statement */
-END TRANSACTION
-;
-.IF ERRORCODE <> 0 THEN .QUIT 101
+/*------------------------------------------------------------------------------------------
 
+# Insert deleted records into the valid table 
+# these are records which are not present in source / transformation table 
+
+-------------------------------------------------------------------------------------------*/
+
+INSERT INTO DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
+(
+    {%- for column in mapping.mapping_columns%}
+    {% if column.column_action not in ('mapping','ignore')%}{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
+    {%- endfor %}
+    /* Control Columnts */
+    eff_from_dt,
+    eff_to_dt,
+    del_ind,
+    run_id,
+    update_run_id,
+    job_id,
+    update_job_id
+)
+{% if step.file_present == True%}{{step.sql_statement}}
+{% else %}
+SELECT
+    {%- for column in mapping.mapping_columns%}
+    {% if column.column_action not in ('mapping','ignore')%}TRG.{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
+    {%- endfor %}
+    /* Control Columnts */
+    date '${EFF_FROM}' AS eff_from_dt,
+    DATE '9999-12-31' AS eff_to_dt,
+    1 AS del_ind, /* Mark as deleted */
+    ${RUNID} AS run_id,
+    NULL AS update_run_id,
+    '${JOB}' AS job_id,
+    NULL AS update_job_id
+FROM DW${INSTANCE}{{mapping.target_database}}.{{ mapping.target_table }} AS TRG
+LEFT OUTER JOIN DW${INSTANCE}{{step.source_database}}.{{ step.source_table }} AS TRANS
+ON  TRG.eff_to_dt = DATE '9999-12-31' /* Current effective record */
+    {%- for column in mapping.mapping_columns%}
+    {%- if column.column_action in ('key') %}
+AND TRG.{{ column.target_column_name }} = TRANS.{{ column.source_column_name }} 
+    {% endif %}
+    {%- endfor %}
+WHERE TRANS.del_ind is NULL /* No existing or a deleted */
+;
+{% endif %}
+.IF ERRORCODE <> 0 THEN .QUIT 101
+/* End of step */
 
 {% if step.stats != None and step.stats != ''%}
 
