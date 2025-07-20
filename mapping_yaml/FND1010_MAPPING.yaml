@@ -756,7 +756,7 @@ steps:
     \ = NYYR.cstm_cal_yr_wid\n  /* Join to Seasonal data */\n  LEFT OUTER JOIN SSN\
     \ ON SSN.calendar_dt = TYCD.greg_dt"
   stats: INDEX(calendar_dt)
-  step_pattern: STANDARD_DELETE_INSERT
+  step_pattern: TRANS_DELETE_INSERT
   steps: '300'
   target_database: T_TMP_ACC_FND
   target_table: FND1010_DW_FND_DATE_DIM

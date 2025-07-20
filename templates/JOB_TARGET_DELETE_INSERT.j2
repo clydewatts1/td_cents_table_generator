@@ -1,0 +1,16 @@
+#-------------------------------------------------------------------------------
+# Step {{step.steps}} : {{step.description}}
+# Step Pattern JOB_TARGET_DELETE_INSERT
+# TODO: Add step parameters
+#-------------------------------------------------------------------------------
+
+step {{step.steps}} Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
+              -v MET_V="${MET_V}" \
+              -v STEP_NO="{{step.steps}}" \
+              -v INSTANCE="${INSTANCE:?}" \
+              -v TMP_T="${TMP_T:?}" \
+              -v RUN_ID="${RUN_ID:?}" \
+              -v RUNDATE="${RUNDATE:?}" \
+              -v RUNDTOFF="${RUNDTOFF:?}" \
+              -v JOB=${JOB:?} ${STEP_DIR:?}/{{step.file_name}}
+

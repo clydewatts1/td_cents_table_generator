@@ -129,6 +129,22 @@ def run_step_file(conn , filename, config,params=None):
         config = config['config']
     if params is None:
         params = {'INSTANCE': 'T04'}
+    #  LDTK_DATE = yesterdays date
+    from datetime import datetime, timedelta
+    yesterday = datetime.now() - timedelta(days=1)
+    params['LDTK_DATE'] = yesterday.strftime('%Y-%m-%d')
+    # EFF_TO_DATE = todays date
+    today = datetime.now()
+    params['EFF_TO_DATE'] = today.strftime('%Y-%m-%d')
+    # RUN_ID = random number between 1 and 10000 
+    import random
+    params['RUNID'] = random.randint(1, 10000)
+    # job id based on filename split on <JOBNAME>_....
+    job = filename.split('_')[0]
+    params['JOB'] = job
+
+
+    #print(params)
     # get steps paths
     steps_path = config.get('steps_path', 'steps')
     if not steps_path:
@@ -171,6 +187,11 @@ def run_step_file(conn , filename, config,params=None):
     import re
     sql_content = re.sub(r'^\.', r'\--.', sql_content)
     # try brute force substitution for tjc commands
+    # replace BEGIN TRANSACTION with --BEGIN TRANSACTION
+    sql_content = sql_content.replace('BEGIN TRANSACTION', '--BEGIN TRANSACTION')
+
+    # replace END TRANSACTION with --END TRANSACTION
+    sql_content = sql_content.replace('END TRANSACTION', '--END TRANSACTION')
     sql_content = sql_content.replace('.IF','--.IF')
     
     
@@ -214,6 +235,10 @@ def run_step_file(conn , filename, config,params=None):
                 cursor.execute(statement)
                 print(f"Executed: {statement}")
                 fh.write(f"-- EXECUTED SUCCESSFULLY\n")
+                #get row count from cursor
+                row_count = cursor.rowcount
+                print(f"Row count: {row_count}")
+                fh.write(f"-- ROW COUNT: {row_count}\n")
                 fh.close()
         except Exception as e:
             print(f"Error executing statement: {statement}\nError: {e}")
@@ -259,7 +284,7 @@ if __name__ == "__main__":
     #    drop_using_file(ddl_file,config)
     #    # create using file
     #    create_using_file(ddl_file,config)
-    run_step_file(conn , 'FND1010.300.TARGET.sql', config,params=None)
+    run_step_file(conn , 'FND1012.300.TARGET.sql', config,params=None)
 
 
 

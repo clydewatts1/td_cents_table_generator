@@ -437,21 +437,31 @@ class MainWindow(QMainWindow):
                 results_text = QTextEdit()
                 results_text.setReadOnly(True)
                 vbox.addWidget(results_text)
-                # Traffic light
+                # Traffic light and label
                 traffic_light = QLabel()
                 traffic_light.setFixedSize(24, 24)
-                def set_traffic_light_color(ok):
+                traffic_label = QLabel('Run Status')
+                traffic_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                def set_traffic_light_color(state):
+                    # state: 'gray', 'orange', 'green', 'red'
                     from PyQt5.QtGui import QPixmap, QPainter, QColor
                     pixmap = QPixmap(24, 24)
                     pixmap.fill(Qt.transparent)
                     painter = QPainter(pixmap)
-                    color = QColor('#008000') if ok else QColor('red')
+                    if state == 'green':
+                        color = QColor('#008000')
+                    elif state == 'red':
+                        color = QColor('red')
+                    elif state == 'orange':
+                        color = QColor('orange')
+                    else:
+                        color = QColor('gray')
                     painter.setBrush(color)
                     painter.setPen(Qt.black)
                     painter.drawEllipse(2, 2, 20, 20)
                     painter.end()
                     traffic_light.setPixmap(pixmap)
-                set_traffic_light_color(True)  # Default to green
+                set_traffic_light_color('gray')  # Default to gray when dialog opens
                 # Run button
                 run_btn = QPushButton('Run')
                 copy_btn = QPushButton('Copy Results to Clipboard')
@@ -469,14 +479,20 @@ class MainWindow(QMainWindow):
                         conn = global_conn
                     except Exception:
                         pass
+                    # Set traffic light to orange (running)
+                    set_traffic_light_color('orange')
+                    QApplication.processEvents()
                     # Run the step file
                     try:
                         ret_code, ret_text = ddl_test.run_step_file(conn, step_file, config)
                         results_text.setPlainText(str(ret_text))
-                        set_traffic_light_color(ret_code == 0)
+                        if ret_code == 0:
+                            set_traffic_light_color('green')
+                        else:
+                            set_traffic_light_color('red')
                     except Exception as e:
                         results_text.setPlainText(f'Error: {e}')
-                        set_traffic_light_color(False)
+                        set_traffic_light_color('red')
                 def copy_results():
                     clipboard = QApplication.clipboard()
                     clipboard.setText(results_text.toPlainText())
@@ -486,12 +502,13 @@ class MainWindow(QMainWindow):
                 copy_btn.clicked.connect(copy_results)
                 copy_sql_btn.clicked.connect(copy_sql)
                 run_btn.clicked.connect(run_step)
-                # Layout for run button, copy buttons, and traffic light
+                # Layout for run button, copy buttons, traffic light, and label
                 hbox = QHBoxLayout()
                 hbox.addWidget(run_btn)
                 hbox.addWidget(copy_btn)
                 hbox.addWidget(copy_sql_btn)
                 hbox.addWidget(traffic_light)
+                hbox.addWidget(traffic_label)
                 hbox.addStretch(1)
                 vbox.addLayout(hbox)
                 run_step_dialog.setLayout(vbox)

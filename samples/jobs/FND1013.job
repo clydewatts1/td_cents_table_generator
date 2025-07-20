@@ -5,7 +5,7 @@
 # ===============================================================================
 # ===============================================================================
 # File Name           : 
-# Pattern             : Staging
+# Pattern             : SNAPSHOT
 # Purpose             : 
 # Author              : 
 # File Type           : JOB
@@ -133,22 +133,7 @@ tjc_stepout -l|grep ^\!|cut -d\! -f2 >${JOB_PARAM_WORKFILE}
 
 # Overwrite parameters with command line
 export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
-#-------------------------------------------------------------------------------
-# Step 300 : This will do a insert into target table based on mapping
-# Step Pattern JOB_TARGET_DELETE_INSERT
-# TODO: Add step parameters
-#-------------------------------------------------------------------------------
-
-step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v MET_V="${MET_V}" \
-              -v STEP_NO="300" \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v TMP_T="${TMP_T:?}" \
-              -v RUN_ID="${RUN_ID:?}" \
-              -v RUNDATE="${RUNDATE:?}" \
-              -v RUNDTOFF="${RUNDTOFF:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND1012.300.TARGET.sql
-
+ddd# TODO
 #------------------------------------------------------------------------------------
 # Step 900 : Load Stop
 #------------------------------------------------------------------------------------

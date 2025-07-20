@@ -1040,7 +1040,7 @@ if __name__ == "__main__":
 
     #    except Exception as e:
     #        logger.error("Error processing file %s: %s", mapping_file, e)
-    job_name = 'FND1010'  # Example job name
+    job_name = 'FND1013'  # Example job name
     logger.info("Starting conversion and job building for %s", job_name)
     excel_name = f"{job_name}_MAPPING.xlsx"
     ret_code, ret_text = convert_excel_to_yaml(excel_name, config)
