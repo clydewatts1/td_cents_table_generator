@@ -54,7 +54,7 @@ INSERT INTO DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
 {% else %}
 SELECT
     {%- for column in mapping.mapping_columns%}
-    {% if column.column_action not in ('mapping','ignore')%}TRANS.{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
+    {% if column.column_action not in ('mapping','ignore')%}SRC.{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
     {%- endfor %}
     /* Control Columnts */
     date '${EFF_FROM}' AS eff_from_dt,
