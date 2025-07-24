@@ -1,0 +1,296 @@
+control_columns: .nan
+job_name_from_file: FND1040
+job_name_from_mapping: FND1040
+mapping_columns:
+- column_action: key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 3
+  source_column_name: STL.styl_wid
+  target_column_name: styl_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 2
+  source_column_name: STL.item_sbclass_wid
+  target_column_name: item_sbclas_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 1
+  source_column_name: nan
+  target_column_name: styl_sbclass_vers_num
+mapping_columns_count: 3
+mapping_sheet_name: MAPPING
+pattern: SNAPSHOT
+primary_key:
+- styl_wid
+sql_steps:
+  FND1040.190.TRANS: "-- This query calculates the correct version number for a style's\
+    \ subclass (`styl_sbclass_vers_num`).\n-- It handles new styles, reclassified\
+    \ styles, and unchanged styles.\n--\n--      +-------------------------------------------+\n\
+    --      |      The Union of A and B (A U B)         |\n--      |      (All styles\
+    \ involved with a subclass)|\n--      |                                      \
+    \     |\n--      |      Set A              Set B             |\n--      |   +-----------+\
+    \    +-----------+          |\n--      |   |           |    |           |    \
+    \      |\n--      |   | Style 1   |    |  Style 4  |          |\n--      |   |\
+    \ (Removed) +----+ (Added)   |          |\n--      |   |           | S  |    \
+    \       |          |\n--      |   +-----------+ t  +-----------+          |\n\
+    --      |               | y    |                    |\n--      |             \
+    \  | l    |                    |\n--      |               | e    |           \
+    \         |\n--      |               | s    |                    |\n--      |\
+    \               |      |                    |\n--      |               | 2,3 \
+    \ |                    |\n--      |               |      |                   \
+    \ |\n--      |               |(Same)|                    |\n--      |        \
+    \       +------+                    |\n--      |                             \
+    \              |\n--      +-------------------------------------------+\nWITH\n\
+    -- CTE 1: STYL_REF\n-- Gathers the most recent (current) style-to-subclass mappings\
+    \ from the source.\nSTYL_REF AS (\n    SELECT\n        styl_wid,\n        item_sbclas_wid\n\
+    \    FROM\n        DWP01A_IDW.STYL\n    WHERE\n        cur_flg = 'Y' -- Filters\
+    \ for currently active records.\n),\n-- CTE 2: MAXXREF\n-- Gets the maximum version\
+    \ number for each subclass from the historical cross-reference table.\n-- This\
+    \ could be moved to a separate table or job if performance is a concern.\nMAXXREF\
+    \ AS (\n    SELECT\n        XRF.item_sbclas_wid,\n        MAX(XRF.styl_sbclass_vers_num)\
+    \ AS max_styl_sbclass_vers_num\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
+    \ AS XRF\n    GROUP BY\n1\n),\n-- CTE 3: MAXSTL\n-- Creates a base list of all\
+    \ subclasses from the source, assigning a default max version of 1.\n-- This acts\
+    \ as a fallback for subclasses not present in the historical cross-reference.\n\
+    MAXSTL AS (\n    SELECT DISTINCT\n        item_sbclas_wid,\n        1 (INTEGER)\
+    \ AS max_styl_sbclass_vers_num\n    FROM\n        STYL_REF\n),\n-- CTE 4: MAXVER\n\
+    -- Merges the max version numbers from the historical data (MAXXREF) and the source\
+    \ data (MAXSTL)\n-- to ensure every subclass has a definitive maximum version\
+    \ number.\nMAXVER AS (\n    SELECT\n        COALESCE(MAXXREF.item_sbclas_wid,\
+    \ MAXSTL.item_sbclas_wid) AS item_sbclas_wid,\n        -- The version from MAXXREF\
+    \ will always be >= the version from MAXSTL (which is 1).\n        COALESCE(MAXXREF.max_styl_sbclass_vers_num,\
+    \ MAXSTL.max_styl_sbclass_vers_num) AS max_styl_sbclass_vers_num\n    FROM\n \
+    \       MAXXREF\n        FULL OUTER JOIN MAXSTL ON MAXXREF.item_sbclas_wid = MAXSTL.item_sbclas_wid\n\
+    ),\n-- CTE 5: TRG_STYL_REF\n-- Retrieves the \"current\" style-to-subclass relationships\
+    \ from the target cross-reference table.\nTRG_STYL_REF AS (\n    SELECT\n    \
+    \    XRF.styl_wid,\n        XRF.item_sbclas_wid\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
+    \ AS XRF\n    WHERE\n        XRF.eff_to_dt = DATE '3500-12-31' -- Identifies active\
+    \ rows with no end date.\n),\n-- CTE 6: AB_STYL_REF\n-- This CTE simulates the\
+    \ union of two sets: Set A (historical/target relationships) and Set B (current/source\
+    \ relationships).\n-- It identifies which set each style belongs to (A-B, B-A,\
+    \ or A intersect B) to track movement between subclasses.\nAB_STYL_REF AS (\n\
+    \    SELECT\n        COALESCE(A.item_sbclas_wid, B.item_sbclas_wid) AS item_sbclas_wid,\n\
+    \        COALESCE(A.styl_wid, B.styl_wid) AS styl_wid,\n        CASE\n       \
+    \     WHEN A.styl_wid = B.styl_wid THEN 'AB' -- A intersect B\n            WHEN\
+    \ A.styl_wid IS NOT NULL AND B.styl_wid IS NULL THEN 'A' -- A minus B\n      \
+    \      WHEN B.styl_wid IS NOT NULL AND A.styl_wid IS NULL THEN 'B' -- B minus\
+    \ A\n        END AS set_status,\n        -- This window function checks if a style\
+    \ exists in *any* subclass in both the historical and current sets.\n        --\
+    \ This helps identify styles that were reclassified vs. styles that are entirely\
+    \ new or removed.\n        MAX(A.styl_wid) OVER (PARTITION BY COALESCE(A.styl_wid,\
+    \ B.styl_wid)) AS a_styl_wid,\n        MAX(B.styl_wid) OVER (PARTITION BY COALESCE(A.styl_wid,\
+    \ B.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub -- 1 if the style exists in the universal set, 0\
+    \ otherwise.\n    FROM\n        STYL_REF AS A\n        FULL OUTER JOIN TRG_STYL_REF\
+    \ AS B ON A.styl_wid = B.styl_wid AND A.item_sbclas_wid = B.item_sbclas_wid\n\
+    ),\n-- CTE 7: AB_STYL_REF_CARD\n-- Calculates the cardinality (|A-B|, |B-A|, |A\
+    \ intersect B|) for each subclass.\n-- This is done only for styles that are \"\
+    common\" (exist in the universal set), which isolates changes due to reclassification.\n\
+    AB_STYL_REF_CARD AS (\n    SELECT\n        AB.item_sbclas_wid,\n        COALESCE(SUM(CASE\
+    \ WHEN AB.common_aub = 1 AND AB.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_aub,\
+    \ -- |A intersect B|\n        COALESCE(SUM(CASE WHEN AB.common_aub = 1 AND AB.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb, -- |A minus B|\n        COALESCE(SUM(CASE\
+    \ WHEN AB.common_aub = 1 AND AB.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\
+    \ -- |B minus A|\n        COALESCE(SUM(CASE WHEN AB.common_aub = 0 THEN 1 ELSE\
+    \ 0 END), 0) AS card_common_aub_false,\n        -- Determine if the version number\
+    \ needs to be incremented.\n        -- If |A-B| > 0 or |B-A| > 0, it means styles\
+    \ have moved in or out of the subclass, so we increment.\n        CASE WHEN card_amb\
+    \ > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS item_sbclass_inc\n    FROM\n      \
+    \  AB_STYL_REF AS AB\n    GROUP BY\n1\n),\n-- CTE 8: SUBCLAS_VERSION\n-- Determines\
+    \ the new version number for each subclass by adding the increment flag\n-- to\
+    \ the previously determined maximum version number.\nSUBCLAS_VERSION AS (\n  \
+    \  SELECT\n        MAXVER.item_sbclas_wid,\n        MAXVER.max_styl_sbclass_vers_num,\n\
+    \        AB_STYL_REF_CARD.item_sbclass_inc,\n        COALESCE(MAXVER.max_styl_sbclass_vers_num,\
+    \ 1) + AB_STYL_REF_CARD.item_sbclass_inc AS new_styl_sbclass_vers_num\n    FROM\n\
+    \        MAXVER -- A complete list of all subclasses\n        LEFT OUTER JOIN\
+    \ AB_STYL_REF_CARD ON MAXVER.item_sbclas_wid = AB_STYL_REF_CARD.item_sbclas_wid\n\
+    ),\n-- CTE 9: NEW_STYL_REF\n-- Joins the calculated new version number back to\
+    \ the current style/subclass relationships.\nNEW_STYL_REF AS (\n    SELECT\n \
+    \       STR.item_sbclas_wid,\n        STR.styl_wid,\n        COALESCE(NVR.new_styl_sbclass_vers_num,\
+    \ -2) AS styl_sbclass_vers_num\n    FROM\n        STYL_REF AS STR\n        LEFT\
+    \ OUTER JOIN SUBCLAS_VERSION AS NVR ON STR.item_sbclas_wid = NVR.item_sbclas_wid\n\
+    )\n-- Final Select: Retrieves the final data, filtered for a specific range for\
+    \ testing/debugging.\nSELECT\n    REF.item_sbclas_wid,\n    REF.styl_wid,\n  \
+    \  REF.styl_sbclass_vers_num\nFROM\n    NEW_STYL_REF AS REF"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND_RECLASFCN_STYL_SBCLASS_XREF
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 5
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Map source to trans table see mapping
+  file_name: FND1040.190.TRANS.sql
+  file_present: true
+  job_name: FND1040
+  notes: See mapping
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 4
+  sequence_no: 2
+  source_database: See mapping
+  source_table: ''
+  sql_statement: "-- This query calculates the correct version number for a style's\
+    \ subclass (`styl_sbclass_vers_num`).\n-- It handles new styles, reclassified\
+    \ styles, and unchanged styles.\n--\n--      +-------------------------------------------+\n\
+    --      |      The Union of A and B (A U B)         |\n--      |      (All styles\
+    \ involved with a subclass)|\n--      |                                      \
+    \     |\n--      |      Set A              Set B             |\n--      |   +-----------+\
+    \    +-----------+          |\n--      |   |           |    |           |    \
+    \      |\n--      |   | Style 1   |    |  Style 4  |          |\n--      |   |\
+    \ (Removed) +----+ (Added)   |          |\n--      |   |           | S  |    \
+    \       |          |\n--      |   +-----------+ t  +-----------+          |\n\
+    --      |               | y    |                    |\n--      |             \
+    \  | l    |                    |\n--      |               | e    |           \
+    \         |\n--      |               | s    |                    |\n--      |\
+    \               |      |                    |\n--      |               | 2,3 \
+    \ |                    |\n--      |               |      |                   \
+    \ |\n--      |               |(Same)|                    |\n--      |        \
+    \       +------+                    |\n--      |                             \
+    \              |\n--      +-------------------------------------------+\nWITH\n\
+    -- CTE 1: STYL_REF\n-- Gathers the most recent (current) style-to-subclass mappings\
+    \ from the source.\nSTYL_REF AS (\n    SELECT\n        styl_wid,\n        item_sbclas_wid\n\
+    \    FROM\n        DWP01A_IDW.STYL\n    WHERE\n        cur_flg = 'Y' -- Filters\
+    \ for currently active records.\n),\n-- CTE 2: MAXXREF\n-- Gets the maximum version\
+    \ number for each subclass from the historical cross-reference table.\n-- This\
+    \ could be moved to a separate table or job if performance is a concern.\nMAXXREF\
+    \ AS (\n    SELECT\n        XRF.item_sbclas_wid,\n        MAX(XRF.styl_sbclass_vers_num)\
+    \ AS max_styl_sbclass_vers_num\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
+    \ AS XRF\n    GROUP BY\n1\n),\n-- CTE 3: MAXSTL\n-- Creates a base list of all\
+    \ subclasses from the source, assigning a default max version of 1.\n-- This acts\
+    \ as a fallback for subclasses not present in the historical cross-reference.\n\
+    MAXSTL AS (\n    SELECT DISTINCT\n        item_sbclas_wid,\n        1 (INTEGER)\
+    \ AS max_styl_sbclass_vers_num\n    FROM\n        STYL_REF\n),\n-- CTE 4: MAXVER\n\
+    -- Merges the max version numbers from the historical data (MAXXREF) and the source\
+    \ data (MAXSTL)\n-- to ensure every subclass has a definitive maximum version\
+    \ number.\nMAXVER AS (\n    SELECT\n        COALESCE(MAXXREF.item_sbclas_wid,\
+    \ MAXSTL.item_sbclas_wid) AS item_sbclas_wid,\n        -- The version from MAXXREF\
+    \ will always be >= the version from MAXSTL (which is 1).\n        COALESCE(MAXXREF.max_styl_sbclass_vers_num,\
+    \ MAXSTL.max_styl_sbclass_vers_num) AS max_styl_sbclass_vers_num\n    FROM\n \
+    \       MAXXREF\n        FULL OUTER JOIN MAXSTL ON MAXXREF.item_sbclas_wid = MAXSTL.item_sbclas_wid\n\
+    ),\n-- CTE 5: TRG_STYL_REF\n-- Retrieves the \"current\" style-to-subclass relationships\
+    \ from the target cross-reference table.\nTRG_STYL_REF AS (\n    SELECT\n    \
+    \    XRF.styl_wid,\n        XRF.item_sbclas_wid\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
+    \ AS XRF\n    WHERE\n        XRF.eff_to_dt = DATE '3500-12-31' -- Identifies active\
+    \ rows with no end date.\n),\n-- CTE 6: AB_STYL_REF\n-- This CTE simulates the\
+    \ union of two sets: Set A (historical/target relationships) and Set B (current/source\
+    \ relationships).\n-- It identifies which set each style belongs to (A-B, B-A,\
+    \ or A intersect B) to track movement between subclasses.\nAB_STYL_REF AS (\n\
+    \    SELECT\n        COALESCE(A.item_sbclas_wid, B.item_sbclas_wid) AS item_sbclas_wid,\n\
+    \        COALESCE(A.styl_wid, B.styl_wid) AS styl_wid,\n        CASE\n       \
+    \     WHEN A.styl_wid = B.styl_wid THEN 'AB' -- A intersect B\n            WHEN\
+    \ A.styl_wid IS NOT NULL AND B.styl_wid IS NULL THEN 'A' -- A minus B\n      \
+    \      WHEN B.styl_wid IS NOT NULL AND A.styl_wid IS NULL THEN 'B' -- B minus\
+    \ A\n        END AS set_status,\n        -- This window function checks if a style\
+    \ exists in *any* subclass in both the historical and current sets.\n        --\
+    \ This helps identify styles that were reclassified vs. styles that are entirely\
+    \ new or removed.\n        MAX(A.styl_wid) OVER (PARTITION BY COALESCE(A.styl_wid,\
+    \ B.styl_wid)) AS a_styl_wid,\n        MAX(B.styl_wid) OVER (PARTITION BY COALESCE(A.styl_wid,\
+    \ B.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub -- 1 if the style exists in the universal set, 0\
+    \ otherwise.\n    FROM\n        STYL_REF AS A\n        FULL OUTER JOIN TRG_STYL_REF\
+    \ AS B ON A.styl_wid = B.styl_wid AND A.item_sbclas_wid = B.item_sbclas_wid\n\
+    ),\n-- CTE 7: AB_STYL_REF_CARD\n-- Calculates the cardinality (|A-B|, |B-A|, |A\
+    \ intersect B|) for each subclass.\n-- This is done only for styles that are \"\
+    common\" (exist in the universal set), which isolates changes due to reclassification.\n\
+    AB_STYL_REF_CARD AS (\n    SELECT\n        AB.item_sbclas_wid,\n        COALESCE(SUM(CASE\
+    \ WHEN AB.common_aub = 1 AND AB.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_aub,\
+    \ -- |A intersect B|\n        COALESCE(SUM(CASE WHEN AB.common_aub = 1 AND AB.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb, -- |A minus B|\n        COALESCE(SUM(CASE\
+    \ WHEN AB.common_aub = 1 AND AB.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\
+    \ -- |B minus A|\n        COALESCE(SUM(CASE WHEN AB.common_aub = 0 THEN 1 ELSE\
+    \ 0 END), 0) AS card_common_aub_false,\n        -- Determine if the version number\
+    \ needs to be incremented.\n        -- If |A-B| > 0 or |B-A| > 0, it means styles\
+    \ have moved in or out of the subclass, so we increment.\n        CASE WHEN card_amb\
+    \ > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS item_sbclass_inc\n    FROM\n      \
+    \  AB_STYL_REF AS AB\n    GROUP BY\n1\n),\n-- CTE 8: SUBCLAS_VERSION\n-- Determines\
+    \ the new version number for each subclass by adding the increment flag\n-- to\
+    \ the previously determined maximum version number.\nSUBCLAS_VERSION AS (\n  \
+    \  SELECT\n        MAXVER.item_sbclas_wid,\n        MAXVER.max_styl_sbclass_vers_num,\n\
+    \        AB_STYL_REF_CARD.item_sbclass_inc,\n        COALESCE(MAXVER.max_styl_sbclass_vers_num,\
+    \ 1) + AB_STYL_REF_CARD.item_sbclass_inc AS new_styl_sbclass_vers_num\n    FROM\n\
+    \        MAXVER -- A complete list of all subclasses\n        LEFT OUTER JOIN\
+    \ AB_STYL_REF_CARD ON MAXVER.item_sbclas_wid = AB_STYL_REF_CARD.item_sbclas_wid\n\
+    ),\n-- CTE 9: NEW_STYL_REF\n-- Joins the calculated new version number back to\
+    \ the current style/subclass relationships.\nNEW_STYL_REF AS (\n    SELECT\n \
+    \       STR.item_sbclas_wid,\n        STR.styl_wid,\n        COALESCE(NVR.new_styl_sbclass_vers_num,\
+    \ -2) AS styl_sbclass_vers_num\n    FROM\n        STYL_REF AS STR\n        LEFT\
+    \ OUTER JOIN SUBCLAS_VERSION AS NVR ON STR.item_sbclas_wid = NVR.item_sbclas_wid\n\
+    )\n-- Final Select: Retrieves the final data, filtered for a specific range for\
+    \ testing/debugging.\nSELECT\n    REF.item_sbclas_wid,\n    REF.styl_wid,\n  \
+    \  REF.styl_sbclass_vers_num\nFROM\n    NEW_STYL_REF AS REF"
+  stats: ''
+  step_pattern: STANDARD_TRANS
+  steps: '190'
+  target_database: T_TMP_ACC_FND
+  target_table: FND1040_TRANS
+- description: Uses standard snapshot/full apply looking for changes between trans
+    and target table
+  file_name: FND1040.200.VALID.sql
+  file_present: false
+  job_name: FND1040
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 3
+  source_database: T_TMP_ACC_FND
+  source_table: FND1040_TRANS
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: SNAPSHOT_VALID
+  steps: '200'
+  target_database: T_TMP_ACC_FND
+  target_table: FND1040_VALID
+- description: 'Used standard snapshot/full apply '
+  file_name: FND1040.300.TARGET.sql
+  file_present: false
+  job_name: FND1040
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 4
+  source_database: T_TMP_ACC_FND
+  source_table: FND1040_VALID
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: SNAPSHOT_TARGET
+  steps: '300'
+  target_database: V_ACC_FND
+  target_table: FND_RECLASFCN_STYL_SBCLASS_XREF
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND1040
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 5
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+target_database_name: T_ACC_FND
+target_table_name: FND_RECLASFCN_STYL_SBCLASS_XREF
+transformation_key:
+- styl_wid

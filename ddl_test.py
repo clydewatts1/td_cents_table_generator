@@ -5,6 +5,8 @@ import yaml
 from pathlib import Path
 import sqlparse
 import logging
+from datetime import datetime, timedelta
+
 
 conn = None
 
@@ -119,23 +121,29 @@ def create_using_file(filename,config):
 #-------------------------------------------------------------------------------------
 # Run File
 #-------------------------------------------------------------------------------------
-def run_step_file(conn , filename, config,params=None):
+def run_step_file(conn , filename, config,params=None,rundate=None):
     """
     Run a DDL file by dropping and creating the table using the provided config.
     """
     print(f"Processing DDL file: {filename}")
+    yesterday = datetime.now() - timedelta(days=1)
+    today = datetime.now()
+    # adjust yesterday and today based on rundate if provided
+    if rundate:
+        yesterday = datetime.strptime(rundate, '%Y-%m-%d')
+        today = yesterday + timedelta(days=1)
+
     # if config in config then config = config['config']
     if 'config' in config:
         config = config['config']
     if params is None:
         params = {'INSTANCE': 'T04'}
     #  LDTK_DATE = yesterdays date
-    from datetime import datetime, timedelta
-    yesterday = datetime.now() - timedelta(days=1)
+    
+    # rundate is in the format YYYY-MM-DD
     params['LDTK_DATE'] = yesterday.strftime('%Y-%m-%d')
-    # EFF_TO_DATE = todays date
-    today = datetime.now()
-    params['EFF_TO_DATE'] = today.strftime('%Y-%m-%d')
+
+    params['EFF_FROM_DATE'] = today.strftime('%Y-%m-%d')
     # RUN_ID = random number between 1 and 10000 
     import random
     params['RUNID'] = random.randint(1, 10000)
@@ -284,7 +292,7 @@ if __name__ == "__main__":
     #    drop_using_file(ddl_file,config)
     #    # create using file
     #    create_using_file(ddl_file,config)
-    run_step_file(conn , 'FND1012.300.TARGET.sql', config,params=None)
+    run_step_file(conn , 'FND1041.190.TRANS.sql', config,params=None)
 
 
 

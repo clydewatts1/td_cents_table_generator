@@ -548,7 +548,6 @@ class MainWindow(QMainWindow):
                 file_hbox.addWidget(file_name_label)
                 file_hbox.addStretch(1)
                 layout.addLayout(file_hbox)
-
                 # YAML File Name row
                 yaml_hbox = QHBoxLayout()
                 yaml_label = QLabel('YAML File Name:')

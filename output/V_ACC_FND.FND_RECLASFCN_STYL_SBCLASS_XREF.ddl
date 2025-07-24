@@ -12,7 +12,7 @@ REPLACE VIEW DW${INSTANCE}V_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF
     AS
 SELECT
     styl_wid ,
-    item_sbclass_wid ,
+    item_sbclas_wid ,
     styl_sbclass_vers_num ,
     /* Control columns for auditing */
     eff_from_dt,
@@ -35,7 +35,7 @@ COMMENT ON VIEW DW${INSTANCE}V_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF AS ''
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.styl_wid AS 'This is the style surrogate key'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.item_sbclass_wid AS 'This contains the item subclass wid - this is the lowest grain for the merchant hierarchy'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.item_sbclas_wid AS 'This contains the item subclass wid - this is the lowest grain for the merchant hierarchy'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.styl_sbclass_vers_num AS 'This is the version number of subclass - if there a new style - version is last version id for sbclass , if changed then bumped version no for table'

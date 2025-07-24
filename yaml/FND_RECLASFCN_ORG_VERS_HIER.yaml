@@ -1,7 +1,6 @@
 modelname: FND_RECLASFCN_ORG_VERS_HIER
 databasename: T_ACC_FND
-table_name: FND_RECLASFCN_ORG_VERS_HIER tracks changes to the hierarchy versioning
-  as stores move within the hierarchy
+table_name: FND_RECLASFCN_ORG_VERS_HIER
 table_description: Store Hierarchy Versioning
 table_kind: MULTISET
 primary_index: UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
@@ -109,19 +108,19 @@ columns:
 BUILD:
 - jobname: FND1046
   databasename: DWP01T_ACC_FND
-  tablename: FND_ITEM_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: TABLE
 - jobname: ''
   databasename: DWP01A_ACC_FND
-  tablename: FND_ITEM_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: AVIEW
 - jobname: ''
   databasename: DWP01C_ACC_FND
-  tablename: FND_ITEM_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: CVIEW
 - jobname: ''
   databasename: DWP01C_ACC_FND
-  tablename: FND_ITEM_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: VVIEW
 - jobname: FND1046
   databasename: DWP01T_TMP_ACC_FND
@@ -133,19 +132,19 @@ BUILD:
   pattern: TABLE
 - jobname: FND1047
   databasename: DWP01T_ACC_FND
-  tablename: FND_ITEM_HIST_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: TABLE
 - jobname: ''
   databasename: DWP01A_ACC_FND
-  tablename: FND_ITEM_HIST_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: AVIEW
 - jobname: ''
   databasename: DWP01C_ACC_FND
-  tablename: FND_ITEM_HIST_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: CVIEW
 - jobname: ''
   databasename: DWP01C_ACC_FND
-  tablename: FND_ITEM_HIST_DIM
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: VVIEW
 - jobname: FND1047
   databasename: DWP01T_TMP_ACC_FND

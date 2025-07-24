@@ -10,10 +10,10 @@
 /* Create table for FND1012_VALID = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID
     (
-    "calendar_dt" DATE NOT NULL FORMAT 'yyyy-mm-dd',
+    calendar_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
     year_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
     year_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    "period_start_dt" DATE NOT NULL FORMAT 'yyyy-mm-dd',
+    period_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
     period_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
     week_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
     week_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
@@ -113,7 +113,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID AS 'This is the foundation date dimension'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID."calendar_dt" AS 'primary key on table'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID.calendar_dt AS 'primary key on table'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID.year_start_dt AS 'primark year start date'
@@ -122,7 +122,7 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID.year_start_dt AS 'primark ye
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID.year_end_dt AS 'primark year end date'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID."period_start_dt" AS 'primark period start date'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID.period_start_dt AS 'primark period start date'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1012_VALID.period_end_dt AS 'primark period end date'

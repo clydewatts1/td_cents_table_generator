@@ -633,7 +633,7 @@ def convert_excel_to_yaml(filename, config_dict):
             mapping_sheet_name,
             filename,
         )
-    
+ 
     # convert row 0 to column names
     df_mapping_detail.columns = df_mapping_detail.iloc[0]
     # make column names lowercase , trim and change whitespace to underscore
@@ -677,7 +677,7 @@ def convert_excel_to_yaml(filename, config_dict):
     # delete any row in column_action = mapping
     data_mapping_detail = [row for row in data_mapping_detail if row['column_action'] != 'mapping']
 
-    print(f"Mapping Detail: \n{df_mapping_detail.head(4)}")
+    # find first column name where column_action = 'key'
     
     return_code, return_text,dict_steps_sql = read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps,steps_data)
     if return_code != 0:
@@ -712,6 +712,9 @@ def convert_excel_to_yaml(filename, config_dict):
         base_filename = os.path.splitext(filename)[0]
         yaml_file_path = os.path.join(yaml_path, f"{base_filename}.yaml")
         with open(yaml_file_path, 'w', encoding='utf-8') as yaml_file:
+            # dump in order of dictionary keys
+            yaml_dict = dict(sorted(yaml_dict.items()))
+            logging.info("Creating directory %s", yaml_path)
             yaml.dump(yaml_dict, yaml_file, default_flow_style=False)
         logging.info("Converted %s to %s", filename, yaml_file_path)
     except (OSError, yaml.YAMLError) as e:
@@ -1040,7 +1043,7 @@ if __name__ == "__main__":
 
     #    except Exception as e:
     #        logger.error("Error processing file %s: %s", mapping_file, e)
-    job_name = 'FND1013'  # Example job name
+    job_name = 'FND1040'  # Example job name
     logger.info("Starting conversion and job building for %s", job_name)
     excel_name = f"{job_name}_MAPPING.xlsx"
     ret_code, ret_text = convert_excel_to_yaml(excel_name, config)

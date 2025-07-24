@@ -4,7 +4,7 @@ table_name: FND_RECLASFCN_STYL_SBCLASS_VERS_XREF
 table_description: This table tracks the changes to the product / merchant hierarchy
   over time
 table_kind: MULTISET
-primary_index: PRIMARY INDEX(styl_wid)
+primary_index: PRIMARY INDEX(item_sbclas_wid)
 table_option: ''
 control_columns: FND_STANDARD_TS
 patterns:
@@ -14,14 +14,6 @@ patterns:
 - CVIEW
 table_quote: ''
 columns:
-- column_name: styl_wid
-  column_type: INTEGER
-  column_format: ''
-  is_null: Y
-  option: ''
-  description: This is the style surrogate key
-  compression: ''
-  quote: ''
 - column_name: item_sbclas_wid
   column_type: INTEGER
   column_format: ''
@@ -29,15 +21,6 @@ columns:
   option: ''
   description: This contains the item subclass wid - this is the lowest grain for
     the merchant hierarchy
-  compression: ''
-  quote: ''
-- column_name: styl_sbclas_vers_num
-  column_type: INTEGER
-  column_format: ''
-  is_null: Y
-  option: ''
-  description: This is the version number of subclass - if there a new style - version
-    is last version id for sbclass , if changed then bumped version no for table
   compression: ''
   quote: ''
 - column_name: pmk_co_cd
