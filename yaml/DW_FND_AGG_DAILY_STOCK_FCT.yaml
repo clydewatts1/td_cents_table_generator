@@ -3,7 +3,7 @@ databasename: T_ACC_FND
 table_name: DW_FND_AGG_DAILY_STOCK_FCT
 table_description: This is the foundation date dimension
 table_kind: MULTISET
-primary_index: PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date
+primary_index: PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_Date
   BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 table_option: ''
 control_columns: FND_STANDARD
@@ -19,20 +19,20 @@ columns:
   description: Business Date (PK)
   compression: ''
   quote: ''
-- column_name: location_id
+- column_name: loc_wid
   column_type: LOCATION
   column_format: '''99999'''
   is_null: Y
   option: ''
-  description: Location ID - this can either be a store or depot (PK)
+  description: Location ID Surrogate KEY (PK)
   compression: ''
   quote: ''
-- column_name: item_id
+- column_name: item_wid
   column_type: ITEM
   column_format: ''
   is_null: Y
   option: ''
-  description: Item ID - this is the SKU Orin ( PK)
+  description: Item ID Surrogate Key (PK)
   compression: ''
   quote: ''
 - column_name: location_soh_units
@@ -611,7 +611,7 @@ columns:
   compression: '0'
   quote: ''
 - column_name: price_action_week
-  column_type: DATE
+  column_type: INTEGER
   column_format: ''
   is_null: Y
   option: ''

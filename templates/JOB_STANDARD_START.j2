@@ -1,12 +1,15 @@
+tjc_stepout -e
+tjc_onerror "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT"
+tjc_ontimeout "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT  > /dev/null 2>&1"
 
 #-------------------------------------------------------------------------------
-# Step 001 : Log start of job by running LoadStart.sql
+# Step 001 : Log start of job by running FND_JobStart.sql
 #-------------------------------------------------------------------------------
 
 step 001 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
               -v STEP_NO=001 \
               -v INSTANCE="${INSTANCE:?}" \
-              -v JOB="${JOB:?}" ${STEP_DIR:?}/LoadStartOptimised.sql
+              -v JOB="${JOB:?}" ${STEP_DIR:?}/FND_JobStart.sql
 
 #-------------------------------------------------------------------------------
 # Step 003 : Get the RUNID parameter
@@ -16,56 +19,10 @@ step 001 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
 step 003 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
               -v STEP_NO="003" -v INSTANCE="${INSTANCE:?}" \
               -v MET_V="${MET_V:?}" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/GetRunId.sql
+              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetRunId.sql
 
 RUN_ID=$(tjc_stepout -l | awk '/^RUN_ID;/{print $2}')
 
-#-------------------------------------------------------------------------------
-# Step 005 : GetPrecedingJobs
-#-------------------------------------------------------------------------------
-
-step 005 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v MET_V="${MET_V}" \
-              -v JOB="${JOB:?}" \
-              -v STEP_NO=005 \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v PARAM_TXT="RUNDATE" -v PARAM_FORMAT="YYYY-MM-DD" \
-              -v PARAM_COL="PARAM_DT" -v PARAM_TYPE="DATE" \
-              ${STEP_DIR:?}/GetPrecedingJobs.sql
-
-PRECEDING_JOBS=$(tjc_stepout -l | awk '/^PRECEDING_JOB/ { print $2" "$3" "$4 }')
-PRECEDING_JOBS=${PRECEDING_JOBS:}
-
-#-------------------------------------------------------------------------------
-# Step 006 : WaitForPrecedingJobs
-#-------------------------------------------------------------------------------
-
-step 006 "WaitForPrecedingJobs"
-
-#------------------------------------------------------------------------------------
-# Step 010 : Set Parameter Report Date
-#------------------------------------------------------------------------------------
-
-step 010 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v STEP_NO=010 \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v MET_V="${MET_V}" \
-              -v PARAM_COL="PARAM_DT" -v NEW_PARAM_VALUE="CURRENT_DATE" \
-              -v PARAM_TXT="RUNDATE" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/SetParam.sql
-
-#----------------------------------------------------------------------------------
-# Set 015 : Get Timestamp - placed in TJC for restartablity
-#----------------------------------------------------------------------------------
-
-step 015 date +%Y%m%d%H%M%S
-
-FNTMSTMP=$(tjc_stepout -l)
-EXPORT_FILE=${FNPREFIX:?}${FNTMSTMP:?}_01.${FNTYPE}
-EXPORT_FILE_COMPRESS=${FNPREFIX:?}${FNTMSTMP:?}_01.${FNTYPE}.${FNCTYPE}
-echo FNTMSTMP=${FNTMSTMP}
-echo EXPORT_FILE=${EXPORT_FILE}
-echo EXPORT_FILE_COMPRESS=${EXPORT_FILE_COMPRESS}
 
 
 #-------------------------------------------------------------------------------
@@ -82,7 +39,7 @@ step 020 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
               -v JOB_PARAM_TS_FORMAT="${JOB_PARAM_TS_FORMAT}"\
               -v JOB_PARAM_INT_FORMAT="${JOB_PARAM_INT_FORMAT:=TM}"\
               -v STEP_NO="020" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/GetALLParams.sql
+              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetALLParams.sql
 
 tjc_stepout -l|grep ^\!|cut -d\! -f2 >${JOB_PARAM_WORKFILE}
 
@@ -92,3 +49,49 @@ tjc_stepout -l|grep ^\!|cut -d\! -f2 >${JOB_PARAM_WORKFILE}
 # Overwrite parameters with command line
 export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
 
+
+#-------------------------------------------------------------------------------
+# Step 025 : Get Stream
+#-------------------------------------------------------------------------------
+
+
+# Set Work file
+STREAM_PARAM_WORKFILE=$(tjc_workfile -c JOB_PARAM)
+step 025 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
+              -v STEP_NO="025" \
+              -v INSTANCE="${INSTANCE:?}" \
+              -v STREAMID="${STREAMID:?}" \
+              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetStream.sql
+
+tjc_stepout -l|grep ^\!|cut -d\! -f2 >${STREAM_PARAM_WORKFILE}
+
+# Set environment parameters
+. ${STREAM_PARAM_WORKFILE}
+
+# Overwrite parameters with command line
+export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
+
+
+#-------------------------------------------------------------------------------
+# Step 030 : Get Load Token
+#-------------------------------------------------------------------------------
+
+
+# Set Work file
+LDTK_PARAM_WORKFILE=$(tjc_workfile -c JOB_PARAM)
+step 030 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
+              -v STEP_NO="030" \
+              -v INSTANCE="${INSTANCE:?}" \
+              -v STREAMID="${STREAMID:?}" \
+              -v LDTK_DATE="${LDTK_DATE:?}" \
+              -v LDTK_PREV_DATE="${LDTK_PREV_DATE:?}" \
+              -v LDTK_NEXT_DATE="${LDTK_NEXT_DATE:?}" \
+              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetLoadToken.sql
+
+tjc_stepout -l|grep ^\!|cut -d\! -f2 >${LDTK_PARAM_WORKFILE}
+
+# Set environment parameters
+. ${LDTK_PARAM_WORKFILE}
+
+# Overwrite parameters with command line
+export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})

@@ -26,6 +26,14 @@ columns:
   description: ITEM_ID or SKU ORIN
   compression: ''
   quote: ''
+- column_name: item_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: ITEM WID
+  compression: ''
+  quote: ''
 - column_name: style_id
   column_type: BIGINT
   column_format: ''
@@ -33,6 +41,14 @@ columns:
   option: ''
   description: Concatenation of the Name and Id of the Style ORIN . A Style defines
     one or many items(SKU) determined by a single design.
+  compression: ''
+  quote: ''
+- column_name: styl_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: Y
+  option: ''
+  description: Style Wid
   compression: ''
   quote: ''
 - column_name: product_id

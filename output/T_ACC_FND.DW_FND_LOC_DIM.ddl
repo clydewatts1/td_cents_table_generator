@@ -11,6 +11,7 @@
 CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_DIM
     (
     location_id INTEGER NOT NULL ,
+    LOC_WID BIGINT  ,
     location_name VARCHAR(128) NOT NULL ,
     location_type VARCHAR(3) NOT NULL ,
     currency_cd CHAR(3)  ,
@@ -110,6 +111,9 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_DIM AS 'This is the foundation Loca
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_DIM.location_id AS 'Id no for a specific Location e.g. Store or Depot'
+;
+
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_DIM.LOC_WID AS 'Location WID'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_DIM.location_name AS 'Name of the STORE. It(s) the lowest level of the Organisational Hierarchy. It(s) the location where customers can view and purchase goods and services.'

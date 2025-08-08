@@ -1,6 +1,5 @@
-
 #------------------------------------------------------------------------------------
-# Step 900 : Load Stop
+# Step 900 : Job Stop
 #------------------------------------------------------------------------------------
 
 step 900 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
@@ -12,5 +11,7 @@ step 900 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
               -v DUPLICATE_TARGET="${DUPLICATE_TARGET}" \
               -v RUN_ID="${RUN_ID}" \
               -v STEP_NO="900" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB="${JOB:?}" ${STEP_DIR:?}/LoadStopOptimised.sql
-
+              -v JOB="${JOB:?}" ${STEP_DIR:?}/FND_JobStop.sql
+#-----------------------------------------------------------
+# End
+#-----------------------------------------------------------

@@ -12,6 +12,7 @@ REPLACE VIEW DW${INSTANCE}V_ACC_FND.DW_FND_LOC_DIM
     AS
 SELECT
     location_id ,
+    LOC_WID ,
     location_name ,
     location_type ,
     currency_cd ,
@@ -111,6 +112,9 @@ COMMENT ON VIEW DW${INSTANCE}V_ACC_FND.DW_FND_LOC_DIM AS ''
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_DIM.location_id AS 'Id no for a specific Location e.g. Store or Depot'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_DIM.LOC_WID AS 'Location WID'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_DIM.location_name AS 'Name of the STORE. It(s) the lowest level of the Organisational Hierarchy. It(s) the location where customers can view and purchase goods and services.'

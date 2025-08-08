@@ -1,4 +1,6 @@
 control_columns: .nan
+description: .nan
+job_name: FND1013
 job_name_from_file: FND1013
 job_name_from_mapping: FND1013
 mapping_columns:
@@ -539,8 +541,8 @@ steps:
   stats: ''
   step_pattern: SNAPSHOT_TARGET
   steps: '300'
-  target_database: V_ACC_TMP
-  target_table: DM_FND_STORE_HIER_HIST_DIM
+  target_database: V_ACC_FND
+  target_table: DW_FND_DATE_DIM_HIST
 - description: ''
   file_name: ''
   file_present: false
@@ -558,6 +560,7 @@ steps:
   steps: End
   target_database: ''
   target_table: ''
+stream_id: nan
 target_database_name: T_ACC_FND
 target_table_name: DW_FND_DATE_DIM_HIST
 transformation_key:

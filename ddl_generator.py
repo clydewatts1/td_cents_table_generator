@@ -63,7 +63,7 @@ def generate_ddl_from_yaml_files(configs):
             yaml_file
         )
         generate_ddl_from_yaml_file(yaml_file, configs)
-######################################################################
+###################################################################### 
 # Function: generate_ddl_from_yaml_file
 # Description: Process a single YAML file and generate DDLs for all builds.
 ######################################################################

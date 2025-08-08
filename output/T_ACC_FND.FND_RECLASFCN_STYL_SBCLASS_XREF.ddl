@@ -11,7 +11,7 @@
 CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF
     (
     styl_wid BIGINT NOT NULL ,
-    item_sbclass_wid INTEGER NOT NULL ,
+    item_sbclas_wid INTEGER NOT NULL ,
     styl_sbclass_vers_num INTEGER NOT NULL ,
     /* Control columns for auditing */
     eff_from_dt DATE NOT NULL,
@@ -34,7 +34,7 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF AS 'This table
 COMMENT ON DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.styl_wid AS 'This is the style surrogate key'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.item_sbclass_wid AS 'This contains the item subclass wid - this is the lowest grain for the merchant hierarchy'
+COMMENT ON DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.item_sbclas_wid AS 'This contains the item subclass wid - this is the lowest grain for the merchant hierarchy'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF.styl_sbclass_vers_num AS 'This is the version number of subclass - if there a new style - version is last version id for sbclass , if changed then bumped version no for table'

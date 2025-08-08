@@ -11,8 +11,8 @@
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
     (
     business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    location_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL ,
+    loc_wid BIGINT NOT NULL FORMAT '99999',
+    item_wid BIGINT NOT NULL ,
     fct_src_map BYTEINT NOT NULL ,
     location_soh_units INTEGER  ,
     depot_soh_units INTEGER  ,
@@ -72,7 +72,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
     ras_stock_value DECIMAL(18,10)  ,
     price_action_week INTEGER  ,
     price_status VARCHAR(20)       )
-    PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -84,10 +84,10 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG AS 'This is the fou
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.location_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.loc_wid AS 'Location WID ( Location ID - Surrogate Key )'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.item_wid AS 'Item WID ( Item ID - Surrogate Key )'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.fct_src_map AS 'Bit Map of source of data used in pivot table ( 01 )'

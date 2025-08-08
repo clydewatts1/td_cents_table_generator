@@ -10,56 +10,242 @@
 /* Create table for DW_FND_ITEM_DIM_DQ = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ
     (
-    org_hiery_wid INTEGER NOT NULL ,
-    org_hiery_vers_num SMALLINT NOT NULL ,
-    org_hier_country_cd SMALLINT NOT NULL ,
-    company_cd SMALLINT NOT NULL ,
-    company_vers_num SMALLINT NOT NULL ,
-    zone_cd SMALLINT NOT NULL ,
-    zone_vers_num SMALLINT NOT NULL ,
-    region_cd SMALLINT NOT NULL ,
-    region_vers_num SMALLINT NOT NULL ,
-    area_cd SMALLINT NOT NULL ,
-    area_vers_num SMALLINT NOT NULL      )
-    UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
+    item_id BIGINT NOT NULL ,
+    item_wid BIGINT NOT NULL ,
+    style_id BIGINT NOT NULL ,
+    styl_wid BIGINT NOT NULL ,
+    product_id BIGINT NOT NULL ,
+    item_name VARCHAR(128) NOT NULL ,
+    item_desc VARCHAR(128) NOT NULL ,
+    item_kimball_num INTEGER NOT NULL FORMAT '9999999',
+    company_cd SMALLINT NOT NULL FORMAT '99',
+    company_version_num SMALLINT NOT NULL ,
+    division_cd SMALLINT NOT NULL FORMAT '99',
+    division_version_num SMALLINT NOT NULL ,
+    department_cd SMALLINT NOT NULL FORMAT '99',
+    department_version_num SMALLINT NOT NULL ,
+    section_cd SMALLINT NOT NULL FORMAT '999',
+    section_version_num SMALLINT NOT NULL ,
+    subsection_grp_cd SMALLINT NOT NULL FORMAT '999',
+    subsection_grp_version_num SMALLINT  ,
+    subsection_cd SMALLINT NOT NULL FORMAT '999',
+    subsection_version_num VARCHAR(255) NOT NULL ,
+    division_name VARCHAR(255) NOT NULL ,
+    department_name VARCHAR(255) NOT NULL ,
+    section_name VARCHAR(255) NOT NULL ,
+    subsection_grp_name VARCHAR(255) NOT NULL ,
+    subsection_name VARCHAR(255) NOT NULL ,
+    buyer_cd VARCHAR(30)  ,
+    buyer_name VARCHAR(255)  ,
+    super_sku_num BIGINT  ,
+    style_desc VARCHAR(128)  ,
+    colour_cd SMALLINT NOT NULL ,
+    size_cd SMALLINT NOT NULL ,
+    pack_ind CHAR(1) NOT NULL ,
+    sellable_item_ind CHAR(1)  ,
+    inventory_item_ind CHAR(1)  ,
+    item_barcode_id CHAR(1)  ,
+    barcode_type VARCHAR(10)  ,
+    barcode_desc VARCHAR(30)  ,
+    dtr_cd VARCHAR(10)  ,
+    licensor_cd VARCHAR(30)  ,
+    licensor_desc VARCHAR(64)  ,
+    property_cd VARCHAR(10)  ,
+    property_desc VARCHAR(64)  ,
+    character_cd VARCHAR(10)  ,
+    character_desc VARCHAR(64)  ,
+    item_created_dt DATE  ,
+    product_type VARCHAR(64)  ,
+    hazardous VARCHAR(3)  ,
+    keylines VARCHAR(3)  ,
+    story VARCHAR(4)  ,
+    sustainability VARCHAR(64)  ,
+    washes VARCHAR(32)  ,
+    carryover CHAR(1)  ,
+    changemadeby VARCHAR(30)  ,
+    size_group_code VARCHAR(10)  ,
+    size_group_description VARCHAR(64)  ,
+    size_display_sequence SMALLINT  ,
+    season_lookup BYTE(14)       )
+    UNIQUE PRIMARY INDEX(ITEM_ID)
 ;
 
 /*-----------------------------------------------------------------------------
 * Comments for tables and columns
 *-------------------------------------------------------------------------------*/
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ AS 'Store Hierarchy Versioning'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ AS 'This is the item dimension , contains all styles , sku and merchant hierarchy'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.org_hiery_wid AS 'Unique identifier for Organization Hierarchy'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_id AS 'ITEM_ID or SKU ORIN'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.org_hiery_vers_num AS 'This is the version of the locs within hierarchy'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_wid AS 'ITEM WID'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.org_hier_country_cd AS 'Contains the number of the country.'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.style_id AS 'Concatenation of the Name and Id of the Style ORIN . A Style defines one or many items(SKU) determined by a single design.'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.company_cd AS 'This Column is used to identify the Primark Company Code'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.styl_wid AS 'Style Wid'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.company_vers_num AS 'The is the version of locs within company'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.product_id AS 'The product id , is style id and color ( style id * 1000 + color )'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.zone_cd AS 'Uniquely identifies a time zone.'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_name AS 'Short text reference or label for an item'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.zone_vers_num AS 'The is the version of locs within zone'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_desc AS 'Narrative text describing the item or SKU Description'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.region_cd AS 'This Column is used identify the Uniquely identifies a region.'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_kimball_num AS 'Identifies the item with 7 digits Primark Number known as Kimball 7. (Equivalent to SKU Orin)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.region_vers_num AS 'The is the version of locs within region'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.company_cd AS 'This is the primark company code'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.area_cd AS 'Code for Primark Area(Location)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.company_version_num AS 'This is the current version associated with style and company code'
 ;
 
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.division_cd AS 'This is the division code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.division_version_num AS 'This is the current version associated with style and division code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.department_cd AS 'The is the department code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.department_version_num AS 'This is the current version associated with style and department code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.section_cd AS 'This is the class / section code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.section_version_num AS 'This is the current version associated with style and class / section code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.subsection_grp_cd AS 'This is the group subclass - group section'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.subsection_grp_version_num AS 'This is the current version associated with style and subclass - group'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.subsection_cd AS 'This is the sub-classa / subsection code'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.subsection_version_num AS 'This is the current version associated with style and section - group'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.division_name AS 'This Column is used to identify the Primark Company Name'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.department_name AS 'Name of the Primark division'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.section_name AS 'Short text reference or label for a department'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.subsection_grp_name AS 'This Column is used identify the Merch Hierarchy section name'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.subsection_name AS 'Names the subsection group within the PRODUCT HIERARCHY. It corresponds to subclass group in ORMS PRODUCT HIERARCHY. it represent a group of products with common or similar detailed elements or intended for a common or similar specific case.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.buyer_cd AS 'Names the subsection within the PRODUCT HIERARCHY. It corresponds to subclass in ORMS PRODUCT HIERARCHY. it represent a group of products with common or similar detailed elements or intended for a common or similar specific case.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.buyer_name AS 'Identification of the Buyer: the person authorised to approve the PO(s) within the system. The BUYER is the person accountable for one or more CLASS of STYLEs and for the delivery of the STYLEs with the MERCHANDISER.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.super_sku_num AS 'Name of the Buyer: the person authorised to approve the PO(s) within the system. The BUYER is the person accountable for one or more CLASS of STYLEs and for the delivery of the STYLEs with the MERCHANDISER.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.style_desc AS 'Name of the Style . A Style defines one or many items(SKU) determined by a single design. This can be a short description of the style. (There can be more than 1 style with the same description)'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.colour_cd AS 'Contains the Name and Id of the colour - characteristics of an item (belongs to item differentiators) An attribute used as part of the definition of an STYLE. This is typically the colour of the Item but is not always an item colour.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.size_cd AS 'Uniquely identifies a size within a size type'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.pack_ind AS 'Identification of the pack . A pack in Primark will represent a carton or set with SKUs in it. One pack at Primark will have only SKUs of the same Style. Concatenation of Pack ORIN Number and Pack Name'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.sellable_item_ind AS 'Unit quantity of goods indicator'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.inventory_item_ind AS 'Indicates if the item is physically inventoried. Some items that are not inventoried would be electronic download items, menu items (food industry), and service items.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_barcode_id AS 'An identifying code often remotely scannable that is placed on an item or product. It is typically a bar or Scan code or similar graphic object that is scanned optically, but could also be an electronic transponder like RFID technology device'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.barcode_type AS 'Holds the type of barcode for which the coupon is related to. This will be used to control the type of entry into the coupon barcode field.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.barcode_desc AS 'Description for an identifying code often remotely scannable that is placed on an item or product. It is typically a bar or Scan code or similar graphic object that is scanned optically, but could electronic transponder like RFID technology device.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.dtr_cd AS 'DTR (Direct to Retail). Items in these conditions can only be produced in specific factories. These items are eligible for royalties that Primark has to pay directly to the Licensor.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.licensor_cd AS 'ID for the licence owner for the design of the copyright of a product Concatenation of Licensor code and Licensor Description'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.licensor_desc AS 'The licence owner for the design of the copyright of a product'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.property_cd AS 'Id for the Copyright of the company. Defined for DTR items.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.property_desc AS 'Description of asset held by the organization. Real property.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.character_cd AS 'The code of the character associated with the product. Defined for DTR items & all other licenced product.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.character_desc AS 'The name of the character associated with the product. Defined for DTR items & all other licenced product'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.item_created_dt AS 'This is the date in which an item classification relationship begins'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.product_type AS 'Type of product has been categorized'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.hazardous AS 'specialized equipment like Hazardous materials'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.keylines AS 'UDA Flag (User Defined Attribute)that indicates if item is a Keyline.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.story AS 'Name of the look/ story that the product is assigned to'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.sustainability AS 'Warranty of the product (ex: Sustainable Cotton, Oeko-tex).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.washes AS 'Classifies the treatment of some FABRICs most often used with denim'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.carryover AS 'Attribute flag (UDA - USER DEFINED ATTRIBUTE) that identifies if an item should continue to sell or be ordered in the next season. Flag is defined at sku ORIN level'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.changemadeby AS 'This is a foreign key to the W_USER_D dimension indicating the user who last modified the record in the source system.'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.size_group_code AS 'unique identifier of size group'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.size_group_description AS 'contains the description of size group of the item'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.size_display_sequence AS 'This Column is used identify the Size display Sequence number'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.DW_FND_ITEM_DIM_DQ.season_lookup AS 'This is a bitmap lookup of each of the seasons based on the SSON_WID'
+;
 
 
 

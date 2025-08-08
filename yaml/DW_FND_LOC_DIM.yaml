@@ -25,6 +25,14 @@ columns:
   description: Id no for a specific Location e.g. Store or Depot
   compression: ''
   quote: ''
+- column_name: LOC_WID
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Location WID
+  compression: ''
+  quote: ''
 - column_name: location_name
   column_type: VARCHAR(128)
   column_format: ''

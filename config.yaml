@@ -17,7 +17,6 @@ config:
     UNITS: INTEGER
   author_name: Mr Primark
   created_date: '2025-01-01'
-  template_path:
   excel_mapping_directory: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2.
     Define (Req. & Solution Design)/Design/Detailed Design/Mapping_Design
   excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
@@ -109,5 +108,7 @@ config:
   job_path: ./samples/jobs
   steps_path: ./samples/steps
   sql_path: ./samples/sql
+  sample_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define (Req. & Solution Design)/Design/Detailed Design/Samples
+
 excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define
   (Req. & Solution Design)/Design/Detailed Design/Physical_Design

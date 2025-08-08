@@ -1,0 +1,39 @@
+/*******************************************************************************
+// Project:     SSBI Reclass
+// Filename:    {{ job_dict.get('job_name') }}.job
+// File Type:   sql
+// Purpose:     Install job parameters
+//
+// Copyright:  Primark
+////////////////////////////////////////////////////////////////////////////////
+// Modification History
+//
+// Version | Date       | Who           | Details
+// 1.0     | 2025-08-01 | {{ author }}      | Initial
+//
+*******************************************************************************/
+DELETE FROM DW${INSTANCE}V_MET.JOB_PARAM WHERE JOB_ID='FND1010';
+
+INSERT INTO DW${INSTANCE}V_MET.JOB_PARAM 
+(
+JOB_ID,
+PARAM_TXT,
+PARAM_DT,
+PARAM_DTTM,
+PARAM_INT,
+Item_Name,
+Item_Value,
+Large_Number
+)
+VALUES
+(
+'{{ job_dict.get('job_name') }}.',
+'STREAMID',
+NULL,
+NULL,
+NULL,
+'STREAMID',
+'{{ job_dict.get('stream_id') }}.',
+NULL
+)
+;

@@ -11,7 +11,9 @@
 CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM
     (
     item_id BIGINT NOT NULL ,
+    item_wid BIGINT NOT NULL ,
     style_id BIGINT NOT NULL ,
+    styl_wid BIGINT NOT NULL ,
     product_id BIGINT NOT NULL ,
     item_name VARCHAR(128) NOT NULL ,
     item_desc VARCHAR(128) NOT NULL ,
@@ -86,7 +88,13 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM AS 'This is the item dimension
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM.item_id AS 'ITEM_ID or SKU ORIN'
 ;
 
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM.item_wid AS 'ITEM WID'
+;
+
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM.style_id AS 'Concatenation of the Name and Id of the Style ORIN . A Style defines one or many items(SKU) determined by a single design.'
+;
+
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM.styl_wid AS 'Style Wid'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_ITEM_DIM.product_id AS 'The product id , is style id and color ( style id * 1000 + color )'

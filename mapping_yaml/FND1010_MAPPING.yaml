@@ -1,4 +1,6 @@
 control_columns: .nan
+description: .nan
+job_name: FND1010
 job_name_from_file: FND1010
 job_name_from_mapping: FND1010
 mapping_columns:
@@ -777,6 +779,7 @@ steps:
   steps: End
   target_database: ''
   target_table: ''
+stream_id: nan
 target_database_name: T_TMP_ACC_FND
 target_table_name: FND1010_DW_FND_DATE_DIM
 transformation_key:

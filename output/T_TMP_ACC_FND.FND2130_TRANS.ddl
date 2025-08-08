@@ -11,8 +11,8 @@
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS
     (
     business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    location_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL ,
+    loc_wid INTEGER NOT NULL FORMAT '99999',
+    item_wid BIGINT NOT NULL ,
     location_soh_units INTEGER NOT NULL ,
     depot_soh_units INTEGER NOT NULL ,
     location_pack_units INTEGER NOT NULL ,
@@ -80,7 +80,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS
     listed_stock INTEGER NOT NULL ,
     carryover_units INTEGER NOT NULL ,
     carryover_value DECIMAL(18,10) NOT NULL ,
-    price_action_week DATE NOT NULL ,
+    price_action_week INTEGER NOT NULL ,
     price_status CHAR(1) NOT NULL ,
     transfer_outst_cost_value DECIMAL(18,10) NOT NULL ,
     tsf_intake_qty INTEGER NOT NULL ,
@@ -90,7 +90,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS
     stock_unit_av_cost_amount INTEGER NOT NULL ,
     wkly_flg CHAR(1) NOT NULL ,
     listing_flg CHAR(1) NOT NULL      )
-    PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -102,10 +102,10 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS AS 'This is the foundation d
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS.location_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS.item_wid AS 'Item ID Surrogate Key (PK)'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND2130_TRANS.location_soh_units AS 'This Column is used identify the Primark Location stock on hand units'

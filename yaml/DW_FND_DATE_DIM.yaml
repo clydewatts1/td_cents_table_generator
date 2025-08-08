@@ -24,7 +24,7 @@ columns:
   option: ''
   description: primary key on table
   compression: ''
-  quote: Y
+  quote: ''
 - column_name: year_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -48,7 +48,7 @@ columns:
   option: ''
   description: primark period start date
   compression: ''
-  quote: Y
+  quote: ''
 - column_name: period_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''

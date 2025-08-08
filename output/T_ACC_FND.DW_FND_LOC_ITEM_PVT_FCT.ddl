@@ -12,7 +12,8 @@ CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT
     (
     business_date DATE NOT NULL FORMAT 'YYYY-MM-DD',
     loc_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL FORMAT '999999999999',
+    item_wid BIGINT NOT NULL FORMAT '999999999999',
+    wk_business_date DATE NOT NULL FORMAT 'YYYY-MM-DD',
     ly_business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
     ty_sales_ind BYTEINT NOT NULL ,
     ty_stock_ind BYTEINT NOT NULL ,
@@ -27,7 +28,7 @@ CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT
     job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
     update_job_id VARCHAR(30) COMPRESS(NULL)
     )
-    PRIMARY INDEX ( Loc_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    PRIMARY INDEX ( Loc_ID ,item_wid ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -39,10 +40,13 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS 'This is the founda
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.loc_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.loc_id AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.item_wid AS 'Item ID Surrogate Key (PK)'
+;
+
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.wk_business_date AS 'The week business date ( TD_SATURDAY )'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ly_business_date AS 'Last year business date'

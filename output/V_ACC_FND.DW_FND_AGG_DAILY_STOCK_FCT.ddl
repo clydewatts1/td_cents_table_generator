@@ -12,8 +12,8 @@ REPLACE VIEW DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT
     AS
 SELECT
     business_date ,
-    location_id ,
-    item_id ,
+    loc_wid ,
+    item_wid ,
     location_soh_units ,
     depot_soh_units ,
     location_pack_units ,
@@ -112,10 +112,10 @@ COMMENT ON VIEW DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT AS ''
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.location_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.item_wid AS 'Item ID Surrogate Key (PK)'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.location_soh_units AS 'This Column is used identify the Primark Location stock on hand units'

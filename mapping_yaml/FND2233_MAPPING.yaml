@@ -1,0 +1,287 @@
+control_columns: .nan
+job_name_from_file: FND2233
+job_name_from_mapping: FND2233
+mapping_columns:
+- column_action: ''
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 51
+  mapping_notes: Merge Into  transform KEY
+  source_column_name: FCT.business_date
+  target_column_name: business_date
+- column_action: ''
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 50
+  mapping_notes: Merge Into  transform KEY
+  source_column_name: FCT.loc_id
+  target_column_name: loc_id
+- column_action: ''
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 49
+  mapping_notes: Merge Into  transform KEY
+  source_column_name: FCT.item_id
+  target_column_name: item_id
+- column_action: ''
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 48
+  mapping_notes: use setup on update section of merge see SQL
+  source_column_name: FCT.fct_src_map
+  target_column_name: pvt_map
+- column_action: ''
+  column_order: CTE
+  column_sequence: 5
+  column_sequence_reverse: 47
+  mapping_notes: nan
+  source_column_name: FCT
+  target_column_name: DWP01T_TMP_ACC_FND.FND_SLS_FCT_03_FCT_STG
+- column_action: ''
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 6
+  mapping_notes: Needs more investigation
+  source_column_name: Y'
+  target_column_name: wkly_flg
+- column_action: ''
+  column_order: CTE
+  column_sequence: 47
+  column_sequence_reverse: 5
+  mapping_notes: SLS.stock_inventory_date =${RUNDATE} and current_flag=Y and <Ignore
+    0 rows>
+  source_column_name: dwp01a_acc_orr.dw_stock_position_dy_fv
+  target_column_name: SLS
+- column_action: ''
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 4
+  mapping_notes: "    ON lc.loc_id = SLS.location_id\n    AND lc.cur_flg = 'Y'\n \
+    \   AND lc.loc_sbtype_cd IN ('W', 'S')"
+  source_column_name: dwp01a_idw.loc
+  target_column_name: lc
+- column_action: ''
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 3
+  mapping_notes: "    ON itm.item_id = SLS.item_id\n    AND itm.cur_flg = 'Y' "
+  source_column_name: dwp01a_idw.item
+  target_column_name: itm
+- column_action: ''
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 2
+  mapping_notes: "LEFT JOIN stpsel\n    ON SLS.item_id = stpsel.item_id\n    AND SLS.location_id\
+    \ = stpsel.loc_id"
+  source_column_name: "stpsel AS (\n    SELECT DISTINCT\n        item_id,\n      \
+    \  loc_id,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item AS pli\n \
+    \   WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        -- and item_status_cd\
+    \ <> '-1'\n        AND ssor_id = 4\n        AND level_cd = 'PSR_BLK'\n)"
+  target_column_name: stpsel
+- column_action: ''
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 1
+  mapping_notes: nan
+  source_column_name: "(\n        COALESCE(soh_units, 0) <> 0\n        OR COALESCE(soh_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(on_order_units, 0) <> 0\n        OR COALESCE(on_order_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_units, 0) <> 0\n        OR COALESCE(in_transit_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_units, 0) <> 0\n        OR COALESCE(transfer_reserved_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_units, 0) <> 0\n        OR COALESCE(transfer_expected_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(non_sellable_units, 0) <> 0\n        OR COALESCE(non_sellable_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_units, 0) <> 0\n        OR COALESCE(return_to_vendor_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(soh_cost_amount, 0) <> 0\n        OR COALESCE(soh_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(on_order_cost_amount, 0) <> 0\n        OR COALESCE(on_order_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_cost_amount, 0) <> 0\n        OR COALESCE(in_transit_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_cost_amount, 0) <> 0\n      \
+    \  OR COALESCE(transfer_reserved_retail_amount, 0) <> 0\n        OR COALESCE(transfer_expected_cost_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_retail_amount, 0) <> 0\n    \
+    \    OR COALESCE(non_sellable_cost_amount, 0) <> 0\n        OR COALESCE(non_sellable_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_cost_amount, 0) <> 0\n       \
+    \ OR COALESCE(return_to_vendor_retail_amount, 0) <> 0\n        --OR COALESCE(stock_unit_cost_amount,0)\
+    \ <> 0\n        --OR COALESCE(stock_unit_retail_amount,0) <> 0\n        --OR last_transfer_creation_date\
+    \ IS NOT NULL\n        --OR last_purchase_order_intake_date IS NOT NULL\n    \
+    \    --OR COALESCE(regular_unit_retail_amt,0) <> 0\n        --OR COALESCE(stock_unit_av_cost_amount,0)\
+    \ <> 0\n    )"
+  target_column_name: <Zero rows contraint>
+mapping_columns_count: 11
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- business_date
+- location_id
+- item_id
+sql_steps:
+  FND2233.300.TARGET: "-- =================================================================================================\n\
+    -- This BTEQ script manages the daily stock pivot table (DW_FND_LOC_ITEM_PVT_FCT).\n\
+    -- It ensures that for a given business date (yesterday), the table accurately\
+    \ reflects\n-- which location-item combinations have stock records by setting\
+    \ a flag (ty_stock_ind).\n--\n-- Logic Overview:\n-- 1.  Start a transaction to\
+    \ ensure atomicity.\n-- 2.  Lock the target table to prevent concurrent modifications.\n\
+    -- 3.  Reset the stock indicator flag for all records for the target business\
+    \ date.\n-- 4.  Merge data from the daily staging table (FND_SLS_FCT_PVT_STG).\n\
+    --     - If a location-item record already exists, update its stock flag.\n--\
+    \     - If it's a new location-item combination, insert a new record.\n-- 5. \
+    \ Commit the transaction upon successful completion.\n-- =================================================================================================\n\
+    -- Step 1: Begin a transaction block. All subsequent operations will be treated\
+    \ as a single\n-- atomic unit. If any step fails, the entire transaction will\
+    \ be rolled back.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n--\
+    \ Step 2: Lock the target table in WRITE mode. This is a crucial step to ensure\
+    \ data consistency\n-- by preventing other processes from modifying the table\
+    \ during the merge operation.\nLOCKING TABLE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
+    \ FOR WRITE;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 3: Reset the stock indicator\
+    \ for the target business date (yesterday).\n-- This is a safety measure to ensure\
+    \ that if an item had stock previously but doesn't\n-- in the current run, its\
+    \ flag is correctly set to '0' before the merge.\nUPDATE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\n\
+    SET\n    ty_sales_ind = 0\nWHERE\n    business_date = date '${EFF_FROM_DT}';\n\
+    .IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 4: Merge the source staging data into\
+    \ the pivot fact table.\n-- The MERGE statement is an efficient way to handle\
+    \ both inserts and updates in a single pass.\nMERGE INTO DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
+    \ AS trg\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS src\n    --\
+    \ Define the join condition to match records between the source and target tables.\n\
+    \    ON trg.business_date = src.business_date\n    AND trg.loc_id = src.location_id\n\
+    \    AND trg.item_id = src.item_id\n-- 'WHEN MATCHED': This clause executes if\
+    \ a record from the source table finds a\n-- matching record in the target table\
+    \ based on the join condition.\nWHEN MATCHED THEN\n    UPDATE SET\n        --\
+    \ Set the stock indicator to '1' to signify that this item has a stock\n     \
+    \   -- record for the given business date.\n        ty_sales_ind = 1,\n      \
+    \  -- Update the audit columns to track when this record was last updated.\n \
+    \       update_run_id = ${RUNID}, -- Placeholder for the run ID\n        update_job_id\
+    \ = '${JOB}' -- The name of the job that is running this script.\n-- 'WHEN NOT\
+    \ MATCHED': This clause executes if a record from the source table does not\n\
+    -- find a matching record in the target table. This indicates a new location-item\
+    \ combination.\nWHEN NOT MATCHED THEN\n    INSERT (\n        business_date,\n\
+    \        loc_id,\n        item_id,\n        ty_sales_ind,\n        wk_business_date,\n\
+    \        ly_business_date,\n        eff_from_dt,\n        eff_to_dt,\n       \
+    \ del_ind,\n        run_id,\n        update_run_id,\n        job_id,\n       \
+    \ update_job_id\n    )\n    VALUES (\n        src.business_date,\n        src.location_id,\n\
+    \        src.item_id,\n        1, -- Set the stock indicator to '1' for the new\
+    \ record.\n        date '${WEEK_START_DT}', -- Teradata function to get the date\
+    \ of the Saturday of the week.\n        date '${LY_CALENDAR_DT}', -- Calculate\
+    \ the date for the same day last year (approximated).\n        date '${EFF_FROM_DT}',\
+    \ -- The effective start date for this record.\n        DATE '3500-12-31', --\
+    \ A high-date to indicate the record is currently active.\n        0, -- Deletion\
+    \ indicator; 0 means the record is active.\n        ${RUNID}, -- Placeholder for\
+    \ the initial run ID.\n        NULL, -- update_run_id is NULL for new records.\n\
+    \        '${JOB}', -- The name of the job that created this record.\n        NULL\
+    \ -- update_job_id is NULL for new records.\n    );\n-- BTEQ command to check\
+    \ for errors after the MERGE statement. If an error occurred,\n-- the script will\
+    \ exit with a status code of 101.\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step\
+    \ 5: End the transaction. If all previous steps were successful, the changes\n\
+    -- are committed to the database, making them permanent.\nEND TRANSACTION;\n.IF\
+    \ ERRORCODE <> 0 THEN .QUIT 101;"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2233
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Delete and Insert from trans table
+  file_name: FND2233.300.TARGET.sql
+  file_present: true
+  job_name: FND2233
+  notes: 'SCOPE: Business_Date=${RUNDATE} , Update previous day in week flag to N '
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: T_TMP_ACC_FND
+  source_table: FND1023_TRANS
+  sql_statement: "-- =================================================================================================\n\
+    -- This BTEQ script manages the daily stock pivot table (DW_FND_LOC_ITEM_PVT_FCT).\n\
+    -- It ensures that for a given business date (yesterday), the table accurately\
+    \ reflects\n-- which location-item combinations have stock records by setting\
+    \ a flag (ty_stock_ind).\n--\n-- Logic Overview:\n-- 1.  Start a transaction to\
+    \ ensure atomicity.\n-- 2.  Lock the target table to prevent concurrent modifications.\n\
+    -- 3.  Reset the stock indicator flag for all records for the target business\
+    \ date.\n-- 4.  Merge data from the daily staging table (FND_SLS_FCT_PVT_STG).\n\
+    --     - If a location-item record already exists, update its stock flag.\n--\
+    \     - If it's a new location-item combination, insert a new record.\n-- 5. \
+    \ Commit the transaction upon successful completion.\n-- =================================================================================================\n\
+    -- Step 1: Begin a transaction block. All subsequent operations will be treated\
+    \ as a single\n-- atomic unit. If any step fails, the entire transaction will\
+    \ be rolled back.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n--\
+    \ Step 2: Lock the target table in WRITE mode. This is a crucial step to ensure\
+    \ data consistency\n-- by preventing other processes from modifying the table\
+    \ during the merge operation.\nLOCKING TABLE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
+    \ FOR WRITE;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 3: Reset the stock indicator\
+    \ for the target business date (yesterday).\n-- This is a safety measure to ensure\
+    \ that if an item had stock previously but doesn't\n-- in the current run, its\
+    \ flag is correctly set to '0' before the merge.\nUPDATE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\n\
+    SET\n    ty_sales_ind = 0\nWHERE\n    business_date = date '${EFF_FROM_DT}';\n\
+    .IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 4: Merge the source staging data into\
+    \ the pivot fact table.\n-- The MERGE statement is an efficient way to handle\
+    \ both inserts and updates in a single pass.\nMERGE INTO DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
+    \ AS trg\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS src\n    --\
+    \ Define the join condition to match records between the source and target tables.\n\
+    \    ON trg.business_date = src.business_date\n    AND trg.loc_id = src.location_id\n\
+    \    AND trg.item_id = src.item_id\n-- 'WHEN MATCHED': This clause executes if\
+    \ a record from the source table finds a\n-- matching record in the target table\
+    \ based on the join condition.\nWHEN MATCHED THEN\n    UPDATE SET\n        --\
+    \ Set the stock indicator to '1' to signify that this item has a stock\n     \
+    \   -- record for the given business date.\n        ty_sales_ind = 1,\n      \
+    \  -- Update the audit columns to track when this record was last updated.\n \
+    \       update_run_id = ${RUNID}, -- Placeholder for the run ID\n        update_job_id\
+    \ = '${JOB}' -- The name of the job that is running this script.\n-- 'WHEN NOT\
+    \ MATCHED': This clause executes if a record from the source table does not\n\
+    -- find a matching record in the target table. This indicates a new location-item\
+    \ combination.\nWHEN NOT MATCHED THEN\n    INSERT (\n        business_date,\n\
+    \        loc_id,\n        item_id,\n        ty_sales_ind,\n        wk_business_date,\n\
+    \        ly_business_date,\n        eff_from_dt,\n        eff_to_dt,\n       \
+    \ del_ind,\n        run_id,\n        update_run_id,\n        job_id,\n       \
+    \ update_job_id\n    )\n    VALUES (\n        src.business_date,\n        src.location_id,\n\
+    \        src.item_id,\n        1, -- Set the stock indicator to '1' for the new\
+    \ record.\n        date '${WEEK_START_DT}', -- Teradata function to get the date\
+    \ of the Saturday of the week.\n        date '${LY_CALENDAR_DT}', -- Calculate\
+    \ the date for the same day last year (approximated).\n        date '${EFF_FROM_DT}',\
+    \ -- The effective start date for this record.\n        DATE '3500-12-31', --\
+    \ A high-date to indicate the record is currently active.\n        0, -- Deletion\
+    \ indicator; 0 means the record is active.\n        ${RUNID}, -- Placeholder for\
+    \ the initial run ID.\n        NULL, -- update_run_id is NULL for new records.\n\
+    \        '${JOB}', -- The name of the job that created this record.\n        NULL\
+    \ -- update_job_id is NULL for new records.\n    );\n-- BTEQ command to check\
+    \ for errors after the MERGE statement. If an error occurred,\n-- the script will\
+    \ exit with a status code of 101.\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step\
+    \ 5: End the transaction. If all previous steps were successful, the changes\n\
+    -- are committed to the database, making them permanent.\nEND TRANSACTION;\n.IF\
+    \ ERRORCODE <> 0 THEN .QUIT 101;"
+  stats: ''
+  step_pattern: TRANS_BESPOKE
+  steps: '300'
+  target_database: V_ACC_FND
+  target_table: DW_FND_AGG_DAILY_STOCK_FCT
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2233
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+target_database_name: T_TMP_ACC_FND
+target_table_name: DW_FND_AGG_DAILY_STOCK_FCT
+transformation_key:
+- business_date
+- location_id
+- item_id

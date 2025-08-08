@@ -11,10 +11,10 @@
 REPLACE VIEW DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM
     AS
 SELECT
-    "calendar_dt" ,
+    calendar_dt ,
     year_start_dt ,
     year_end_dt ,
-    "period_start_dt" ,
+    period_start_dt ,
     period_end_dt ,
     week_start_dt ,
     week_end_dt ,
@@ -114,7 +114,7 @@ FROM  DW${INSTANCE}T_ACC_FND.DW_FND_DATE_DIM
 COMMENT ON VIEW DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM AS ''
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM."calendar_dt" AS 'primary key on table'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM.calendar_dt AS 'primary key on table'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM.year_start_dt AS 'primark year start date'
@@ -123,7 +123,7 @@ COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM.year_start_dt AS 'prima
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM.year_end_dt AS 'primark year end date'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM."period_start_dt" AS 'primark period start date'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM.period_start_dt AS 'primark period start date'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_DATE_DIM.period_end_dt AS 'primark period end date'

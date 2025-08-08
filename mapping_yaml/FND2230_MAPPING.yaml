@@ -1,0 +1,1052 @@
+control_columns: .nan
+job_name_from_file: FND2230
+job_name_from_mapping: FND2230
+mapping_columns:
+- column_action: key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 109
+  source_column_name: nan
+  target_column_name: business_dt
+- column_action: key
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 108
+  source_column_name: nan
+  target_column_name: loc_id
+- column_action: key
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 107
+  source_column_name: nan
+  target_column_name: item_id
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 106
+  source_column_name: nan
+  target_column_name: sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 105
+  source_column_name: nan
+  target_column_name: sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 104
+  source_column_name: nan
+  target_column_name: sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 103
+  source_column_name: nan
+  target_column_name: promotion_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 102
+  source_column_name: nan
+  target_column_name: promotion_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 101
+  source_column_name: nan
+  target_column_name: promotion_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 100
+  source_column_name: nan
+  target_column_name: clearance_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 99
+  source_column_name: nan
+  target_column_name: clearance_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 98
+  source_column_name: nan
+  target_column_name: clearance_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 97
+  source_column_name: nan
+  target_column_name: regular_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 96
+  source_column_name: nan
+  target_column_name: regular_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 95
+  source_column_name: nan
+  target_column_name: regular_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 94
+  source_column_name: nan
+  target_column_name: emp_discount_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 93
+  source_column_name: nan
+  target_column_name: emp_discount_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 92
+  source_column_name: nan
+  target_column_name: emp_discount_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 91
+  source_column_name: nan
+  target_column_name: cash_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 90
+  source_column_name: nan
+  target_column_name: cash_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 89
+  source_column_name: nan
+  target_column_name: cash_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 88
+  source_column_name: nan
+  target_column_name: card_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 23
+  column_sequence_reverse: 87
+  source_column_name: nan
+  target_column_name: card_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 24
+  column_sequence_reverse: 86
+  source_column_name: nan
+  target_column_name: card_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 25
+  column_sequence_reverse: 85
+  source_column_name: nan
+  target_column_name: gift_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 26
+  column_sequence_reverse: 84
+  source_column_name: nan
+  target_column_name: gift_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 27
+  column_sequence_reverse: 83
+  source_column_name: nan
+  target_column_name: gift_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 28
+  column_sequence_reverse: 82
+  source_column_name: nan
+  target_column_name: others_sales_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 29
+  column_sequence_reverse: 81
+  source_column_name: nan
+  target_column_name: others_sales_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 30
+  column_sequence_reverse: 80
+  source_column_name: nan
+  target_column_name: others_sales_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 31
+  column_sequence_reverse: 79
+  source_column_name: nan
+  target_column_name: return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 32
+  column_sequence_reverse: 78
+  source_column_name: nan
+  target_column_name: return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 33
+  column_sequence_reverse: 77
+  source_column_name: nan
+  target_column_name: return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 34
+  column_sequence_reverse: 76
+  source_column_name: nan
+  target_column_name: promotion_return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 35
+  column_sequence_reverse: 75
+  source_column_name: nan
+  target_column_name: promotion_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 36
+  column_sequence_reverse: 74
+  source_column_name: nan
+  target_column_name: promotion_return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 37
+  column_sequence_reverse: 73
+  source_column_name: nan
+  target_column_name: clearance_return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 38
+  column_sequence_reverse: 72
+  source_column_name: nan
+  target_column_name: clearance_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 39
+  column_sequence_reverse: 71
+  source_column_name: nan
+  target_column_name: clearance_return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 40
+  column_sequence_reverse: 70
+  source_column_name: nan
+  target_column_name: regular_return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 41
+  column_sequence_reverse: 69
+  source_column_name: nan
+  target_column_name: regular_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 42
+  column_sequence_reverse: 68
+  source_column_name: nan
+  target_column_name: regular_return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 43
+  column_sequence_reverse: 67
+  source_column_name: nan
+  target_column_name: emp_discount_return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 44
+  column_sequence_reverse: 66
+  source_column_name: nan
+  target_column_name: emp_discount_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 45
+  column_sequence_reverse: 65
+  source_column_name: nan
+  target_column_name: emp_discount_return_transaction_count
+- column_action: needs more investigation
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 64
+  source_column_name: nan
+  target_column_name: cash_return_value
+- column_action: stk.stock_inventory_date =${rundate} and current_flag=y and <ignore
+    0 rows>
+  column_order: CTE
+  column_sequence: 47
+  column_sequence_reverse: 63
+  source_column_name: nan
+  target_column_name: cash_return_units
+- column_action: "    on lc.loc_id = stk.location_id\n    and lc.cur_flg = 'y'\n \
+    \   and lc.loc_sbtype_cd in ('w' 's')"
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 62
+  source_column_name: nan
+  target_column_name: cash_return_transaction_count
+- column_action: "    on itm.item_id = stk.item_id\n    and itm.cur_flg = 'y' "
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 61
+  source_column_name: nan
+  target_column_name: card_return_value
+- column_action: "left join stpsel\n    on stk.item_id = stpsel.item_id\n    and stk.location_id\
+    \ = stpsel.loc_id"
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 60
+  source_column_name: nan
+  target_column_name: card_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 59
+  source_column_name: nan
+  target_column_name: card_return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 52
+  column_sequence_reverse: 58
+  source_column_name: nan
+  target_column_name: gift_return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 53
+  column_sequence_reverse: 57
+  source_column_name: nan
+  target_column_name: gift_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 54
+  column_sequence_reverse: 56
+  source_column_name: nan
+  target_column_name: gift_return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 55
+  column_sequence_reverse: 55
+  source_column_name: nan
+  target_column_name: others_return_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 56
+  column_sequence_reverse: 54
+  source_column_name: nan
+  target_column_name: others_return_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 57
+  column_sequence_reverse: 53
+  source_column_name: nan
+  target_column_name: others_return_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 58
+  column_sequence_reverse: 52
+  source_column_name: nan
+  target_column_name: exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 59
+  column_sequence_reverse: 51
+  source_column_name: nan
+  target_column_name: exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 60
+  column_sequence_reverse: 50
+  source_column_name: nan
+  target_column_name: exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 61
+  column_sequence_reverse: 49
+  source_column_name: nan
+  target_column_name: promotion_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 62
+  column_sequence_reverse: 48
+  source_column_name: nan
+  target_column_name: promotion_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 63
+  column_sequence_reverse: 47
+  source_column_name: nan
+  target_column_name: promotion_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 64
+  column_sequence_reverse: 46
+  source_column_name: nan
+  target_column_name: clearance_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 65
+  column_sequence_reverse: 45
+  source_column_name: nan
+  target_column_name: clearance_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 66
+  column_sequence_reverse: 44
+  source_column_name: nan
+  target_column_name: clearance_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 67
+  column_sequence_reverse: 43
+  source_column_name: nan
+  target_column_name: regular_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 68
+  column_sequence_reverse: 42
+  source_column_name: nan
+  target_column_name: regular_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 69
+  column_sequence_reverse: 41
+  source_column_name: nan
+  target_column_name: regular_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 70
+  column_sequence_reverse: 40
+  source_column_name: nan
+  target_column_name: emp_discount_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 71
+  column_sequence_reverse: 39
+  source_column_name: nan
+  target_column_name: emp_discount_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 72
+  column_sequence_reverse: 38
+  source_column_name: nan
+  target_column_name: emp_discount_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 73
+  column_sequence_reverse: 37
+  source_column_name: nan
+  target_column_name: cash_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 74
+  column_sequence_reverse: 36
+  source_column_name: nan
+  target_column_name: cash_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 75
+  column_sequence_reverse: 35
+  source_column_name: nan
+  target_column_name: cash_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 76
+  column_sequence_reverse: 34
+  source_column_name: nan
+  target_column_name: card_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 77
+  column_sequence_reverse: 33
+  source_column_name: nan
+  target_column_name: card_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 78
+  column_sequence_reverse: 32
+  source_column_name: nan
+  target_column_name: card_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 79
+  column_sequence_reverse: 31
+  source_column_name: nan
+  target_column_name: gift_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 80
+  column_sequence_reverse: 30
+  source_column_name: nan
+  target_column_name: gift_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 81
+  column_sequence_reverse: 29
+  source_column_name: nan
+  target_column_name: gift_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 82
+  column_sequence_reverse: 28
+  source_column_name: nan
+  target_column_name: others_exchange_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 83
+  column_sequence_reverse: 27
+  source_column_name: nan
+  target_column_name: others_exchange_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 84
+  column_sequence_reverse: 26
+  source_column_name: nan
+  target_column_name: others_exchange_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 85
+  column_sequence_reverse: 25
+  source_column_name: nan
+  target_column_name: sales_tax_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 86
+  column_sequence_reverse: 24
+  source_column_name: nan
+  target_column_name: return_tax_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 87
+  column_sequence_reverse: 23
+  source_column_name: nan
+  target_column_name: void_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 88
+  column_sequence_reverse: 22
+  source_column_name: nan
+  target_column_name: post_void_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 89
+  column_sequence_reverse: 21
+  source_column_name: nan
+  target_column_name: other_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 90
+  column_sequence_reverse: 20
+  source_column_name: nan
+  target_column_name: sales_manual_markup_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 91
+  column_sequence_reverse: 19
+  source_column_name: nan
+  target_column_name: return_manual_markdown_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 92
+  column_sequence_reverse: 18
+  source_column_name: nan
+  target_column_name: sales_manual_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 93
+  column_sequence_reverse: 17
+  source_column_name: nan
+  target_column_name: sales_manual_markdown_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 94
+  column_sequence_reverse: 16
+  source_column_name: nan
+  target_column_name: exchanges_with_reciepts
+- column_action: nan
+  column_order: nan
+  column_sequence: 95
+  column_sequence_reverse: 15
+  source_column_name: nan
+  target_column_name: exchanges_without_reciepts
+- column_action: nan
+  column_order: nan
+  column_sequence: 96
+  column_sequence_reverse: 14
+  source_column_name: nan
+  target_column_name: returns_with_reciepts
+- column_action: nan
+  column_order: nan
+  column_sequence: 97
+  column_sequence_reverse: 13
+  source_column_name: nan
+  target_column_name: returns_without_reciepts
+- column_action: nan
+  column_order: nan
+  column_sequence: 98
+  column_sequence_reverse: 12
+  source_column_name: nan
+  target_column_name: sales_scan_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 99
+  column_sequence_reverse: 11
+  source_column_name: nan
+  target_column_name: no_sale_transaction_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 100
+  column_sequence_reverse: 10
+  source_column_name: nan
+  target_column_name: previous_full_week_sales
+- column_action: nan
+  column_order: nan
+  column_sequence: 101
+  column_sequence_reverse: 9
+  source_column_name: nan
+  target_column_name: spv
+- column_action: nan
+  column_order: nan
+  column_sequence: 102
+  column_sequence_reverse: 8
+  source_column_name: nan
+  target_column_name: sales_1st_date
+- column_action: nan
+  column_order: nan
+  column_sequence: 103
+  column_sequence_reverse: 7
+  source_column_name: nan
+  target_column_name: sales_1st_week
+- column_action: nan
+  column_order: nan
+  column_sequence: 104
+  column_sequence_reverse: 6
+  source_column_name: nan
+  target_column_name: days_at_clearance
+- column_action: nan
+  column_order: nan
+  column_sequence: 105
+  column_sequence_reverse: 5
+  source_column_name: nan
+  target_column_name: net_sales
+- column_action: nan
+  column_order: nan
+  column_sequence: 106
+  column_sequence_reverse: 4
+  source_column_name: nan
+  target_column_name: regular_sell_price
+- column_action: nan
+  column_order: nan
+  column_sequence: 107
+  column_sequence_reverse: 3
+  source_column_name: nan
+  target_column_name: sales_vat
+- column_action: nan
+  column_order: nan
+  column_sequence: 108
+  column_sequence_reverse: 2
+  source_column_name: nan
+  target_column_name: weeks_in_store
+- column_action: nan
+  column_order: nan
+  column_sequence: 109
+  column_sequence_reverse: 1
+  source_column_name: nan
+  target_column_name: item_selling_price
+mapping_columns_count: 109
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- business_datelocation_iditem_id
+sql_steps:
+  FND2230.300.TARGET: "-- =================================================================================================\n\
+    -- Populates the daily aggregated sales fact table by joining the pivoted staging\
+    \ table\n-- with the source fact staging table.\n--\n-- Template: FND2130_SAMPLE.sql\n\
+    -- Data: FND2230_Data.sql\n--\n-- Business Logic:\n-- 1. Uses FND_SLS_FCT_PVT_STG\
+    \ as the driver to ensure all combinations of\n--    business_date, location_id,\
+    \ and item_id are included.\n-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve\
+    \ the actual sales measures.\n-- 3. COALESCE is used on all measure columns to\
+    \ convert NULLs to 0.\n-- 4. Default values (0 or NULL) are provided for target\
+    \ columns that do not have a direct source.\n-- 5. The script is designed to be\
+    \ re-runnable by deleting the data for the target\n--    business date before\
+    \ insertion.\n-- =================================================================================================\n\
+    -- Start a new transaction. This ensures that all subsequent operations are treated\
+    \ as a single\n-- atomic unit of work. If any step fails, the entire transaction\
+    \ can be rolled back.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n\
+    -- Lock the target table in WRITE mode to prevent other processes from modifying\
+    \ it during the load.\n-- This ensures data consistency.\nLOCKING TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT\
+    \ FOR WRITE;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Before inserting new data,\
+    \ delete any existing records for the target business date.\n-- This makes the\
+    \ script re-runnable without creating duplicate data.\nDELETE FROM DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT\n\
+    WHERE\n    business_dt = date '${LDTK_DATE}'\n;\n.IF ERRORCODE <> 0 THEN .QUIT\
+    \ 101;\n-- Insert the aggregated data into the final fact table.\nINSERT INTO\
+    \ DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (\n    business_dt,\n\
+    \    loc_id,\n    item_id,\n    sales_value,\n    sales_units,\n    sales_transaction_count,\n\
+    \    promotion_sales_value,\n    promotion_sales_units,\n    promotion_sales_transaction_count,\n\
+    \    clearance_sales_value,\n    clearance_sales_units,\n    clearance_sales_transaction_count,\n\
+    \    regular_sales_value,\n    regular_sales_units,\n    regular_sales_transaction_count,\n\
+    \    emp_discount_sales_value,\n    emp_discount_sales_units,\n    emp_discount_sales_transaction_count,\n\
+    \    cash_sales_value,\n    cash_sales_units,\n    cash_sales_transaction_count,\n\
+    \    card_sales_value,\n    card_sales_units,\n    card_sales_transaction_count,\n\
+    \    gift_sales_value,\n    gift_sales_units,\n    gift_sales_transaction_count,\n\
+    \    others_sales_value,\n    others_sales_units,\n    others_sales_transaction_count,\n\
+    \    return_value,\n    return_units,\n    return_transaction_count,\n    promotion_return_value,\n\
+    \    promotion_return_units,\n    promotion_return_transaction_count,\n    clearance_return_value,\n\
+    \    clearance_return_units,\n    clearance_return_transaction_count,\n    regular_return_value,\n\
+    \    regular_return_units,\n    regular_return_transaction_count,\n    emp_discount_return_value,\n\
+    \    emp_discount_return_units,\n    emp_discount_return_transaction_count,\n\
+    \    cash_return_value,\n    cash_return_units,\n    cash_return_transaction_count,\n\
+    \    card_return_value,\n    card_return_units,\n    card_return_transaction_count,\n\
+    \    gift_return_value,\n    gift_return_units,\n    gift_return_transaction_count,\n\
+    \    others_return_value,\n    others_return_units,\n    others_return_transaction_count,\n\
+    \    exchange_value,\n    exchange_units,\n    exchange_transaction_count,\n \
+    \   promotion_exchange_value,\n    promotion_exchange_units,\n    promotion_exchange_transaction_count,\n\
+    \    clearance_exchange_value,\n    clearance_exchange_units,\n    clearance_exchange_transaction_count,\n\
+    \    regular_exchange_value,\n    regular_exchange_units,\n    regular_exchange_transaction_count,\n\
+    \    emp_discount_exchange_value,\n    emp_discount_exchange_units,\n    emp_discount_exchange_transaction_count,\n\
+    \    cash_exchange_value,\n    cash_exchange_units,\n    cash_exchange_transaction_count,\n\
+    \    card_exchange_value,\n    card_exchange_units,\n    card_exchange_transaction_count,\n\
+    \    gift_exchange_value,\n    gift_exchange_units,\n    gift_exchange_transaction_count,\n\
+    \    others_exchange_value,\n    others_exchange_units,\n    others_exchange_transaction_count,\n\
+    \    sales_tax_amt,\n    return_tax_amt,\n    void_transaction_count,\n    post_void_transaction_count,\n\
+    \    other_transaction_count,\n    sales_manual_markup_amt,\n    return_manual_markdown_amt,\n\
+    \    sales_manual_count,\n    sales_manual_markdown_amt,\n    exchanges_with_reciepts,\n\
+    \    exchanges_without_reciepts,\n    returns_with_reciepts,\n    returns_without_reciepts,\n\
+    \    sales_scan_count,\n    no_sale_transaction_count,\n    previous_full_week_sales,\n\
+    \    spv,\n    sales_1st_date,\n    sales_1st_week,\n    days_at_clearance,\n\
+    \    net_sales,\n    regular_sell_price,\n    sales_vat,\n    weeks_in_store,\n\
+    \    item_selling_price,\n    eff_from_dt,\n    eff_to_dt,\n    del_ind,\n   \
+    \ run_id,\n    update_run_id,\n    job_id,\n    update_job_id\n)\nSELECT\n   \
+    \ -- Key columns from the pivot table, which acts as the driver for the join.\n\
+    \    pvt.business_date AS business_dt,\n    pvt.location_id AS loc_id,\n    pvt.item_id\
+    \ AS item_id,\n    -- Measures from the source table (FCT1). COALESCE ensures\
+    \ no nulls are inserted.\n    COALESCE(fct1.sales_value, 0) AS sales_value,\n\
+    \    COALESCE(fct1.sales_units, 0) AS sales_units,\n    COALESCE(fct1.sales_transaction_count,\
+    \ 0) AS sales_transaction_count,\n    COALESCE(fct1.promotion_sales_value, 0)\
+    \ AS promotion_sales_value,\n    COALESCE(fct1.promotion_sales_units, 0) AS promotion_sales_units,\n\
+    \    COALESCE(fct1.promotion_sales_transaction_count, 0) AS promotion_sales_transaction_count,\n\
+    \    COALESCE(fct1.clearance_sales_value, 0) AS clearance_sales_value,\n    COALESCE(fct1.clearance_sales_units,\
+    \ 0) AS clearance_sales_units,\n    COALESCE(fct1.clearance_sales_transaction_count,\
+    \ 0) AS clearance_sales_transaction_count,\n    COALESCE(fct1.regular_sales_value,\
+    \ 0) AS regular_sales_value,\n    COALESCE(fct1.regular_sales_units, 0) AS regular_sales_units,\n\
+    \    COALESCE(fct1.regular_sales_transaction_count, 0) AS regular_sales_transaction_count,\n\
+    \    COALESCE(fct1.emp_discount_sales_value, 0) AS emp_discount_sales_value,\n\
+    \    COALESCE(fct1.emp_discount_sales_units, 0) AS emp_discount_sales_units,\n\
+    \    COALESCE(fct1.emp_discount_sales_transaction_count, 0) AS emp_discount_sales_transaction_count,\n\
+    \    COALESCE(fct1.cash_sales_value, 0) AS cash_sales_value,\n    COALESCE(fct1.cash_sales_units,\
+    \ 0) AS cash_sales_units,\n    COALESCE(fct1.cash_sales_transaction_count, 0)\
+    \ AS cash_sales_transaction_count,\n    COALESCE(fct1.card_sales_value, 0) AS\
+    \ card_sales_value,\n    COALESCE(fct1.card_sales_units, 0) AS card_sales_units,\n\
+    \    COALESCE(fct1.card_sales_transaction_count, 0) AS card_sales_transaction_count,\n\
+    \    COALESCE(fct1.gift_sales_value, 0) AS gift_sales_value,\n    COALESCE(fct1.gift_sales_units,\
+    \ 0) AS gift_sales_units,\n    COALESCE(fct1.gift_sales_transaction_count, 0)\
+    \ AS gift_sales_transaction_count,\n    COALESCE(fct1.others_sales_value, 0) AS\
+    \ others_sales_value,\n    COALESCE(fct1.others_sales_units, 0) AS others_sales_units,\n\
+    \    COALESCE(fct1.others_sales_transaction_count, 0) AS others_sales_transaction_count,\n\
+    \    COALESCE(fct1.return_value, 0) AS return_value,\n    COALESCE(fct1.return_units,\
+    \ 0) AS return_units,\n    COALESCE(fct1.return_transaction_count, 0) AS return_transaction_count,\n\
+    \    COALESCE(fct1.promotion_return_value, 0) AS promotion_return_value,\n   \
+    \ COALESCE(fct1.promotion_return_units, 0) AS promotion_return_units,\n    COALESCE(fct1.promotion_return_transaction_count,\
+    \ 0) AS promotion_return_transaction_count,\n    COALESCE(fct1.clearance_return_value,\
+    \ 0) AS clearance_return_value,\n    COALESCE(fct1.clearance_return_units, 0)\
+    \ AS clearance_return_units,\n    COALESCE(fct1.clearance_return_transaction_count,\
+    \ 0) AS clearance_return_transaction_count,\n    COALESCE(fct1.regular_return_value,\
+    \ 0) AS regular_return_value,\n    COALESCE(fct1.regular_return_units, 0) AS regular_return_units,\n\
+    \    COALESCE(fct1.regular_return_transaction_count, 0) AS regular_return_transaction_count,\n\
+    \    COALESCE(fct1.emp_discount_return_value, 0) AS emp_discount_return_value,\n\
+    \    COALESCE(fct1.emp_discount_return_units, 0) AS emp_discount_return_units,\n\
+    \    COALESCE(fct1.emp_discount_return_transaction_count, 0) AS emp_discount_return_transaction_count,\n\
+    \    COALESCE(fct1.cash_return_value, 0) AS cash_return_value,\n    COALESCE(fct1.cash_return_units,\
+    \ 0) AS cash_return_units,\n    COALESCE(fct1.cash_return_transaction_count, 0)\
+    \ AS cash_return_transaction_count,\n    COALESCE(fct1.card_return_value, 0) AS\
+    \ card_return_value,\n    COALESCE(fct1.card_return_units, 0) AS card_return_units,\n\
+    \    COALESCE(fct1.card_return_transaction_count, 0) AS card_return_transaction_count,\n\
+    \    COALESCE(fct1.gift_return_value, 0) AS gift_return_value,\n    COALESCE(fct1.gift_return_units,\
+    \ 0) AS gift_return_units,\n    COALESCE(fct1.gift_return_transaction_count, 0)\
+    \ AS gift_return_transaction_count,\n    COALESCE(fct1.others_return_value, 0)\
+    \ AS others_return_value,\n    COALESCE(fct1.others_return_units, 0) AS others_return_units,\n\
+    \    COALESCE(fct1.others_return_transaction_count, 0) AS others_return_transaction_count,\n\
+    \    COALESCE(fct1.exchange_value, 0) AS exchange_value,\n    COALESCE(fct1.exchange_units,\
+    \ 0) AS exchange_units,\n    COALESCE(fct1.exchange_transaction_count, 0) AS exchange_transaction_count,\n\
+    \    COALESCE(fct1.promotion_exchange_value, 0) AS promotion_exchange_value,\n\
+    \    COALESCE(fct1.promotion_exchange_units, 0) AS promotion_exchange_units,\n\
+    \    COALESCE(fct1.promotion_exchange_transaction_count, 0) AS promotion_exchange_transaction_count,\n\
+    \    COALESCE(fct1.clearance_exchange_value, 0) AS clearance_exchange_value,\n\
+    \    COALESCE(fct1.clearance_exchange_units, 0) AS clearance_exchange_units,\n\
+    \    COALESCE(fct1.clearance_exchange_transaction_count, 0) AS clearance_exchange_transaction_count,\n\
+    \    COALESCE(fct1.regular_exchange_value, 0) AS regular_exchange_value,\n   \
+    \ COALESCE(fct1.regular_exchange_units, 0) AS regular_exchange_units,\n    COALESCE(fct1.regular_exchange_transaction_count,\
+    \ 0) AS regular_exchange_transaction_count,\n    COALESCE(fct1.emp_discount_exchange_value,\
+    \ 0) AS emp_discount_exchange_value,\n    COALESCE(fct1.emp_discount_exchange_units,\
+    \ 0) AS emp_discount_exchange_units,\n    COALESCE(fct1.emp_discount_exchange_transaction_count,\
+    \ 0) AS emp_discount_exchange_transaction_count,\n    COALESCE(fct1.cash_exchange_value,\
+    \ 0) AS cash_exchange_value,\n    COALESCE(fct1.cash_exchange_units, 0) AS cash_exchange_units,\n\
+    \    COALESCE(fct1.cash_exchange_transaction_count, 0) AS cash_exchange_transaction_count,\n\
+    \    COALESCE(fct1.card_exchange_value, 0) AS card_exchange_value,\n    COALESCE(fct1.card_exchange_units,\
+    \ 0) AS card_exchange_units,\n    COALESCE(fct1.card_exchange_transaction_count,\
+    \ 0) AS card_exchange_transaction_count,\n    COALESCE(fct1.gift_exchange_value,\
+    \ 0) AS gift_exchange_value,\n    COALESCE(fct1.gift_exchange_units, 0) AS gift_exchange_units,\n\
+    \    COALESCE(fct1.gift_exchange_transaction_count, 0) AS gift_exchange_transaction_count,\n\
+    \    COALESCE(fct1.others_exchange_value, 0) AS others_exchange_value,\n    COALESCE(fct1.others_exchange_units,\
+    \ 0) AS others_exchange_units,\n    COALESCE(fct1.others_exchange_transaction_count,\
+    \ 0) AS others_exchange_transaction_count,\n    COALESCE(fct1.sales_tax_amt, 0)\
+    \ AS sales_tax_amt,\n    COALESCE(fct1.return_tax_amt, 0) AS return_tax_amt,\n\
+    \    COALESCE(fct1.void_transaction_count, 0) AS void_transaction_count,\n   \
+    \ COALESCE(fct1.post_void_transaction_count, 0) AS post_void_transaction_count,\n\
+    \    COALESCE(fct1.other_transaction_count, 0) AS other_transaction_count,\n \
+    \   COALESCE(fct1.sales_manual_markup_amt, 0) AS sales_manual_markup_amt,\n  \
+    \  COALESCE(fct1.return_manual_markdown_amt, 0) AS return_manual_markdown_amt,\n\
+    \    COALESCE(fct1.sales_manual_count, 0) AS sales_manual_count,\n    COALESCE(fct1.sales_manual_markdown_amt,\
+    \ 0) AS sales_manual_markdown_amt,\n    COALESCE(fct1.exchanges_with_reciepts,\
+    \ 0) AS exchanges_with_reciepts,\n    COALESCE(fct1.exchanges_without_reciepts,\
+    \ 0) AS exchanges_without_reciepts,\n    COALESCE(fct1.returns_with_reciepts,\
+    \ 0) AS returns_with_reciepts,\n    COALESCE(fct1.returns_without_reciepts, 0)\
+    \ AS returns_without_reciepts,\n    COALESCE(fct1.sales_scan_count, 0) AS sales_scan_count,\n\
+    \    COALESCE(fct1.no_sale_transaction_count, 0) AS no_sale_transaction_count,\n\
+    \    -- Defaulted columns as requested.\n    0 AS previous_full_week_sales,\n\
+    \    0 AS spv,\n    fct1.sales_1st_date AS sales_1st_date,\n    NULL AS sales_1st_week,\
+    \ -- Defaulting to NULL as it's a date and has no source.\n    NULL AS days_at_clearance,\
+    \ -- Defaulting to NULL as it's a date and has no source.\n    0 AS net_sales,\n\
+    \    0 AS regular_sell_price,\n    0 AS sales_vat,\n    0 AS weeks_in_store,\n\
+    \    0 AS item_selling_price,\n    -- Audit and metadata columns for tracking\
+    \ and versioning.\n    CURRENT_DATE AS eff_from_dt, -- Effective from the date\
+    \ of the run.\n    DATE '3500-12-31' AS eff_to_dt, -- A high date represents the\
+    \ current version.\n    0 AS del_ind, -- Deletion indicator, 0 means the record\
+    \ is active.\n    ${RUNID} AS run_id, -- Populated from a script variable.\n \
+    \   NULL AS update_run_id, -- NULL for new records.\n    '${JOB}' AS job_id, --\
+    \ Populated from a script variable.\n    NULL AS update_job_id -- NULL for new\
+    \ records.\nFROM\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS pvt\n\
+    LEFT OUTER JOIN\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG AS fct1\n\
+    \        ON pvt.business_date = fct1.business_date\n        AND pvt.location_id\
+    \ = fct1.location_id\n        AND pvt.item_id = fct1.item_id;\n-- Check for errors\
+    \ after the INSERT statement. If an error occurred, quit the script.\n.IF ERRORCODE\
+    \ <> 0 THEN .QUIT 101;\n-- If no rows were inserted, quit the script. This can\
+    \ be a useful check to ensure the source tables were not empty.\n.IF ACTIVITYCOUNT\
+    \ = 0 THEN .QUIT 101;\n-- End the transaction, committing all the changes made.\n\
+    END TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2230
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Delete and Insert from trans table x
+  file_name: FND2230.300.TARGET.sql
+  file_present: true
+  job_name: FND2230
+  notes: 'SCOPE: Business_Date=${RUNDATE}  Update previous day in week flag to N '
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: "-- =================================================================================================\n\
+    -- Populates the daily aggregated sales fact table by joining the pivoted staging\
+    \ table\n-- with the source fact staging table.\n--\n-- Template: FND2130_SAMPLE.sql\n\
+    -- Data: FND2230_Data.sql\n--\n-- Business Logic:\n-- 1. Uses FND_SLS_FCT_PVT_STG\
+    \ as the driver to ensure all combinations of\n--    business_date, location_id,\
+    \ and item_id are included.\n-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve\
+    \ the actual sales measures.\n-- 3. COALESCE is used on all measure columns to\
+    \ convert NULLs to 0.\n-- 4. Default values (0 or NULL) are provided for target\
+    \ columns that do not have a direct source.\n-- 5. The script is designed to be\
+    \ re-runnable by deleting the data for the target\n--    business date before\
+    \ insertion.\n-- =================================================================================================\n\
+    -- Start a new transaction. This ensures that all subsequent operations are treated\
+    \ as a single\n-- atomic unit of work. If any step fails, the entire transaction\
+    \ can be rolled back.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n\
+    -- Lock the target table in WRITE mode to prevent other processes from modifying\
+    \ it during the load.\n-- This ensures data consistency.\nLOCKING TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT\
+    \ FOR WRITE;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Before inserting new data,\
+    \ delete any existing records for the target business date.\n-- This makes the\
+    \ script re-runnable without creating duplicate data.\nDELETE FROM DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT\n\
+    WHERE\n    business_dt = date '${LDTK_DATE}'\n;\n.IF ERRORCODE <> 0 THEN .QUIT\
+    \ 101;\n-- Insert the aggregated data into the final fact table.\nINSERT INTO\
+    \ DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (\n    business_dt,\n\
+    \    loc_id,\n    item_id,\n    sales_value,\n    sales_units,\n    sales_transaction_count,\n\
+    \    promotion_sales_value,\n    promotion_sales_units,\n    promotion_sales_transaction_count,\n\
+    \    clearance_sales_value,\n    clearance_sales_units,\n    clearance_sales_transaction_count,\n\
+    \    regular_sales_value,\n    regular_sales_units,\n    regular_sales_transaction_count,\n\
+    \    emp_discount_sales_value,\n    emp_discount_sales_units,\n    emp_discount_sales_transaction_count,\n\
+    \    cash_sales_value,\n    cash_sales_units,\n    cash_sales_transaction_count,\n\
+    \    card_sales_value,\n    card_sales_units,\n    card_sales_transaction_count,\n\
+    \    gift_sales_value,\n    gift_sales_units,\n    gift_sales_transaction_count,\n\
+    \    others_sales_value,\n    others_sales_units,\n    others_sales_transaction_count,\n\
+    \    return_value,\n    return_units,\n    return_transaction_count,\n    promotion_return_value,\n\
+    \    promotion_return_units,\n    promotion_return_transaction_count,\n    clearance_return_value,\n\
+    \    clearance_return_units,\n    clearance_return_transaction_count,\n    regular_return_value,\n\
+    \    regular_return_units,\n    regular_return_transaction_count,\n    emp_discount_return_value,\n\
+    \    emp_discount_return_units,\n    emp_discount_return_transaction_count,\n\
+    \    cash_return_value,\n    cash_return_units,\n    cash_return_transaction_count,\n\
+    \    card_return_value,\n    card_return_units,\n    card_return_transaction_count,\n\
+    \    gift_return_value,\n    gift_return_units,\n    gift_return_transaction_count,\n\
+    \    others_return_value,\n    others_return_units,\n    others_return_transaction_count,\n\
+    \    exchange_value,\n    exchange_units,\n    exchange_transaction_count,\n \
+    \   promotion_exchange_value,\n    promotion_exchange_units,\n    promotion_exchange_transaction_count,\n\
+    \    clearance_exchange_value,\n    clearance_exchange_units,\n    clearance_exchange_transaction_count,\n\
+    \    regular_exchange_value,\n    regular_exchange_units,\n    regular_exchange_transaction_count,\n\
+    \    emp_discount_exchange_value,\n    emp_discount_exchange_units,\n    emp_discount_exchange_transaction_count,\n\
+    \    cash_exchange_value,\n    cash_exchange_units,\n    cash_exchange_transaction_count,\n\
+    \    card_exchange_value,\n    card_exchange_units,\n    card_exchange_transaction_count,\n\
+    \    gift_exchange_value,\n    gift_exchange_units,\n    gift_exchange_transaction_count,\n\
+    \    others_exchange_value,\n    others_exchange_units,\n    others_exchange_transaction_count,\n\
+    \    sales_tax_amt,\n    return_tax_amt,\n    void_transaction_count,\n    post_void_transaction_count,\n\
+    \    other_transaction_count,\n    sales_manual_markup_amt,\n    return_manual_markdown_amt,\n\
+    \    sales_manual_count,\n    sales_manual_markdown_amt,\n    exchanges_with_reciepts,\n\
+    \    exchanges_without_reciepts,\n    returns_with_reciepts,\n    returns_without_reciepts,\n\
+    \    sales_scan_count,\n    no_sale_transaction_count,\n    previous_full_week_sales,\n\
+    \    spv,\n    sales_1st_date,\n    sales_1st_week,\n    days_at_clearance,\n\
+    \    net_sales,\n    regular_sell_price,\n    sales_vat,\n    weeks_in_store,\n\
+    \    item_selling_price,\n    eff_from_dt,\n    eff_to_dt,\n    del_ind,\n   \
+    \ run_id,\n    update_run_id,\n    job_id,\n    update_job_id\n)\nSELECT\n   \
+    \ -- Key columns from the pivot table, which acts as the driver for the join.\n\
+    \    pvt.business_date AS business_dt,\n    pvt.location_id AS loc_id,\n    pvt.item_id\
+    \ AS item_id,\n    -- Measures from the source table (FCT1). COALESCE ensures\
+    \ no nulls are inserted.\n    COALESCE(fct1.sales_value, 0) AS sales_value,\n\
+    \    COALESCE(fct1.sales_units, 0) AS sales_units,\n    COALESCE(fct1.sales_transaction_count,\
+    \ 0) AS sales_transaction_count,\n    COALESCE(fct1.promotion_sales_value, 0)\
+    \ AS promotion_sales_value,\n    COALESCE(fct1.promotion_sales_units, 0) AS promotion_sales_units,\n\
+    \    COALESCE(fct1.promotion_sales_transaction_count, 0) AS promotion_sales_transaction_count,\n\
+    \    COALESCE(fct1.clearance_sales_value, 0) AS clearance_sales_value,\n    COALESCE(fct1.clearance_sales_units,\
+    \ 0) AS clearance_sales_units,\n    COALESCE(fct1.clearance_sales_transaction_count,\
+    \ 0) AS clearance_sales_transaction_count,\n    COALESCE(fct1.regular_sales_value,\
+    \ 0) AS regular_sales_value,\n    COALESCE(fct1.regular_sales_units, 0) AS regular_sales_units,\n\
+    \    COALESCE(fct1.regular_sales_transaction_count, 0) AS regular_sales_transaction_count,\n\
+    \    COALESCE(fct1.emp_discount_sales_value, 0) AS emp_discount_sales_value,\n\
+    \    COALESCE(fct1.emp_discount_sales_units, 0) AS emp_discount_sales_units,\n\
+    \    COALESCE(fct1.emp_discount_sales_transaction_count, 0) AS emp_discount_sales_transaction_count,\n\
+    \    COALESCE(fct1.cash_sales_value, 0) AS cash_sales_value,\n    COALESCE(fct1.cash_sales_units,\
+    \ 0) AS cash_sales_units,\n    COALESCE(fct1.cash_sales_transaction_count, 0)\
+    \ AS cash_sales_transaction_count,\n    COALESCE(fct1.card_sales_value, 0) AS\
+    \ card_sales_value,\n    COALESCE(fct1.card_sales_units, 0) AS card_sales_units,\n\
+    \    COALESCE(fct1.card_sales_transaction_count, 0) AS card_sales_transaction_count,\n\
+    \    COALESCE(fct1.gift_sales_value, 0) AS gift_sales_value,\n    COALESCE(fct1.gift_sales_units,\
+    \ 0) AS gift_sales_units,\n    COALESCE(fct1.gift_sales_transaction_count, 0)\
+    \ AS gift_sales_transaction_count,\n    COALESCE(fct1.others_sales_value, 0) AS\
+    \ others_sales_value,\n    COALESCE(fct1.others_sales_units, 0) AS others_sales_units,\n\
+    \    COALESCE(fct1.others_sales_transaction_count, 0) AS others_sales_transaction_count,\n\
+    \    COALESCE(fct1.return_value, 0) AS return_value,\n    COALESCE(fct1.return_units,\
+    \ 0) AS return_units,\n    COALESCE(fct1.return_transaction_count, 0) AS return_transaction_count,\n\
+    \    COALESCE(fct1.promotion_return_value, 0) AS promotion_return_value,\n   \
+    \ COALESCE(fct1.promotion_return_units, 0) AS promotion_return_units,\n    COALESCE(fct1.promotion_return_transaction_count,\
+    \ 0) AS promotion_return_transaction_count,\n    COALESCE(fct1.clearance_return_value,\
+    \ 0) AS clearance_return_value,\n    COALESCE(fct1.clearance_return_units, 0)\
+    \ AS clearance_return_units,\n    COALESCE(fct1.clearance_return_transaction_count,\
+    \ 0) AS clearance_return_transaction_count,\n    COALESCE(fct1.regular_return_value,\
+    \ 0) AS regular_return_value,\n    COALESCE(fct1.regular_return_units, 0) AS regular_return_units,\n\
+    \    COALESCE(fct1.regular_return_transaction_count, 0) AS regular_return_transaction_count,\n\
+    \    COALESCE(fct1.emp_discount_return_value, 0) AS emp_discount_return_value,\n\
+    \    COALESCE(fct1.emp_discount_return_units, 0) AS emp_discount_return_units,\n\
+    \    COALESCE(fct1.emp_discount_return_transaction_count, 0) AS emp_discount_return_transaction_count,\n\
+    \    COALESCE(fct1.cash_return_value, 0) AS cash_return_value,\n    COALESCE(fct1.cash_return_units,\
+    \ 0) AS cash_return_units,\n    COALESCE(fct1.cash_return_transaction_count, 0)\
+    \ AS cash_return_transaction_count,\n    COALESCE(fct1.card_return_value, 0) AS\
+    \ card_return_value,\n    COALESCE(fct1.card_return_units, 0) AS card_return_units,\n\
+    \    COALESCE(fct1.card_return_transaction_count, 0) AS card_return_transaction_count,\n\
+    \    COALESCE(fct1.gift_return_value, 0) AS gift_return_value,\n    COALESCE(fct1.gift_return_units,\
+    \ 0) AS gift_return_units,\n    COALESCE(fct1.gift_return_transaction_count, 0)\
+    \ AS gift_return_transaction_count,\n    COALESCE(fct1.others_return_value, 0)\
+    \ AS others_return_value,\n    COALESCE(fct1.others_return_units, 0) AS others_return_units,\n\
+    \    COALESCE(fct1.others_return_transaction_count, 0) AS others_return_transaction_count,\n\
+    \    COALESCE(fct1.exchange_value, 0) AS exchange_value,\n    COALESCE(fct1.exchange_units,\
+    \ 0) AS exchange_units,\n    COALESCE(fct1.exchange_transaction_count, 0) AS exchange_transaction_count,\n\
+    \    COALESCE(fct1.promotion_exchange_value, 0) AS promotion_exchange_value,\n\
+    \    COALESCE(fct1.promotion_exchange_units, 0) AS promotion_exchange_units,\n\
+    \    COALESCE(fct1.promotion_exchange_transaction_count, 0) AS promotion_exchange_transaction_count,\n\
+    \    COALESCE(fct1.clearance_exchange_value, 0) AS clearance_exchange_value,\n\
+    \    COALESCE(fct1.clearance_exchange_units, 0) AS clearance_exchange_units,\n\
+    \    COALESCE(fct1.clearance_exchange_transaction_count, 0) AS clearance_exchange_transaction_count,\n\
+    \    COALESCE(fct1.regular_exchange_value, 0) AS regular_exchange_value,\n   \
+    \ COALESCE(fct1.regular_exchange_units, 0) AS regular_exchange_units,\n    COALESCE(fct1.regular_exchange_transaction_count,\
+    \ 0) AS regular_exchange_transaction_count,\n    COALESCE(fct1.emp_discount_exchange_value,\
+    \ 0) AS emp_discount_exchange_value,\n    COALESCE(fct1.emp_discount_exchange_units,\
+    \ 0) AS emp_discount_exchange_units,\n    COALESCE(fct1.emp_discount_exchange_transaction_count,\
+    \ 0) AS emp_discount_exchange_transaction_count,\n    COALESCE(fct1.cash_exchange_value,\
+    \ 0) AS cash_exchange_value,\n    COALESCE(fct1.cash_exchange_units, 0) AS cash_exchange_units,\n\
+    \    COALESCE(fct1.cash_exchange_transaction_count, 0) AS cash_exchange_transaction_count,\n\
+    \    COALESCE(fct1.card_exchange_value, 0) AS card_exchange_value,\n    COALESCE(fct1.card_exchange_units,\
+    \ 0) AS card_exchange_units,\n    COALESCE(fct1.card_exchange_transaction_count,\
+    \ 0) AS card_exchange_transaction_count,\n    COALESCE(fct1.gift_exchange_value,\
+    \ 0) AS gift_exchange_value,\n    COALESCE(fct1.gift_exchange_units, 0) AS gift_exchange_units,\n\
+    \    COALESCE(fct1.gift_exchange_transaction_count, 0) AS gift_exchange_transaction_count,\n\
+    \    COALESCE(fct1.others_exchange_value, 0) AS others_exchange_value,\n    COALESCE(fct1.others_exchange_units,\
+    \ 0) AS others_exchange_units,\n    COALESCE(fct1.others_exchange_transaction_count,\
+    \ 0) AS others_exchange_transaction_count,\n    COALESCE(fct1.sales_tax_amt, 0)\
+    \ AS sales_tax_amt,\n    COALESCE(fct1.return_tax_amt, 0) AS return_tax_amt,\n\
+    \    COALESCE(fct1.void_transaction_count, 0) AS void_transaction_count,\n   \
+    \ COALESCE(fct1.post_void_transaction_count, 0) AS post_void_transaction_count,\n\
+    \    COALESCE(fct1.other_transaction_count, 0) AS other_transaction_count,\n \
+    \   COALESCE(fct1.sales_manual_markup_amt, 0) AS sales_manual_markup_amt,\n  \
+    \  COALESCE(fct1.return_manual_markdown_amt, 0) AS return_manual_markdown_amt,\n\
+    \    COALESCE(fct1.sales_manual_count, 0) AS sales_manual_count,\n    COALESCE(fct1.sales_manual_markdown_amt,\
+    \ 0) AS sales_manual_markdown_amt,\n    COALESCE(fct1.exchanges_with_reciepts,\
+    \ 0) AS exchanges_with_reciepts,\n    COALESCE(fct1.exchanges_without_reciepts,\
+    \ 0) AS exchanges_without_reciepts,\n    COALESCE(fct1.returns_with_reciepts,\
+    \ 0) AS returns_with_reciepts,\n    COALESCE(fct1.returns_without_reciepts, 0)\
+    \ AS returns_without_reciepts,\n    COALESCE(fct1.sales_scan_count, 0) AS sales_scan_count,\n\
+    \    COALESCE(fct1.no_sale_transaction_count, 0) AS no_sale_transaction_count,\n\
+    \    -- Defaulted columns as requested.\n    0 AS previous_full_week_sales,\n\
+    \    0 AS spv,\n    fct1.sales_1st_date AS sales_1st_date,\n    NULL AS sales_1st_week,\
+    \ -- Defaulting to NULL as it's a date and has no source.\n    NULL AS days_at_clearance,\
+    \ -- Defaulting to NULL as it's a date and has no source.\n    0 AS net_sales,\n\
+    \    0 AS regular_sell_price,\n    0 AS sales_vat,\n    0 AS weeks_in_store,\n\
+    \    0 AS item_selling_price,\n    -- Audit and metadata columns for tracking\
+    \ and versioning.\n    CURRENT_DATE AS eff_from_dt, -- Effective from the date\
+    \ of the run.\n    DATE '3500-12-31' AS eff_to_dt, -- A high date represents the\
+    \ current version.\n    0 AS del_ind, -- Deletion indicator, 0 means the record\
+    \ is active.\n    ${RUNID} AS run_id, -- Populated from a script variable.\n \
+    \   NULL AS update_run_id, -- NULL for new records.\n    '${JOB}' AS job_id, --\
+    \ Populated from a script variable.\n    NULL AS update_job_id -- NULL for new\
+    \ records.\nFROM\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS pvt\n\
+    LEFT OUTER JOIN\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG AS fct1\n\
+    \        ON pvt.business_date = fct1.business_date\n        AND pvt.location_id\
+    \ = fct1.location_id\n        AND pvt.item_id = fct1.item_id;\n-- Check for errors\
+    \ after the INSERT statement. If an error occurred, quit the script.\n.IF ERRORCODE\
+    \ <> 0 THEN .QUIT 101;\n-- If no rows were inserted, quit the script. This can\
+    \ be a useful check to ensure the source tables were not empty.\n.IF ACTIVITYCOUNT\
+    \ = 0 THEN .QUIT 101;\n-- End the transaction, committing all the changes made.\n\
+    END TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;"
+  stats: ''
+  step_pattern: TRANS_BESPOKE
+  steps: '300'
+  target_database: V_ACC_FND
+  target_table: DW_FND_AGG_DAILY_STOCK_FCT
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2230
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+target_database_name: T_ACC_FND
+target_table_name: DW_FND_AGG_DAILY_STOCK_FCT
+transformation_key:
+- business_datelocation_iditem_id

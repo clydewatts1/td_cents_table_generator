@@ -22,7 +22,7 @@ columns:
   description: This is the style surrogate key
   compression: ''
   quote: ''
-- column_name: item_sbclass_wid
+- column_name: item_sbclas_wid
   column_type: INTEGER
   column_format: ''
   is_null: Y

@@ -1,0 +1,94 @@
+control_columns: .nan
+job_name_from_file: FND2101
+job_name_from_mapping: FND2101
+mapping_columns:
+- column_action: key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 4
+  source_column_name: nan
+  target_column_name: business_date
+- column_action: key
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 3
+  source_column_name: nan
+  target_column_name: loc_wid
+- column_action: key
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 2
+  source_column_name: nan
+  target_column_name: item_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 1
+  source_column_name: nan
+  target_column_name: pvt_map
+mapping_columns_count: 4
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- business_date
+- loc_wid
+- item_wid
+sql_steps: {}
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2101
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: 'Delete all from staging target '
+  file_name: FND2101.300.TARGET.sql
+  file_present: false
+  job_name: FND2101
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: DELETE_TARGET
+  steps: '300'
+  target_database: T_TMP_ACC_FND
+  target_table: FND_STK_FCT_PVT_STG
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2101
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+target_database_name: T_TMP_ACC_FND
+target_table_name: FND_STK_FCT_PVT_STG
+transformation_key:
+- business_date
+- loc_wid
+- item_wid

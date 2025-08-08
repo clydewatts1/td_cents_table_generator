@@ -14,7 +14,8 @@ REPLACE VIEW DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT
 SELECT
     business_date ,
     loc_id ,
-    item_id ,
+    item_wid ,
+    wk_business_date ,
     ly_business_date ,
     ty_sales_ind ,
     ty_stock_ind ,
@@ -41,10 +42,13 @@ COMMENT ON VIEW DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS ''
 COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.loc_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.loc_id AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.item_wid AS 'Item ID Surrogate Key (PK)'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.wk_business_date AS 'The week business date ( TD_SATURDAY )'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ly_business_date AS 'Last year business date'

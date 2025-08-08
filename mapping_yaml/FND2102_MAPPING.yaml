@@ -1,0 +1,748 @@
+control_columns: .nan
+job_name_from_file: FND2102
+job_name_from_mapping: FND2102
+mapping_columns:
+- column_action: nan
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 62
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: business_date
+- column_action: nan
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 61
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: location_id
+- column_action: key
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 60
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: item_id
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 59
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: fct_src_map
+- column_action: nan
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 58
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: location_soh_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 57
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: depot_soh_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 56
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: location_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 55
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: depot_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 54
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: location_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 53
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: depot_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 52
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: unit_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 51
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: unit_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 50
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: on_order_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 49
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: on_order_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 48
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: on_order_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 47
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: on_order_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 46
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: return_to_vendor_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 45
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: return_to_vendor_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 44
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: return_to_vendor_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 43
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: return_to_vendor_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 42
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_expected_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 41
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_expected_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 23
+  column_sequence_reverse: 40
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_reserved_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 24
+  column_sequence_reverse: 39
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_expected_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 25
+  column_sequence_reverse: 38
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_reserved_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 26
+  column_sequence_reverse: 37
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_reserved_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 27
+  column_sequence_reverse: 36
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_expected_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 28
+  column_sequence_reverse: 35
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: transfer_reserved_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 29
+  column_sequence_reverse: 34
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: in_transit_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 30
+  column_sequence_reverse: 33
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: in_transit_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 31
+  column_sequence_reverse: 32
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: in_transit_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 32
+  column_sequence_reverse: 31
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: in_transit_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 33
+  column_sequence_reverse: 30
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: non_sellable_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 34
+  column_sequence_reverse: 29
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: non_sellable_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 35
+  column_sequence_reverse: 28
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: non_sellable_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 36
+  column_sequence_reverse: 27
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: non_sellable_units
+- column_action: 'psr blocked fields: only set if item/location is in stpsel (stop
+    sell)'
+  column_order: nan
+  column_sequence: 37
+  column_sequence_reverse: 26
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: psr_blocked_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 38
+  column_sequence_reverse: 25
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: psr_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 39
+  column_sequence_reverse: 24
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: psr_blocked_pack_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 40
+  column_sequence_reverse: 23
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: psr_blocked_cost_amount
+- column_action: 'carryover fields: only set if item is flagged as carryover'
+  column_order: nan
+  column_sequence: 41
+  column_sequence_reverse: 22
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: carryover_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 42
+  column_sequence_reverse: 21
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: carryover_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 43
+  column_sequence_reverse: 20
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: stock_unit_av_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 44
+  column_sequence_reverse: 19
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: regular_unit_retail_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 45
+  column_sequence_reverse: 18
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Damaged_Adjustment_Units
+- column_action: nan
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 17
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Damaged_Adjustment_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 47
+  column_sequence_reverse: 16
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Soiled_Adjustment_Units
+- column_action: nan
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 15
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Soiled_Adjustment_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 14
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Auto_Adjustment_Units
+- column_action: nan
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 13
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Auto_Adjustment_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 12
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: other_Adjustment_Units
+- column_action: nan
+  column_order: nan
+  column_sequence: 52
+  column_sequence_reverse: 11
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: other_Adjustment_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 53
+  column_sequence_reverse: 10
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: stock_cnt_adj_Units
+- column_action: nan
+  column_order: nan
+  column_sequence: 54
+  column_sequence_reverse: 9
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: stock_cnt_adj_Retail_Value
+- column_action: nan
+  column_order: nan
+  column_sequence: 55
+  column_sequence_reverse: 8
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: listed_stock
+- column_action: nan
+  column_order: nan
+  column_sequence: 56
+  column_sequence_reverse: 7
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: listing_flg
+- column_action: nan
+  column_order: nan
+  column_sequence: 57
+  column_sequence_reverse: 6
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: NLP_stock_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 58
+  column_sequence_reverse: 5
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: NLP_stock_Units
+- column_action: nan
+  column_order: nan
+  column_sequence: 59
+  column_sequence_reverse: 4
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: RAS_UNITS
+- column_action: nan
+  column_order: nan
+  column_sequence: 60
+  column_sequence_reverse: 3
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: RAS_Stock_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 61
+  column_sequence_reverse: 2
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Price_Action_Week
+- column_action: nan
+  column_order: nan
+  column_sequence: 62
+  column_sequence_reverse: 1
+  source_column_name: See SQL FND2103.300.TARGET
+  target_column_name: Price_Status
+mapping_columns_count: 62
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- business_date
+- location_id
+- item_id
+sql_steps:
+  FND2102.300.TARGET: "WITH \n/* Stop Sell CTE  */\n stpsel AS (\n    SELECT DISTINCT\n\
+    \        item_id,\n        loc_id,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item\
+    \ AS pli\n    WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        AND\
+    \ ssor_id = 4\n        AND level_cd = 'PSR_BLK'\n),\n/* Soiled and Damaged Adjustments\
+    \ */\n/* This is a running weekly total */\n STADJ AS\n  (\n  SELECT STK_ADJ.Location_Id,\n\
+    \    STK_ADJ.item_id,\n    STK_ADJ.business_date,\n    CAST(SUM(STK_ADJ.Damaged_Adjustment_Units)\
+    \ AS INTEGER)     AS Damaged_Adjustment_Units,\n    CAST(SUM(STK_ADJ.Soiled_Adjustment_Units)\
+    \ AS INTEGER)      AS Soiled_Adjustment_Units,\n    CAST(SUM(STK_ADJ.Auto_Adjustment_Units)\
+    \ AS INTEGER)        AS Auto_Adjustment_Units,\n    CAST(SUM(STK_ADJ.Stock_Count_Adjustment_Units)\
+    \ AS INTEGER)   AS Stock_Count_Adjustment_Units,\n    CAST(SUM(STK_ADJ.other_Adjustment_Units)\
+    \ AS INTEGER)        AS other_Adjustment_Units\n  FROM\n    (\n     SELECT Location_Id,\n\
+    \      Item_Id,\n      /* Always use \"RUNDATE\" */\n      date '${LDTK_DATE}'\
+    \ as business_date,\n      CASE\n        WHEN Stock_Adjustment_Reason_Cd IN (110,522,82,560,81,707)\n\
+    \        THEN Stock_Adjustment_Units\n      END AS Damaged_Adjustment_Units,\n\
+    \      CASE\n        WHEN Stock_Adjustment_Reason_Cd IN (703,704,714,724,725)\n\
+    \        THEN Stock_Adjustment_Units\n      END AS Soiled_Adjustment_Units,\n\
+    \      CASE\n        WHEN Stock_Adjustment_Reason_Cd IN (721,720)\n        THEN\
+    \ Stock_Adjustment_Units\n      END AS Auto_Adjustment_Units,\n      CASE\n  \
+    \      WHEN Stock_Adjustment_Reason_Cd IN (141)\n        THEN Stock_Adjustment_Units\n\
+    \      END AS Stock_Count_Adjustment_Units,\n       CASE WHEN Stock_Adjustment_Reason_Cd\
+    \ IS NULL THEN 0.0000\n        WHEN Stock_Adjustment_Reason_Cd NOT IN (110,522,82,560,81,714,721,720,707,703,704,724,725)\n\
+    \        THEN Stock_Adjustment_Units\n      END AS other_Adjustment_Units\n  \
+    \  FROM DWP01A_ACC_ORR.DW_STOCK_ADJST_LN_FV STK_ADJS_TY\n/*RFC 17880/CHG0031571-\
+    \ CAST AS DATE APPLIED*/  \n   -- cross join VOL_DY_TY AS  ty\n    WHERE Current_Flg\
+    \ = 'Y'  \n    /* Get a accrued adjustment total for the week , so the date range\
+    \ will be from sunday - start of week\n       to end of week */\n    /* Use RUNDATE\
+    \ AS date '${LDTK_DATE}' */\n    AND  CAST(STK_ADJS_TY.Stock_Adjustment_Date AS\
+    \ DATE)  BETWEEN TD_SUNDAY(date '${LDTK_DATE}') AND TD_SUNDAY(date '${LDTK_DATE}')+6\n\
+    \    ) STK_ADJ\n  GROUP BY 1,2,3\n    ) ,\n-- Markdowns\nMKD AS (\nSELECT item_id,\n\
+    \    TRIM(location_id) AS location_id, -- in this case location id defined as\
+    \ bigint \n    date '${LDTK_DATE}' AS Business_Date,\n    LISTED_FLAG AS listing_flg\n\
+    \  FROM DWP01A_ACC_ORR.DW_STOCK_MARKDOWN_DAILY_FV  AS MKD1 \n  WHERE MKD1.Current_Flag\
+    \ = 'Y' \n    AND MKD1.Status ='L'\n    /* Get markdown at point in time */\n\
+    \    AND date '${LDTK_DATE}' between MKD1.Item_Price_From_Date and MKD1.Item_Price_To_Date\
+    \  \n    /* Only interested in markdowns */\n    AND MKD1.Price_Change_Flag =\
+    \ 'MARKDOWN'  \nqualify row_number() over (partition by ITEM_ID,LOCATION_ID\n\
+    \ /* Remove duplicates - there are */\n order by Item_Price_From_Date DESC,Item_Price_To_Date\
+    \ DESC,Effective_From_Dt DESC,Effective_To_Dt DESC) = 1\n \n),\n-- Price Type\n\
+    PRCT AS (\nSELECT \n    IPD.Item_id,\n    IPD.Location_id,\n    date '${LDTK_DATE}'\
+    \ AS business_date,\n    Price_Change_Type_Code,\n    CAST(cal.Calendar_Week_Id\
+    \ AS INTEGER) as Price_Action_Week ,\n    Unit_Retail_Price AS UNIT_RETAIL_AMOUNT,\n\
+    \    IPD.Item_Price_From_Date\n  FROM DWP01A_ACC_ORR.DW_ITEM_PRICE_DETAIL_FV as\
+    \ IPD\n  left outer join DWP01A_ACC_ORR.DW_PMK_ACCNTG_CAL_DV AS cal\n  on CAST(Item_Price_From_Date\
+    \ AS DATE) = cal.Calendar_Day_Id\n  and cal.level_cd = 'DY'\n  and cal.current_flg\
+    \ = 'Y'\n WHERE IPD.Current_Flag = 'Y' \n  AND IPD.Status like '%executed%'\n\
+    \  AND date '${LDTK_DATE}' between IPD.Item_Price_From_Date and IPD.Item_Price_To_Date\n\
+    \ /* Ellimnate Duplicates this is in original code */\n QUALIFY ROW_NUMBER() OVER\
+    \ (PARTITION BY Item_id,Location_id \n   ORDER BY IPD.Item_Price_From_Date ,IPD.Item_Price_To_Date\
+    \ DESC)=1\n)\n-- Main SELECT to extract stock facts and calculated fields\nSELECT\n\
+    \    stk.stock_inventory_date AS business_date,\n    stk.location_id AS location_id,\n\
+    \    stk.item_id AS item_id,\n    setbit((0(INTEGER)),0,1) as fct_src_map,\n \
+    \   stk.soh_units AS location_soh_units,\n    -- Only show depot SOH units for\
+    \ warehouse locations\n    CASE\n        WHEN lc.loc_sbtype_cd = 'W' THEN stk.soh_units\n\
+    \    END AS depot_soh_units,\n    stk.soh_pack_units AS location_pack_units,\n\
+    \    -- Only show depot pack units for warehouse locations\n    CASE\n       \
+    \ WHEN lc.loc_sbtype_cd = 'W' THEN stk.soh_pack_units\n    END AS depot_pack_units,\n\
+    \    stk.soh_retail_amount AS location_retail_amount,\n    -- Only show depot\
+    \ retail amount for warehouse locations\n    CASE\n        WHEN lc.loc_sbtype_cd\
+    \ = 'W' THEN stk.soh_retail_amount\n    END AS depot_retail_amount,\n    stk.soh_cost_amount\
+    \ AS unit_cost_amount,\n    stk.stock_unit_retail_amount AS unit_retail_amount,\
+    \ /* Also SSBI1068 */\n    stk.on_order_units AS on_order_units,\n    stk.on_order_cost_amount\
+    \ AS on_order_cost_amount,\n    stk.on_order_retail_amount AS on_order_retail_amount,\n\
+    \    stk.on_order_pack_units AS on_order_pack_units,\n    stk.return_to_vendor_cost_amount\
+    \ AS return_to_vendor_cost_amount,\n    stk.return_to_vendor_retail_amount AS\
+    \ return_to_vendor_retail_amount,\n    stk.return_to_vendor_units AS return_to_vendor_units,\n\
+    \    stk.return_to_vendor_pack_units AS return_to_vendor_pack_units,\n    stk.transfer_expected_retail_amount\
+    \ AS transfer_expected_retail_amount,\n    stk.transfer_expected_pack_units AS\
+    \ transfer_expected_pack_units,\n    stk.transfer_reserved_cost_amount AS transfer_reserved_cost_amount,\n\
+    \    stk.transfer_expected_units AS transfer_expected_units,\n    stk.transfer_reserved_retail_amount\
+    \ AS transfer_reserved_retail_amount,\n    stk.transfer_reserved_pack_units AS\
+    \ transfer_reserved_pack_units,\n    stk.transfer_expected_cost_amount AS transfer_expected_cost_amount,\n\
+    \    stk.transfer_reserved_units AS transfer_reserved_units,\n    stk.in_transit_retail_amount\
+    \ AS in_transit_retail_amount,\n    stk.in_transit_pack_units AS in_transit_pack_units,\n\
+    \    stk.in_transit_units AS in_transit_units,\n    stk.in_transit_cost_amount\
+    \ AS in_transit_cost_amount,\n    stk.non_sellable_retail_amount AS non_sellable_retail_amount,\n\
+    \    stk.non_sellable_pack_units AS non_sellable_pack_units,\n    stk.non_sellable_cost_amount\
+    \ AS non_sellable_cost_amount,\n    stk.non_sellable_units AS non_sellable_units,\n\
+    \    -- PSR blocked fields: only set if item/location is in stpsel (stop sell)\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_units\n    END AS psr_blocked_units,\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_retail_amount\n    END AS psr_retail_amount,\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_pack_units\n    END AS psr_blocked_pack_units,\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_cost_amount\n    END AS psr_blocked_cost_amount,\n\
+    \    -- Carryover fields: only set if item is flagged as carryover\n    CASE\n\
+    \      WHEN itm.PMK_CARYOVR = 'Y'\n      THEN stk.SOH_Units\n      ELSE 0\n  \
+    \  END AS carryover_units,\n    CASE\n      WHEN itm.PMK_CARYOVR = 'Y'\n     \
+    \ THEN stk.SOH_Retail_Amount\n      ELSE 0\n    END AS carryover_value,\n    stk.stock_unit_av_cost_amount\
+    \ AS stock_unit_av_cost_amount,\n    stk.regular_unit_retail_amt AS regular_unit_retail_amt,\n\
+    \    /* Adjustements SSBI1061 */\n    STADJ.Damaged_Adjustment_Units AS Damaged_Adjustment_Units\
+    \ ,\n    (STADJ.Damaged_Adjustment_Units * STK.stock_unit_retail_amount) AS Damaged_Adjustment_amount\
+    \ ,\n    STADJ.Soiled_Adjustment_Units AS Soiled_Adjustment_Units ,\n    (STADJ.Soiled_Adjustment_Units\
+    \ * STK.stock_unit_retail_amount)  AS Soiled_Adjustment_amount ,\n    STADJ.Auto_Adjustment_Units\
+    \ AS Auto_Adjustment_Units ,\n    (STADJ.Auto_Adjustment_Units * STK.stock_unit_retail_amount)\
+    \    AS Auto_Adjustment_amount ,\n    STADJ.other_Adjustment_Units  AS other_Adjustment_Units\
+    \ ,\n    (STADJ.other_Adjustment_Units * STK.stock_unit_retail_amount)   AS other_Adjustment_amount\
+    \ ,\n    STADJ.Stock_Count_Adjustment_Units   AS stock_cnt_adj_Units, \n    STADJ.Stock_Count_Adjustment_Units\
+    \ * STK.stock_unit_retail_amount AS stock_cnt_adj_Retail_Value,\n    /* Markdown\
+    \ Listed SSBI1069 */\n   CASE \n      WHEN MKD.listing_flg = 'Y'\n      THEN STK.soh_units\n\
+    \      ELSE 0\n    END AS listed_stock,\n    MKD.listing_flg AS listing_flg,\n\
+    \    /* Price Statys SSBI1068 */\n   CASE\n      WHEN PRCT.Price_Change_Type_Code\
+    \ = 'P'\n      THEN (STK.SOH_Units * coalesce(PRCT.UNIT_RETAIL_AMOUNT,STK.stock_unit_retail_amount))\n\
+    \      ELSE 0\n    END AS NLP_stock_value ,\n    CASE\n      WHEN PRCT.Price_Change_Type_Code\
+    \ = 'P'\n      THEN STK.SOH_Units\n      ELSE 0\n    END AS NLP_stock_Units ,\n\
+    \    CASE\n      WHEN PRCT.Price_Change_Type_Code = 'C'\n      THEN STK.SOH_Units\n\
+    \      ELSE 0\n    END AS RAS_UNITS ,\n    CASE\n      WHEN PRCT.Price_Change_Type_Code\
+    \ = 'C'\n      THEN (STK.SOH_Units * coalesce(PRCT.UNIT_RETAIL_AMOUNT,STK.stock_unit_retail_amount))\n\
+    \      ELSE 0\n    END  AS RAS_Stock_value,\n     PRCT.Price_Action_Week AS Price_Action_Week\
+    \ ,\n   DECODE(PRCT.Price_Change_Type_Code,'R','Regular','C','Clearance','P','Promotion','Regular')\
+    \ AS Price_Status\nFROM dwp01a_acc_orr.dw_stock_position_dy_fv AS stk\n/* Join\
+    \ to LOC to get location type W and S */\nINNER JOIN dwp01a_idw.loc AS lc\n  \
+    \  ON lc.loc_id = stk.location_id\n    AND lc.cur_flg = 'Y'\n    /* Only stores\
+    \ and depot */\n    AND lc.loc_sbtype_cd IN ('W', 'S')\n/* Join to Item  to get\
+    \ carry over indicator */\nINNER JOIN dwp01a_idw.item AS itm\n    ON itm.item_id\
+    \ = stk.item_id\n    AND itm.cur_flg = 'Y'   \n/* Join to stop sell to determine\
+    \ which items/sku */\nLEFT OUTER JOIN stpsel\n    ON stk.item_id = stpsel.item_id\n\
+    \    AND stk.location_id = stpsel.loc_id\n/* Join to Soiled and Damaged adjustments\
+    \ */    \nLEFT OUTER JOIN STADJ\n      ON STK.Item_Id               = STADJ.Item_Id\n\
+    \      AND STK.Location_Id          = STADJ.Location_Id\n      AND STK.stock_inventory_date\
+    \ = STADJ.business_date    \n/* Mark down listed flag */\nLEFT OUTER JOIN MKD\n\
+    \      ON STK.Item_Id               = MKD.Item_Id\n      AND STK.Location_Id \
+    \         = MKD.Location_Id\n      AND STK.stock_inventory_date = MKD.business_date\
+    \    \nLEFT OUTER JOIN PRCT\n      ON STK.Item_Id               = PRCT.Item_Id\n\
+    \      AND STK.Location_Id          = PRCT.Location_Id\n      AND STK.stock_inventory_date\
+    \ = PRCT.business_date    \nWHERE STK.stock_inventory_date = date '${LDTK_DATE}'\
+    \ /* Use RUNDATE */\n    -- Only include rows where at least one stock or transfer\
+    \ metric is non-zero\n    AND (\n    /* Determine if a row has some non-zero */\n\
+    \        COALESCE(soh_units, 0) <> 0\n        OR COALESCE(soh_pack_units, 0) <>\
+    \ 0\n        OR COALESCE(on_order_units, 0) <> 0\n        OR COALESCE(on_order_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_units, 0) <> 0\n        OR COALESCE(in_transit_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_units, 0) <> 0\n        OR COALESCE(transfer_reserved_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_units, 0) <> 0\n        OR COALESCE(transfer_expected_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(non_sellable_units, 0) <> 0\n        OR COALESCE(non_sellable_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_units, 0) <> 0\n        OR COALESCE(return_to_vendor_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(soh_cost_amount, 0) <> 0\n        OR COALESCE(soh_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(on_order_cost_amount, 0) <> 0\n        OR COALESCE(on_order_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_cost_amount, 0) <> 0\n        OR COALESCE(in_transit_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_cost_amount, 0) <> 0\n      \
+    \  OR COALESCE(transfer_reserved_retail_amount, 0) <> 0\n        OR COALESCE(transfer_expected_cost_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_retail_amount, 0) <> 0\n    \
+    \    OR COALESCE(non_sellable_cost_amount, 0) <> 0\n        OR COALESCE(non_sellable_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_cost_amount, 0) <> 0\n       \
+    \ OR COALESCE(return_to_vendor_retail_amount, 0) <> 0\n        OR  COALESCE(Damaged_Adjustment_Units,0)\
+    \ <> 0\n        OR  COALESCE(Soiled_Adjustment_Units,0) <> 0    \n        OR \
+    \ COALESCE(Auto_Adjustment_Units,0) <> 0      \n        OR  COALESCE(other_Adjustment_Units,0)\
+    \ <> 0     \n        OR  COALESCE(stock_cnt_adj_Units,0) <> 0                \n\
+    \        --OR COALESCE(stock_unit_cost_amount,0) <> 0\n        --OR COALESCE(stock_unit_retail_amount,0)\
+    \ <> 0\n        --OR last_transfer_creation_date IS NOT NULL\n        --OR last_purchase_order_intake_date\
+    \ IS NOT NULL\n        --OR COALESCE(regular_unit_retail_amt,0) <> 0\n       \
+    \ --OR COALESCE(stock_unit_av_cost_amount,0) <> 0\n        )\n/* TODO: Remove\
+    \ before volume testing */\nSAMPLE 1000000"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2102
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Delete and insert into target
+  file_name: FND2102.300.TARGET.sql
+  file_present: true
+  job_name: FND2102
+  notes: See Mapping
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: "WITH \n/* Stop Sell CTE  */\n stpsel AS (\n    SELECT DISTINCT\n\
+    \        item_id,\n        loc_id,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item\
+    \ AS pli\n    WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        AND\
+    \ ssor_id = 4\n        AND level_cd = 'PSR_BLK'\n),\n/* Soiled and Damaged Adjustments\
+    \ */\n/* This is a running weekly total */\n STADJ AS\n  (\n  SELECT STK_ADJ.Location_Id,\n\
+    \    STK_ADJ.item_id,\n    STK_ADJ.business_date,\n    CAST(SUM(STK_ADJ.Damaged_Adjustment_Units)\
+    \ AS INTEGER)     AS Damaged_Adjustment_Units,\n    CAST(SUM(STK_ADJ.Soiled_Adjustment_Units)\
+    \ AS INTEGER)      AS Soiled_Adjustment_Units,\n    CAST(SUM(STK_ADJ.Auto_Adjustment_Units)\
+    \ AS INTEGER)        AS Auto_Adjustment_Units,\n    CAST(SUM(STK_ADJ.Stock_Count_Adjustment_Units)\
+    \ AS INTEGER)   AS Stock_Count_Adjustment_Units,\n    CAST(SUM(STK_ADJ.other_Adjustment_Units)\
+    \ AS INTEGER)        AS other_Adjustment_Units\n  FROM\n    (\n     SELECT Location_Id,\n\
+    \      Item_Id,\n      /* Always use \"RUNDATE\" */\n      date '${LDTK_DATE}'\
+    \ as business_date,\n      CASE\n        WHEN Stock_Adjustment_Reason_Cd IN (110,522,82,560,81,707)\n\
+    \        THEN Stock_Adjustment_Units\n      END AS Damaged_Adjustment_Units,\n\
+    \      CASE\n        WHEN Stock_Adjustment_Reason_Cd IN (703,704,714,724,725)\n\
+    \        THEN Stock_Adjustment_Units\n      END AS Soiled_Adjustment_Units,\n\
+    \      CASE\n        WHEN Stock_Adjustment_Reason_Cd IN (721,720)\n        THEN\
+    \ Stock_Adjustment_Units\n      END AS Auto_Adjustment_Units,\n      CASE\n  \
+    \      WHEN Stock_Adjustment_Reason_Cd IN (141)\n        THEN Stock_Adjustment_Units\n\
+    \      END AS Stock_Count_Adjustment_Units,\n       CASE WHEN Stock_Adjustment_Reason_Cd\
+    \ IS NULL THEN 0.0000\n        WHEN Stock_Adjustment_Reason_Cd NOT IN (110,522,82,560,81,714,721,720,707,703,704,724,725)\n\
+    \        THEN Stock_Adjustment_Units\n      END AS other_Adjustment_Units\n  \
+    \  FROM DWP01A_ACC_ORR.DW_STOCK_ADJST_LN_FV STK_ADJS_TY\n/*RFC 17880/CHG0031571-\
+    \ CAST AS DATE APPLIED*/  \n   -- cross join VOL_DY_TY AS  ty\n    WHERE Current_Flg\
+    \ = 'Y'  \n    /* Get a accrued adjustment total for the week , so the date range\
+    \ will be from sunday - start of week\n       to end of week */\n    /* Use RUNDATE\
+    \ AS date '${LDTK_DATE}' */\n    AND  CAST(STK_ADJS_TY.Stock_Adjustment_Date AS\
+    \ DATE)  BETWEEN TD_SUNDAY(date '${LDTK_DATE}') AND TD_SUNDAY(date '${LDTK_DATE}')+6\n\
+    \    ) STK_ADJ\n  GROUP BY 1,2,3\n    ) ,\n-- Markdowns\nMKD AS (\nSELECT item_id,\n\
+    \    TRIM(location_id) AS location_id, -- in this case location id defined as\
+    \ bigint \n    date '${LDTK_DATE}' AS Business_Date,\n    LISTED_FLAG AS listing_flg\n\
+    \  FROM DWP01A_ACC_ORR.DW_STOCK_MARKDOWN_DAILY_FV  AS MKD1 \n  WHERE MKD1.Current_Flag\
+    \ = 'Y' \n    AND MKD1.Status ='L'\n    /* Get markdown at point in time */\n\
+    \    AND date '${LDTK_DATE}' between MKD1.Item_Price_From_Date and MKD1.Item_Price_To_Date\
+    \  \n    /* Only interested in markdowns */\n    AND MKD1.Price_Change_Flag =\
+    \ 'MARKDOWN'  \nqualify row_number() over (partition by ITEM_ID,LOCATION_ID\n\
+    \ /* Remove duplicates - there are */\n order by Item_Price_From_Date DESC,Item_Price_To_Date\
+    \ DESC,Effective_From_Dt DESC,Effective_To_Dt DESC) = 1\n \n),\n-- Price Type\n\
+    PRCT AS (\nSELECT \n    IPD.Item_id,\n    IPD.Location_id,\n    date '${LDTK_DATE}'\
+    \ AS business_date,\n    Price_Change_Type_Code,\n    CAST(cal.Calendar_Week_Id\
+    \ AS INTEGER) as Price_Action_Week ,\n    Unit_Retail_Price AS UNIT_RETAIL_AMOUNT,\n\
+    \    IPD.Item_Price_From_Date\n  FROM DWP01A_ACC_ORR.DW_ITEM_PRICE_DETAIL_FV as\
+    \ IPD\n  left outer join DWP01A_ACC_ORR.DW_PMK_ACCNTG_CAL_DV AS cal\n  on CAST(Item_Price_From_Date\
+    \ AS DATE) = cal.Calendar_Day_Id\n  and cal.level_cd = 'DY'\n  and cal.current_flg\
+    \ = 'Y'\n WHERE IPD.Current_Flag = 'Y' \n  AND IPD.Status like '%executed%'\n\
+    \  AND date '${LDTK_DATE}' between IPD.Item_Price_From_Date and IPD.Item_Price_To_Date\n\
+    \ /* Ellimnate Duplicates this is in original code */\n QUALIFY ROW_NUMBER() OVER\
+    \ (PARTITION BY Item_id,Location_id \n   ORDER BY IPD.Item_Price_From_Date ,IPD.Item_Price_To_Date\
+    \ DESC)=1\n)\n-- Main SELECT to extract stock facts and calculated fields\nSELECT\n\
+    \    stk.stock_inventory_date AS business_date,\n    stk.location_id AS location_id,\n\
+    \    stk.item_id AS item_id,\n    setbit((0(INTEGER)),0,1) as fct_src_map,\n \
+    \   stk.soh_units AS location_soh_units,\n    -- Only show depot SOH units for\
+    \ warehouse locations\n    CASE\n        WHEN lc.loc_sbtype_cd = 'W' THEN stk.soh_units\n\
+    \    END AS depot_soh_units,\n    stk.soh_pack_units AS location_pack_units,\n\
+    \    -- Only show depot pack units for warehouse locations\n    CASE\n       \
+    \ WHEN lc.loc_sbtype_cd = 'W' THEN stk.soh_pack_units\n    END AS depot_pack_units,\n\
+    \    stk.soh_retail_amount AS location_retail_amount,\n    -- Only show depot\
+    \ retail amount for warehouse locations\n    CASE\n        WHEN lc.loc_sbtype_cd\
+    \ = 'W' THEN stk.soh_retail_amount\n    END AS depot_retail_amount,\n    stk.soh_cost_amount\
+    \ AS unit_cost_amount,\n    stk.stock_unit_retail_amount AS unit_retail_amount,\
+    \ /* Also SSBI1068 */\n    stk.on_order_units AS on_order_units,\n    stk.on_order_cost_amount\
+    \ AS on_order_cost_amount,\n    stk.on_order_retail_amount AS on_order_retail_amount,\n\
+    \    stk.on_order_pack_units AS on_order_pack_units,\n    stk.return_to_vendor_cost_amount\
+    \ AS return_to_vendor_cost_amount,\n    stk.return_to_vendor_retail_amount AS\
+    \ return_to_vendor_retail_amount,\n    stk.return_to_vendor_units AS return_to_vendor_units,\n\
+    \    stk.return_to_vendor_pack_units AS return_to_vendor_pack_units,\n    stk.transfer_expected_retail_amount\
+    \ AS transfer_expected_retail_amount,\n    stk.transfer_expected_pack_units AS\
+    \ transfer_expected_pack_units,\n    stk.transfer_reserved_cost_amount AS transfer_reserved_cost_amount,\n\
+    \    stk.transfer_expected_units AS transfer_expected_units,\n    stk.transfer_reserved_retail_amount\
+    \ AS transfer_reserved_retail_amount,\n    stk.transfer_reserved_pack_units AS\
+    \ transfer_reserved_pack_units,\n    stk.transfer_expected_cost_amount AS transfer_expected_cost_amount,\n\
+    \    stk.transfer_reserved_units AS transfer_reserved_units,\n    stk.in_transit_retail_amount\
+    \ AS in_transit_retail_amount,\n    stk.in_transit_pack_units AS in_transit_pack_units,\n\
+    \    stk.in_transit_units AS in_transit_units,\n    stk.in_transit_cost_amount\
+    \ AS in_transit_cost_amount,\n    stk.non_sellable_retail_amount AS non_sellable_retail_amount,\n\
+    \    stk.non_sellable_pack_units AS non_sellable_pack_units,\n    stk.non_sellable_cost_amount\
+    \ AS non_sellable_cost_amount,\n    stk.non_sellable_units AS non_sellable_units,\n\
+    \    -- PSR blocked fields: only set if item/location is in stpsel (stop sell)\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_units\n    END AS psr_blocked_units,\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_retail_amount\n    END AS psr_retail_amount,\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_pack_units\n    END AS psr_blocked_pack_units,\n\
+    \    CASE\n        WHEN stpsel.pmk_stop_sell IS NULL\n            OR stpsel.pmk_stop_sell\
+    \ = 'N'\n        THEN 0\n        ELSE stk.soh_cost_amount\n    END AS psr_blocked_cost_amount,\n\
+    \    -- Carryover fields: only set if item is flagged as carryover\n    CASE\n\
+    \      WHEN itm.PMK_CARYOVR = 'Y'\n      THEN stk.SOH_Units\n      ELSE 0\n  \
+    \  END AS carryover_units,\n    CASE\n      WHEN itm.PMK_CARYOVR = 'Y'\n     \
+    \ THEN stk.SOH_Retail_Amount\n      ELSE 0\n    END AS carryover_value,\n    stk.stock_unit_av_cost_amount\
+    \ AS stock_unit_av_cost_amount,\n    stk.regular_unit_retail_amt AS regular_unit_retail_amt,\n\
+    \    /* Adjustements SSBI1061 */\n    STADJ.Damaged_Adjustment_Units AS Damaged_Adjustment_Units\
+    \ ,\n    (STADJ.Damaged_Adjustment_Units * STK.stock_unit_retail_amount) AS Damaged_Adjustment_amount\
+    \ ,\n    STADJ.Soiled_Adjustment_Units AS Soiled_Adjustment_Units ,\n    (STADJ.Soiled_Adjustment_Units\
+    \ * STK.stock_unit_retail_amount)  AS Soiled_Adjustment_amount ,\n    STADJ.Auto_Adjustment_Units\
+    \ AS Auto_Adjustment_Units ,\n    (STADJ.Auto_Adjustment_Units * STK.stock_unit_retail_amount)\
+    \    AS Auto_Adjustment_amount ,\n    STADJ.other_Adjustment_Units  AS other_Adjustment_Units\
+    \ ,\n    (STADJ.other_Adjustment_Units * STK.stock_unit_retail_amount)   AS other_Adjustment_amount\
+    \ ,\n    STADJ.Stock_Count_Adjustment_Units   AS stock_cnt_adj_Units, \n    STADJ.Stock_Count_Adjustment_Units\
+    \ * STK.stock_unit_retail_amount AS stock_cnt_adj_Retail_Value,\n    /* Markdown\
+    \ Listed SSBI1069 */\n   CASE \n      WHEN MKD.listing_flg = 'Y'\n      THEN STK.soh_units\n\
+    \      ELSE 0\n    END AS listed_stock,\n    MKD.listing_flg AS listing_flg,\n\
+    \    /* Price Statys SSBI1068 */\n   CASE\n      WHEN PRCT.Price_Change_Type_Code\
+    \ = 'P'\n      THEN (STK.SOH_Units * coalesce(PRCT.UNIT_RETAIL_AMOUNT,STK.stock_unit_retail_amount))\n\
+    \      ELSE 0\n    END AS NLP_stock_value ,\n    CASE\n      WHEN PRCT.Price_Change_Type_Code\
+    \ = 'P'\n      THEN STK.SOH_Units\n      ELSE 0\n    END AS NLP_stock_Units ,\n\
+    \    CASE\n      WHEN PRCT.Price_Change_Type_Code = 'C'\n      THEN STK.SOH_Units\n\
+    \      ELSE 0\n    END AS RAS_UNITS ,\n    CASE\n      WHEN PRCT.Price_Change_Type_Code\
+    \ = 'C'\n      THEN (STK.SOH_Units * coalesce(PRCT.UNIT_RETAIL_AMOUNT,STK.stock_unit_retail_amount))\n\
+    \      ELSE 0\n    END  AS RAS_Stock_value,\n     PRCT.Price_Action_Week AS Price_Action_Week\
+    \ ,\n   DECODE(PRCT.Price_Change_Type_Code,'R','Regular','C','Clearance','P','Promotion','Regular')\
+    \ AS Price_Status\nFROM dwp01a_acc_orr.dw_stock_position_dy_fv AS stk\n/* Join\
+    \ to LOC to get location type W and S */\nINNER JOIN dwp01a_idw.loc AS lc\n  \
+    \  ON lc.loc_id = stk.location_id\n    AND lc.cur_flg = 'Y'\n    /* Only stores\
+    \ and depot */\n    AND lc.loc_sbtype_cd IN ('W', 'S')\n/* Join to Item  to get\
+    \ carry over indicator */\nINNER JOIN dwp01a_idw.item AS itm\n    ON itm.item_id\
+    \ = stk.item_id\n    AND itm.cur_flg = 'Y'   \n/* Join to stop sell to determine\
+    \ which items/sku */\nLEFT OUTER JOIN stpsel\n    ON stk.item_id = stpsel.item_id\n\
+    \    AND stk.location_id = stpsel.loc_id\n/* Join to Soiled and Damaged adjustments\
+    \ */    \nLEFT OUTER JOIN STADJ\n      ON STK.Item_Id               = STADJ.Item_Id\n\
+    \      AND STK.Location_Id          = STADJ.Location_Id\n      AND STK.stock_inventory_date\
+    \ = STADJ.business_date    \n/* Mark down listed flag */\nLEFT OUTER JOIN MKD\n\
+    \      ON STK.Item_Id               = MKD.Item_Id\n      AND STK.Location_Id \
+    \         = MKD.Location_Id\n      AND STK.stock_inventory_date = MKD.business_date\
+    \    \nLEFT OUTER JOIN PRCT\n      ON STK.Item_Id               = PRCT.Item_Id\n\
+    \      AND STK.Location_Id          = PRCT.Location_Id\n      AND STK.stock_inventory_date\
+    \ = PRCT.business_date    \nWHERE STK.stock_inventory_date = date '${LDTK_DATE}'\
+    \ /* Use RUNDATE */\n    -- Only include rows where at least one stock or transfer\
+    \ metric is non-zero\n    AND (\n    /* Determine if a row has some non-zero */\n\
+    \        COALESCE(soh_units, 0) <> 0\n        OR COALESCE(soh_pack_units, 0) <>\
+    \ 0\n        OR COALESCE(on_order_units, 0) <> 0\n        OR COALESCE(on_order_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_units, 0) <> 0\n        OR COALESCE(in_transit_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_units, 0) <> 0\n        OR COALESCE(transfer_reserved_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_units, 0) <> 0\n        OR COALESCE(transfer_expected_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(non_sellable_units, 0) <> 0\n        OR COALESCE(non_sellable_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_units, 0) <> 0\n        OR COALESCE(return_to_vendor_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(soh_cost_amount, 0) <> 0\n        OR COALESCE(soh_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(on_order_cost_amount, 0) <> 0\n        OR COALESCE(on_order_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_cost_amount, 0) <> 0\n        OR COALESCE(in_transit_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_cost_amount, 0) <> 0\n      \
+    \  OR COALESCE(transfer_reserved_retail_amount, 0) <> 0\n        OR COALESCE(transfer_expected_cost_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_retail_amount, 0) <> 0\n    \
+    \    OR COALESCE(non_sellable_cost_amount, 0) <> 0\n        OR COALESCE(non_sellable_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_cost_amount, 0) <> 0\n       \
+    \ OR COALESCE(return_to_vendor_retail_amount, 0) <> 0\n        OR  COALESCE(Damaged_Adjustment_Units,0)\
+    \ <> 0\n        OR  COALESCE(Soiled_Adjustment_Units,0) <> 0    \n        OR \
+    \ COALESCE(Auto_Adjustment_Units,0) <> 0      \n        OR  COALESCE(other_Adjustment_Units,0)\
+    \ <> 0     \n        OR  COALESCE(stock_cnt_adj_Units,0) <> 0                \n\
+    \        --OR COALESCE(stock_unit_cost_amount,0) <> 0\n        --OR COALESCE(stock_unit_retail_amount,0)\
+    \ <> 0\n        --OR last_transfer_creation_date IS NOT NULL\n        --OR last_purchase_order_intake_date\
+    \ IS NOT NULL\n        --OR COALESCE(regular_unit_retail_amt,0) <> 0\n       \
+    \ --OR COALESCE(stock_unit_av_cost_amount,0) <> 0\n        )\n/* TODO: Remove\
+    \ before volume testing */\nSAMPLE 1000000"
+  stats: ''
+  step_pattern: TRANS_DELETE_INSERT
+  steps: '300'
+  target_database: T_TMP_ACC_FND
+  target_table: FND_STK_FCT_01_FCT_STG
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2102
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+target_database_name: T_TMP_ACC_FND
+target_table_name: FND_STK_FCT_01_FCT_STG
+transformation_key:
+- business_date
+- location_id
+- item_id

@@ -253,7 +253,7 @@ if __name__ == "__main__":
     # load config.yaml file into config variable
     config_path = Path(__file__).parent / "config.yaml"
     if not config_path.exists():
-        print(f"Config file {config_path} does not exist. Please create it with your configuration details.")
+        print(f"Config file {config_path} does not exist. Please create it with your configuration details.") 
         sys.exit(1)
 
     # load into config variable

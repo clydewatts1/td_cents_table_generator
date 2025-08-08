@@ -1,0 +1,192 @@
+control_columns: .nan
+job_name_from_file: FND2104
+job_name_from_mapping: FND2104
+mapping_columns:
+- column_action: key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 51
+  source_column_name: FCT.business_date
+  target_column_name: business_date
+- column_action: key
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 50
+  source_column_name: FCT.loc_id
+  target_column_name: loc_id
+- column_action: key
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 49
+  source_column_name: FCT.item_id
+  target_column_name: item_id
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 48
+  source_column_name: FCT.fct_src_map
+  target_column_name: pvt_map
+- column_action: nan
+  column_order: CTE
+  column_sequence: 5
+  column_sequence_reverse: 47
+  source_column_name: FCT
+  target_column_name: DWP01T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
+- column_action: needs more investigation
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 6
+  source_column_name: Y'
+  target_column_name: wkly_flg
+- column_action: stk.stock_inventory_date =${rundate} and current_flag=y and <ignore
+    0 rows>
+  column_order: CTE
+  column_sequence: 47
+  column_sequence_reverse: 5
+  source_column_name: dwp01a_acc_orr.dw_stock_position_dy_fv
+  target_column_name: stk
+- column_action: "    on lc.loc_id = stk.location_id\n    and lc.cur_flg = 'y'\n \
+    \   and lc.loc_sbtype_cd in ('w', 's')"
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 4
+  source_column_name: dwp01a_idw.loc
+  target_column_name: lc
+- column_action: "    on itm.item_id = stk.item_id\n    and itm.cur_flg = 'y' "
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 3
+  source_column_name: dwp01a_idw.item
+  target_column_name: itm
+- column_action: "left join stpsel\n    on stk.item_id = stpsel.item_id\n    and stk.location_id\
+    \ = stpsel.loc_id"
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 2
+  source_column_name: "stpsel AS (\n    SELECT DISTINCT\n        item_id,\n      \
+    \  loc_id,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item AS pli\n \
+    \   WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        -- and item_status_cd\
+    \ <> '-1'\n        AND ssor_id = 4\n        AND level_cd = 'PSR_BLK'\n)"
+  target_column_name: stpsel
+- column_action: nan
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 1
+  source_column_name: "(\n        COALESCE(soh_units, 0) <> 0\n        OR COALESCE(soh_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(on_order_units, 0) <> 0\n        OR COALESCE(on_order_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_units, 0) <> 0\n        OR COALESCE(in_transit_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_units, 0) <> 0\n        OR COALESCE(transfer_reserved_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_units, 0) <> 0\n        OR COALESCE(transfer_expected_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(non_sellable_units, 0) <> 0\n        OR COALESCE(non_sellable_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_units, 0) <> 0\n        OR COALESCE(return_to_vendor_pack_units,\
+    \ 0) <> 0\n        OR COALESCE(soh_cost_amount, 0) <> 0\n        OR COALESCE(soh_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(on_order_cost_amount, 0) <> 0\n        OR COALESCE(on_order_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(in_transit_cost_amount, 0) <> 0\n        OR COALESCE(in_transit_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_reserved_cost_amount, 0) <> 0\n      \
+    \  OR COALESCE(transfer_reserved_retail_amount, 0) <> 0\n        OR COALESCE(transfer_expected_cost_amount,\
+    \ 0) <> 0\n        OR COALESCE(transfer_expected_retail_amount, 0) <> 0\n    \
+    \    OR COALESCE(non_sellable_cost_amount, 0) <> 0\n        OR COALESCE(non_sellable_retail_amount,\
+    \ 0) <> 0\n        OR COALESCE(return_to_vendor_cost_amount, 0) <> 0\n       \
+    \ OR COALESCE(return_to_vendor_retail_amount, 0) <> 0\n        --OR COALESCE(stock_unit_cost_amount,0)\
+    \ <> 0\n        --OR COALESCE(stock_unit_retail_amount,0) <> 0\n        --OR last_transfer_creation_date\
+    \ IS NOT NULL\n        --OR last_purchase_order_intake_date IS NOT NULL\n    \
+    \    --OR COALESCE(regular_unit_retail_amt,0) <> 0\n        --OR COALESCE(stock_unit_av_cost_amount,0)\
+    \ <> 0\n    )"
+  target_column_name: <Zero rows contraint>
+mapping_columns_count: 11
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- business_date
+- location_id
+- item_id
+sql_steps:
+  FND2104.300.TARGET: "/*\nThis MERGE statement updates the target pivot table (FND_STK_FCT_PVT_STG)\n\
+    from the source staging table (FND_STK_FCT_01_FCT_STG).\nKey Logic:\n1. Records\
+    \ are matched on business_date, location_id, and item_id.\n2. WHEN MATCHED:\n\
+    \   - The fct_src_map is updated using a bitwise OR (BITOR).\n   - This combines\
+    \ the bitmask from the target with the bitmask from the source,\n     preserving\
+    \ a history of all data sources that have contributed to the record.\n     For\
+    \ example, if T.fct_src_map is 1 (binary 0001) and S.fct_src_map is 2 (binary\
+    \ 0010),\n     the result will be 3 (binary 0011).\n3. WHEN NOT MATCHED:\n   -\
+    \ A new record is inserted into the target table with the data from the source.\n\
+    */\nMERGE INTO DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG AS T\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\
+    \ AS S\n   ON T.business_date = S.business_date\n  AND T.location_id = S.location_id\n\
+    \  AND T.item_id = S.item_id\nWHEN MATCHED THEN\n   UPDATE SET\n      fct_src_map\
+    \ = BITOR(T.fct_src_map, S.fct_src_map)\nWHEN NOT MATCHED THEN\n   INSERT (\n\
+    \      business_date,\n      location_id,\n      item_id,\n      fct_src_map\n\
+    \   )\n   VALUES (\n      S.business_date,\n      S.location_id,\n      S.item_id,\n\
+    \      S.fct_src_map\n   );"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2104
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: The will merge into the stock staging pivot table
+  file_name: FND2104.300.TARGET.sql
+  file_present: true
+  job_name: FND2104
+  notes: See Mapping
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: "/*\nThis MERGE statement updates the target pivot table (FND_STK_FCT_PVT_STG)\n\
+    from the source staging table (FND_STK_FCT_01_FCT_STG).\nKey Logic:\n1. Records\
+    \ are matched on business_date, location_id, and item_id.\n2. WHEN MATCHED:\n\
+    \   - The fct_src_map is updated using a bitwise OR (BITOR).\n   - This combines\
+    \ the bitmask from the target with the bitmask from the source,\n     preserving\
+    \ a history of all data sources that have contributed to the record.\n     For\
+    \ example, if T.fct_src_map is 1 (binary 0001) and S.fct_src_map is 2 (binary\
+    \ 0010),\n     the result will be 3 (binary 0011).\n3. WHEN NOT MATCHED:\n   -\
+    \ A new record is inserted into the target table with the data from the source.\n\
+    */\nMERGE INTO DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_PVT_STG AS T\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\
+    \ AS S\n   ON T.business_date = S.business_date\n  AND T.location_id = S.location_id\n\
+    \  AND T.item_id = S.item_id\nWHEN MATCHED THEN\n   UPDATE SET\n      fct_src_map\
+    \ = BITOR(T.fct_src_map, S.fct_src_map)\nWHEN NOT MATCHED THEN\n   INSERT (\n\
+    \      business_date,\n      location_id,\n      item_id,\n      fct_src_map\n\
+    \   )\n   VALUES (\n      S.business_date,\n      S.location_id,\n      S.item_id,\n\
+    \      S.fct_src_map\n   );"
+  stats: ''
+  step_pattern: TRANS_BESPOKE
+  steps: '300'
+  target_database: T_TMP_ACC_FND
+  target_table: FND_STK_FCT_PVT_STG
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2104
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+target_database_name: T_TMP_ACC_FND
+target_table_name: FND_STK_FCT_PVT_STG
+transformation_key:
+- business_date
+- location_id
+- item_id
