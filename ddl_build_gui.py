@@ -377,6 +377,9 @@ class MainWindow(QMainWindow):
                 # Add Run Step button
                 self.run_step_btn = QPushButton('Run Step')
                 step_vbox.addWidget(self.run_step_btn)
+                # Add Run All Steps button
+                self.run_all_btn = QPushButton('Run All Steps')
+                step_vbox.addWidget(self.run_all_btn)
                 self.layout.addLayout(step_vbox)
                 # Populate job list
                 self.all_jobs = []
@@ -389,6 +392,7 @@ class MainWindow(QMainWindow):
                     self.job_list.addItem(item)
                 self.job_list.currentItemChanged.connect(self.update_step_list)
                 self.run_step_btn.clicked.connect(self.open_run_step_dialog)
+                self.run_all_btn.clicked.connect(self.run_all_steps)
 
             def update_step_list(self, current, previous):
                 self.step_list.clear()
@@ -513,6 +517,65 @@ class MainWindow(QMainWindow):
                 vbox.addLayout(hbox)
                 run_step_dialog.setLayout(vbox)
                 run_step_dialog.exec_()
+            
+            def run_all_steps(self):
+                # Execute all step SQL files in order with color status
+                total = self.step_list.count()
+                if total == 0:
+                    QMessageBox.information(self, 'Run All Steps', 'No step SQL files to run.')
+                    return
+                # Resolve config and Teradata connection
+                config = self.parent().config if hasattr(self.parent(), 'config') else {}
+                try:
+                    from PyQt5.QtGui import QColor
+                    import ddl_test
+                    conn = getattr(ddl_test, 'conn', None)
+                    if conn is None:
+                        conn = ddl_test.connect_to_teradata()
+                except Exception as e:
+                    QMessageBox.critical(self, 'Connection Error', f'Failed to get Teradata connection: {e}')
+                    return
+                # Disable button during run
+                self.run_all_btn.setEnabled(False)
+                self.run_step_btn.setEnabled(False)
+                succeeded = 0
+                failed = 0
+                # Build ordered list of file names
+                names = [self.step_list.item(i).text() for i in range(total)]
+                for name in names:
+                    # Find the item again to ensure we color the right row
+                    item = None
+                    for i in range(self.step_list.count()):
+                        if self.step_list.item(i).text() == name:
+                            item = self.step_list.item(i)
+                            break
+                    if item is None:
+                        continue
+                    # Mark as running (orange)
+                    item.setForeground(QColor('orange'))
+                    self.step_list.scrollToItem(item)
+                    QApplication.processEvents()
+                    # Execute
+                    try:
+                        ret_code, ret_text = ddl_test.run_step_file(conn, name, config)
+                        if ret_code == 0:
+                            item.setForeground(QColor('#008000'))
+                            succeeded += 1
+                        else:
+                            item.setForeground(QColor('red'))
+                            failed += 1
+                            # Attach error text as tooltip for quick inspection
+                            item.setToolTip(str(ret_text)[:2000])
+                    except Exception as e:
+                        item.setForeground(QColor('red'))
+                        item.setToolTip(f'Error: {e}')
+                        failed += 1
+                    QApplication.processEvents()
+                # Re-enable buttons
+                self.run_all_btn.setEnabled(True)
+                self.run_step_btn.setEnabled(True)
+                # Summary message
+                QMessageBox.information(self, 'Run All Steps', f'Completed. Success: {succeeded}, Failed: {failed}.')
             def update_step_list(self, current, previous):
                 self.step_list.clear()
                 if not current:

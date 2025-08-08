@@ -1,9 +1,8 @@
 --.IF ERRORCODE <> 0 THEN .QUIT 101
 
-
-
-
-/* End of step */
+/* Lock target table */
+LOCKING DWT04T_ACC_FND.DW_FND_DATE_DIM FOR WRITE
+;
 -------------------------------------------------------------------------------------
 
 -- EXECUTED SUCCESSFULLY

@@ -8,6 +8,198 @@ import logging
 
 conn = None
 
+def get_parameters_for_step(conn, parameters, step_name,INSTANCE, LDTK_DATE):
+    sql = f"""
+        WITH dte AS (
+    SELECT
+        TO_CHAR(dte.calendar_dt, 'YYYY-MM-DD') AS calendar_dt,
+        TO_CHAR(dte.year_start_dt, 'YYYY-MM-DD') AS year_start_dt,
+        TO_CHAR(dte.year_end_dt, 'YYYY-MM-DD') AS year_end_dt,
+        TO_CHAR(dte.period_start_dt, 'YYYY-MM-DD') AS period_start_dt,
+        TO_CHAR(dte.period_end_dt, 'YYYY-MM-DD') AS period_end_dt,
+        TO_CHAR(dte.week_start_dt, 'YYYY-MM-DD') AS week_start_dt,
+        TO_CHAR(dte.week_end_dt, 'YYYY-MM-DD') AS week_end_dt,
+        TO_CHAR(dte.day_of_year_num, '000') AS day_of_year_num,
+        TO_CHAR(dte.day_of_period_num, '00') AS day_of_period_num,
+        TO_CHAR(dte.day_of_week_num, '0') AS day_of_week_num,
+        TO_CHAR(dte.week_of_year_num, '00') AS week_of_year_num,
+        TO_CHAR(dte.week_of_period_num, '00') AS week_of_period_num,
+        TO_CHAR(dte.period_of_year_num, '00') AS period_of_year_num,
+        TO_CHAR(dte.year_week, '000000') AS year_week,
+        TO_CHAR(dte.year_period, '000000') AS year_period,
+        TO_CHAR(dte.year_num, '0000') AS year_num,
+        dte.season_code,
+        dte.season_name,
+        dte.season_description,
+        TO_CHAR(dte.ly_calendar_dt, 'YYYY-MM-DD') AS ly_calendar_dt,
+        TO_CHAR(dte.ly_year_start_dt, 'YYYY-MM-DD') AS ly_year_start_dt,
+        TO_CHAR(dte.ly_year_end_dt, 'YYYY-MM-DD') AS ly_year_end_dt,
+        TO_CHAR(dte.ly_period_start_dt, 'YYYY-MM-DD') AS ly_period_start_dt,
+        TO_CHAR(dte.ly_period_end_dt, 'YYYY-MM-DD') AS ly_period_end_dt,
+        TO_CHAR(dte.ly_week_start_dt, 'YYYY-MM-DD') AS ly_week_start_dt,
+        TO_CHAR(dte.ly_week_end_dt, 'YYYY-MM-DD') AS ly_week_end_dt,
+        TO_CHAR(dte.ly_day_of_year_num, '000') AS ly_day_of_year_num,
+        TO_CHAR(dte.ly_day_of_period_num, '00') AS ly_day_of_period_num,
+        TO_CHAR(dte.ly_day_of_week_num, '0') AS ly_day_of_week_num,
+        TO_CHAR(dte.ly_week_of_year_num, '00') AS ly_week_of_year_num,
+        TO_CHAR(dte.ly_week_of_period_num, '00') AS ly_week_of_period_num,
+        TO_CHAR(dte.ly_period_of_year_num, '00') AS ly_period_of_year_num,
+        TO_CHAR(dte.ly_year_week, '000000') AS ly_year_week,
+        TO_CHAR(dte.ly_year_period, '000000') AS ly_year_period,
+        TO_CHAR(dte.ly_year_num, '0000') AS ly_year_num,
+        TO_CHAR(dte.lly_calendar_dt, 'YYYY-MM-DD') AS lly_calendar_dt,
+        TO_CHAR(dte.lly_year_start_dt, 'YYYY-MM-DD') AS lly_year_start_dt,
+        TO_CHAR(dte.lly_year_end_dt, 'YYYY-MM-DD') AS lly_year_end_dt,
+        TO_CHAR(dte.lly_period_start_dt, 'YYYY-MM-DD') AS lly_period_start_dt,
+        TO_CHAR(dte.lly_period_end_dt, 'YYYY-MM-DD') AS lly_period_end_dt,
+        TO_CHAR(dte.lly_week_start_dt, 'YYYY-MM-DD') AS lly_week_start_dt,
+        TO_CHAR(dte.lly_week_end_dt, 'YYYY-MM-DD') AS lly_week_end_dt,
+        TO_CHAR(dte.lly_day_of_year_num, '000') AS lly_day_of_year_num,
+        TO_CHAR(dte.lly_day_of_period_num, '00') AS lly_day_of_period_num,
+        TO_CHAR(dte.lly_day_of_week_num, '0') AS lly_day_of_week_num,
+        TO_CHAR(dte.lly_week_of_year_num, '00') AS lly_week_of_year_num,
+        TO_CHAR(dte.lly_week_of_period_num, '00') AS lly_week_of_period_num,
+        TO_CHAR(dte.lly_period_of_year_num, '00') AS lly_period_of_year_num,
+        TO_CHAR(dte.lly_year_week, '000000') AS lly_year_week,
+        TO_CHAR(dte.lly_year_period, '000000') AS lly_year_period,
+        TO_CHAR(dte.lly_year_num, '0000') AS lly_year_num,
+        TO_CHAR(dte.llly_calendar_dt, 'YYYY-MM-DD') AS llly_calendar_dt,
+        TO_CHAR(dte.llly_year_start_dt, 'YYYY-MM-DD') AS llly_year_start_dt,
+        TO_CHAR(dte.llly_year_end_dt, 'YYYY-MM-DD') AS llly_year_end_dt,
+        TO_CHAR(dte.llly_period_start_dt, 'YYYY-MM-DD') AS llly_period_start_dt,
+        TO_CHAR(dte.llly_period_end_dt, 'YYYY-MM-DD') AS llly_period_end_dt,
+        TO_CHAR(dte.llly_week_start_dt, 'YYYY-MM-DD') AS llly_week_start_dt,
+        TO_CHAR(dte.llly_week_end_dt, 'YYYY-MM-DD') AS llly_week_end_dt,
+        TO_CHAR(dte.llly_day_of_year_num, '000') AS llly_day_of_year_num,
+        TO_CHAR(dte.llly_day_of_period_num, '00') AS llly_day_of_period_num,
+        TO_CHAR(dte.llly_day_of_week_num, '0') AS llly_day_of_week_num,
+        TO_CHAR(dte.llly_week_of_year_num, '00') AS llly_week_of_year_num,
+        TO_CHAR(dte.llly_week_of_period_num, '00') AS llly_week_of_period_num,
+        TO_CHAR(dte.llly_period_of_year_num, '00') AS llly_period_of_year_num,
+        TO_CHAR(dte.llly_year_week, '000000') AS llly_year_week,
+        TO_CHAR(dte.llly_year_period, '000000') AS llly_year_period,
+        TO_CHAR(dte.llly_year_num, '0000') AS llly_year_num,
+        TO_CHAR(dte.ny_calendar_dt, 'YYYY-MM-DD') AS ny_calendar_dt,
+        TO_CHAR(dte.ny_year_start_dt, 'YYYY-MM-DD') AS ny_year_start_dt,
+        TO_CHAR(dte.ny_year_end_dt, 'YYYY-MM-DD') AS ny_year_end_dt,
+        TO_CHAR(dte.ny_period_start_dt, 'YYYY-MM-DD') AS ny_period_start_dt,
+        TO_CHAR(dte.ny_period_end_dt, 'YYYY-MM-DD') AS ny_period_end_dt,
+        TO_CHAR(dte.ny_week_start_dt, 'YYYY-MM-DD') AS ny_week_start_dt,
+        TO_CHAR(dte.ny_week_end_dt, 'YYYY-MM-DD') AS ny_week_end_dt,
+        TO_CHAR(dte.ny_day_of_year_num, '000') AS ny_day_of_year_num,
+        TO_CHAR(dte.ny_day_of_period_num, '00') AS ny_day_of_period_num,
+        TO_CHAR(dte.ny_day_of_week_num, '0') AS ny_day_of_week_num,
+        TO_CHAR(dte.ny_week_of_year_num, '00') AS ny_week_of_year_num,
+        TO_CHAR(dte.ny_week_of_period_num, '00') AS ny_week_of_period_num,
+        TO_CHAR(dte.ny_period_of_year_num, '00') AS ny_period_of_year_num,
+        TO_CHAR(dte.ny_year_week, '000000') AS ny_year_week,
+        TO_CHAR(dte.ny_year_period, '000000') AS ny_year_period,
+        TO_CHAR(dte.ny_year_num, '0000') AS ny_year_num
+    FROM DW{INSTANCE}A_ACC_FND.DW_FND_DATE_DIM AS dte
+    WHERE
+        dte.calendar_dt = date '{LDTK_DATE}'
+)
+SELECT '!CALENDAR_DT="' || TRIM(dte.calendar_dt) || '"' (VARCHAR(200)) "#" FROM dte UNION ALL
+SELECT '!YEAR_START_DT="' || TRIM(dte.year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!YEAR_END_DT="' || TRIM(dte.year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!PERIOD_START_DT="' || TRIM(dte.period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!PERIOD_END_DT="' || TRIM(dte.period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!WEEK_START_DT="' || TRIM(dte.week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!WEEK_END_DT="' || TRIM(dte.week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!DAY_OF_YEAR_NUM="' || TRIM(dte.day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!DAY_OF_PERIOD_NUM="' || TRIM(dte.day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!DAY_OF_WEEK_NUM="' || TRIM(dte.day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!WEEK_OF_YEAR_NUM="' || TRIM(dte.week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!WEEK_OF_PERIOD_NUM="' || TRIM(dte.week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!PERIOD_OF_YEAR_NUM="' || TRIM(dte.period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!YEAR_WEEK="' || TRIM(dte.year_week) || '"' FROM dte UNION ALL
+SELECT '!YEAR_PERIOD="' || TRIM(dte.year_period) || '"' FROM dte UNION ALL
+SELECT '!YEAR_NUM="' || TRIM(dte.year_num) || '"' FROM dte UNION ALL
+SELECT '!SEASON_CODE="' || TRIM(dte.season_code) || '"' FROM dte UNION ALL
+SELECT '!SEASON_NAME="' || TRIM(dte.season_name) || '"' FROM dte UNION ALL
+SELECT '!SEASON_DESCRIPTION="' || TRIM(dte.season_description) || '"' FROM dte UNION ALL
+SELECT '!LY_CALENDAR_DT="' || TRIM(dte.ly_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_START_DT="' || TRIM(dte.ly_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_END_DT="' || TRIM(dte.ly_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_PERIOD_START_DT="' || TRIM(dte.ly_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_PERIOD_END_DT="' || TRIM(dte.ly_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_START_DT="' || TRIM(dte.ly_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_END_DT="' || TRIM(dte.ly_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_DAY_OF_YEAR_NUM="' || TRIM(dte.ly_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LY_DAY_OF_PERIOD_NUM="' || TRIM(dte.ly_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LY_DAY_OF_WEEK_NUM="' || TRIM(dte.ly_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_OF_YEAR_NUM="' || TRIM(dte.ly_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.ly_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.ly_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_WEEK="' || TRIM(dte.ly_year_week) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_PERIOD="' || TRIM(dte.ly_year_period) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_NUM="' || TRIM(dte.ly_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_CALENDAR_DT="' || TRIM(dte.lly_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_START_DT="' || TRIM(dte.lly_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_END_DT="' || TRIM(dte.lly_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_PERIOD_START_DT="' || TRIM(dte.lly_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_PERIOD_END_DT="' || TRIM(dte.lly_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_START_DT="' || TRIM(dte.lly_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_END_DT="' || TRIM(dte.lly_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_DAY_OF_YEAR_NUM="' || TRIM(dte.lly_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_DAY_OF_PERIOD_NUM="' || TRIM(dte.lly_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_DAY_OF_WEEK_NUM="' || TRIM(dte.lly_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_OF_YEAR_NUM="' || TRIM(dte.lly_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.lly_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.lly_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_WEEK="' || TRIM(dte.lly_year_week) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_PERIOD="' || TRIM(dte.lly_year_period) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_NUM="' || TRIM(dte.lly_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_CALENDAR_DT="' || TRIM(dte.llly_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_START_DT="' || TRIM(dte.llly_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_END_DT="' || TRIM(dte.llly_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_PERIOD_START_DT="' || TRIM(dte.llly_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_PERIOD_END_DT="' || TRIM(dte.llly_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_START_DT="' || TRIM(dte.llly_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_END_DT="' || TRIM(dte.llly_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_DAY_OF_YEAR_NUM="' || TRIM(dte.llly_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_DAY_OF_PERIOD_NUM="' || TRIM(dte.llly_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_DAY_OF_WEEK_NUM="' || TRIM(dte.llly_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_OF_YEAR_NUM="' || TRIM(dte.llly_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.llly_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.llly_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_WEEK="' || TRIM(dte.llly_year_week) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_PERIOD="' || TRIM(dte.llly_year_period) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_NUM="' || TRIM(dte.llly_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_CALENDAR_DT="' || TRIM(dte.ny_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_START_DT="' || TRIM(dte.ny_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_END_DT="' || TRIM(dte.ny_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_PERIOD_START_DT="' || TRIM(dte.ny_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_PERIOD_END_DT="' || TRIM(dte.ny_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_START_DT="' || TRIM(dte.ny_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_END_DT="' || TRIM(dte.ny_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_DAY_OF_YEAR_NUM="' || TRIM(dte.ny_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_DAY_OF_PERIOD_NUM="' || TRIM(dte.ny_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!NY_DAY_OF_WEEK_NUM="' || TRIM(dte.ny_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_OF_YEAR_NUM="' || TRIM(dte.ny_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.ny_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!NY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.ny_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_WEEK="' || TRIM(dte.ny_year_week) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_PERIOD="' || TRIM(dte.ny_year_period) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_NUM="' || TRIM(dte.ny_year_num) || '"' FROM dte
+    """
+    with conn.cursor() as cursor:
+        try:
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            for row in rows:
+                if row[0].startswith('!'):
+                    key, value = row[0][1:].split('=', 1)
+                    parameters[key] = value.strip('"')
+            # print the parameters dictionary
+            return parameters
+        except Exception as e:
+            print(f"Error executing SQL to get parameters: {e}")
+            return parameters
+    return parameters
+
+
+
 def connect_to_teradata():
     """
     Connect to Teradata using connection info from ~/.tencents/connect.yml
@@ -142,7 +334,7 @@ def run_step_file(conn , filename, config,params=None):
     # job id based on filename split on <JOBNAME>_....
     job = filename.split('_')[0]
     params['JOB'] = job
-
+    get_parameters_for_step(conn, params, '',params['INSTANCE'], params['LDTK_DATE'])
 
     #print(params)
     # get steps paths
