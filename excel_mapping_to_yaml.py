@@ -782,7 +782,7 @@ def build_job(filename, config_dict):
             "Job path %s is not a directory. Please check your configuration.",
             job_path,
         )
-        return -1, "Job path is not a directory."
+        return -1, "Job path is not a directory." 
     # Convert yaml file to job 
     # load the YAML file
     try:
