@@ -54,32 +54,32 @@ INSERT INTO DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
 {% else %}
 SELECT
     {%- for column in mapping.mapping_columns%}
-    {% if column.column_action not in ('mapping','ignore')%}SRC.{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
+    {% if column.column_action not in ('mapping','ignore')%}TRANS.{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
     {%- endfor %}
     /* Control Columnts */
-    date '${EFF_FROM}' AS eff_from_dt,
-    DATE '9999-12-31' AS eff_to_dt,
+    date '${EFF_FROM_DATE}' AS eff_from_dt,
+    DATE '3500-12-31' AS eff_to_dt,
     0 AS del_ind,
     ${RUNID} AS run_id,
     NULL AS update_run_id,
     '${JOB}' AS job_id,
     NULL AS update_job_id
 FROM DW${INSTANCE}{{step.source_database}}.{{ step.source_table }} AS TRANS
-LEFT OUTER JOIN DW${INSTANCE}{{mapping.target_database}}.{{ mapping.target_table }} AS TRG
-ON  TRG.eff_to_dt = DATE '9999-12-31' /* Current effective record */
+LEFT OUTER JOIN DW${INSTANCE}{{mapping.target_database_name}}.{{ mapping.target_table_name }} AS TRG
+ON  TRG.eff_to_dt = DATE '3500-12-31' /* Current effective record */
 AND TRG.del_ind = 0 /* Not deleted */
     {%- for column in mapping.mapping_columns%}
     {%- if column.column_action in ('key') %}
-AND TRG.{{ column.target_column_name }} = TRANS.{{ column.source_column_name }} 
+AND TRG.{{ column.target_column_name }} = TRANS.{{ column.target_column_name }} 
     {% endif %}
     {%- endfor %}
 WHERE (  /* Change detection */ 
     TRG.del_ind IS NULL /* No existing or a deleted */
     {%- for column in mapping.mapping_columns%}
     {%- if column.column_action in ('nan','') or column.column_action == None %}
-OR TRG.{{ column.target_column_name }} <> TRANS.{{ column.source_column_name }} 
-OR (TRG.{{ column.target_column_name }} IS NULL AND TRANS.{{ column.source_column_name }} IS NOT NULL)
-OR (TRG.{{ column.target_column_name }} IS NOT NULL AND TRANS.{{ column.source_column_name }} IS NULL)
+OR TRG.{{ column.target_column_name }} <> TRANS.{{ column.target_column_name }} 
+OR (TRG.{{ column.target_column_name }} IS NULL AND TRANS.{{ column.target_column_name }} IS NOT NULL)
+OR (TRG.{{ column.target_column_name }} IS NOT NULL AND TRANS.{{ column.target_column_name }} IS NULL)
     {% endif %}
 
     {%- endfor %}
@@ -117,26 +117,25 @@ SELECT
     {% if column.column_action not in ('mapping','ignore')%}TRG.{{ column.target_column_name }}{% endif %}{% if not loop.last %}, {%else%}, {% endif %}
     {%- endfor %}
     /* Control Columnts */
-    date '${EFF_FROM}' AS eff_from_dt,
-    DATE '9999-12-31' AS eff_to_dt,
+    date '${EFF_FROM_DATE}' AS eff_from_dt,
+    DATE '3500-12-31' AS eff_to_dt,
     1 AS del_ind, /* Mark as deleted */
     ${RUNID} AS run_id,
     NULL AS update_run_id,
     '${JOB}' AS job_id,
     NULL AS update_job_id
-FROM DW${INSTANCE}{{mapping.target_database}}.{{ mapping.target_table }} AS TRG
+FROM DW${INSTANCE}{{mapping.target_database_name}}.{{ mapping.target_table_name }} AS TRG
 LEFT OUTER JOIN DW${INSTANCE}{{step.source_database}}.{{ step.source_table }} AS TRANS
-ON  TRG.eff_to_dt = DATE '9999-12-31' /* Current effective record */
+ON  TRG.eff_to_dt = DATE '3500-12-31' /* Current effective record */
     {%- for column in mapping.mapping_columns%}
     {%- if column.column_action in ('key') %}
-AND TRG.{{ column.target_column_name }} = TRANS.{{ column.source_column_name }} 
+AND TRG.{{ column.target_column_name }} = TRANS.{{ column.target_column_name }} 
     {% endif %}
     {%- endfor %}
-WHERE TRANS.del_ind is NULL /* No existing or a deleted */
+WHERE TRANS.{{mapping.primary_key[0]}} is NULL /* No existing or a deleted */
 ;
 {% endif %}
 .IF ERRORCODE <> 0 THEN .QUIT 101
-/* End of step */
 
 {% if step.stats != None and step.stats != ''%}
 

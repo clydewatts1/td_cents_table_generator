@@ -12,9 +12,7 @@ REPLACE VIEW DW${INSTANCE}A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF
     AS LOCKING ROW FOR ACCESS
 
 SELECT
-    styl_wid ,
     item_sbclas_wid ,
-    styl_sbclas_vers_num ,
     pmk_co_cd ,
     pmk_co_vers_num ,
     dvisn_cd ,
@@ -45,13 +43,7 @@ FROM  DW${INSTANCE}T_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF
 COMMENT ON VIEW DW${INSTANCE}A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF AS ''
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF.styl_wid AS 'This is the style surrogate key'
-;
-
 COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF.item_sbclas_wid AS 'This contains the item subclass wid - this is the lowest grain for the merchant hierarchy'
-;
-
-COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF.styl_sbclas_vers_num AS 'This is the version number of subclass - if there a new style - version is last version id for sbclass , if changed then bumped version no for table'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF.pmk_co_cd AS 'This is the primark company code'

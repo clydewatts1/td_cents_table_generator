@@ -1,0 +1,400 @@
+control_columns: .nan
+job_name_from_file: FND1041
+job_name_from_mapping: FND1041
+mapping_columns:
+- column_action: key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 15
+  source_column_name: hier.item_sbclas_wid
+  target_column_name: item_sbclas_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 14
+  source_column_name: hier.pmk_co_cd
+  target_column_name: pmk_co_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 13
+  source_column_name: xref.styl_sbclass_vers_num
+  target_column_name: pmk_co_vers_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 12
+  source_column_name: hier.dvisn_cd
+  target_column_name: dvisn_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 11
+  source_column_name: xref.styl_sbclass_vers_num
+  target_column_name: dvisn_vers_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 10
+  source_column_name: hier.dept_cd
+  target_column_name: dept_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 9
+  source_column_name: xref.styl_sbclass_vers_num
+  target_column_name: dept_vers_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 8
+  source_column_name: hier.item_clas_cd
+  target_column_name: item_clas_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 7
+  source_column_name: xref.styl_sbclass_vers_num
+  target_column_name: item_clas_vers_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 6
+  source_column_name: hier.pmk_item_sbclas_grp_cd
+  target_column_name: pmk_item_sbclas_grp_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 5
+  source_column_name: xref.styl_sbclass_vers_num
+  target_column_name: pmk_item_sbclas_grp_vers_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 4
+  source_column_name: hier.item_sbclas_cd
+  target_column_name: item_sbclas_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 3
+  source_column_name: xref.styl_sbclass_vers_num
+  target_column_name: item_sbclas_vers_num
+mapping_columns_count: 13
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- item_sbclass_wid
+sql_steps:
+  FND1041.190.TRANS: "-- This query constructs a comprehensive merchant hierarchy\
+    \ for styles, comparing the current\n-- hierarchy against a previous version to\
+    \ identify changes and determine new version numbers.\n-- It uses set theory concepts\
+    \ (intersections and differences) implemented via SQL window functions.\nWITH\n\
+    -- CTE 1: MHR (Merchant Hierarchy)\n-- Flattens the current, active merchant hierarchy\
+    \ by joining dimension tables from company down to subclass.\nMHR AS (\n    SELECT\n\
+    \        SCLS.item_sbclas_wid,\n        CO.pmk_co_cd,\n        DVN.dvisn_cd,\n\
+    \        DPT.dept_cd,\n        CLS.item_clas_cd,\n        SCLS.pmk_item_sbclas_grp_cd,\n\
+    \        SCLS.item_sbclas_cd\n    FROM\n        DWP01A_IDW.ITEM_SBCLAS AS SCLS\n\
+    \        INNER JOIN DWP01A_IDW.ITEM_CLAS AS CLS ON CLS.item_clas_wid = SCLS.item_clas_wid\n\
+    \        INNER JOIN DWP01A_IDW.DEPT AS DPT ON DPT.dept_wid = CLS.dept_wid\n  \
+    \      INNER JOIN DWP01A_IDW.DVISN AS DVN ON DVN.dvisn_wid = DPT.dvisn_wid\n \
+    \       INNER JOIN DWP01A_IDW.PMK_CO AS CO ON CO.pmk_co_wid = DVN.pmk_co_wid\n\
+    \        LEFT OUTER JOIN DWP01A_IDW.PMK_TCTCL_BUYR AS BYR ON DPT.pmk_tctcl_buyr_wid\
+    \ = BYR.pmk_tctcl_buyr_wid AND BYR.cur_flg = 'Y'\n    WHERE\n        SCLS.cur_flg\
+    \ = 'Y'\n        AND CO.cur_flg = 'Y'\n        AND DPT.cur_flg = 'Y'\n       \
+    \ AND CLS.cur_flg = 'Y'\n        AND DVN.cur_flg = 'Y'\n),\n-- CTE 2: MHR_STYL_BASE\
+    \ (Set B)\n-- This represents the CURRENT state of the style hierarchy (Set B).\n\
+    -- It joins the flattened hierarchy (MHR) to the current style reclassification\
+    \ data.\nMHR_STYL_BASE AS (\n    SELECT\n        STLX.styl_wid,\n        STLX.styl_sbclass_vers_num,\n\
+    \        MHR.item_sbclas_wid,\n        MHR.pmk_co_cd,\n        MHR.dvisn_cd,\n\
+    \        MHR.dept_cd,\n        MHR.item_clas_cd,\n        MHR.pmk_item_sbclas_grp_cd,\n\
+    \        MHR.item_sbclas_cd\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
+    \ AS STLX\n        INNER JOIN MHR ON STLX.item_sbclas_wid = MHR.item_sbclas_wid\n\
+    \    WHERE\n        STLX.eff_to_dt = DATE '9999-12-31' -- Filter for currently\
+    \ effective records.\n),\n-- CTE 3: XVER (Set A)\n-- This represents the ORIGINAL\
+    \ state of the style hierarchy (Set A).\n-- It pulls the versioned hierarchy data\
+    \ from a separate cross-reference table.\nXVER AS (\n    SELECT\n        styl_wid,\n\
+    \        item_sbclas_wid,\n        styl_sbclas_vers_num,\n        pmk_co_cd,\n\
+    \        pmk_co_vers_num,\n        dvisn_cd,\n        dvisn_vers_num,\n      \
+    \  dept_cd,\n        dept_vers_num,\n        item_clas_cd,\n        item_clas_vers_num,\n\
+    \        pmk_item_sbclas_grp_cd,\n        pmk_item_sbclas_grp_vers_num,\n    \
+    \    item_sbclas_cd,\n        item_sbclas_vers_num\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF\
+    \ AS XRF\n    WHERE\n        XRF.eff_to_dt = DATE '3500-12-31' -- Filter for currently\
+    \ effective records in the version history.\n),\n-- CTE 4: PMK_CO_REF\n-- This\
+    \ is the core logic CTE. It performs a FULL OUTER JOIN between the original (A)\
+    \ and current (B)\n-- hierarchies to analyze changes. It uses set theory concepts\
+    \ to count items in the intersection and differences.\nPMK_CO_REF AS (\n    SELECT\n\
+    \        -- Use COALESCE to combine keys from both datasets (A and B).\n     \
+    \   COALESCE(MSB.styl_wid, XVER.styl_wid) AS styl_wid,\n        COALESCE(MSB.item_sbclas_wid,\
+    \ XVER.item_sbclas_wid) AS item_sbclas_wid,\n        -- Merge hierarchy attributes,\
+    \ prioritizing the current hierarchy (MSB).\n        COALESCE(MSB.pmk_co_cd, XVER.pmk_co_cd)\
+    \ AS pmk_co_cd,\n        COALESCE(MSB.dvisn_cd, XVER.dvisn_cd) AS dvisn_cd,\n\
+    \        COALESCE(MSB.dept_cd, XVER.dept_cd) AS dept_cd,\n        COALESCE(MSB.item_clas_cd,\
+    \ XVER.item_clas_cd) AS item_clas_cd, -- Corrected from dept_cd\n        COALESCE(MSB.pmk_item_sbclas_grp_cd,\
+    \ XVER.pmk_item_sbclas_grp_cd) AS pmk_item_sbclas_grp_cd, -- Corrected from dept_cd\n\
+    \        COALESCE(MSB.item_sbclas_cd, XVER.item_sbclas_cd) AS item_sbclas_cd,\
+    \ -- Corrected from dept_cd\n        MSB.styl_sbclass_vers_num,\n        XVER.dept_vers_num,\n\
+    \        -- DEBUGGING COLUMNS: To observe values from both sets.\n        MSB.dept_cd\
+    \ AS a_dept_cd,\n        XVER.dept_cd AS b_dept_cd,\n        -- DEPARTMENT CHANGE\
+    \ ANALYSIS --\n        -- AnB (Intersection): Count of styles that are in the\
+    \ same department in both sets.\n        SUM(CASE WHEN MSB.dept_cd = XVER.dept_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_count,\n    \
+    \    MIN(CASE WHEN MSB.dept_cd = XVER.dept_cd THEN XVER.dept_vers_num ELSE NULL\
+    \ END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_min,\n        -- BtoA (Moved\
+    \ Into): Count of styles that moved from a different department INTO this one.\n\
+    \        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1 ELSE 0 END) OVER (PARTITION\
+    \ BY XVER.dept_cd) AS dept_btoa_count,\n        MIN(CASE WHEN MSB.dept_cd <> XVER.dept_cd\
+    \ THEN XVER.dept_vers_num ELSE NULL END) OVER (PARTITION BY XVER.dept_cd) AS dept_btoa_min,\n\
+    \        -- AtoB (Moved Out Of): Count of styles that moved OUT OF this department\
+    \ into another one.\n        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1\
+    \ ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_atob_count,\n        MIN(CASE\
+    \ WHEN MSB.dept_cd <> XVER.dept_cd THEN MSB.styl_sbclass_vers_num ELSE NULL END)\
+    \ OVER (PARTITION BY MSB.dept_cd) AS dept_atob_min,\n        -- AmB (A minus B):\
+    \ Styles that existed in the original set but not the current one (for this dept).\n\
+    \        SUM(CASE WHEN MSB.dept_cd IS NULL THEN 1 ELSE 0 END) OVER (PARTITION\
+    \ BY XVER.dept_cd) AS dept_amb_count,\n        MIN(XVER.dept_vers_num) OVER (PARTITION\
+    \ BY XVER.dept_cd) AS dept_amb_min,\n        -- BmA (B minus A): Styles that are\
+    \ new in the current set (for this dept).\n        SUM(CASE WHEN XVER.dept_cd\
+    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_count,\n\
+    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_min,\n\
+    \        -- Logic to determine the new department version number based on the\
+    \ set analysis.\n        CASE\n            WHEN dept_anb_count = 0 AND dept_btoa_count\
+    \ = 0 AND dept_atob_count = 0 AND dept_amb_count = 0 AND dept_bma_count > 0 THEN\
+    \ dept_bma_min\n            ELSE -1\n        END AS new_dept_vers_num,\n     \
+    \   -- SUBCLASS CHANGE ANALYSIS (Same logic as department analysis) --\n     \
+    \   -- AnB (Intersection)\n        SUM(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_count,\n\
+    \        MIN(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
+    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_min,\n \
+    \       -- BtoA (Moved Into)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_count,\n\
+    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
+    \ ELSE NULL END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_min,\n\
+    \        -- AtoB (Moved Out Of)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_count,\n\
+    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN MSB.styl_sbclass_vers_num\
+    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_min,\n\
+    \        -- AmB (A minus B)\n        SUM(CASE WHEN MSB.item_sbclas_cd IS NULL\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_amb_count,\n\
+    \        MIN(XVER.item_sbclas_vers_num) OVER (PARTITION BY XVER.item_sbclas_cd)\
+    \ AS sbclas_amb_min,\n        -- BmA (B minus A)\n        SUM(CASE WHEN XVER.item_sbclas_cd\
+    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_bma_count,\n\
+    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.item_sbclas_cd)\
+    \ AS sbclas_bma_min,\n        -- Logic to determine the new subclass version number.\n\
+    \        CASE\n            WHEN sbclas_anb_count = 0 AND sbclas_btoa_count = 0\
+    \ AND sbclas_atob_count = 0 AND sbclas_amb_count = 0 AND sbclas_bma_count > 0\
+    \ THEN sbclas_bma_min\n            ELSE -1\n        END AS new_sbclas_vers_num\n\
+    \    FROM\n        MHR_STYL_BASE AS MSB -- This is Set B (Current)\n        FULL\
+    \ OUTER JOIN XVER ON MSB.styl_wid = XVER.styl_wid -- This join creates the Union\
+    \ of A and B\n)\n-- Final Select: Constructs the final output record.\nSELECT\n\
+    \    PMK_CO_REF.styl_wid,\n    PMK_CO_REF.item_sbclas_wid,\n    -1 AS styl_sbclas_vers_num,\
+    \ -- Placeholder value\n    PMK_CO_REF.pmk_co_cd,\n    -1 AS pmk_co_vers_num,\
+    \ -- Placeholder value\n    PMK_CO_REF.dvisn_cd,\n    -1 AS dvisn_vers_num, --\
+    \ Placeholder value\n    PMK_CO_REF.dept_cd,\n    PMK_CO_REF.new_dept_vers_num\
+    \ AS dept_vers_num, -- Use the calculated version number\n    PMK_CO_REF.item_clas_cd,\n\
+    \    -1 AS item_clas_vers_num, -- Placeholder value\n    PMK_CO_REF.pmk_item_sbclas_grp_cd,\n\
+    \    -1 AS pmk_item_sbclas_grp_vers_num, -- Placeholder value\n    PMK_CO_REF.item_sbclas_cd,\n\
+    \    PMK_CO_REF.new_sbclas_vers_num AS item_sbclas_vers_num -- Use the calculated\
+    \ version number\nFROM\n    PMK_CO_REF"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND1041
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 5
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: ''
+  file_name: FND1041.190.TRANS.sql
+  file_present: true
+  job_name: FND1041
+  notes: See mapping
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 4
+  sequence_no: 2
+  source_database: See mapping
+  source_table: ''
+  sql_statement: "-- This query constructs a comprehensive merchant hierarchy for\
+    \ styles, comparing the current\n-- hierarchy against a previous version to identify\
+    \ changes and determine new version numbers.\n-- It uses set theory concepts (intersections\
+    \ and differences) implemented via SQL window functions.\nWITH\n-- CTE 1: MHR\
+    \ (Merchant Hierarchy)\n-- Flattens the current, active merchant hierarchy by\
+    \ joining dimension tables from company down to subclass.\nMHR AS (\n    SELECT\n\
+    \        SCLS.item_sbclas_wid,\n        CO.pmk_co_cd,\n        DVN.dvisn_cd,\n\
+    \        DPT.dept_cd,\n        CLS.item_clas_cd,\n        SCLS.pmk_item_sbclas_grp_cd,\n\
+    \        SCLS.item_sbclas_cd\n    FROM\n        DWP01A_IDW.ITEM_SBCLAS AS SCLS\n\
+    \        INNER JOIN DWP01A_IDW.ITEM_CLAS AS CLS ON CLS.item_clas_wid = SCLS.item_clas_wid\n\
+    \        INNER JOIN DWP01A_IDW.DEPT AS DPT ON DPT.dept_wid = CLS.dept_wid\n  \
+    \      INNER JOIN DWP01A_IDW.DVISN AS DVN ON DVN.dvisn_wid = DPT.dvisn_wid\n \
+    \       INNER JOIN DWP01A_IDW.PMK_CO AS CO ON CO.pmk_co_wid = DVN.pmk_co_wid\n\
+    \        LEFT OUTER JOIN DWP01A_IDW.PMK_TCTCL_BUYR AS BYR ON DPT.pmk_tctcl_buyr_wid\
+    \ = BYR.pmk_tctcl_buyr_wid AND BYR.cur_flg = 'Y'\n    WHERE\n        SCLS.cur_flg\
+    \ = 'Y'\n        AND CO.cur_flg = 'Y'\n        AND DPT.cur_flg = 'Y'\n       \
+    \ AND CLS.cur_flg = 'Y'\n        AND DVN.cur_flg = 'Y'\n),\n-- CTE 2: MHR_STYL_BASE\
+    \ (Set B)\n-- This represents the CURRENT state of the style hierarchy (Set B).\n\
+    -- It joins the flattened hierarchy (MHR) to the current style reclassification\
+    \ data.\nMHR_STYL_BASE AS (\n    SELECT\n        STLX.styl_wid,\n        STLX.styl_sbclass_vers_num,\n\
+    \        MHR.item_sbclas_wid,\n        MHR.pmk_co_cd,\n        MHR.dvisn_cd,\n\
+    \        MHR.dept_cd,\n        MHR.item_clas_cd,\n        MHR.pmk_item_sbclas_grp_cd,\n\
+    \        MHR.item_sbclas_cd\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
+    \ AS STLX\n        INNER JOIN MHR ON STLX.item_sbclas_wid = MHR.item_sbclas_wid\n\
+    \    WHERE\n        STLX.eff_to_dt = DATE '9999-12-31' -- Filter for currently\
+    \ effective records.\n),\n-- CTE 3: XVER (Set A)\n-- This represents the ORIGINAL\
+    \ state of the style hierarchy (Set A).\n-- It pulls the versioned hierarchy data\
+    \ from a separate cross-reference table.\nXVER AS (\n    SELECT\n        styl_wid,\n\
+    \        item_sbclas_wid,\n        styl_sbclas_vers_num,\n        pmk_co_cd,\n\
+    \        pmk_co_vers_num,\n        dvisn_cd,\n        dvisn_vers_num,\n      \
+    \  dept_cd,\n        dept_vers_num,\n        item_clas_cd,\n        item_clas_vers_num,\n\
+    \        pmk_item_sbclas_grp_cd,\n        pmk_item_sbclas_grp_vers_num,\n    \
+    \    item_sbclas_cd,\n        item_sbclas_vers_num\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF\
+    \ AS XRF\n    WHERE\n        XRF.eff_to_dt = DATE '3500-12-31' -- Filter for currently\
+    \ effective records in the version history.\n),\n-- CTE 4: PMK_CO_REF\n-- This\
+    \ is the core logic CTE. It performs a FULL OUTER JOIN between the original (A)\
+    \ and current (B)\n-- hierarchies to analyze changes. It uses set theory concepts\
+    \ to count items in the intersection and differences.\nPMK_CO_REF AS (\n    SELECT\n\
+    \        -- Use COALESCE to combine keys from both datasets (A and B).\n     \
+    \   COALESCE(MSB.styl_wid, XVER.styl_wid) AS styl_wid,\n        COALESCE(MSB.item_sbclas_wid,\
+    \ XVER.item_sbclas_wid) AS item_sbclas_wid,\n        -- Merge hierarchy attributes,\
+    \ prioritizing the current hierarchy (MSB).\n        COALESCE(MSB.pmk_co_cd, XVER.pmk_co_cd)\
+    \ AS pmk_co_cd,\n        COALESCE(MSB.dvisn_cd, XVER.dvisn_cd) AS dvisn_cd,\n\
+    \        COALESCE(MSB.dept_cd, XVER.dept_cd) AS dept_cd,\n        COALESCE(MSB.item_clas_cd,\
+    \ XVER.item_clas_cd) AS item_clas_cd, -- Corrected from dept_cd\n        COALESCE(MSB.pmk_item_sbclas_grp_cd,\
+    \ XVER.pmk_item_sbclas_grp_cd) AS pmk_item_sbclas_grp_cd, -- Corrected from dept_cd\n\
+    \        COALESCE(MSB.item_sbclas_cd, XVER.item_sbclas_cd) AS item_sbclas_cd,\
+    \ -- Corrected from dept_cd\n        MSB.styl_sbclass_vers_num,\n        XVER.dept_vers_num,\n\
+    \        -- DEBUGGING COLUMNS: To observe values from both sets.\n        MSB.dept_cd\
+    \ AS a_dept_cd,\n        XVER.dept_cd AS b_dept_cd,\n        -- DEPARTMENT CHANGE\
+    \ ANALYSIS --\n        -- AnB (Intersection): Count of styles that are in the\
+    \ same department in both sets.\n        SUM(CASE WHEN MSB.dept_cd = XVER.dept_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_count,\n    \
+    \    MIN(CASE WHEN MSB.dept_cd = XVER.dept_cd THEN XVER.dept_vers_num ELSE NULL\
+    \ END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_min,\n        -- BtoA (Moved\
+    \ Into): Count of styles that moved from a different department INTO this one.\n\
+    \        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1 ELSE 0 END) OVER (PARTITION\
+    \ BY XVER.dept_cd) AS dept_btoa_count,\n        MIN(CASE WHEN MSB.dept_cd <> XVER.dept_cd\
+    \ THEN XVER.dept_vers_num ELSE NULL END) OVER (PARTITION BY XVER.dept_cd) AS dept_btoa_min,\n\
+    \        -- AtoB (Moved Out Of): Count of styles that moved OUT OF this department\
+    \ into another one.\n        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1\
+    \ ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_atob_count,\n        MIN(CASE\
+    \ WHEN MSB.dept_cd <> XVER.dept_cd THEN MSB.styl_sbclass_vers_num ELSE NULL END)\
+    \ OVER (PARTITION BY MSB.dept_cd) AS dept_atob_min,\n        -- AmB (A minus B):\
+    \ Styles that existed in the original set but not the current one (for this dept).\n\
+    \        SUM(CASE WHEN MSB.dept_cd IS NULL THEN 1 ELSE 0 END) OVER (PARTITION\
+    \ BY XVER.dept_cd) AS dept_amb_count,\n        MIN(XVER.dept_vers_num) OVER (PARTITION\
+    \ BY XVER.dept_cd) AS dept_amb_min,\n        -- BmA (B minus A): Styles that are\
+    \ new in the current set (for this dept).\n        SUM(CASE WHEN XVER.dept_cd\
+    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_count,\n\
+    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_min,\n\
+    \        -- Logic to determine the new department version number based on the\
+    \ set analysis.\n        CASE\n            WHEN dept_anb_count = 0 AND dept_btoa_count\
+    \ = 0 AND dept_atob_count = 0 AND dept_amb_count = 0 AND dept_bma_count > 0 THEN\
+    \ dept_bma_min\n            ELSE -1\n        END AS new_dept_vers_num,\n     \
+    \   -- SUBCLASS CHANGE ANALYSIS (Same logic as department analysis) --\n     \
+    \   -- AnB (Intersection)\n        SUM(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_count,\n\
+    \        MIN(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
+    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_min,\n \
+    \       -- BtoA (Moved Into)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_count,\n\
+    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
+    \ ELSE NULL END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_min,\n\
+    \        -- AtoB (Moved Out Of)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_count,\n\
+    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN MSB.styl_sbclass_vers_num\
+    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_min,\n\
+    \        -- AmB (A minus B)\n        SUM(CASE WHEN MSB.item_sbclas_cd IS NULL\
+    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_amb_count,\n\
+    \        MIN(XVER.item_sbclas_vers_num) OVER (PARTITION BY XVER.item_sbclas_cd)\
+    \ AS sbclas_amb_min,\n        -- BmA (B minus A)\n        SUM(CASE WHEN XVER.item_sbclas_cd\
+    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_bma_count,\n\
+    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.item_sbclas_cd)\
+    \ AS sbclas_bma_min,\n        -- Logic to determine the new subclass version number.\n\
+    \        CASE\n            WHEN sbclas_anb_count = 0 AND sbclas_btoa_count = 0\
+    \ AND sbclas_atob_count = 0 AND sbclas_amb_count = 0 AND sbclas_bma_count > 0\
+    \ THEN sbclas_bma_min\n            ELSE -1\n        END AS new_sbclas_vers_num\n\
+    \    FROM\n        MHR_STYL_BASE AS MSB -- This is Set B (Current)\n        FULL\
+    \ OUTER JOIN XVER ON MSB.styl_wid = XVER.styl_wid -- This join creates the Union\
+    \ of A and B\n)\n-- Final Select: Constructs the final output record.\nSELECT\n\
+    \    PMK_CO_REF.styl_wid,\n    PMK_CO_REF.item_sbclas_wid,\n    -1 AS styl_sbclas_vers_num,\
+    \ -- Placeholder value\n    PMK_CO_REF.pmk_co_cd,\n    -1 AS pmk_co_vers_num,\
+    \ -- Placeholder value\n    PMK_CO_REF.dvisn_cd,\n    -1 AS dvisn_vers_num, --\
+    \ Placeholder value\n    PMK_CO_REF.dept_cd,\n    PMK_CO_REF.new_dept_vers_num\
+    \ AS dept_vers_num, -- Use the calculated version number\n    PMK_CO_REF.item_clas_cd,\n\
+    \    -1 AS item_clas_vers_num, -- Placeholder value\n    PMK_CO_REF.pmk_item_sbclas_grp_cd,\n\
+    \    -1 AS pmk_item_sbclas_grp_vers_num, -- Placeholder value\n    PMK_CO_REF.item_sbclas_cd,\n\
+    \    PMK_CO_REF.new_sbclas_vers_num AS item_sbclas_vers_num -- Use the calculated\
+    \ version number\nFROM\n    PMK_CO_REF"
+  stats: ''
+  step_pattern: STANDARD_TRANS
+  steps: '190'
+  target_database: T_TMP_ACC_FND
+  target_table: FND1041_TRANS
+- description: Uses standard snapshot/full apply looking for changes between trans
+    and target table
+  file_name: FND1041.200.VALID.sql
+  file_present: false
+  job_name: FND1041
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 3
+  source_database: T_TMP_ACC_FND
+  source_table: FND1041_TRANS
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: SNAPSHOT_VALID
+  steps: '200'
+  target_database: T_TMP_ACC_FND
+  target_table: FND1041_VALID
+- description: 'Used standard snapshot/full apply '
+  file_name: FND1041.300.TARGET.sql
+  file_present: false
+  job_name: FND1041
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 4
+  source_database: T_TMP_ACC_FND
+  source_table: FND1041_VALID
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: SNAPSHOT_TARGET
+  steps: '300'
+  target_database: V_ACC_FND
+  target_table: DM_FND_STORE_HIER_DIM
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND1041
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 5
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+target_database_name: T_TMP_ACC_FND
+target_table_name: 'FND_RECLASFCN_STYL_SBCLASS_VERS_XREF
+
+  '
+transformation_key:
+- item_sbclass_wid
