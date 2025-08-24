@@ -25,6 +25,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: ITEM_ID
   column_type: BIGINT
   column_format: ''
@@ -33,6 +34,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: LFL_IND
   column_type: BYTEINT
   column_format: '''9'''
@@ -41,6 +43,7 @@ columns:
   description: Like for like indictor 0 - Not Like for like , 1 - Like for Like
   compression: '1'
   quote: ''
+  default: '1'
 - column_name: Sales_1st_Date
   column_type: DATE
   column_format: ''
@@ -49,6 +52,7 @@ columns:
   description: First day when store start selling an item.Date of SALES 1ST DATE
   compression: ''
   quote: ''
+  default: ''
 - column_name: Sales_1st_Week
   column_type: DATE
   column_format: ''
@@ -58,6 +62,7 @@ columns:
     (This is at SKU ORIN level)
   compression: ''
   quote: ''
+  default: ''
 - column_name: Item_Grade_Area
   column_type: VARCHAR(3)
   column_format: ''
@@ -66,6 +71,7 @@ columns:
   description: This Column is used identify the Grade of the location
   compression: ''
   quote: ''
+  default: ''
 - column_name: Item_Grade_Region
   column_type: VARCHAR(3)
   column_format: ''
@@ -75,6 +81,7 @@ columns:
     the item.
   compression: ''
   quote: ''
+  default: ''
 - column_name: Location_Grade
   column_type: VARCHAR(3)
   column_format: ''
@@ -84,6 +91,7 @@ columns:
     AW2017. Autumn Winter'
   compression: ''
   quote: ''
+  default: ''
 - column_name: WK
   column_type: SELECT TO_NUMBER(year_week)(BIGINT) AS year_week ,week_start_dt,week_end_dt
     FROM DW_FND_DATE_DIM WHERE day_of_week_num=1
@@ -93,6 +101,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: LFL
   column_type: SELECT YR*100 + WK AS year_week, LFL.lfl_flg as lfl_ind, LOC_ID AS
     location_id FROM DWP01T_IDW.PMK_STR_LFL AS LFL WHERE CUR_FLG = 'Y'
@@ -102,6 +111,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: LFL_WK
   column_type: SELECT LFL.location_id, WK.week_start_dt AS start_dt, LEAD(WK.week_start_dt,1,date
     '3500-12-31') OVER (PARTITION BY LFL.location_id ORDER BY WK.week_start_dt) -
@@ -113,6 +123,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: IGRD
   column_type: SELECT CAST(DIG.item_id AS BIGINT) AS item_id, CAST(DIG.area_cd AS
     SMALLINT) AS area_cd, max(case when org_level='A' THEN Grade_Val END) AS item_grade_area,
@@ -125,6 +136,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: LGRD
   column_type: SELECT Location_id ,department_cd ,section_cd ,subsection_cd ,max(grade_val)
     location_grade from DWP01A_ACC_ORR.DW_LOCATION_GRADE_DV WHERE Current_Flg='Y'
@@ -135,6 +147,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 - column_name: Joins
   column_type: ''
   column_format: ''
@@ -143,4 +156,5 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 BUILD: []

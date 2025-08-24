@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_TMP_ACC_FND.FND1023_TRANS.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_TMP_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,27 +10,28 @@
 /* Create table for FND1023_TRANS = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND1023_TRANS
     (
-    org_hiery_wid INTEGER NOT NULL ,
-    org_hier_country_cd SMALLINT NOT NULL ,
-    org_hier_country_name VARCHAR(128) NOT NULL ,
-    org_hiery_vers_num SMALLINT NOT NULL ,
-    company_cd SMALLINT NOT NULL ,
-    company_name VARCHAR(128) NOT NULL ,
-    company_vers_num SMALLINT NOT NULL ,
-    zone_cd SMALLINT NOT NULL ,
-    zone_name VARCHAR(128) NOT NULL ,
-    zone_vers_num SMALLINT NOT NULL ,
-    region_cd SMALLINT NOT NULL ,
-    region_name VARCHAR(128) NOT NULL ,
-    region_old VARCHAR(128) NOT NULL ,
-    region_vers_num SMALLINT NOT NULL ,
-    area_cd SMALLINT NOT NULL ,
-    area_name VARCHAR(128) NOT NULL ,
-    area_vers_num SMALLINT NOT NULL ,
-    zone_manager_name VARCHAR(128) NOT NULL ,
-    region_manager_name VARCHAR(128) NOT NULL ,
-    area_manager_name VARCHAR(128) NOT NULL ,
-    org_hier_country_mgr_name VARCHAR(128) NOT NULL      )
+    org_hiery_wid INTEGER NOT NULL  ,
+    org_hier_country_cd SMALLINT NOT NULL  ,
+    org_hier_country_name VARCHAR(128) NOT NULL  ,
+    org_hiery_vers_num SMALLINT NOT NULL  ,
+    company_cd SMALLINT NOT NULL  ,
+    company_name VARCHAR(128) NOT NULL  ,
+    company_vers_num SMALLINT NOT NULL  ,
+    zone_cd SMALLINT NOT NULL  ,
+    zone_name VARCHAR(128) NOT NULL  ,
+    zone_vers_num SMALLINT NOT NULL  ,
+    region_cd SMALLINT NOT NULL  ,
+    region_name VARCHAR(128) NOT NULL  ,
+    region_old VARCHAR(128) NOT NULL  ,
+    region_vers_num SMALLINT NOT NULL  ,
+    area_cd SMALLINT NOT NULL  ,
+    area_name VARCHAR(128) NOT NULL  ,
+    area_vers_num SMALLINT NOT NULL  ,
+    zone_manager_name VARCHAR(128) NOT NULL  ,
+    region_manager_name VARCHAR(128) NOT NULL  ,
+    area_manager_name VARCHAR(128) NOT NULL  ,
+    org_hier_country_mgr_name VARCHAR(128) NOT NULL   
+    )
     UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
 ;
 

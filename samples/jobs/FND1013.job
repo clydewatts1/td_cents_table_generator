@@ -4,150 +4,242 @@
 #
 # ===============================================================================
 # ===============================================================================
-# File Name           : 
+# File Name           : FND1013.job
 # Pattern             : SNAPSHOT
-# Purpose             : 
-# Author              : 
+# Purpose             :Update DW_FND_DATE_DIM_HIST using snapshot
+# Author              : Mr Primark
 # File Type           : JOB
-# Creation Date       : 
-# Version             : 
+# Creation Date       : 2025-08-21 
+# Build Time          : 2025-08-21 13:26:03
 # -------------------------------------------------------------------------------
 # Change History :
 # Ver  | Date        |  Modified By           |  Change Description
 # -------------------------------------------------------------------------------
-# 1.0  | 18 Oct 2021 |  TERADATA              |  INITIAL VERSION
+# 0.0  | 2025-08-21 |  Mr Primark              |  INITIAL VERSION
 # ===============================================================================
 
 FPATH=$FPATH:$HOME/includes
-JOB=
+JOB=FND1013
 
 echo ---------------------------------------
 echo JOB=${JOB:?}
 echo ---------------------------------------
 
+STREAMID=DATE
 
-## job specific
-
-SKIP_STEPS_CONTROL=1
-INSERTED_STAGING=0
-REJECTED_STAGING=0
-DUPLICATE_STAGING=0
-INSERTED_TARGET=0
-REJECTED_TARGET=0
-DUPLICATE_TARGET=0
-
-
-tjc_stepout -e
-tjc_onerror "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT"
-tjc_ontimeout "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT  > /dev/null 2>&1"
+#-------------------------------------------------------------------
+# Include common start script for job execution
+#-------------------------------------------------------------------
+. $HOME/jobs/FNDSTART.job
 
 #-------------------------------------------------------------------------------
-# Step 001 : Log start of job by running LoadStart.sql
+# Step 200 : Uses standard snapshot/full apply looking for changes between trans and target table
 #-------------------------------------------------------------------------------
 
-step 001 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v STEP_NO=001 \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v JOB="${JOB:?}" ${STEP_DIR:?}/LoadStartOptimised.sql
-
-#-------------------------------------------------------------------------------
-# Step 003 : Get the RUNID parameter
-#-------------------------------------------------------------------------------
-
-# need to grab the run id so we can append it to the report files to make it unique
-step 003 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v STEP_NO="003" -v INSTANCE="${INSTANCE:?}" \
-              -v MET_V="${MET_V:?}" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/GetRunId.sql
-
-RUN_ID=$(tjc_stepout -l | awk '/^RUN_ID;/{print $2}')
-
-#-------------------------------------------------------------------------------
-# Step 005 : GetPrecedingJobs
-#-------------------------------------------------------------------------------
-
-step 005 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
+step 200 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
               -v MET_V="${MET_V}" \
               -v JOB="${JOB:?}" \
-              -v STEP_NO=005 \
+              -v STEP_NO=200 \
               -v INSTANCE="${INSTANCE:?}" \
-              -v PARAM_TXT="RUNDATE" -v PARAM_FORMAT="YYYY-MM-DD" \
-              -v PARAM_COL="PARAM_DT" -v PARAM_TYPE="DATE" \
-              ${STEP_DIR:?}/GetPrecedingJobs.sql
-
-PRECEDING_JOBS=$(tjc_stepout -l | awk '/^PRECEDING_JOB/ { print $2" "$3" "$4 }')
-PRECEDING_JOBS=${PRECEDING_JOBS:}
+              -v STREAMID="${STREAMID:?}" \
+              -v LDTK_DATE="${LDTK_DATE:?}" \
+              -v LDTK_PREV_DATE="${LDTK_PREV_DATE:?}" \
+              -v LDTK_NEXT_DATE="${LDTK_NEXT_DATE:?}" \
+              -v RUN_ID="${RUN_ID:?}" \
+              -v RUNID="${RUN_ID:?}" \
+              -v EFF_FROM_DT="${EFF_FROM_DT:?}" \
+              -v CALENDAR_DT="${CALENDAR_DT:?}" \
+              -v YEAR_START_DT="${YEAR_START_DT:?}" \
+              -v YEAR_END_DT="${YEAR_END_DT:?}" \
+              -v PERIOD_START_DT="${PERIOD_START_DT:?}" \
+              -v PERIOD_END_DT="${PERIOD_END_DT:?}" \
+              -v WEEK_START_DT="${WEEK_START_DT:?}" \
+              -v WEEK_END_DT="${WEEK_END_DT:?}" \
+              -v DAY_OF_YEAR_NUM="${DAY_OF_YEAR_NUM:?}" \
+              -v DAY_OF_PERIOD_NUM="${DAY_OF_PERIOD_NUM:?}" \
+              -v DAY_OF_WEEK_NUM="${DAY_OF_WEEK_NUM:?}" \
+              -v WEEK_OF_YEAR_NUM="${WEEK_OF_YEAR_NUM:?}" \
+              -v WEEK_OF_PERIOD_NUM="${WEEK_OF_PERIOD_NUM:?}" \
+              -v PERIOD_OF_YEAR_NUM="${PERIOD_OF_YEAR_NUM:?}" \
+              -v YEAR_WEEK="${YEAR_WEEK:?}" \
+              -v YEAR_PERIOD="${YEAR_PERIOD:?}" \
+              -v YEAR_NUM="${YEAR_NUM:?}" \
+              -v SEASON_CODE="${SEASON_CODE:?}" \
+              -v SEASON_NAME="${SEASON_NAME:?}" \
+              -v SEASON_DESCRIPTION="${SEASON_DESCRIPTION:?}" \
+              -v LY_CALENDAR_DT="${LY_CALENDAR_DT:?}" \
+              -v LY_YEAR_START_DT="${LY_YEAR_START_DT:?}" \
+              -v LY_YEAR_END_DT="${LY_YEAR_END_DT:?}" \
+              -v LY_PERIOD_START_DT="${LY_PERIOD_START_DT:?}" \
+              -v LY_PERIOD_END_DT="${LY_PERIOD_END_DT:?}" \
+              -v LY_WEEK_START_DT="${LY_WEEK_START_DT:?}" \
+              -v LY_WEEK_END_DT="${LY_WEEK_END_DT:?}" \
+              -v LY_DAY_OF_YEAR_NUM="${LY_DAY_OF_YEAR_NUM:?}" \
+              -v LY_DAY_OF_PERIOD_NUM="${LY_DAY_OF_PERIOD_NUM:?}" \
+              -v LY_DAY_OF_WEEK_NUM="${LY_DAY_OF_WEEK_NUM:?}" \
+              -v LY_WEEK_OF_YEAR_NUM="${LY_WEEK_OF_YEAR_NUM:?}" \
+              -v LY_WEEK_OF_PERIOD_NUM="${LY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LY_PERIOD_OF_YEAR_NUM="${LY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LY_YEAR_WEEK="${LY_YEAR_WEEK:?}" \
+              -v LY_YEAR_PERIOD="${LY_YEAR_PERIOD:?}" \
+              -v LY_YEAR_NUM="${LY_YEAR_NUM:?}" \
+              -v LLY_CALENDAR_DT="${LLY_CALENDAR_DT:?}" \
+              -v LLY_YEAR_START_DT="${LLY_YEAR_START_DT:?}" \
+              -v LLY_YEAR_END_DT="${LLY_YEAR_END_DT:?}" \
+              -v LLY_PERIOD_START_DT="${LLY_PERIOD_START_DT:?}" \
+              -v LLY_PERIOD_END_DT="${LLY_PERIOD_END_DT:?}" \
+              -v LLY_WEEK_START_DT="${LLY_WEEK_START_DT:?}" \
+              -v LLY_WEEK_END_DT="${LLY_WEEK_END_DT:?}" \
+              -v LLY_DAY_OF_YEAR_NUM="${LLY_DAY_OF_YEAR_NUM:?}" \
+              -v LLY_DAY_OF_PERIOD_NUM="${LLY_DAY_OF_PERIOD_NUM:?}" \
+              -v LLY_DAY_OF_WEEK_NUM="${LLY_DAY_OF_WEEK_NUM:?}" \
+              -v LLY_WEEK_OF_YEAR_NUM="${LLY_WEEK_OF_YEAR_NUM:?}" \
+              -v LLY_WEEK_OF_PERIOD_NUM="${LLY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LLY_PERIOD_OF_YEAR_NUM="${LLY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LLY_YEAR_WEEK="${LLY_YEAR_WEEK:?}" \
+              -v LLY_YEAR_PERIOD="${LLY_YEAR_PERIOD:?}" \
+              -v LLY_YEAR_NUM="${LLY_YEAR_NUM:?}" \
+              -v LLLY_CALENDAR_DT="${LLLY_CALENDAR_DT:?}" \
+              -v LLLY_YEAR_START_DT="${LLLY_YEAR_START_DT:?}" \
+              -v LLLY_YEAR_END_DT="${LLLY_YEAR_END_DT:?}" \
+              -v LLLY_PERIOD_START_DT="${LLLY_PERIOD_START_DT:?}" \
+              -v LLLY_PERIOD_END_DT="${LLLY_PERIOD_END_DT:?}" \
+              -v LLLY_WEEK_START_DT="${LLLY_WEEK_START_DT:?}" \
+              -v LLLY_WEEK_END_DT="${LLLY_WEEK_END_DT:?}" \
+              -v LLLY_DAY_OF_YEAR_NUM="${LLLY_DAY_OF_YEAR_NUM:?}" \
+              -v LLLY_DAY_OF_PERIOD_NUM="${LLLY_DAY_OF_PERIOD_NUM:?}" \
+              -v LLLY_DAY_OF_WEEK_NUM="${LLLY_DAY_OF_WEEK_NUM:?}" \
+              -v LLLY_WEEK_OF_YEAR_NUM="${LLLY_WEEK_OF_YEAR_NUM:?}" \
+              -v LLLY_WEEK_OF_PERIOD_NUM="${LLLY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LLLY_PERIOD_OF_YEAR_NUM="${LLLY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LLLY_YEAR_WEEK="${LLLY_YEAR_WEEK:?}" \
+              -v LLLY_YEAR_PERIOD="${LLLY_YEAR_PERIOD:?}" \
+              -v LLLY_YEAR_NUM="${LLLY_YEAR_NUM:?}" \
+              -v NY_CALENDAR_DT="${NY_CALENDAR_DT:?}" \
+              -v NY_YEAR_START_DT="${NY_YEAR_START_DT:?}" \
+              -v NY_YEAR_END_DT="${NY_YEAR_END_DT:?}" \
+              -v NY_PERIOD_START_DT="${NY_PERIOD_START_DT:?}" \
+              -v NY_PERIOD_END_DT="${NY_PERIOD_END_DT:?}" \
+              -v NY_WEEK_START_DT="${NY_WEEK_START_DT:?}" \
+              -v NY_WEEK_END_DT="${NY_WEEK_END_DT:?}" \
+              -v NY_DAY_OF_YEAR_NUM="${NY_DAY_OF_YEAR_NUM:?}" \
+              -v NY_DAY_OF_PERIOD_NUM="${NY_DAY_OF_PERIOD_NUM:?}" \
+              -v NY_DAY_OF_WEEK_NUM="${NY_DAY_OF_WEEK_NUM:?}" \
+              -v NY_WEEK_OF_YEAR_NUM="${NY_WEEK_OF_YEAR_NUM:?}" \
+              -v NY_WEEK_OF_PERIOD_NUM="${NY_WEEK_OF_PERIOD_NUM:?}" \
+              -v NY_PERIOD_OF_YEAR_NUM="${NY_PERIOD_OF_YEAR_NUM:?}" \
+              -v NY_YEAR_WEEK="${NY_YEAR_WEEK:?}" \
+              -v NY_YEAR_PERIOD="${NY_YEAR_PERIOD:?}" \
+              -v NY_YEAR_NUM="${NY_YEAR_NUM:?}" \
+              ${STEP_DIR:?}/FND1013.200.VALID.sql
 
 #-------------------------------------------------------------------------------
-# Step 006 : WaitForPrecedingJobs
+# Step 300 : Used standard snapshot/full apply 
 #-------------------------------------------------------------------------------
 
-step 006 "WaitForPrecedingJobs"
-
-#------------------------------------------------------------------------------------
-# Step 010 : Set Parameter Report Date
-#------------------------------------------------------------------------------------
-
-step 010 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v STEP_NO=010 \
-              -v INSTANCE="${INSTANCE:?}" \
+step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
               -v MET_V="${MET_V}" \
-              -v PARAM_COL="PARAM_DT" -v NEW_PARAM_VALUE="CURRENT_DATE" \
-              -v PARAM_TXT="RUNDATE" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/SetParam.sql
+              -v JOB="${JOB:?}" \
+              -v STEP_NO=300 \
+              -v INSTANCE="${INSTANCE:?}" \
+              -v STREAMID="${STREAMID:?}" \
+              -v LDTK_DATE="${LDTK_DATE:?}" \
+              -v LDTK_PREV_DATE="${LDTK_PREV_DATE:?}" \
+              -v LDTK_NEXT_DATE="${LDTK_NEXT_DATE:?}" \
+              -v RUN_ID="${RUN_ID:?}" \
+              -v RUNID="${RUN_ID:?}" \
+              -v EFF_FROM_DT="${EFF_FROM_DT:?}" \
+              -v CALENDAR_DT="${CALENDAR_DT:?}" \
+              -v YEAR_START_DT="${YEAR_START_DT:?}" \
+              -v YEAR_END_DT="${YEAR_END_DT:?}" \
+              -v PERIOD_START_DT="${PERIOD_START_DT:?}" \
+              -v PERIOD_END_DT="${PERIOD_END_DT:?}" \
+              -v WEEK_START_DT="${WEEK_START_DT:?}" \
+              -v WEEK_END_DT="${WEEK_END_DT:?}" \
+              -v DAY_OF_YEAR_NUM="${DAY_OF_YEAR_NUM:?}" \
+              -v DAY_OF_PERIOD_NUM="${DAY_OF_PERIOD_NUM:?}" \
+              -v DAY_OF_WEEK_NUM="${DAY_OF_WEEK_NUM:?}" \
+              -v WEEK_OF_YEAR_NUM="${WEEK_OF_YEAR_NUM:?}" \
+              -v WEEK_OF_PERIOD_NUM="${WEEK_OF_PERIOD_NUM:?}" \
+              -v PERIOD_OF_YEAR_NUM="${PERIOD_OF_YEAR_NUM:?}" \
+              -v YEAR_WEEK="${YEAR_WEEK:?}" \
+              -v YEAR_PERIOD="${YEAR_PERIOD:?}" \
+              -v YEAR_NUM="${YEAR_NUM:?}" \
+              -v SEASON_CODE="${SEASON_CODE:?}" \
+              -v SEASON_NAME="${SEASON_NAME:?}" \
+              -v SEASON_DESCRIPTION="${SEASON_DESCRIPTION:?}" \
+              -v LY_CALENDAR_DT="${LY_CALENDAR_DT:?}" \
+              -v LY_YEAR_START_DT="${LY_YEAR_START_DT:?}" \
+              -v LY_YEAR_END_DT="${LY_YEAR_END_DT:?}" \
+              -v LY_PERIOD_START_DT="${LY_PERIOD_START_DT:?}" \
+              -v LY_PERIOD_END_DT="${LY_PERIOD_END_DT:?}" \
+              -v LY_WEEK_START_DT="${LY_WEEK_START_DT:?}" \
+              -v LY_WEEK_END_DT="${LY_WEEK_END_DT:?}" \
+              -v LY_DAY_OF_YEAR_NUM="${LY_DAY_OF_YEAR_NUM:?}" \
+              -v LY_DAY_OF_PERIOD_NUM="${LY_DAY_OF_PERIOD_NUM:?}" \
+              -v LY_DAY_OF_WEEK_NUM="${LY_DAY_OF_WEEK_NUM:?}" \
+              -v LY_WEEK_OF_YEAR_NUM="${LY_WEEK_OF_YEAR_NUM:?}" \
+              -v LY_WEEK_OF_PERIOD_NUM="${LY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LY_PERIOD_OF_YEAR_NUM="${LY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LY_YEAR_WEEK="${LY_YEAR_WEEK:?}" \
+              -v LY_YEAR_PERIOD="${LY_YEAR_PERIOD:?}" \
+              -v LY_YEAR_NUM="${LY_YEAR_NUM:?}" \
+              -v LLY_CALENDAR_DT="${LLY_CALENDAR_DT:?}" \
+              -v LLY_YEAR_START_DT="${LLY_YEAR_START_DT:?}" \
+              -v LLY_YEAR_END_DT="${LLY_YEAR_END_DT:?}" \
+              -v LLY_PERIOD_START_DT="${LLY_PERIOD_START_DT:?}" \
+              -v LLY_PERIOD_END_DT="${LLY_PERIOD_END_DT:?}" \
+              -v LLY_WEEK_START_DT="${LLY_WEEK_START_DT:?}" \
+              -v LLY_WEEK_END_DT="${LLY_WEEK_END_DT:?}" \
+              -v LLY_DAY_OF_YEAR_NUM="${LLY_DAY_OF_YEAR_NUM:?}" \
+              -v LLY_DAY_OF_PERIOD_NUM="${LLY_DAY_OF_PERIOD_NUM:?}" \
+              -v LLY_DAY_OF_WEEK_NUM="${LLY_DAY_OF_WEEK_NUM:?}" \
+              -v LLY_WEEK_OF_YEAR_NUM="${LLY_WEEK_OF_YEAR_NUM:?}" \
+              -v LLY_WEEK_OF_PERIOD_NUM="${LLY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LLY_PERIOD_OF_YEAR_NUM="${LLY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LLY_YEAR_WEEK="${LLY_YEAR_WEEK:?}" \
+              -v LLY_YEAR_PERIOD="${LLY_YEAR_PERIOD:?}" \
+              -v LLY_YEAR_NUM="${LLY_YEAR_NUM:?}" \
+              -v LLLY_CALENDAR_DT="${LLLY_CALENDAR_DT:?}" \
+              -v LLLY_YEAR_START_DT="${LLLY_YEAR_START_DT:?}" \
+              -v LLLY_YEAR_END_DT="${LLLY_YEAR_END_DT:?}" \
+              -v LLLY_PERIOD_START_DT="${LLLY_PERIOD_START_DT:?}" \
+              -v LLLY_PERIOD_END_DT="${LLLY_PERIOD_END_DT:?}" \
+              -v LLLY_WEEK_START_DT="${LLLY_WEEK_START_DT:?}" \
+              -v LLLY_WEEK_END_DT="${LLLY_WEEK_END_DT:?}" \
+              -v LLLY_DAY_OF_YEAR_NUM="${LLLY_DAY_OF_YEAR_NUM:?}" \
+              -v LLLY_DAY_OF_PERIOD_NUM="${LLLY_DAY_OF_PERIOD_NUM:?}" \
+              -v LLLY_DAY_OF_WEEK_NUM="${LLLY_DAY_OF_WEEK_NUM:?}" \
+              -v LLLY_WEEK_OF_YEAR_NUM="${LLLY_WEEK_OF_YEAR_NUM:?}" \
+              -v LLLY_WEEK_OF_PERIOD_NUM="${LLLY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LLLY_PERIOD_OF_YEAR_NUM="${LLLY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LLLY_YEAR_WEEK="${LLLY_YEAR_WEEK:?}" \
+              -v LLLY_YEAR_PERIOD="${LLLY_YEAR_PERIOD:?}" \
+              -v LLLY_YEAR_NUM="${LLLY_YEAR_NUM:?}" \
+              -v NY_CALENDAR_DT="${NY_CALENDAR_DT:?}" \
+              -v NY_YEAR_START_DT="${NY_YEAR_START_DT:?}" \
+              -v NY_YEAR_END_DT="${NY_YEAR_END_DT:?}" \
+              -v NY_PERIOD_START_DT="${NY_PERIOD_START_DT:?}" \
+              -v NY_PERIOD_END_DT="${NY_PERIOD_END_DT:?}" \
+              -v NY_WEEK_START_DT="${NY_WEEK_START_DT:?}" \
+              -v NY_WEEK_END_DT="${NY_WEEK_END_DT:?}" \
+              -v NY_DAY_OF_YEAR_NUM="${NY_DAY_OF_YEAR_NUM:?}" \
+              -v NY_DAY_OF_PERIOD_NUM="${NY_DAY_OF_PERIOD_NUM:?}" \
+              -v NY_DAY_OF_WEEK_NUM="${NY_DAY_OF_WEEK_NUM:?}" \
+              -v NY_WEEK_OF_YEAR_NUM="${NY_WEEK_OF_YEAR_NUM:?}" \
+              -v NY_WEEK_OF_PERIOD_NUM="${NY_WEEK_OF_PERIOD_NUM:?}" \
+              -v NY_PERIOD_OF_YEAR_NUM="${NY_PERIOD_OF_YEAR_NUM:?}" \
+              -v NY_YEAR_WEEK="${NY_YEAR_WEEK:?}" \
+              -v NY_YEAR_PERIOD="${NY_YEAR_PERIOD:?}" \
+              -v NY_YEAR_NUM="${NY_YEAR_NUM:?}" \
+              ${STEP_DIR:?}/FND1013.300.TARGET.sql
 
-#----------------------------------------------------------------------------------
-# Set 015 : Get Timestamp - placed in TJC for restartablity
-#----------------------------------------------------------------------------------
 
-step 015 date +%Y%m%d%H%M%S
+#-------------------------------------------------------------------
+# Include common stop script for job execution
+#-------------------------------------------------------------------
+. $HOME/jobs/FNDSTOP.job
 
-FNTMSTMP=$(tjc_stepout -l)
-EXPORT_FILE=${FNPREFIX:?}${FNTMSTMP:?}_01.${FNTYPE}
-EXPORT_FILE_COMPRESS=${FNPREFIX:?}${FNTMSTMP:?}_01.${FNTYPE}.${FNCTYPE}
-echo FNTMSTMP=${FNTMSTMP}
-echo EXPORT_FILE=${EXPORT_FILE}
-echo EXPORT_FILE_COMPRESS=${EXPORT_FILE_COMPRESS}
-
-
-#-------------------------------------------------------------------------------
-# Step 020 : Get the parameters
-#-------------------------------------------------------------------------------
-
-# Set default time parameter
-JOB_PARAM_TS_FORMAT=${JOB_PARAM_TS_FORMAT:="YYYY-MM-DD HH:MI:SS"}
-# Set Work file
-JOB_PARAM_WORKFILE=$(tjc_workfile -c JOB_PARAM)
-step 020 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v JOB_PARAM_DT_FORMAT="${JOB_PARAM_DT_FORMAT:=YYYY-MM-DD}"\
-              -v JOB_PARAM_DT_ALT_FORMAT="${JOB_PARAM_DT_FORMAT:=IGNORE}"\
-              -v JOB_PARAM_TS_FORMAT="${JOB_PARAM_TS_FORMAT}"\
-              -v JOB_PARAM_INT_FORMAT="${JOB_PARAM_INT_FORMAT:=TM}"\
-              -v STEP_NO="020" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/GetALLParams.sql
-
-tjc_stepout -l|grep ^\!|cut -d\! -f2 >${JOB_PARAM_WORKFILE}
-
-# Set environment parameters
-. ${JOB_PARAM_WORKFILE}
-
-# Overwrite parameters with command line
-export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
-ddd# TODO
-#------------------------------------------------------------------------------------
-# Step 900 : Load Stop
-#------------------------------------------------------------------------------------
-
-step 900 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v INSERTED_STAGING="${INSERTED_STAGING}" \
-              -v REJECTED_STAGING="${REJECTED_STAGING}" \
-              -v DUPLICATE_STAGING="${DUPLICATE_STAGING}" \
-              -v INSERTED_TARGET="${INSERTED_TARGET}" \
-              -v REJECTED_TARGET="${REJECTED_TARGET}" \
-              -v DUPLICATE_TARGET="${DUPLICATE_TARGET}" \
-              -v RUN_ID="${RUN_ID}" \
-              -v STEP_NO="900" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB="${JOB:?}" ${STEP_DIR:?}/LoadStopOptimised.sql
 #-----------------------------------------------------------
 # End
 #-----------------------------------------------------------

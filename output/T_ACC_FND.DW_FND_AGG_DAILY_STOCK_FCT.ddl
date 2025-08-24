@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,96 +10,98 @@
 /* Create table for DW_FND_AGG_DAILY_STOCK_FCT = */
 CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT
     (
-    business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    location_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL ,
-    location_soh_units INTEGER NOT NULL ,
-    depot_soh_units INTEGER NOT NULL ,
-    location_pack_units INTEGER NOT NULL ,
-    depot_pack_units INTEGER NOT NULL ,
-    location_retail_amount DECIMAL(18,10) NOT NULL ,
-    depot_retail_amount DECIMAL(18,10) NOT NULL ,
-    unit_cost_amount INTEGER NOT NULL ,
-    unit_retail_amount INTEGER NOT NULL ,
-    on_order_units INTEGER NOT NULL ,
-    on_order_cost_amount DECIMAL(18,10) NOT NULL ,
-    on_order_retail_amount DECIMAL(18,10) NOT NULL ,
-    on_order_pack_units INTEGER NOT NULL ,
-    return_to_vendor_cost_amount DECIMAL(18,10) NOT NULL ,
-    return_to_vendor_retail_amount DECIMAL(18,10) NOT NULL ,
-    return_to_vendor_units INTEGER NOT NULL ,
-    return_to_vendor_pack_units INTEGER NOT NULL ,
-    transfer_expected_retail_amount DECIMAL(18,10) NOT NULL ,
-    transfer_expected_pack_units INTEGER NOT NULL ,
-    transfer_expected_cost_amount DECIMAL(18,10) NOT NULL ,
-    transfer_expected_units INTEGER NOT NULL ,
-    transfer_reserved_retail_amount DECIMAL(18,10) NOT NULL ,
-    transfer_reserved_pack_units INTEGER NOT NULL ,
-    transfer_reserved_cost_amount DECIMAL(18,10) NOT NULL ,
-    transfer_reserved_units INTEGER NOT NULL ,
-    in_transit_retail_amount DECIMAL(18,10) NOT NULL ,
-    in_transit_pack_units INTEGER NOT NULL ,
-    in_transit_units INTEGER NOT NULL ,
-    in_transit_cost_amount DECIMAL(18,10) NOT NULL ,
-    non_sellable_retail_amount DECIMAL(18,10) NOT NULL ,
-    non_sellable_pack_units INTEGER NOT NULL ,
-    non_sellable_cost_amount DECIMAL(18,10) NOT NULL ,
-    non_sellable_units INTEGER NOT NULL ,
-    stock_count_units INTEGER NOT NULL ,
-    stock_count_snapshot_units INTEGER NOT NULL ,
-    stock_count_retail_amt DECIMAL(18,10) NOT NULL ,
-    stock_count_snapshot_retail_amt DECIMAL(18,10) NOT NULL ,
-    total_stock_loss_units INTEGER NOT NULL ,
-    total_stock_loss_value DECIMAL(18,10) NOT NULL ,
-    damaged_adjustment_units INTEGER NOT NULL ,
-    damaged_adjustment_amount DECIMAL(18,10) NOT NULL ,
-    soiled_adjustment_units INTEGER NOT NULL ,
-    soiled_adjustment_amount DECIMAL(18,10) NOT NULL ,
-    auto_adjustment_units INTEGER NOT NULL ,
-    auto_adjustment_amount DECIMAL(18,10) NOT NULL ,
-    other_adjustment_units INTEGER NOT NULL ,
-    other_adjustment_amount DECIMAL(18,10) NOT NULL ,
-    psr_blocked_units INTEGER NOT NULL ,
-    psr_retail_amount DECIMAL(18,10) NOT NULL ,
-    psr_blocked_pack_units INTEGER NOT NULL ,
-    psr_blocked_cost_amount DECIMAL(18,10) NOT NULL ,
-    trasfer_ship_units INTEGER NOT NULL ,
-    trasfer_ship_retail_amount DECIMAL(18,10) NOT NULL ,
-    trasfer_ship_cost_amount DECIMAL(18,10) NOT NULL ,
-    stock_cnt_adj_units INTEGER NOT NULL ,
-    stock_cnt_adj_retail_value DECIMAL(18,10) NOT NULL ,
-    soh_age_in_weeks SMALLINT NOT NULL ,
-    transfer_outst_units INTEGER NOT NULL ,
-    transfer_outst_retail_value DECIMAL(18,10) NOT NULL ,
-    transfer_act_repo_cost_value DECIMAL(18,10) NOT NULL ,
-    transfer_act_upchrg_cost_value DECIMAL(18,10) NOT NULL ,
-    transfer_act_upchrg_unit_cost INTEGER NOT NULL ,
-    nlp_stock_value DECIMAL(18,10) NOT NULL ,
-    nlp_stock_units INTEGER NOT NULL ,
-    ras_units INTEGER NOT NULL ,
-    listed_stock INTEGER NOT NULL ,
-    carryover_units INTEGER NOT NULL ,
-    carryover_value DECIMAL(18,10) NOT NULL ,
-    price_action_week DATE NOT NULL ,
-    price_status CHAR(1) NOT NULL ,
-    transfer_outst_cost_value DECIMAL(18,10) NOT NULL ,
-    tsf_intake_qty INTEGER NOT NULL ,
-    tsf_intake_retail_amount DECIMAL(18,10) NOT NULL ,
-    tsf_intake_cost_amount DECIMAL(18,10) NOT NULL ,
-    ras_stock_value DECIMAL(18,10) NOT NULL ,
-    stock_unit_av_cost_amount INTEGER NOT NULL ,
-    wkly_flg CHAR(1) NOT NULL ,
-    listing_flg CHAR(1) NOT NULL ,
+    business_date DATE NOT NULL   ,
+    loc_wid INTEGER NOT NULL   ,
+    item_wid BIGINT NOT NULL   ,
+    location_soh_units INTEGER NOT NULL   COMPRESS(0)  ,
+    depot_soh_units INTEGER NOT NULL   COMPRESS(0)  ,
+    location_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    depot_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    location_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    depot_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    unit_cost_amount INTEGER NOT NULL   COMPRESS(0)  ,
+    unit_retail_amount INTEGER NOT NULL   COMPRESS(0)  ,
+    on_order_units INTEGER NOT NULL   COMPRESS(0)  ,
+    on_order_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    on_order_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    on_order_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    return_to_vendor_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    return_to_vendor_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    return_to_vendor_units INTEGER NOT NULL   COMPRESS(0)  ,
+    return_to_vendor_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    transfer_expected_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_expected_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    transfer_expected_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_expected_units INTEGER NOT NULL   COMPRESS(0)  ,
+    transfer_reserved_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_reserved_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    transfer_reserved_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_reserved_units INTEGER NOT NULL   COMPRESS(0)  ,
+    in_transit_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    in_transit_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    in_transit_units INTEGER NOT NULL   COMPRESS(0)  ,
+    in_transit_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    non_sellable_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    non_sellable_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    non_sellable_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    non_sellable_units INTEGER NOT NULL   COMPRESS(0)  ,
+    stock_count_units INTEGER NOT NULL   COMPRESS(0)  ,
+    stock_count_snapshot_units INTEGER NOT NULL   COMPRESS(0)  ,
+    stock_count_retail_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    stock_count_snapshot_retail_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    total_stock_loss_units INTEGER NOT NULL   COMPRESS(0)  ,
+    total_stock_loss_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    damaged_adjustment_units INTEGER NOT NULL   COMPRESS(0)  ,
+    damaged_adjustment_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    soiled_adjustment_units INTEGER NOT NULL   COMPRESS(0)  ,
+    soiled_adjustment_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    auto_adjustment_units INTEGER NOT NULL   COMPRESS(0)  ,
+    auto_adjustment_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    other_adjustment_units INTEGER NOT NULL   COMPRESS(0)  ,
+    other_adjustment_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    psr_blocked_units INTEGER NOT NULL   COMPRESS(0)  ,
+    psr_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    psr_blocked_pack_units INTEGER NOT NULL   COMPRESS(0)  ,
+    psr_blocked_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    trasfer_ship_units INTEGER NOT NULL   COMPRESS(0)  ,
+    trasfer_ship_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    trasfer_ship_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    stock_cnt_adj_units INTEGER NOT NULL   COMPRESS(0)  ,
+    stock_cnt_adj_retail_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    soh_age_in_weeks SMALLINT NOT NULL   ,
+    transfer_outst_units INTEGER NOT NULL   COMPRESS(0)  ,
+    transfer_outst_retail_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_act_repo_cost_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_act_upchrg_cost_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    transfer_act_upchrg_unit_cost INTEGER NOT NULL   COMPRESS(0)  ,
+    nlp_stock_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    nlp_stock_units INTEGER NOT NULL   COMPRESS(0)  ,
+    ras_units INTEGER NOT NULL   COMPRESS(0)  ,
+    listed_stock INTEGER NOT NULL   COMPRESS(0)  ,
+    carryover_units INTEGER NOT NULL   COMPRESS(0)  ,
+    carryover_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    price_action_week INTEGER NOT NULL   ,
+    price_status CHAR(1) NOT NULL   ,
+    transfer_outst_cost_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    tsf_intake_qty INTEGER NOT NULL   COMPRESS(0)  ,
+    tsf_intake_retail_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    tsf_intake_cost_amount DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    ras_stock_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    stock_unit_av_cost_amount INTEGER NOT NULL   COMPRESS(0)  ,
+    lcp_intake DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    lcp_gross DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    wkly_flg CHAR(1) NOT NULL   ,
+    listing_flg CHAR(1) NOT NULL   ,
     /* Control columns for auditing */
     eff_from_dt DATE NOT NULL,
     eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
     del_ind BYTEINT NOT NULL COMPRESS(0),
     run_id INTEGER NOT NULL,
     update_run_id INTEGER COMPRESS(NULL) ,
-    job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
-    update_job_id VARCHAR(30) COMPRESS(NULL)
+    job_id VARCHAR(16) NOT NULL COMPRESS('JOBID'),
+    update_job_id VARCHAR(16) COMPRESS(NULL)
     )
-    PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -111,10 +113,10 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT AS 'This is the fou
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.location_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.item_wid AS 'Item ID Surrogate Key (PK)'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.location_soh_units AS 'This Column is used identify the Primark Location stock on hand units'
@@ -340,6 +342,12 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ras_stock_value AS 
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.stock_unit_av_cost_amount AS 'This Column is used identify the Average cost amount of stock unit'
+;
+
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_intake AS 'This Column is used identify the LCP intake Value'
+;
+
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_gross AS 'This Column is used identify the LCP Gross Value'
 ;
 
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.wkly_flg AS 'Flag to identify the Data is at weekly level or daily level (Y- Yes, N-No)'

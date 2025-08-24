@@ -25,6 +25,7 @@ columns:
   description: Unique identifier for Organization Hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_cd
   column_type: SMALLINT
   column_format: ''
@@ -33,6 +34,7 @@ columns:
   description: Contains the number of the country.
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -43,6 +45,7 @@ columns:
     consists of one or more locations.
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hiery_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -51,6 +54,7 @@ columns:
   description: This is the version of the locs within hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_cd
   column_type: SMALLINT
   column_format: ''
@@ -59,6 +63,7 @@ columns:
   description: This Column is used to identify the Primark Company Code
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -67,6 +72,7 @@ columns:
   description: This Column is used to identify the Primark Company Name
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -75,6 +81,7 @@ columns:
   description: The is the version of locs within company
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_cd
   column_type: SMALLINT
   column_format: ''
@@ -83,6 +90,7 @@ columns:
   description: Uniquely identifies a time zone.
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -93,6 +101,7 @@ columns:
     Zone consists of one or more Primark regions grouped for financial planning purposes.
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -101,6 +110,7 @@ columns:
   description: The is the version of locs within zone
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_cd
   column_type: SMALLINT
   column_format: ''
@@ -109,6 +119,7 @@ columns:
   description: This Column is used identify the Uniquely identifies a region.
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -117,6 +128,7 @@ columns:
   description: Short text reference or label for the region.
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_old
   column_type: VARCHAR(128)
   column_format: ''
@@ -127,6 +139,7 @@ columns:
     county.
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -135,6 +148,7 @@ columns:
   description: The is the version of locs within region
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_cd
   column_type: SMALLINT
   column_format: ''
@@ -143,6 +157,7 @@ columns:
   description: Code for Primark Area(Location)
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -153,6 +168,7 @@ columns:
     a group of countries. Concatenation of Area Number with Area Name
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -161,6 +177,7 @@ columns:
   description: The is the version of locs within area
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_manager_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -169,6 +186,7 @@ columns:
   description: This Column is used identify the Manager name for Primark Zone
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_manager_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -178,6 +196,7 @@ columns:
     region.
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_manager_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -186,6 +205,7 @@ columns:
   description: Person who manages the specific area in the region.
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_mgr_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -194,6 +214,7 @@ columns:
   description: Person who manages the specific area in the region.
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: FND1022
   databasename: DWP01T_ACC_FND

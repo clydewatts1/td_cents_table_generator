@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_TMP_ACC_FND.FND1020_TRANS.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_TMP_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,9 +10,10 @@
 /* Create table for FND1020_TRANS = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND1020_TRANS
     (
-    org_hiery_wid INTEGER NOT NULL ,
-    loc_wid INTEGER NOT NULL ,
-    loc_org_hier_vers_num INTEGER       )
+    org_hiery_wid INTEGER NOT NULL  ,
+    loc_wid INTEGER NOT NULL  ,
+    loc_org_hier_vers_num INTEGER    
+    )
     UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
 ;
 

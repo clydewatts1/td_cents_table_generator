@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_TMP_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,69 +10,70 @@
 /* Create table for FND_STK_FCT_01_FCT_STG = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
     (
-    business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    location_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL ,
-    fct_src_map BYTEINT NOT NULL ,
-    location_soh_units INTEGER  ,
-    depot_soh_units INTEGER  ,
-    location_pack_units INTEGER  ,
-    depot_pack_units INTEGER  ,
-    location_retail_amount DECIMAL(18,10)  ,
-    depot_retail_amount DECIMAL(18,10)  ,
-    unit_cost_amount INTEGER  ,
-    unit_retail_amount INTEGER  ,
-    on_order_units INTEGER  ,
-    on_order_cost_amount DECIMAL(18,10)  ,
-    on_order_retail_amount DECIMAL(18,10)  ,
-    on_order_pack_units INTEGER  ,
-    return_to_vendor_cost_amount DECIMAL(18,10)  ,
-    return_to_vendor_retail_amount DECIMAL(18,10)  ,
-    return_to_vendor_units INTEGER  ,
-    return_to_vendor_pack_units INTEGER  ,
-    transfer_expected_retail_amount DECIMAL(18,10)  ,
-    transfer_expected_pack_units INTEGER  ,
-    transfer_expected_cost_amount DECIMAL(18,10)  ,
-    transfer_expected_units INTEGER  ,
-    transfer_reserved_retail_amount DECIMAL(18,10)  ,
-    transfer_reserved_pack_units INTEGER  ,
-    transfer_reserved_cost_amount DECIMAL(18,10)  ,
-    transfer_reserved_units INTEGER  ,
-    in_transit_retail_amount DECIMAL(18,10)  ,
-    in_transit_pack_units INTEGER  ,
-    in_transit_units INTEGER  ,
-    in_transit_cost_amount DECIMAL(18,10)  ,
-    non_sellable_retail_amount DECIMAL(18,10)  ,
-    non_sellable_pack_units INTEGER  ,
-    non_sellable_cost_amount DECIMAL(18,10)  ,
-    non_sellable_units INTEGER  ,
-    psr_blocked_units INTEGER  ,
-    psr_retail_amount DECIMAL(18,10)  ,
-    psr_blocked_pack_units INTEGER  ,
-    psr_blocked_cost_amount DECIMAL(18,10)  ,
-    carryover_units INTEGER  ,
-    carryover_value DECIMAL(18,10)  ,
-    stock_unit_av_cost_amount INTEGER  ,
-    regular_unit_retail_amt INTEGER  ,
-    damaged_adjustment_units INTEGER  ,
-    damaged_adjustment_amount DECIMAL(18,10)  ,
-    soiled_adjustment_units INTEGER  ,
-    soiled_adjustment_amount DECIMAL(18,10)  ,
-    auto_adjustment_units INTEGER  ,
-    auto_adjustment_amount DECIMAL(18,10)  ,
-    other_adjustment_units INTEGER  ,
-    other_adjustment_amount DECIMAL(18,10)  ,
-    stock_cnt_adj_units INTEGER  ,
-    stock_cnt_adj_retail_value DECIMAL(18,10)  ,
-    listed_stock INTEGER  ,
-    listing_flg CHAR(1)  ,
-    nlp_stock_value DECIMAL(18,10)  ,
-    nlp_stock_units INTEGER  ,
-    ras_units INTEGER  ,
-    ras_stock_value DECIMAL(18,10)  ,
-    price_action_week INTEGER  ,
-    price_status VARCHAR(20)       )
-    PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    business_date DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    loc_wid BIGINT NOT NULL FORMAT '99999' ,
+    item_wid BIGINT NOT NULL  ,
+    fct_src_map BYTEINT NOT NULL   COMPRESS(1) ,
+    location_soh_units INTEGER    COMPRESS(0) ,
+    depot_soh_units INTEGER    COMPRESS(0) ,
+    location_pack_units INTEGER    COMPRESS(0) ,
+    depot_pack_units INTEGER    COMPRESS(0) ,
+    location_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    depot_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    unit_cost_amount INTEGER    COMPRESS(0) ,
+    unit_retail_amount INTEGER    COMPRESS(0) ,
+    on_order_units INTEGER    COMPRESS(0) ,
+    on_order_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    on_order_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    on_order_pack_units INTEGER    COMPRESS(0) ,
+    return_to_vendor_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    return_to_vendor_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    return_to_vendor_units INTEGER    COMPRESS(0) ,
+    return_to_vendor_pack_units INTEGER    COMPRESS(0) ,
+    transfer_expected_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    transfer_expected_pack_units INTEGER    COMPRESS(0) ,
+    transfer_expected_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    transfer_expected_units INTEGER    COMPRESS(0) ,
+    transfer_reserved_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    transfer_reserved_pack_units INTEGER    COMPRESS(0) ,
+    transfer_reserved_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    transfer_reserved_units INTEGER    COMPRESS(0) ,
+    in_transit_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    in_transit_pack_units INTEGER    COMPRESS(0) ,
+    in_transit_units INTEGER    COMPRESS(0) ,
+    in_transit_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    non_sellable_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    non_sellable_pack_units INTEGER    COMPRESS(0) ,
+    non_sellable_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    non_sellable_units INTEGER    COMPRESS(0) ,
+    psr_blocked_units INTEGER    COMPRESS(0) ,
+    psr_retail_amount DECIMAL(18,10)    COMPRESS(0) ,
+    psr_blocked_pack_units INTEGER    COMPRESS(0) ,
+    psr_blocked_cost_amount DECIMAL(18,10)    COMPRESS(0) ,
+    carryover_units INTEGER    COMPRESS(0) ,
+    carryover_value DECIMAL(18,10)    COMPRESS(0) ,
+    stock_unit_av_cost_amount INTEGER    COMPRESS(0) ,
+    regular_unit_retail_amt INTEGER    COMPRESS(0) ,
+    damaged_adjustment_units INTEGER    COMPRESS(0) ,
+    damaged_adjustment_amount DECIMAL(18,10)    COMPRESS(0) ,
+    soiled_adjustment_units INTEGER    COMPRESS(0) ,
+    soiled_adjustment_amount DECIMAL(18,10)    COMPRESS(0) ,
+    auto_adjustment_units INTEGER    COMPRESS(0) ,
+    auto_adjustment_amount DECIMAL(18,10)    COMPRESS(0) ,
+    other_adjustment_units INTEGER    COMPRESS(0) ,
+    other_adjustment_amount DECIMAL(18,10)    COMPRESS(0) ,
+    stock_cnt_adj_units INTEGER    COMPRESS(0) ,
+    stock_cnt_adj_retail_value DECIMAL(18,10)    COMPRESS(0) ,
+    listed_stock INTEGER    COMPRESS(0) ,
+    listing_flg CHAR(1)    COMPRESS(Y') ,
+    nlp_stock_value DECIMAL(18,10)    COMPRESS(0) ,
+    nlp_stock_units INTEGER    COMPRESS(0) ,
+    ras_units INTEGER    COMPRESS(0) ,
+    ras_stock_value DECIMAL(18,10)    COMPRESS(0) ,
+    price_action_week INTEGER    COMPRESS(0) ,
+    price_status VARCHAR(20)    COMPRESS(Regular')  
+    )
+    PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -84,10 +85,10 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG AS 'This is the fou
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.location_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.loc_wid AS 'Location WID ( Location ID - Surrogate Key )'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.item_wid AS 'Item WID ( Item ID - Surrogate Key )'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG.fct_src_map AS 'Bit Map of source of data used in pivot table ( 01 )'

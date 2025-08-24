@@ -1,0 +1,143 @@
+#!/usr/bin/ksh
+# ===============================================================================
+#                      PRIMARK
+#
+# ===============================================================================
+# ===============================================================================
+# File Name           : FND2230.job
+# Pattern             : Staging
+# Purpose             :TBD
+# Author              : Mr Primark
+# File Type           : JOB
+# Creation Date       : 2025-08-15 
+# Build Time          : 2025-08-15 07:57:56
+# -------------------------------------------------------------------------------
+# Change History :
+# Ver  | Date        |  Modified By           |  Change Description
+# -------------------------------------------------------------------------------
+# 0.0  | 2025-08-15 |  Mr Primark              |  INITIAL VERSION
+# ===============================================================================
+
+FPATH=$FPATH:$HOME/includes
+JOB=FND2230
+
+echo ---------------------------------------
+echo JOB=${JOB:?}
+echo ---------------------------------------
+
+#-------------------------------------------------------------------
+# Include common start script for job execution
+#-------------------------------------------------------------------
+. $HOME/jobs/FNDSTART.job
+
+#-------------------------------------------------------------------------------
+# Step 300 : Delete and Insert from trans table x
+#-------------------------------------------------------------------------------
+
+step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
+              -v MET_V="${MET_V}" \
+              -v JOB="${JOB:?}" \
+              -v STEP_NO=300 \
+              -v INSTANCE="${INSTANCE:?}" \
+              -v STREAMID="${STREAMID:?}" \
+              -v LDTK_DATE="${LDTK_DATE:?}" \
+              -v LDTK_PREV_DATE="${LDTK_PREV_DATE:?}" \
+              -v LDTK_NEXT_DATE="${LDTK_NEXT_DATE:?}" \
+              -v RUN_ID="${RUN_ID:?}" \
+              -v RUNID="${RUN_ID:?}" \
+              -v EFF_FROM_DT="${EFF_FROM_DT:?}" \
+              -v CALENDAR_DT="${CALENDAR_DT:?}" \
+              -v YEAR_START_DT="${YEAR_START_DT:?}" \
+              -v YEAR_END_DT="${YEAR_END_DT:?}" \
+              -v PERIOD_START_DT="${PERIOD_START_DT:?}" \
+              -v PERIOD_END_DT="${PERIOD_END_DT:?}" \
+              -v WEEK_START_DT="${WEEK_START_DT:?}" \
+              -v WEEK_END_DT="${WEEK_END_DT:?}" \
+              -v DAY_OF_YEAR_NUM="${DAY_OF_YEAR_NUM:?}" \
+              -v DAY_OF_PERIOD_NUM="${DAY_OF_PERIOD_NUM:?}" \
+              -v DAY_OF_WEEK_NUM="${DAY_OF_WEEK_NUM:?}" \
+              -v WEEK_OF_YEAR_NUM="${WEEK_OF_YEAR_NUM:?}" \
+              -v WEEK_OF_PERIOD_NUM="${WEEK_OF_PERIOD_NUM:?}" \
+              -v PERIOD_OF_YEAR_NUM="${PERIOD_OF_YEAR_NUM:?}" \
+              -v YEAR_WEEK="${YEAR_WEEK:?}" \
+              -v YEAR_PERIOD="${YEAR_PERIOD:?}" \
+              -v YEAR_NUM="${YEAR_NUM:?}" \
+              -v SEASON_CODE="${SEASON_CODE:?}" \
+              -v SEASON_NAME="${SEASON_NAME:?}" \
+              -v SEASON_DESCRIPTION="${SEASON_DESCRIPTION:?}" \
+              -v LY_CALENDAR_DT="${LY_CALENDAR_DT:?}" \
+              -v LY_YEAR_START_DT="${LY_YEAR_START_DT:?}" \
+              -v LY_YEAR_END_DT="${LY_YEAR_END_DT:?}" \
+              -v LY_PERIOD_START_DT="${LY_PERIOD_START_DT:?}" \
+              -v LY_PERIOD_END_DT="${LY_PERIOD_END_DT:?}" \
+              -v LY_WEEK_START_DT="${LY_WEEK_START_DT:?}" \
+              -v LY_WEEK_END_DT="${LY_WEEK_END_DT:?}" \
+              -v LY_DAY_OF_YEAR_NUM="${LY_DAY_OF_YEAR_NUM:?}" \
+              -v LY_DAY_OF_PERIOD_NUM="${LY_DAY_OF_PERIOD_NUM:?}" \
+              -v LY_DAY_OF_WEEK_NUM="${LY_DAY_OF_WEEK_NUM:?}" \
+              -v LY_WEEK_OF_YEAR_NUM="${LY_WEEK_OF_YEAR_NUM:?}" \
+              -v LY_WEEK_OF_PERIOD_NUM="${LY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LY_PERIOD_OF_YEAR_NUM="${LY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LY_YEAR_WEEK="${LY_YEAR_WEEK:?}" \
+              -v LY_YEAR_PERIOD="${LY_YEAR_PERIOD:?}" \
+              -v LY_YEAR_NUM="${LY_YEAR_NUM:?}" \
+              -v LLY_CALENDAR_DT="${LLY_CALENDAR_DT:?}" \
+              -v LLY_YEAR_START_DT="${LLY_YEAR_START_DT:?}" \
+              -v LLY_YEAR_END_DT="${LLY_YEAR_END_DT:?}" \
+              -v LLY_PERIOD_START_DT="${LLY_PERIOD_START_DT:?}" \
+              -v LLY_PERIOD_END_DT="${LLY_PERIOD_END_DT:?}" \
+              -v LLY_WEEK_START_DT="${LLY_WEEK_START_DT:?}" \
+              -v LLY_WEEK_END_DT="${LLY_WEEK_END_DT:?}" \
+              -v LLY_DAY_OF_YEAR_NUM="${LLY_DAY_OF_YEAR_NUM:?}" \
+              -v LLY_DAY_OF_PERIOD_NUM="${LLY_DAY_OF_PERIOD_NUM:?}" \
+              -v LLY_DAY_OF_WEEK_NUM="${LLY_DAY_OF_WEEK_NUM:?}" \
+              -v LLY_WEEK_OF_YEAR_NUM="${LLY_WEEK_OF_YEAR_NUM:?}" \
+              -v LLY_WEEK_OF_PERIOD_NUM="${LLY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LLY_PERIOD_OF_YEAR_NUM="${LLY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LLY_YEAR_WEEK="${LLY_YEAR_WEEK:?}" \
+              -v LLY_YEAR_PERIOD="${LLY_YEAR_PERIOD:?}" \
+              -v LLY_YEAR_NUM="${LLY_YEAR_NUM:?}" \
+              -v LLLY_CALENDAR_DT="${LLLY_CALENDAR_DT:?}" \
+              -v LLLY_YEAR_START_DT="${LLLY_YEAR_START_DT:?}" \
+              -v LLLY_YEAR_END_DT="${LLLY_YEAR_END_DT:?}" \
+              -v LLLY_PERIOD_START_DT="${LLLY_PERIOD_START_DT:?}" \
+              -v LLLY_PERIOD_END_DT="${LLLY_PERIOD_END_DT:?}" \
+              -v LLLY_WEEK_START_DT="${LLLY_WEEK_START_DT:?}" \
+              -v LLLY_WEEK_END_DT="${LLLY_WEEK_END_DT:?}" \
+              -v LLLY_DAY_OF_YEAR_NUM="${LLLY_DAY_OF_YEAR_NUM:?}" \
+              -v LLLY_DAY_OF_PERIOD_NUM="${LLLY_DAY_OF_PERIOD_NUM:?}" \
+              -v LLLY_DAY_OF_WEEK_NUM="${LLLY_DAY_OF_WEEK_NUM:?}" \
+              -v LLLY_WEEK_OF_YEAR_NUM="${LLLY_WEEK_OF_YEAR_NUM:?}" \
+              -v LLLY_WEEK_OF_PERIOD_NUM="${LLLY_WEEK_OF_PERIOD_NUM:?}" \
+              -v LLLY_PERIOD_OF_YEAR_NUM="${LLLY_PERIOD_OF_YEAR_NUM:?}" \
+              -v LLLY_YEAR_WEEK="${LLLY_YEAR_WEEK:?}" \
+              -v LLLY_YEAR_PERIOD="${LLLY_YEAR_PERIOD:?}" \
+              -v LLLY_YEAR_NUM="${LLLY_YEAR_NUM:?}" \
+              -v NY_CALENDAR_DT="${NY_CALENDAR_DT:?}" \
+              -v NY_YEAR_START_DT="${NY_YEAR_START_DT:?}" \
+              -v NY_YEAR_END_DT="${NY_YEAR_END_DT:?}" \
+              -v NY_PERIOD_START_DT="${NY_PERIOD_START_DT:?}" \
+              -v NY_PERIOD_END_DT="${NY_PERIOD_END_DT:?}" \
+              -v NY_WEEK_START_DT="${NY_WEEK_START_DT:?}" \
+              -v NY_WEEK_END_DT="${NY_WEEK_END_DT:?}" \
+              -v NY_DAY_OF_YEAR_NUM="${NY_DAY_OF_YEAR_NUM:?}" \
+              -v NY_DAY_OF_PERIOD_NUM="${NY_DAY_OF_PERIOD_NUM:?}" \
+              -v NY_DAY_OF_WEEK_NUM="${NY_DAY_OF_WEEK_NUM:?}" \
+              -v NY_WEEK_OF_YEAR_NUM="${NY_WEEK_OF_YEAR_NUM:?}" \
+              -v NY_WEEK_OF_PERIOD_NUM="${NY_WEEK_OF_PERIOD_NUM:?}" \
+              -v NY_PERIOD_OF_YEAR_NUM="${NY_PERIOD_OF_YEAR_NUM:?}" \
+              -v NY_YEAR_WEEK="${NY_YEAR_WEEK:?}" \
+              -v NY_YEAR_PERIOD="${NY_YEAR_PERIOD:?}" \
+              -v NY_YEAR_NUM="${NY_YEAR_NUM:?}" \
+              ${STEP_DIR:?}/FND2230.300.TARGET.sql
+
+
+
+#-------------------------------------------------------------------
+# Include common start script for job execution
+#-------------------------------------------------------------------
+. $HOME/jobs/FNDSTART.job
+
+#-----------------------------------------------------------
+# End
+#-----------------------------------------------------------

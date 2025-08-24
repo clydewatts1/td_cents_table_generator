@@ -1,0 +1,20 @@
+{% import 'step_helper.sql.j2' as js -%}
+{{js.step_header(step,job_dict)}}
+
+
+DELETE FROM DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
+;
+
+.IF ERRORCODE <> 0 THEN .QUIT 101
+
+
+
+{% if step.stats != None and step.stats != ''%}
+
+/* Collect statistics for the table */
+COLLECT STATISTICS {{step.stats}} ON DW${INSTANCE}{{step.target_database}}.{{ step.target_table }}
+;
+.IF ERRORCODE <> 0 THEN .QUIT 101
+
+{% endif %}
+/* End of step */

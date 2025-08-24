@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: C_ACC_FND.DW_FND_ITEM_DIM.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}C_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -13,7 +13,9 @@ REPLACE VIEW DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM
 
 SELECT
     item_id ,
+    item_wid ,
     style_id ,
+    styl_wid ,
     product_id ,
     item_name ,
     item_desc ,
@@ -88,7 +90,13 @@ COMMENT ON VIEW DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM AS ''
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM.item_id AS 'ITEM_ID or SKU ORIN'
 ;
 
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM.item_wid AS 'ITEM WID'
+;
+
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM.style_id AS 'Concatenation of the Name and Id of the Style ORIN . A Style defines one or many items(SKU) determined by a single design.'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM.styl_wid AS 'Style Wid'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_ITEM_DIM.product_id AS 'The product id , is style id and color ( style id * 1000 + color )'

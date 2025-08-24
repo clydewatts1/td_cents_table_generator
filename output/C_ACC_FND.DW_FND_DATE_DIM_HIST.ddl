@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: C_ACC_FND.DW_FND_DATE_DIM_HIST.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}C_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -97,6 +97,26 @@ SELECT
     ny_year_week ,
     ny_year_period ,
     ny_year_num ,
+    ty_cstm_cal_dy_wid ,
+    ty_cstm_cal_wk_wid ,
+    ty_cstm_cal_prd_wid ,
+    ty_cstm_cal_yr_wid ,
+    ly_cstm_cal_dy_wid ,
+    ly_cstm_cal_wk_wid ,
+    ly_cstm_cal_prd_wid ,
+    ly_cstm_cal_yr_wid ,
+    lly_cstm_cal_dy_wid ,
+    lly_cstm_cal_wk_wid ,
+    lly_cstm_cal_prd_wid ,
+    lly_cstm_cal_yr_wid ,
+    llly_cstm_cal_dy_wid ,
+    llly_cstm_cal_wk_wid ,
+    llly_cstm_cal_prd_wid ,
+    llly_cstm_cal_yr_wid ,
+    ny_cstm_cal_dy_wid ,
+    ny_cstm_cal_wk_wid ,
+    ny_cstm_cal_prd_wid ,
+    ny_cstm_cal_yr_wid ,
     /* Control columns for auditing */
     eff_from_dt,
     eff_to_dt,
@@ -368,6 +388,66 @@ COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ny_year_period AS 
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ny_year_num AS 'next year number YYYY aligned with primark year'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ty_cstm_cal_dy_wid AS 'Surrogate key for the day in the current year (TY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ty_cstm_cal_wk_wid AS 'Surrogate key for the week in the current year (TY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ty_cstm_cal_prd_wid AS 'Surrogate key for the period (month) in the current year (TY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ty_cstm_cal_yr_wid AS 'Surrogate key for the year of the current year (TY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ly_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day last year (LY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ly_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week last year (LY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ly_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) last year (LY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ly_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year last year (LY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.lly_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day two years ago (LLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.lly_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week two years ago (LLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.lly_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) two years ago (LLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.lly_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year two years ago (LLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.llly_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day three years ago (LLLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.llly_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week three years ago (LLLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.llly_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) three years ago (LLLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.llly_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year three years ago (LLLY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ny_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day next year (NY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ny_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week next year (NY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ny_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) next year (NY).'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_DATE_DIM_HIST.ny_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year next year (NY).'
 ;
 
 

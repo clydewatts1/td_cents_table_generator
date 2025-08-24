@@ -3,18 +3,11 @@ databasename: T_ACC_FND
 table_name: DW_FND_DATE_DIM
 table_description: This is the foundation date dimension
 table_kind: MULTISET
-primary_index: UNIQUE PRIMARY INDEX(calendar_dt)
+primary_index: PRIMARY INDEX(calendar_dt)
 table_option: MAP = TD_1AMPSPARSEMAP_2NODES
 control_columns: FND_STANDARD
 patterns:
-- TABLE
-- AVIEW
-- VVIEW
-- CVIEW
-- TABLE_HIST
-- AVIEW_HIST
-- VVIEW_HIST
-- CVIEW_HIST
+- ''
 table_quote: ''
 columns:
 - column_name: calendar_dt
@@ -25,6 +18,7 @@ columns:
   description: primary key on table
   compression: ''
   quote: ''
+  default: ''
 - column_name: year_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -33,6 +27,7 @@ columns:
   description: primark year start date
   compression: ''
   quote: ''
+  default: ''
 - column_name: year_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -41,6 +36,7 @@ columns:
   description: primark year end date
   compression: ''
   quote: ''
+  default: ''
 - column_name: period_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -49,6 +45,7 @@ columns:
   description: primark period start date
   compression: ''
   quote: ''
+  default: ''
 - column_name: period_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -57,6 +54,7 @@ columns:
   description: primark period end date
   compression: ''
   quote: ''
+  default: ''
 - column_name: week_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -65,6 +63,7 @@ columns:
   description: primark week start date
   compression: ''
   quote: ''
+  default: ''
 - column_name: week_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -73,6 +72,7 @@ columns:
   description: primark week end date
   compression: ''
   quote: ''
+  default: ''
 - column_name: day_of_year_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -81,6 +81,7 @@ columns:
   description: day number within primark year , starting from 1
   compression: ''
   quote: ''
+  default: ''
 - column_name: day_of_period_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -89,6 +90,7 @@ columns:
   description: day number within primark period , starting from 1
   compression: ''
   quote: ''
+  default: ''
 - column_name: day_of_week_num
   column_type: BYTEINT
   column_format: '''99'''
@@ -98,6 +100,7 @@ columns:
     7
   compression: ''
   quote: ''
+  default: ''
 - column_name: week_of_year_num
   column_type: BYTEINT
   column_format: '''99'''
@@ -107,6 +110,7 @@ columns:
     leep week 53
   compression: ''
   quote: ''
+  default: ''
 - column_name: week_of_period_num
   column_type: BYTEINT
   column_format: '''99'''
@@ -116,6 +120,7 @@ columns:
     primark year 5
   compression: ''
   quote: ''
+  default: ''
 - column_name: period_of_year_num
   column_type: BYTEINT
   column_format: '''99'''
@@ -124,6 +129,7 @@ columns:
   description: period within primark year starting from 1
   compression: ''
   quote: ''
+  default: ''
 - column_name: year_week
   column_type: INTEGER
   column_format: '''999999'''
@@ -132,6 +138,7 @@ columns:
   description: primark year week in the form YYYYDD
   compression: ''
   quote: ''
+  default: ''
 - column_name: year_period
   column_type: INTEGER
   column_format: '''999999'''
@@ -140,6 +147,7 @@ columns:
   description: primark year period in the form YYYYPP
   compression: ''
   quote: ''
+  default: ''
 - column_name: year_num
   column_type: INTEGER
   column_format: '''9999'''
@@ -148,6 +156,7 @@ columns:
   description: primark year number YYYY
   compression: ''
   quote: ''
+  default: ''
 - column_name: season_code
   column_type: INTEGER
   column_format: ''
@@ -156,8 +165,9 @@ columns:
   description: this is the season code for this date
   compression: ''
   quote: ''
+  default: ''
 - column_name: season_name
-  column_type: VARCHAR(5)
+  column_type: VARCHAR(6)
   column_format: ''
   is_null: ''
   option: ''
@@ -165,14 +175,16 @@ columns:
     - primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: season_description
-  column_type: VARCHAR(5)
+  column_type: VARCHAR(20)
   column_format: ''
   is_null: ''
   option: ''
   description: This is the season name in words SS AW = 2025 Autumn Winter
   compression: ''
   quote: ''
+  default: ''
 - column_name: season_map
   column_type: BYTE(14)
   column_format: ''
@@ -181,6 +193,7 @@ columns:
   description: This is the bit mapping of the season based on the season_wid
   compression: ''
   quote: ''
+  default: ''
 - column_name: season_wid
   column_type: SMALLINT
   column_format: ''
@@ -189,6 +202,7 @@ columns:
   description: This is the season wid for the season
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_calendar_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -197,6 +211,7 @@ columns:
   description: last year calendar date , aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_year_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -205,6 +220,7 @@ columns:
   description: last year start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_year_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -213,6 +229,7 @@ columns:
   description: last year end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_period_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -221,6 +238,7 @@ columns:
   description: last year period start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_period_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -229,6 +247,7 @@ columns:
   description: last year period end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_week_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -237,6 +256,7 @@ columns:
   description: last year week start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_week_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -245,6 +265,7 @@ columns:
   description: last year week end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_day_of_year_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -254,6 +275,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_day_of_period_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -263,6 +285,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_day_of_week_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -272,6 +295,7 @@ columns:
     Saturday=7, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_week_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -281,6 +305,7 @@ columns:
     with a leap week 53, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_week_of_period_num
   column_type: BIGINT
   column_format: '''99'''
@@ -290,6 +315,7 @@ columns:
     for a leap primark year 5, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_period_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -299,6 +325,7 @@ columns:
     primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_year_week
   column_type: INTEGER
   column_format: '''999999'''
@@ -307,6 +334,7 @@ columns:
   description: last year week in the form YYYYDD aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_year_period
   column_type: INTEGER
   column_format: '''999999'''
@@ -315,6 +343,7 @@ columns:
   description: last year period in the form YYYYPP aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ly_year_num
   column_type: INTEGER
   column_format: '''9999'''
@@ -323,6 +352,7 @@ columns:
   description: last year number YYYY aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_calendar_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -331,6 +361,7 @@ columns:
   description: last last year calendar date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_year_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -339,6 +370,7 @@ columns:
   description: last last year start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_year_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -347,6 +379,7 @@ columns:
   description: last last year end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_period_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -355,6 +388,7 @@ columns:
   description: last last year period start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_period_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -363,6 +397,7 @@ columns:
   description: last last year period end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_week_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -371,6 +406,7 @@ columns:
   description: last last year week start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_week_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -379,6 +415,7 @@ columns:
   description: last last year week end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_day_of_year_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -388,6 +425,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_day_of_period_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -397,6 +435,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_day_of_week_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -406,6 +445,7 @@ columns:
     till Saturday=7, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_week_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -415,6 +455,7 @@ columns:
     52, with a leap week 53, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_week_of_period_num
   column_type: BIGINT
   column_format: '''99'''
@@ -424,6 +465,7 @@ columns:
     4, for a leap primark year 5, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_period_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -433,6 +475,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_year_week
   column_type: INTEGER
   column_format: '''999999'''
@@ -441,6 +484,7 @@ columns:
   description: last last year week in the form YYYYDD aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_year_period
   column_type: INTEGER
   column_format: '''999999'''
@@ -449,6 +493,7 @@ columns:
   description: last last year period in the form YYYYPP aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: lly_year_num
   column_type: INTEGER
   column_format: '''9999'''
@@ -457,6 +502,7 @@ columns:
   description: last last year number YYYY aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_calendar_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -465,6 +511,7 @@ columns:
   description: last last last year calendar date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_year_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -473,6 +520,7 @@ columns:
   description: last last last year start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_year_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -481,6 +529,7 @@ columns:
   description: last last last year end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_period_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -489,6 +538,7 @@ columns:
   description: last last last year period start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_period_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -497,6 +547,7 @@ columns:
   description: last last last year period end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_week_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -505,6 +556,7 @@ columns:
   description: last last last year week start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_week_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -513,6 +565,7 @@ columns:
   description: last last last year week end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_day_of_year_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -522,6 +575,7 @@ columns:
     aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_day_of_period_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -531,6 +585,7 @@ columns:
     1, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_day_of_week_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -540,6 +595,7 @@ columns:
     till Saturday=7, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_week_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -549,6 +605,7 @@ columns:
     1 till 52, with a leap week 53, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_week_of_period_num
   column_type: BIGINT
   column_format: '''99'''
@@ -558,6 +615,7 @@ columns:
     1 till 4, for a leap primark year 5, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_period_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -567,6 +625,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_year_week
   column_type: INTEGER
   column_format: '''999999'''
@@ -575,6 +634,7 @@ columns:
   description: last last last year week in the form YYYYDD aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_year_period
   column_type: INTEGER
   column_format: '''999999'''
@@ -584,6 +644,7 @@ columns:
     year
   compression: ''
   quote: ''
+  default: ''
 - column_name: llly_year_num
   column_type: INTEGER
   column_format: '''9999'''
@@ -592,6 +653,7 @@ columns:
   description: last last last year number YYYY aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_calendar_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -600,6 +662,7 @@ columns:
   description: next year calendar date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_year_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -608,6 +671,7 @@ columns:
   description: next year start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_year_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -616,6 +680,7 @@ columns:
   description: next year end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_period_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -624,6 +689,7 @@ columns:
   description: next year period start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_period_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -632,6 +698,7 @@ columns:
   description: next year period end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_week_start_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -640,6 +707,7 @@ columns:
   description: next year week start date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_week_end_dt
   column_type: DATE
   column_format: '''yyyy-mm-dd'''
@@ -648,6 +716,7 @@ columns:
   description: next year week end date aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_day_of_year_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -657,6 +726,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_day_of_period_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -666,6 +736,7 @@ columns:
     with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_day_of_week_num
   column_type: SMALLINT
   column_format: '''99'''
@@ -675,6 +746,7 @@ columns:
     Saturday=7, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_week_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -684,6 +756,7 @@ columns:
     with a leap week 53, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_week_of_period_num
   column_type: BIGINT
   column_format: '''99'''
@@ -693,6 +766,7 @@ columns:
     for a leap primark year 5, aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_period_of_year_num
   column_type: BIGINT
   column_format: '''99'''
@@ -702,6 +776,7 @@ columns:
     primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_year_week
   column_type: INTEGER
   column_format: '''999999'''
@@ -710,6 +785,7 @@ columns:
   description: next year week in the form YYYYDD aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_year_period
   column_type: INTEGER
   column_format: '''999999'''
@@ -718,6 +794,7 @@ columns:
   description: next year period in the form YYYYPP aligned with primark year
   compression: ''
   quote: ''
+  default: ''
 - column_name: ny_year_num
   column_type: INTEGER
   column_format: '''9999'''
@@ -726,6 +803,188 @@ columns:
   description: next year number YYYY aligned with primark year
   compression: ''
   quote: ''
+  default: ''
+- column_name: ty_cstm_cal_dy_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the day in the current year (TY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ty_cstm_cal_wk_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the week in the current year (TY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ty_cstm_cal_prd_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the period (month) in the current year (TY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ty_cstm_cal_yr_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the year of the current year (TY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ly_cstm_cal_dy_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding day last year (LY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ly_cstm_cal_wk_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding week last year (LY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ly_cstm_cal_prd_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding period (month) last year (LY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ly_cstm_cal_yr_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding year last year (LY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: lly_cstm_cal_dy_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding day two years ago (LLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: lly_cstm_cal_wk_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding week two years ago (LLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: lly_cstm_cal_prd_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding period (month) two years ago (LLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: lly_cstm_cal_yr_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding year two years ago (LLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: llly_cstm_cal_dy_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding day three years ago (LLLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: llly_cstm_cal_wk_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding week three years ago (LLLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: llly_cstm_cal_prd_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding period (month) three years ago
+    (LLLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: llly_cstm_cal_yr_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding year three years ago (LLLY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ny_cstm_cal_dy_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding day next year (NY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ny_cstm_cal_wk_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding week next year (NY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ny_cstm_cal_prd_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding period (month) next year (NY).
+  compression: ''
+  quote: ''
+  default: ''
+- column_name: ny_cstm_cal_yr_wid
+  column_type: BIGINT
+  column_format: ''
+  is_null: ''
+  option: ''
+  description: Surrogate key for the corresponding year next year (NY).
+  compression: ''
+  quote: ''
+  default: ''
 BUILD:
 - jobname: FND1010
   databasename: DWP01T_TMP_ACC_FND

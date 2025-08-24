@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,125 +10,125 @@
 /* Create table for DW_FND_LOC_AGG_DAILY_SALES_FCT = */
 CREATE MULTISET TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT
     (
-    business_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    loc_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL ,
-    Sales_Value DECIMAL(18,10) NOT NULL ,
-    Sales_Units INTEGER NOT NULL ,
-    Sales_Transaction_count INTEGER NOT NULL ,
-    Promotion_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Promotion_Sales_Units INTEGER NOT NULL ,
-    Promotion_Sales_Transaction_count INTEGER NOT NULL ,
-    Clearance_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Clearance_Sales_Units INTEGER NOT NULL ,
-    Clearance_Sales_Transaction_count INTEGER NOT NULL ,
-    Regular_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Regular_Sales_Units INTEGER NOT NULL ,
-    Regular_Sales_Transaction_count INTEGER NOT NULL ,
-    Emp_Discount_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Emp_Discount_Sales_Units INTEGER NOT NULL ,
-    Emp_Discount_Sales_Transaction_count INTEGER NOT NULL ,
-    Cash_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Cash_Sales_Units INTEGER NOT NULL ,
-    Cash_Sales_Transaction_count INTEGER NOT NULL ,
-    Card_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Card_Sales_Units INTEGER NOT NULL ,
-    Card_Sales_Transaction_count INTEGER NOT NULL ,
-    Gift_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Gift_Sales_Units INTEGER NOT NULL ,
-    Gift_Sales_Transaction_count INTEGER NOT NULL ,
-    Others_Sales_Value DECIMAL(18,10) NOT NULL ,
-    Others_Sales_Units INTEGER NOT NULL ,
-    Others_Sales_Transaction_count INTEGER NOT NULL ,
-    Return_Value DECIMAL(18,10) NOT NULL ,
-    Return_Units INTEGER NOT NULL ,
-    Return_Transaction_count INTEGER NOT NULL ,
-    Promotion_Return_Value DECIMAL(18,10) NOT NULL ,
-    Promotion_Return_Units INTEGER NOT NULL ,
-    Promotion_Return_Transaction_count INTEGER NOT NULL ,
-    Clearance_Return_Value DECIMAL(18,10) NOT NULL ,
-    Clearance_Return_Units INTEGER NOT NULL ,
-    Clearance_Return_Transaction_count INTEGER NOT NULL ,
-    Regular_Return_Value DECIMAL(18,10) NOT NULL ,
-    Regular_Return_Units INTEGER NOT NULL ,
-    Regular_Return_Transaction_count INTEGER NOT NULL ,
-    Emp_Discount_Return_Value DECIMAL(18,10) NOT NULL ,
-    Emp_Discount_Return_Units INTEGER NOT NULL ,
-    Emp_Discount_Return_Transaction_count INTEGER NOT NULL ,
-    Cash_Return_Value DECIMAL(18,10) NOT NULL ,
-    Cash_Return_Units INTEGER NOT NULL ,
-    Cash_Return_Transaction_count INTEGER NOT NULL ,
-    Card_Return_Value DECIMAL(18,10) NOT NULL ,
-    Card_Return_Units INTEGER NOT NULL ,
-    Card_Return_Transaction_count INTEGER NOT NULL ,
-    Gift_Return_Value DECIMAL(18,10) NOT NULL ,
-    Gift_Return_Units INTEGER NOT NULL ,
-    Gift_Return_Transaction_count INTEGER NOT NULL ,
-    Others_Return_Value DECIMAL(18,10) NOT NULL ,
-    Others_Return_Units INTEGER NOT NULL ,
-    Others_Return_Transaction_count INTEGER NOT NULL ,
-    exchange_Value DECIMAL(18,10) NOT NULL ,
-    exchange_Units INTEGER NOT NULL ,
-    exchange_Transaction_count INTEGER NOT NULL ,
-    Promotion_Exchange_Value DECIMAL(18,10) NOT NULL ,
-    Promotion_exchange_Units INTEGER NOT NULL ,
-    Promotion_exchange_Transaction_count INTEGER NOT NULL ,
-    Clearance_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Clearance_exchange_Units INTEGER NOT NULL ,
-    Clearance_exchange_Transaction_count INTEGER NOT NULL ,
-    Regular_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Regular_exchange_Units INTEGER NOT NULL ,
-    Regular_exchange_Transaction_count INTEGER NOT NULL ,
-    Emp_Discount_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Emp_Discount_exchange_Units INTEGER NOT NULL ,
-    Emp_Discount_exchange_Transaction_count INTEGER NOT NULL ,
-    Cash_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Cash_exchange_Units INTEGER NOT NULL ,
-    Cash_exchange_Transaction_count INTEGER NOT NULL ,
-    Card_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Card_exchange_Units INTEGER NOT NULL ,
-    Card_exchange_Transaction_count INTEGER NOT NULL ,
-    Gift_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Gift_exchange_Units INTEGER NOT NULL ,
-    Gift_exchange_Transaction_count INTEGER NOT NULL ,
-    Others_exchange_Value DECIMAL(18,10) NOT NULL ,
-    Others_exchange_Units INTEGER NOT NULL ,
-    Others_exchange_Transaction_count INTEGER NOT NULL ,
-    SALES_TAX_AMT DECIMAL(18,10) NOT NULL ,
-    RETURN_TAX_AMT DECIMAL(18,10) NOT NULL ,
-    Void_Transaction_count INTEGER NOT NULL ,
-    Post_void_Transaction_count INTEGER NOT NULL ,
-    Other_Transaction_count INTEGER NOT NULL ,
-    Sales_Manual_Markup_Amt DECIMAL(18,10) NOT NULL ,
-    Return_Manual_Markdown_Amt DECIMAL(18,10) NOT NULL ,
-    Sales_Manual_Count INTEGER NOT NULL ,
-    Sales_Manual_Markdown_Amt DECIMAL(18,10) NOT NULL ,
-    Exchanges_with_reciepts INTEGER NOT NULL ,
-    Exchanges_without_reciepts INTEGER NOT NULL ,
-    Returns_with_reciepts INTEGER NOT NULL ,
-    Returns_without_reciepts INTEGER NOT NULL ,
-    Sales_Scan_Count INTEGER NOT NULL ,
-    No_Sale_Transaction_count INTEGER NOT NULL ,
-    Previous_Full_Week_Sales DECIMAL(18,10) NOT NULL ,
-    SPV DECIMAL(18,10) NOT NULL ,
-    Sales_1st_Date DATE  ,
-    Sales_1st_Week DATE  ,
-    Days_at_Clearance DATE  ,
-    Net_Sales DECIMAL(18,10) NOT NULL ,
-    Regular_Sell_Price DECIMAL(18,10) NOT NULL ,
-    Sales_VAT DECIMAL(18,10) NOT NULL ,
-    Weeks_in_Store DECIMAL(18,10) NOT NULL ,
-    Item_Selling_Price DECIMAL(18,10)  ,
+    business_dt DATE NOT NULL   ,
+    loc_wid INTEGER NOT NULL   ,
+    item_wid BIGINT NOT NULL   ,
+    sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    promotion_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    promotion_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    promotion_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    clearance_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    clearance_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    clearance_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    regular_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    regular_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    regular_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    emp_discount_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    emp_discount_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    emp_discount_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    cash_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    cash_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    cash_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    card_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    card_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    card_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    gift_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    gift_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    gift_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    others_sales_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    others_sales_units INTEGER NOT NULL   COMPRESS(0)  ,
+    others_sales_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    promotion_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    promotion_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    promotion_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    clearance_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    clearance_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    clearance_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    regular_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    regular_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    regular_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    emp_discount_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    emp_discount_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    emp_discount_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    cash_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    cash_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    cash_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    card_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    card_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    card_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    gift_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    gift_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    gift_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    others_return_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    others_return_units INTEGER NOT NULL   COMPRESS(0)  ,
+    others_return_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    promotion_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    promotion_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    promotion_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    clearance_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    clearance_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    clearance_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    regular_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    regular_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    regular_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    emp_discount_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    emp_discount_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    emp_discount_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    cash_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    cash_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    cash_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    card_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    card_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    card_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    gift_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    gift_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    gift_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    others_exchange_value DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    others_exchange_units INTEGER NOT NULL   COMPRESS(0)  ,
+    others_exchange_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    sales_tax_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    return_tax_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    void_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    post_void_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    other_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    sales_manual_markup_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    return_manual_markdown_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    sales_manual_count INTEGER NOT NULL   COMPRESS(0)  ,
+    sales_manual_markdown_amt DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    exchanges_with_reciepts INTEGER NOT NULL   COMPRESS(0)  ,
+    exchanges_without_reciepts INTEGER NOT NULL   COMPRESS(0)  ,
+    returns_with_reciepts INTEGER NOT NULL   COMPRESS(0)  ,
+    returns_without_reciepts INTEGER NOT NULL   COMPRESS(0)  ,
+    sales_scan_count INTEGER NOT NULL   COMPRESS(0)  ,
+    no_sale_transaction_count INTEGER NOT NULL   COMPRESS(0)  ,
+    previous_full_week_sales DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    spv DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    sales_1st_date DATE    ,
+    sales_1st_week DATE    ,
+    days_at_clearance DATE    ,
+    net_sales DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    regular_sell_price DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    sales_vat DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    weeks_in_store DECIMAL(18,10) NOT NULL   COMPRESS(0)  ,
+    item_selling_price DECIMAL(18,10)    ,
     /* Control columns for auditing */
     eff_from_dt DATE NOT NULL,
     eff_to_dt DATE NOT NULL COMPRESS(DATE '3500-12-31'),
     del_ind BYTEINT NOT NULL COMPRESS(0),
     run_id INTEGER NOT NULL,
     update_run_id INTEGER COMPRESS(NULL) ,
-    job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
-    update_job_id VARCHAR(30) COMPRESS(NULL)
+    job_id VARCHAR(16) NOT NULL COMPRESS('JOBID'),
+    update_job_id VARCHAR(16) COMPRESS(NULL)
     )
-    PRIMARY INDEX ( loc_ID ,Item_Id ) PARTITION BY RANGE_N(Business_dt BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_dt BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -140,328 +140,328 @@ COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT AS 'This is the
 COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.business_dt AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.loc_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.item_wid AS 'Item ID Surrogate Key (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Value AS 'Sales value*10000 (4 implied decimal places.), value of units sold in this prom type.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_value AS 'Sales value*10000 (4 implied decimal places.), value of units sold in this prom type.'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Units AS 'Number of net units of merchandise sold for a subclass/location for the day.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_units AS 'Number of net units of merchandise sold for a subclass/location for the day.'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Transaction_count AS 'This Column is used identify the Sales Transaction Count'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_transaction_count AS 'This Column is used identify the Sales Transaction Count'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Sales_Value AS 'Sales value of items on promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_sales_value AS 'Sales value of items on promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Sales_Units AS 'This Column is used identify the Units sold in promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_sales_units AS 'This Column is used identify the Units sold in promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Sales_Transaction_count AS 'count of sales Transactions where an item is in promotion price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_sales_transaction_count AS 'count of sales Transactions where an item is in promotion price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_Sales_Value AS 'Sales Clearance Value including only like for like stores.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_sales_value AS 'Sales Clearance Value including only like for like stores.'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_Sales_Units AS 'Sales Clearance Units including only like for like stores.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_sales_units AS 'Sales Clearance Units including only like for like stores.'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_Sales_Transaction_count AS 'Sales Clearance Transaction count including only like for like stores.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_sales_transaction_count AS 'Sales Clearance Transaction count including only like for like stores.'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Sales_Value AS 'SALES VALUE where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance. This amount is inclusive of VAT and net of returns.This shouldnot include Gift Cards'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_sales_value AS 'SALES VALUE where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance. This amount is inclusive of VAT and net of returns.This shouldnot include Gift Cards'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Sales_Units AS 'SALES UNITS where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_sales_units AS 'SALES UNITS where PRICE STATUS in Regular price (know as Full price at Primark) without any promotion or clearance.'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Sales_Transaction_count AS 'Count of sales Transactions returned which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_sales_transaction_count AS 'Count of sales Transactions returned which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_Sales_Value AS 'Sales value of transactions on Employee discount'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_sales_value AS 'Sales value of transactions on Employee discount'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_Sales_Units AS 'Sales Units of transactions on Employee discount'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_sales_units AS 'Sales Units of transactions on Employee discount'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_Sales_Transaction_count AS 'Sales transaction count on Employee discount'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_sales_transaction_count AS 'Sales transaction count on Employee discount'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_Sales_Value AS 'Sales value of cash transaction'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_sales_value AS 'Sales value of cash transaction'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_Sales_Units AS 'Sales Units of cash transactions'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_sales_units AS 'Sales Units of cash transactions'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_Sales_Transaction_count AS 'Sales transaction count where TENDOR TYPE is Cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_sales_transaction_count AS 'Sales transaction count where TENDOR TYPE is Cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_Sales_Value AS 'Sales value of card transactions'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_sales_value AS 'Sales value of card transactions'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_Sales_Units AS 'Sales units of card transactions'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_sales_units AS 'Sales units of card transactions'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_Sales_Transaction_count AS 'Sales transaction count where TENDOR TYPE is Cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_sales_transaction_count AS 'Sales transaction count where TENDOR TYPE is Cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_Sales_Value AS 'Sales value including only like for like stores where tender type is Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_sales_value AS 'Sales value including only like for like stores where tender type is Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_Sales_Units AS 'Sales Units including only like for like stores where tender type is Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_sales_units AS 'Sales Units including only like for like stores where tender type is Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_Sales_Transaction_count AS 'Sales Transaction count including only like for like stores where tender type is Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_sales_transaction_count AS 'Sales Transaction count including only like for like stores where tender type is Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_Sales_Value AS 'Sales Values except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_sales_value AS 'Sales Values except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_Sales_Units AS 'Sales Units except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_sales_units AS 'Sales Units except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_Sales_Transaction_count AS 'Sales Transaction count except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_sales_transaction_count AS 'Sales Transaction count except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Return_Value AS 'Total Retail Value of the Items Returned'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.return_value AS 'Total Retail Value of the Items Returned'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Return_Units AS 'Total Retail Units of the Items Returned'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.return_units AS 'Total Retail Units of the Items Returned'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Return_Transaction_count AS 'Total Transaction count of the Items Returned'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.return_transaction_count AS 'Total Transaction count of the Items Returned'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Return_Value AS 'Sales value of items returned which where sold in the promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_return_value AS 'Sales value of items returned which where sold in the promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Return_Units AS 'Units of items returned which where sold in the promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_return_units AS 'Units of items returned which where sold in the promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Return_Transaction_count AS 'Count of sales Transactions returned which where sold in the promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_return_transaction_count AS 'Count of sales Transactions returned which where sold in the promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_Return_Value AS 'Sales value of items returned which where sold in the clearance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_return_value AS 'Sales value of items returned which where sold in the clearance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_Return_Units AS 'Units of items returned which where sold in the Clearance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_return_units AS 'Units of items returned which where sold in the Clearance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_Return_Transaction_count AS 'Count of sales Transactions returned which where sold in the clearance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_return_transaction_count AS 'Count of sales Transactions returned which where sold in the clearance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Return_Value AS 'Sales value of items returned which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_return_value AS 'Sales value of items returned which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Return_Units AS 'Units of items returned which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_return_units AS 'Units of items returned which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Return_Transaction_count AS 'count of returned transaction which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_return_transaction_count AS 'count of returned transaction which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_Return_Value AS 'Sales value of items returned which where sold in the Employee Discount'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_return_value AS 'Sales value of items returned which where sold in the Employee Discount'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_Return_Units AS 'Units of items returned which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_return_units AS 'Units of items returned which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_Return_Transaction_count AS 'Count of sales Transactions returned which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_return_transaction_count AS 'Count of sales Transactions returned which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_Return_Value AS 'Sales value of items returned which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_return_value AS 'Sales value of items returned which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_Return_Units AS 'Units of items returned which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_return_units AS 'Units of items returned which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_Return_Transaction_count AS 'Count of sales Transactions returned which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_return_transaction_count AS 'Count of sales Transactions returned which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_Return_Value AS 'Sales value of items returned which where tender type as card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_return_value AS 'Sales value of items returned which where tender type as card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_Return_Units AS 'Units of items returned which where tender type as card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_return_units AS 'Units of items returned which where tender type as card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_Return_Transaction_count AS 'Count of sales Transactions returned which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_return_transaction_count AS 'Count of sales Transactions returned which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_Return_Value AS 'Sales value of items returned which where tender type as Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_return_value AS 'Sales value of items returned which where tender type as Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_Return_Units AS 'Units of items returned which where tender type as Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_return_units AS 'Units of items returned which where tender type as Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_Return_Transaction_count AS 'Count of sales Transactions returned which where tender type as Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_return_transaction_count AS 'Count of sales Transactions returned which where tender type as Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_Return_Value AS 'Return Values except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_return_value AS 'Return Values except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_Return_Units AS 'Return Units except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_return_units AS 'Return Units except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_Return_Transaction_count AS 'Return Transaction count except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_return_transaction_count AS 'Return Transaction count except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchange_Value AS 'Total Retail Value of the Items Exchange'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchange_value AS 'Total Retail Value of the Items Exchange'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchange_Units AS 'Total Retail Units of the Items Exchange'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchange_units AS 'Total Retail Units of the Items Exchange'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchange_Transaction_count AS 'Total Transaction count of the Items Exchange'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchange_transaction_count AS 'Total Transaction count of the Items Exchange'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_Exchange_Value AS 'Sales value of items Exchange which where sold in the promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_exchange_value AS 'Sales value of items Exchange which where sold in the promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_exchange_Units AS 'Units of items Exchange which where sold in the promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_exchange_units AS 'Units of items Exchange which where sold in the promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Promotion_exchange_Transaction_count AS 'Transactions Exchange which where sold in the promotion'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.promotion_exchange_transaction_count AS 'Transactions Exchange which where sold in the promotion'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_exchange_Value AS 'Sales value of items Exchange which where sold in the clearance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_exchange_value AS 'Sales value of items Exchange which where sold in the clearance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_exchange_Units AS 'Units of items Exchange which where sold in the Clearance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_exchange_units AS 'Units of items Exchange which where sold in the Clearance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Clearance_exchange_Transaction_count AS 'Count of sales Transactions Exchange which where sold in the clearance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.clearance_exchange_transaction_count AS 'Count of sales Transactions Exchange which where sold in the clearance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_exchange_Value AS 'Sales value of items Exchange which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_exchange_value AS 'Sales value of items Exchange which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_exchange_Units AS 'Units of items Exchange which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_exchange_units AS 'Units of items Exchange which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_exchange_Transaction_count AS 'count of exchange transactions which were sold in the regularprice'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_exchange_transaction_count AS 'count of exchange transactions which were sold in the regularprice'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_exchange_Value AS 'Sales value of items Exchange which where sold in the Employee Discount'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_exchange_value AS 'Sales value of items Exchange which where sold in the Employee Discount'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_exchange_Units AS 'Units of items Exchange which where sold in the Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_exchange_units AS 'Units of items Exchange which where sold in the Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Emp_Discount_exchange_Transaction_count AS 'Count of sales Transactions Exchange which where sold inthe Regular price'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.emp_discount_exchange_transaction_count AS 'Count of sales Transactions Exchange which where sold inthe Regular price'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_exchange_Value AS 'Sales value of items Exchange which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_exchange_value AS 'Sales value of items Exchange which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_exchange_Units AS 'Units of items Exchange which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_exchange_units AS 'Units of items Exchange which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Cash_exchange_Transaction_count AS 'Count of sales Transactions Exchange which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.cash_exchange_transaction_count AS 'Count of sales Transactions Exchange which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_exchange_Value AS 'Sales value of items Exchange which where tender type as card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_exchange_value AS 'Sales value of items Exchange which where tender type as card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_exchange_Units AS 'Units of items Exchange which where tender type as card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_exchange_units AS 'Units of items Exchange which where tender type as card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Card_exchange_Transaction_count AS 'Count of sales Transactions Exchange which where tender type as cash'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.card_exchange_transaction_count AS 'Count of sales Transactions Exchange which where tender type as cash'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_exchange_Value AS 'Sales value of items Exchange which where tender type as Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_exchange_value AS 'Sales value of items Exchange which where tender type as Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_exchange_Units AS 'Units of items Exchange which where tender type as Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_exchange_units AS 'Units of items Exchange which where tender type as Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Gift_exchange_Transaction_count AS 'Count of sales Transactions Exchange which where tender type as Gift Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.gift_exchange_transaction_count AS 'Count of sales Transactions Exchange which where tender type as Gift Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_exchange_Value AS 'Exchange Values except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_exchange_value AS 'Exchange Values except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_exchange_Units AS 'Exchange Units except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_exchange_units AS 'Exchange Units except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Others_exchange_Transaction_count AS 'Exchange Transaction count except tender type is CARD,CASH,AMEX and GIFT Card'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.others_exchange_transaction_count AS 'Exchange Transaction count except tender type is CARD,CASH,AMEX and GIFT Card'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.SALES_TAX_AMT AS 'This Column is used identify the Tax amount for the sales Value'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_tax_amt AS 'This Column is used identify the Tax amount for the sales Value'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.RETURN_TAX_AMT AS 'Tax amount for the return Sales value'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.return_tax_amt AS 'Tax amount for the return Sales value'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Void_Transaction_count AS 'Transaction count where Type = VOID'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.void_transaction_count AS 'Transaction count where Type = VOID'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Post_void_Transaction_count AS 'Transaction count where Type = VOID'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.post_void_transaction_count AS 'Transaction count where Type = VOID'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Other_Transaction_count AS 'Transaction count other than VOID and POST VOID'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.other_transaction_count AS 'Transaction count other than VOID and POST VOID'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Manual_Markup_Amt AS 'Manual Mark-up done at store level'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_manual_markup_amt AS 'Manual Mark-up done at store level'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Return_Manual_Markdown_Amt AS 'Value of returns which were sold on manual mark down at store'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.return_manual_markdown_amt AS 'Value of returns which were sold on manual mark down at store'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Manual_Count AS 'Count of sales transaction where the barcode was manually entered(when the POS Scan did not work)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_manual_count AS 'Count of sales transaction where the barcode was manually entered(when the POS Scan did not work)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Manual_Markdown_Amt AS 'Manual Mark-down done at store level'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_manual_markdown_amt AS 'Manual Mark-down done at store level'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Exchanges_with_reciepts AS 'number of exchange transactions where a receipt was present'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchanges_with_reciepts AS 'number of exchange transactions where a receipt was present'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Exchanges_without_reciepts AS 'number of exchange transactions where a receipt was not present'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.exchanges_without_reciepts AS 'number of exchange transactions where a receipt was not present'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Returns_with_reciepts AS 'number of return transactions where a receipt was present'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.returns_with_reciepts AS 'number of return transactions where a receipt was present'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Returns_without_reciepts AS 'number of return transactions where a receipt was present'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.returns_without_reciepts AS 'number of return transactions where a receipt was present'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_Scan_Count AS 'This Column is used identify the Count of scans in POS'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_scan_count AS 'This Column is used identify the Count of scans in POS'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.No_Sale_Transaction_count AS 'Count of transactions where there is no sale'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.no_sale_transaction_count AS 'Count of transactions where there is no sale'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Previous_Full_Week_Sales AS 'This Column is used identify the last week sales'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.previous_full_week_sales AS 'This Column is used identify the last week sales'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.SPV AS 'This Column is used identify the Sale Price Variance'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.spv AS 'This Column is used identify the Sale Price Variance'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_1st_Date AS 'First day when store start selling an item.Date of SALES 1ST DATE'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_1st_date AS 'First day when store start selling an item.Date of SALES 1ST DATE'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_1st_Week AS 'First Week when store start selling an item.WEEK of SALES 1ST WEEK (This is at SKU ORIN level)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_1st_week AS 'First Week when store start selling an item.WEEK of SALES 1ST WEEK (This is at SKU ORIN level)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Days_at_Clearance AS 'Count of days that a store has been selling product at Clearance price DATE (Current) - CLEARANCE DATE'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.days_at_clearance AS 'Count of days that a store has been selling product at Clearance price DATE (Current) - CLEARANCE DATE'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Net_Sales AS 'Calculates the total value of sales exclusive of VAT. This amount is net of returns and net of VAT.SALES VALUE - SALES VAT AMOUNT'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.net_sales AS 'Calculates the total value of sales exclusive of VAT. This amount is net of returns and net of VAT.SALES VALUE - SALES VAT AMOUNT'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Regular_Sell_Price AS 'Selling Price of the item when its at its ORIGINAL Full Price (REGULAR SELL PRICE)'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.regular_sell_price AS 'Selling Price of the item when its at its ORIGINAL Full Price (REGULAR SELL PRICE)'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Sales_VAT AS 'This Column is used identify the Vat amount on the sales'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.sales_vat AS 'This Column is used identify the Vat amount on the sales'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Weeks_in_Store AS 'Count of weeks that a product has be in and selling in a store CURRENT DATE - SALES 1ST DATE'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.weeks_in_store AS 'Count of weeks that a product has be in and selling in a store CURRENT DATE - SALES 1ST DATE'
 ;
 
-COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.Item_Selling_Price AS 'This Column is used identify the Primark Item(Sku) Selling Price of the item.'
+COMMENT ON DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.item_selling_price AS 'This Column is used identify the Primark Item(Sku) Selling Price of the item.'
 ;
 
 

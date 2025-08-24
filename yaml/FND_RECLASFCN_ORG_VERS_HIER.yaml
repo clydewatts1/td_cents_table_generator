@@ -25,6 +25,7 @@ columns:
   description: Unique identifier for Organization Hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hiery_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -33,6 +34,7 @@ columns:
   description: This is the version of the locs within hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_cd
   column_type: SMALLINT
   column_format: ''
@@ -41,6 +43,7 @@ columns:
   description: Contains the number of the country.
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_cd
   column_type: SMALLINT
   column_format: ''
@@ -49,6 +52,7 @@ columns:
   description: This Column is used to identify the Primark Company Code
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -57,6 +61,7 @@ columns:
   description: The is the version of locs within company
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_cd
   column_type: SMALLINT
   column_format: ''
@@ -65,6 +70,7 @@ columns:
   description: Uniquely identifies a time zone.
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -73,6 +79,7 @@ columns:
   description: The is the version of locs within zone
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_cd
   column_type: SMALLINT
   column_format: ''
@@ -81,6 +88,7 @@ columns:
   description: This Column is used identify the Uniquely identifies a region.
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -89,6 +97,7 @@ columns:
   description: The is the version of locs within region
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_cd
   column_type: SMALLINT
   column_format: ''
@@ -97,6 +106,7 @@ columns:
   description: Code for Primark Area(Location)
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -105,6 +115,7 @@ columns:
   description: ''
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: FND1046
   databasename: DWP01T_ACC_FND
@@ -156,5 +167,5 @@ BUILD:
   pattern: TABLE
 - jobname: FND1044
   databasename: DWP01T_TMP_ACC_FND
-  tablename: DW_FND_ITEM_DIM_DQ
+  tablename: FND_RECLASFCN_ORG_VERS_HIER
   pattern: TABLE_NO_CONTROL

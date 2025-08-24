@@ -1,16 +1,27 @@
 control_columns: .nan
+description: .nan
+job_name: FND1021
 job_name_from_file: FND1021
 job_name_from_mapping: FND1021
 mapping_columns:
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 87
   mapping_notes: nan
   source_column_name: 'OHIER.org_hiery_wid                 '
   target_column_name: 'org_hiery_wid                 '
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 86
   mapping_notes: nan
   source_column_name: 'OHIER.org_hier_country_cd           '
   target_column_name: 'org_hier_country_cd           '
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 85
   mapping_notes: 'CLW: Need to change this logic will not work : Using ordeded analytic
     function partition on org_hier_wid , pick the COALESCE(max(XREF.max_del_vers_no),XREF.max_vers_no,0).
     What you are looking for is the latest version of all the styles that are in the
@@ -21,39 +32,66 @@ mapping_columns:
     new.  and if there is no version then set to Zero'
   source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
   target_column_name: org_hiery_vers_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 84
   mapping_notes: nan
   source_column_name: 'OHIER.company_cd                    '
   target_column_name: 'company_cd                    '
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 83
   mapping_notes: See above but partition by company_cd
   source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
   target_column_name: company_vers_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 82
   mapping_notes: nan
   source_column_name: 'OHIER.zone_cd                       '
   target_column_name: 'zone_cd                       '
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 81
   mapping_notes: See above but partition by company_cd,zone_cd
   source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
   target_column_name: zone_vers_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 80
   mapping_notes: nan
   source_column_name: 'OHIER.region_cd                     '
   target_column_name: 'region_cd                     '
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 79
   mapping_notes: See above but partition by company_cd,zone_cd,area_cd
   source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
   target_column_name: region_num
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 78
   mapping_notes: nan
   source_column_name: 'OHIER.area_cd                       '
   target_column_name: 'area_cd                       '
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 77
   mapping_notes: See above but partition by company_cd,zone_cd,area_cd,region_num
   source_column_name: XREF.max_del_vers_no and XREFmax_version_no -- See mapping notes
   target_column_name: area_vers_num
-- column_order: CTE
+- column_action: ''
+  column_order: CTE
+  column_sequence: 14
+  column_sequence_reverse: 74
   mapping_notes: Join the various levels of hierarch
   source_column_name: "WITH DST AS (SELECT * FROM DWP01A_IDW.DSTRCT DST WHERE CUR_FLG='Y')\n\
     \    ,AREA AS (SELECT * FROM DWP01A_IDW.PMK_AREA AREA WHERE CUR_FLG='Y')\n\t,RGN\
@@ -68,7 +106,10 @@ mapping_columns:
     \t\tLEFT OUTER JOIN ZN\n\t\tON ZN.PMK_ZN_WID = RGN.PMK_ZN_WID\n\t\tLEFT OUTER\
     \ JOIN CO\n\t\tON CO.PMK_CO_WID = ZN.PMK_CO_WID\n\t\t)\nSELECT * FROM OHIER\n;"
   target_column_name: OHIER
-- column_order: CTE
+- column_action: ''
+  column_order: CTE
+  column_sequence: 15
+  column_sequence_reverse: 73
   mapping_notes: 'CLW: Need to change this logic will not work : This is to find the
     last version number associated with style/hier which is not deleted , and last
     version number associated with loc/hier when logically deleted.  If a row is logically
@@ -82,66 +123,111 @@ mapping_columns:
     FROM DWP01T_TMP_ACC_FND.FND_RECLASFCN_LOC_ORG_XREF \nWHERE CUR_FLG='Y' \nGROUP\
     \ BY 1"
   target_column_name: XREF
-- column_order: ALIAS/CTE
+- column_action: ''
+  column_order: ALIAS/CTE
+  column_sequence: 82
+  column_sequence_reverse: 6
   mapping_notes: nan
   source_column_name: nan
   target_column_name: nan
-- column_order: ALIAS/CTE
+- column_action: ''
+  column_order: ALIAS/CTE
+  column_sequence: 83
+  column_sequence_reverse: 5
   mapping_notes: nan
   source_column_name: nan
   target_column_name: nan
-- column_order: ALIAS/CTE
+- column_action: ''
+  column_order: ALIAS/CTE
+  column_sequence: 84
+  column_sequence_reverse: 4
   mapping_notes: nan
   source_column_name: nan
   target_column_name: nan
-- column_order: ALIAS/CTE
+- column_action: ''
+  column_order: ALIAS/CTE
+  column_sequence: 85
+  column_sequence_reverse: 3
   mapping_notes: nan
   source_column_name: nan
   target_column_name: nan
-- column_order: ALIAS/CTE
+- column_action: ''
+  column_order: ALIAS/CTE
+  column_sequence: 86
+  column_sequence_reverse: 2
   mapping_notes: nan
   source_column_name: nan
   target_column_name: nan
-- column_order: nan
+- column_action: ''
+  column_order: nan
+  column_sequence: 87
+  column_sequence_reverse: 1
   mapping_notes: 'This is the joins and alias.  The base table is specified as either
     CTE or Sub query '
   source_column_name: nan
   target_column_name: nan
+mapping_columns_count: 19
 mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - org_hiery_wid
+sql_steps: {}
 steps:
-- description: .nan
-  file_name: .nan
+- description: ''
+  file_name: ''
+  file_present: false
   job_name: FND1021
-  notes: .nan
-  source_database: .nan
-  source_table: .nan
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
-  target_database: .nan
-  target_table: .nan
+  target_database: ''
+  target_table: ''
 - description: This will increment the sequence number by one
   file_name: FND_IncAndGetSeqNo.sql
+  file_present: false
   job_name: FND1021
-  notes: .nan
-  source_database: .nan
-  source_table: .nan
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
   step_pattern: SEQUENCE_NO,SEQ_NAME='ORG_HIER_VER_NO'
-  steps: 100
-  target_database: .nan
-  target_table: .nan
+  steps: '100'
+  target_database: ''
+  target_table: ''
 - description: This will do a insert into target table based on mapping
   file_name: FND1010.300.TARGET.sql
+  file_present: false
   job_name: FND1021
-  notes: .nan
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
   source_database: See Mapping
-  source_table: .nan
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: See Mapping
   step_pattern: DELETE_INSERT,VERSION_NO=${ORG_HIER_VER_NO}
-  steps: 300
+  steps: '300'
   target_database: See Mapping
-  target_table: .nan
+  target_table: ''
+stream_id: nan
 target_database_name: T_TMP_ACC_FND
 target_table_name: DW_FND_DATE_DIM
 transformation_key:

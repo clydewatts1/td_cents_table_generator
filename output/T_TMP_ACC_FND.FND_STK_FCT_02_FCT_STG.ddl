@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_TMP_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,29 +10,30 @@
 /* Create table for FND_STK_FCT_02_FCT_STG = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG
     (
-    business_date DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    location_id INTEGER NOT NULL FORMAT '99999',
-    item_id BIGINT NOT NULL ,
-    fct_src_map BYTEINT NOT NULL ,
-    transfer_outst_units INTEGER  ,
-    transfer_outst_retail_value DECIMAL(18,10)  ,
-    transfer_outst_cost_value DECIMAL(18,10)  ,
-    transfer_act_repo_cost_value DECIMAL(18,10)  ,
-    transfer_act_upchrg_unit_cost DECIMAL(18,10)  ,
-    transfer_act_upchrg_cost_value DECIMAL(18,10)  ,
-    stock_count_units INTEGER  ,
-    stock_count_snapshot_units INTEGER  ,
-    stock_count_retail_amt DECIMAL(18,10)  ,
-    stock_count_snapshot_retail_amt DECIMAL(18,10)  ,
-    total_stock_loss_units INTEGER  ,
-    total_stock_loss_value INTEGER  ,
-    tsf_intake_qty INTEGER  ,
-    tsf_intake_retail_amount DECIMAL(18,10)  ,
-    tsf_intake_cost_amount DECIMAL(18,10)  ,
-    trasfer_ship_units INTEGER  ,
-    trasfer_ship_retail_amount DECIMAL(18,10)  ,
-    trasfer_ship_cost_amount DECIMAL(18,10)       )
-    PRIMARY INDEX ( Location_ID ,Item_Id ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
+    business_date DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    loc_wid INTEGER NOT NULL FORMAT '99999' ,
+    item_wid BIGINT NOT NULL  ,
+    fct_src_map BYTEINT NOT NULL  ,
+    transfer_outst_units INTEGER   ,
+    transfer_outst_retail_value DECIMAL(18,10)   ,
+    transfer_outst_cost_value DECIMAL(18,10)   ,
+    transfer_act_repo_cost_value DECIMAL(18,10)   ,
+    transfer_act_upchrg_unit_cost DECIMAL(18,10)   ,
+    transfer_act_upchrg_cost_value DECIMAL(18,10)   ,
+    stock_count_units INTEGER   ,
+    stock_count_snapshot_units INTEGER   ,
+    stock_count_retail_amt DECIMAL(18,10)   ,
+    stock_count_snapshot_retail_amt DECIMAL(18,10)   ,
+    total_stock_loss_units INTEGER   ,
+    total_stock_loss_value INTEGER   ,
+    tsf_intake_qty INTEGER   ,
+    tsf_intake_retail_amount DECIMAL(18,10)   ,
+    tsf_intake_cost_amount DECIMAL(18,10)   ,
+    trasfer_ship_units INTEGER   ,
+    trasfer_ship_retail_amount DECIMAL(18,10)   ,
+    trasfer_ship_cost_amount DECIMAL(18,10)    
+    )
+    PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_Date BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 ;
 
 /*-----------------------------------------------------------------------------
@@ -44,10 +45,10 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG AS 'This is the fou
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.location_id AS 'Location ID - this can either be a store or depot (PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
-COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.item_id AS 'Item ID - this is the SKU Orin ( PK)'
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.item_wid AS 'Item ID Surrogate Key (PK)'
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_02_FCT_STG.fct_src_map AS 'Bit Map of source of data used in pivot table ( 02 )'

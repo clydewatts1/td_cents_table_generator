@@ -1,0 +1,91 @@
+control_columns: .nan
+job_name_from_file: FND2106
+job_name_from_mapping: FND2106
+mapping_columns:
+- column_action: ''
+  column_order: nan
+  column_sequence: 87
+  column_sequence_reverse: 1
+  mapping_notes: 'This is the joins and alias.  The base table is specified as either
+    CTE or Sub query '
+  source_column_name: nan
+  target_column_name: nan
+mapping_columns_count: 1
+mapping_sheet_name: MAPPING
+pattern: Validation
+primary_key:
+- invalid_key
+sql_steps: {}
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2106
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 4
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Validate that there are no duplicates on primary index
+  file_name: FND2106.300.VALIDATE.sql
+  file_present: false
+  job_name: FND2106
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_VALIDATE
+  steps: '300'
+  target_database: ''
+  target_table: ''
+- description: Validate that there is 1 business date
+  file_name: FND2106.310.VALIDATE.sql
+  file_present: false
+  job_name: FND2106
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_VALIDATE
+  steps: '310'
+  target_database: ''
+  target_table: ''
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2106
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 4
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+target_database_name: T_TMP_ACC_FND
+target_table_name: FND_STK_FCT_02_FCT_STG
+transformation_key:
+- nan

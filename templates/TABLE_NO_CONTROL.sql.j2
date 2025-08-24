@@ -1,5 +1,5 @@
 {% import 'ddl_helper.sql.j2' as dd -%}
-{{ dd.header(filename,project_name,build.databasename,schema_name,config.author_name,config.created_date)-}}
+{{ dd.header(build.filename,build.project_name,build.databasename,schema_name,config.author_name,config.created_date)-}}
 /* Create table for {{ build.tablename }} = {{table_quote}}*/
 {% set table_quote = '"' if table_quote=='Y' else ''-%}
 CREATE {{ table_kind }} TABLE DW${INSTANCE}{{ build.databasename }}.{{table_quote}}{{ build.tablename }}{{table_quote-}}
@@ -14,8 +14,13 @@ CREATE {{ table_kind }} TABLE DW${INSTANCE}{{ build.databasename }}.{{table_quot
 {% else -%}
 {% set column_type = column.column_type -%}
 {% endif -%}
-{{"    "}}{{quote}}{{ column.column_name }}{{quote}} {{ column_type }} {{ is_null }} {{ column_format }}{{option}}{%if not loop.last %},{%else%} {% endif -%}
-{% endfor -%}
+{% if column.compression == "" -%}
+{% set compress_option = '' -%}
+{% else -%}
+{% set compress_option = ' COMPRESS(' + column.compression + ') ' -%}
+{% endif -%}
+{{"    "}}{{quote}}{{ column.column_name }}{{quote}} {{ column_type }} {{ is_null }} {{ column_format }} {{compress_option}}{%if not loop.last %},{%else%} {% endif -%}
+{% endfor %}
 {{"    "}})
 {{"    "}}{{primary_index}}
 ;

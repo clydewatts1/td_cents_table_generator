@@ -1,0 +1,285 @@
+-- =================================================================================================
+-- Populates the daily aggregated sales fact table by joining the pivoted staging table
+-- with the source fact staging table.
+--
+-- Template: FND2130_SAMPLE.sql
+-- Data: FND2230_Data.sql
+--
+-- Business Logic:
+-- 1. Uses FND_SLS_FCT_PVT_STG as the driver to ensure all combinations of
+--    business_date, loc_wid, and item_wid are included.
+-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve the actual sales measures.
+-- 3. COALESCE is used on all measure columns to convert NULLs to 0.
+-- 4. Default values (0 or NULL) are provided for target columns that do not have a direct source.
+-- 5. The script is designed to be re-runnable by deleting the data for the target
+--    business date before insertion.
+-- =================================================================================================
+-- Start a new transaction. This ensures that all subsequent operations are treated as a single
+-- atomic unit of work. If any step fails, the entire transaction can be rolled back.
+BEGIN TRANSACTION;
+.IF ERRORCODE <> 0 THEN .QUIT 101;
+-- Lock the target table in WRITE mode to prevent other processes from modifying it during the load.
+-- This ensures data consistency.
+LOCKING TABLE DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT FOR WRITE;
+.IF ERRORCODE <> 0 THEN .QUIT 101;
+-- Before inserting new data, delete any existing records for the target business date.
+-- This makes the script re-runnable without creating duplicate data.
+DELETE FROM DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT
+WHERE
+    business_dt = date '${LDTK_DATE}'
+;
+.IF ERRORCODE <> 0 THEN .QUIT 101;
+-- Insert the aggregated data into the final fact table.
+INSERT INTO DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (
+    business_dt,
+    loc_wid,
+    item_wid,
+    sales_value,
+    sales_units,
+    sales_transaction_count,
+    promotion_sales_value,
+    promotion_sales_units,
+    promotion_sales_transaction_count,
+    clearance_sales_value,
+    clearance_sales_units,
+    clearance_sales_transaction_count,
+    regular_sales_value,
+    regular_sales_units,
+    regular_sales_transaction_count,
+    emp_discount_sales_value,
+    emp_discount_sales_units,
+    emp_discount_sales_transaction_count,
+    cash_sales_value,
+    cash_sales_units,
+    cash_sales_transaction_count,
+    card_sales_value,
+    card_sales_units,
+    card_sales_transaction_count,
+    gift_sales_value,
+    gift_sales_units,
+    gift_sales_transaction_count,
+    others_sales_value,
+    others_sales_units,
+    others_sales_transaction_count,
+    return_value,
+    return_units,
+    return_transaction_count,
+    promotion_return_value,
+    promotion_return_units,
+    promotion_return_transaction_count,
+    clearance_return_value,
+    clearance_return_units,
+    clearance_return_transaction_count,
+    regular_return_value,
+    regular_return_units,
+    regular_return_transaction_count,
+    emp_discount_return_value,
+    emp_discount_return_units,
+    emp_discount_return_transaction_count,
+    cash_return_value,
+    cash_return_units,
+    cash_return_transaction_count,
+    card_return_value,
+    card_return_units,
+    card_return_transaction_count,
+    gift_return_value,
+    gift_return_units,
+    gift_return_transaction_count,
+    others_return_value,
+    others_return_units,
+    others_return_transaction_count,
+    exchange_value,
+    exchange_units,
+    exchange_transaction_count,
+    promotion_exchange_value,
+    promotion_exchange_units,
+    promotion_exchange_transaction_count,
+    clearance_exchange_value,
+    clearance_exchange_units,
+    clearance_exchange_transaction_count,
+    regular_exchange_value,
+    regular_exchange_units,
+    regular_exchange_transaction_count,
+    emp_discount_exchange_value,
+    emp_discount_exchange_units,
+    emp_discount_exchange_transaction_count,
+    cash_exchange_value,
+    cash_exchange_units,
+    cash_exchange_transaction_count,
+    card_exchange_value,
+    card_exchange_units,
+    card_exchange_transaction_count,
+    gift_exchange_value,
+    gift_exchange_units,
+    gift_exchange_transaction_count,
+    others_exchange_value,
+    others_exchange_units,
+    others_exchange_transaction_count,
+    sales_tax_amt,
+    return_tax_amt,
+    void_transaction_count,
+    post_void_transaction_count,
+    other_transaction_count,
+    sales_manual_markup_amt,
+    return_manual_markdown_amt,
+    sales_manual_count,
+    sales_manual_markdown_amt,
+    exchanges_with_reciepts,
+    exchanges_without_reciepts,
+    returns_with_reciepts,
+    returns_without_reciepts,
+    sales_scan_count,
+    no_sale_transaction_count,
+    previous_full_week_sales,
+    spv,
+    sales_1st_date,
+    sales_1st_week,
+    days_at_clearance,
+    net_sales,
+    regular_sell_price,
+    sales_vat,
+    weeks_in_store,
+    item_selling_price,
+    eff_from_dt,
+    eff_to_dt,
+    del_ind,
+    run_id,
+    update_run_id,
+    job_id,
+    update_job_id
+)
+SELECT
+    -- Key columns from the pivot table, which acts as the driver for the join.
+    pvt.business_date AS business_dt,
+    pvt.loc_wid AS loc_wid,
+    pvt.item_wid AS item_wid,
+    -- Measures from the source table (FCT1). COALESCE ensures no nulls are inserted.
+    COALESCE(fct1.sales_value, 0) AS sales_value,
+    COALESCE(fct1.sales_units, 0) AS sales_units,
+    COALESCE(fct1.sales_transaction_count, 0) AS sales_transaction_count,
+    COALESCE(fct1.promotion_sales_value, 0) AS promotion_sales_value,
+    COALESCE(fct1.promotion_sales_units, 0) AS promotion_sales_units,
+    COALESCE(fct1.promotion_sales_transaction_count, 0) AS promotion_sales_transaction_count,
+    COALESCE(fct1.clearance_sales_value, 0) AS clearance_sales_value,
+    COALESCE(fct1.clearance_sales_units, 0) AS clearance_sales_units,
+    COALESCE(fct1.clearance_sales_transaction_count, 0) AS clearance_sales_transaction_count,
+    COALESCE(fct1.regular_sales_value, 0) AS regular_sales_value,
+    COALESCE(fct1.regular_sales_units, 0) AS regular_sales_units,
+    COALESCE(fct1.regular_sales_transaction_count, 0) AS regular_sales_transaction_count,
+    COALESCE(fct1.emp_discount_sales_value, 0) AS emp_discount_sales_value,
+    COALESCE(fct1.emp_discount_sales_units, 0) AS emp_discount_sales_units,
+    COALESCE(fct1.emp_discount_sales_transaction_count, 0) AS emp_discount_sales_transaction_count,
+    COALESCE(fct1.cash_sales_value, 0) AS cash_sales_value,
+    COALESCE(fct1.cash_sales_units, 0) AS cash_sales_units,
+    COALESCE(fct1.cash_sales_transaction_count, 0) AS cash_sales_transaction_count,
+    COALESCE(fct1.card_sales_value, 0) AS card_sales_value,
+    COALESCE(fct1.card_sales_units, 0) AS card_sales_units,
+    COALESCE(fct1.card_sales_transaction_count, 0) AS card_sales_transaction_count,
+    COALESCE(fct1.gift_sales_value, 0) AS gift_sales_value,
+    COALESCE(fct1.gift_sales_units, 0) AS gift_sales_units,
+    COALESCE(fct1.gift_sales_transaction_count, 0) AS gift_sales_transaction_count,
+    COALESCE(fct1.others_sales_value, 0) AS others_sales_value,
+    COALESCE(fct1.others_sales_units, 0) AS others_sales_units,
+    COALESCE(fct1.others_sales_transaction_count, 0) AS others_sales_transaction_count,
+    COALESCE(fct1.return_value, 0) AS return_value,
+    COALESCE(fct1.return_units, 0) AS return_units,
+    COALESCE(fct1.return_transaction_count, 0) AS return_transaction_count,
+    COALESCE(fct1.promotion_return_value, 0) AS promotion_return_value,
+    COALESCE(fct1.promotion_return_units, 0) AS promotion_return_units,
+    COALESCE(fct1.promotion_return_transaction_count, 0) AS promotion_return_transaction_count,
+    COALESCE(fct1.clearance_return_value, 0) AS clearance_return_value,
+    COALESCE(fct1.clearance_return_units, 0) AS clearance_return_units,
+    COALESCE(fct1.clearance_return_transaction_count, 0) AS clearance_return_transaction_count,
+    COALESCE(fct1.regular_return_value, 0) AS regular_return_value,
+    COALESCE(fct1.regular_return_units, 0) AS regular_return_units,
+    COALESCE(fct1.regular_return_transaction_count, 0) AS regular_return_transaction_count,
+    COALESCE(fct1.emp_discount_return_value, 0) AS emp_discount_return_value,
+    COALESCE(fct1.emp_discount_return_units, 0) AS emp_discount_return_units,
+    COALESCE(fct1.emp_discount_return_transaction_count, 0) AS emp_discount_return_transaction_count,
+    COALESCE(fct1.cash_return_value, 0) AS cash_return_value,
+    COALESCE(fct1.cash_return_units, 0) AS cash_return_units,
+    COALESCE(fct1.cash_return_transaction_count, 0) AS cash_return_transaction_count,
+    COALESCE(fct1.card_return_value, 0) AS card_return_value,
+    COALESCE(fct1.card_return_units, 0) AS card_return_units,
+    COALESCE(fct1.card_return_transaction_count, 0) AS card_return_transaction_count,
+    COALESCE(fct1.gift_return_value, 0) AS gift_return_value,
+    COALESCE(fct1.gift_return_units, 0) AS gift_return_units,
+    COALESCE(fct1.gift_return_transaction_count, 0) AS gift_return_transaction_count,
+    COALESCE(fct1.others_return_value, 0) AS others_return_value,
+    COALESCE(fct1.others_return_units, 0) AS others_return_units,
+    COALESCE(fct1.others_return_transaction_count, 0) AS others_return_transaction_count,
+    COALESCE(fct1.exchange_value, 0) AS exchange_value,
+    COALESCE(fct1.exchange_units, 0) AS exchange_units,
+    COALESCE(fct1.exchange_transaction_count, 0) AS exchange_transaction_count,
+    COALESCE(fct1.promotion_exchange_value, 0) AS promotion_exchange_value,
+    COALESCE(fct1.promotion_exchange_units, 0) AS promotion_exchange_units,
+    COALESCE(fct1.promotion_exchange_transaction_count, 0) AS promotion_exchange_transaction_count,
+    COALESCE(fct1.clearance_exchange_value, 0) AS clearance_exchange_value,
+    COALESCE(fct1.clearance_exchange_units, 0) AS clearance_exchange_units,
+    COALESCE(fct1.clearance_exchange_transaction_count, 0) AS clearance_exchange_transaction_count,
+    COALESCE(fct1.regular_exchange_value, 0) AS regular_exchange_value,
+    COALESCE(fct1.regular_exchange_units, 0) AS regular_exchange_units,
+    COALESCE(fct1.regular_exchange_transaction_count, 0) AS regular_exchange_transaction_count,
+    COALESCE(fct1.emp_discount_exchange_value, 0) AS emp_discount_exchange_value,
+    COALESCE(fct1.emp_discount_exchange_units, 0) AS emp_discount_exchange_units,
+    COALESCE(fct1.emp_discount_exchange_transaction_count, 0) AS emp_discount_exchange_transaction_count,
+    COALESCE(fct1.cash_exchange_value, 0) AS cash_exchange_value,
+    COALESCE(fct1.cash_exchange_units, 0) AS cash_exchange_units,
+    COALESCE(fct1.cash_exchange_transaction_count, 0) AS cash_exchange_transaction_count,
+    COALESCE(fct1.card_exchange_value, 0) AS card_exchange_value,
+    COALESCE(fct1.card_exchange_units, 0) AS card_exchange_units,
+    COALESCE(fct1.card_exchange_transaction_count, 0) AS card_exchange_transaction_count,
+    COALESCE(fct1.gift_exchange_value, 0) AS gift_exchange_value,
+    COALESCE(fct1.gift_exchange_units, 0) AS gift_exchange_units,
+    COALESCE(fct1.gift_exchange_transaction_count, 0) AS gift_exchange_transaction_count,
+    COALESCE(fct1.others_exchange_value, 0) AS others_exchange_value,
+    COALESCE(fct1.others_exchange_units, 0) AS others_exchange_units,
+    COALESCE(fct1.others_exchange_transaction_count, 0) AS others_exchange_transaction_count,
+    COALESCE(fct1.sales_tax_amt, 0) AS sales_tax_amt,
+    COALESCE(fct1.return_tax_amt, 0) AS return_tax_amt,
+    COALESCE(fct1.void_transaction_count, 0) AS void_transaction_count,
+    COALESCE(fct1.post_void_transaction_count, 0) AS post_void_transaction_count,
+    COALESCE(fct1.other_transaction_count, 0) AS other_transaction_count,
+    COALESCE(fct1.sales_manual_markup_amt, 0) AS sales_manual_markup_amt,
+    COALESCE(fct1.return_manual_markdown_amt, 0) AS return_manual_markdown_amt,
+    COALESCE(fct1.sales_manual_count, 0) AS sales_manual_count,
+    COALESCE(fct1.sales_manual_markdown_amt, 0) AS sales_manual_markdown_amt,
+    COALESCE(fct1.exchanges_with_reciepts, 0) AS exchanges_with_reciepts,
+    COALESCE(fct1.exchanges_without_reciepts, 0) AS exchanges_without_reciepts,
+    COALESCE(fct1.returns_with_reciepts, 0) AS returns_with_reciepts,
+    COALESCE(fct1.returns_without_reciepts, 0) AS returns_without_reciepts,
+    COALESCE(fct1.sales_scan_count, 0) AS sales_scan_count,
+    COALESCE(fct1.no_sale_transaction_count, 0) AS no_sale_transaction_count,
+    -- Defaulted columns as requested.
+    0 AS previous_full_week_sales,
+    0 AS spv,
+    fct1.sales_1st_date AS sales_1st_date,
+    NULL AS sales_1st_week, -- Defaulting to NULL as it's a date and has no source.
+    NULL AS days_at_clearance, -- Defaulting to NULL as it's a date and has no source.
+    0 AS net_sales,
+    0 AS regular_sell_price,
+    0 AS sales_vat,
+    0 AS weeks_in_store,
+    0 AS item_selling_price,
+    -- Audit and metadata columns for tracking and versioning.
+    CURRENT_DATE AS eff_from_dt, -- Effective from the date of the run.
+    DATE '3500-12-31' AS eff_to_dt, -- A high date represents the current version.
+    0 AS del_ind, -- Deletion indicator, 0 means the record is active.
+    ${RUNID} AS run_id, -- Populated from a script variable.
+    NULL AS update_run_id, -- NULL for new records.
+    '${JOB}' AS job_id, -- Populated from a script variable.
+    NULL AS update_job_id -- NULL for new records.
+FROM
+    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS pvt
+LEFT OUTER JOIN
+    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG AS fct1
+        ON pvt.business_date = fct1.business_date
+        AND pvt.loc_wid = fct1.loc_wid
+        AND pvt.item_wid = fct1.item_wid;
+-- Check for errors after the INSERT statement. If an error occurred, quit the script.
+.IF ERRORCODE <> 0 THEN .QUIT 101;
+-- If no rows were inserted, quit the script. This can be a useful check to ensure the source tables were not empty.
+.IF ACTIVITYCOUNT = 0 THEN .QUIT 101;
+-- End the transaction, committing all the changes made.
+END TRANSACTION;
+.IF ERRORCODE <> 0 THEN .QUIT 101;

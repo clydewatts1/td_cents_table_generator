@@ -17,8 +17,8 @@
     del_ind BYTEINT NOT NULL COMPRESS(0),
     run_id INTEGER NOT NULL,
     update_run_id INTEGER COMPRESS(NULL) ,
-    job_id VARCHAR(300) NOT NULL COMPRESS('JOBID'),
-    update_job_id VARCHAR(30) COMPRESS(NULL)
+    job_id VARCHAR(16) NOT NULL COMPRESS('JOBID'),
+    update_job_id VARCHAR(16) COMPRESS(NULL)
 {% endmacro -%}
 
 {# Control Columns #}

@@ -10,6 +10,198 @@ from datetime import datetime, timedelta
 
 conn = None
 
+def get_parameters_for_step(conn, parameters, step_name,INSTANCE, LDTK_DATE):
+    sql = f"""
+        WITH dte AS (
+    SELECT
+        TO_CHAR(dte.calendar_dt, 'YYYY-MM-DD') AS calendar_dt,
+        TO_CHAR(dte.year_start_dt, 'YYYY-MM-DD') AS year_start_dt,
+        TO_CHAR(dte.year_end_dt, 'YYYY-MM-DD') AS year_end_dt,
+        TO_CHAR(dte.period_start_dt, 'YYYY-MM-DD') AS period_start_dt,
+        TO_CHAR(dte.period_end_dt, 'YYYY-MM-DD') AS period_end_dt,
+        TO_CHAR(dte.week_start_dt, 'YYYY-MM-DD') AS week_start_dt,
+        TO_CHAR(dte.week_end_dt, 'YYYY-MM-DD') AS week_end_dt,
+        TO_CHAR(dte.day_of_year_num, '000') AS day_of_year_num,
+        TO_CHAR(dte.day_of_period_num, '00') AS day_of_period_num,
+        TO_CHAR(dte.day_of_week_num, '0') AS day_of_week_num,
+        TO_CHAR(dte.week_of_year_num, '00') AS week_of_year_num,
+        TO_CHAR(dte.week_of_period_num, '00') AS week_of_period_num,
+        TO_CHAR(dte.period_of_year_num, '00') AS period_of_year_num,
+        TO_CHAR(dte.year_week, '000000') AS year_week,
+        TO_CHAR(dte.year_period, '000000') AS year_period,
+        TO_CHAR(dte.year_num, '0000') AS year_num,
+        dte.season_code,
+        dte.season_name,
+        dte.season_description,
+        TO_CHAR(dte.ly_calendar_dt, 'YYYY-MM-DD') AS ly_calendar_dt,
+        TO_CHAR(dte.ly_year_start_dt, 'YYYY-MM-DD') AS ly_year_start_dt,
+        TO_CHAR(dte.ly_year_end_dt, 'YYYY-MM-DD') AS ly_year_end_dt,
+        TO_CHAR(dte.ly_period_start_dt, 'YYYY-MM-DD') AS ly_period_start_dt,
+        TO_CHAR(dte.ly_period_end_dt, 'YYYY-MM-DD') AS ly_period_end_dt,
+        TO_CHAR(dte.ly_week_start_dt, 'YYYY-MM-DD') AS ly_week_start_dt,
+        TO_CHAR(dte.ly_week_end_dt, 'YYYY-MM-DD') AS ly_week_end_dt,
+        TO_CHAR(dte.ly_day_of_year_num, '000') AS ly_day_of_year_num,
+        TO_CHAR(dte.ly_day_of_period_num, '00') AS ly_day_of_period_num,
+        TO_CHAR(dte.ly_day_of_week_num, '0') AS ly_day_of_week_num,
+        TO_CHAR(dte.ly_week_of_year_num, '00') AS ly_week_of_year_num,
+        TO_CHAR(dte.ly_week_of_period_num, '00') AS ly_week_of_period_num,
+        TO_CHAR(dte.ly_period_of_year_num, '00') AS ly_period_of_year_num,
+        TO_CHAR(dte.ly_year_week, '000000') AS ly_year_week,
+        TO_CHAR(dte.ly_year_period, '000000') AS ly_year_period,
+        TO_CHAR(dte.ly_year_num, '0000') AS ly_year_num,
+        TO_CHAR(dte.lly_calendar_dt, 'YYYY-MM-DD') AS lly_calendar_dt,
+        TO_CHAR(dte.lly_year_start_dt, 'YYYY-MM-DD') AS lly_year_start_dt,
+        TO_CHAR(dte.lly_year_end_dt, 'YYYY-MM-DD') AS lly_year_end_dt,
+        TO_CHAR(dte.lly_period_start_dt, 'YYYY-MM-DD') AS lly_period_start_dt,
+        TO_CHAR(dte.lly_period_end_dt, 'YYYY-MM-DD') AS lly_period_end_dt,
+        TO_CHAR(dte.lly_week_start_dt, 'YYYY-MM-DD') AS lly_week_start_dt,
+        TO_CHAR(dte.lly_week_end_dt, 'YYYY-MM-DD') AS lly_week_end_dt,
+        TO_CHAR(dte.lly_day_of_year_num, '000') AS lly_day_of_year_num,
+        TO_CHAR(dte.lly_day_of_period_num, '00') AS lly_day_of_period_num,
+        TO_CHAR(dte.lly_day_of_week_num, '0') AS lly_day_of_week_num,
+        TO_CHAR(dte.lly_week_of_year_num, '00') AS lly_week_of_year_num,
+        TO_CHAR(dte.lly_week_of_period_num, '00') AS lly_week_of_period_num,
+        TO_CHAR(dte.lly_period_of_year_num, '00') AS lly_period_of_year_num,
+        TO_CHAR(dte.lly_year_week, '000000') AS lly_year_week,
+        TO_CHAR(dte.lly_year_period, '000000') AS lly_year_period,
+        TO_CHAR(dte.lly_year_num, '0000') AS lly_year_num,
+        TO_CHAR(dte.llly_calendar_dt, 'YYYY-MM-DD') AS llly_calendar_dt,
+        TO_CHAR(dte.llly_year_start_dt, 'YYYY-MM-DD') AS llly_year_start_dt,
+        TO_CHAR(dte.llly_year_end_dt, 'YYYY-MM-DD') AS llly_year_end_dt,
+        TO_CHAR(dte.llly_period_start_dt, 'YYYY-MM-DD') AS llly_period_start_dt,
+        TO_CHAR(dte.llly_period_end_dt, 'YYYY-MM-DD') AS llly_period_end_dt,
+        TO_CHAR(dte.llly_week_start_dt, 'YYYY-MM-DD') AS llly_week_start_dt,
+        TO_CHAR(dte.llly_week_end_dt, 'YYYY-MM-DD') AS llly_week_end_dt,
+        TO_CHAR(dte.llly_day_of_year_num, '000') AS llly_day_of_year_num,
+        TO_CHAR(dte.llly_day_of_period_num, '00') AS llly_day_of_period_num,
+        TO_CHAR(dte.llly_day_of_week_num, '0') AS llly_day_of_week_num,
+        TO_CHAR(dte.llly_week_of_year_num, '00') AS llly_week_of_year_num,
+        TO_CHAR(dte.llly_week_of_period_num, '00') AS llly_week_of_period_num,
+        TO_CHAR(dte.llly_period_of_year_num, '00') AS llly_period_of_year_num,
+        TO_CHAR(dte.llly_year_week, '000000') AS llly_year_week,
+        TO_CHAR(dte.llly_year_period, '000000') AS llly_year_period,
+        TO_CHAR(dte.llly_year_num, '0000') AS llly_year_num,
+        TO_CHAR(dte.ny_calendar_dt, 'YYYY-MM-DD') AS ny_calendar_dt,
+        TO_CHAR(dte.ny_year_start_dt, 'YYYY-MM-DD') AS ny_year_start_dt,
+        TO_CHAR(dte.ny_year_end_dt, 'YYYY-MM-DD') AS ny_year_end_dt,
+        TO_CHAR(dte.ny_period_start_dt, 'YYYY-MM-DD') AS ny_period_start_dt,
+        TO_CHAR(dte.ny_period_end_dt, 'YYYY-MM-DD') AS ny_period_end_dt,
+        TO_CHAR(dte.ny_week_start_dt, 'YYYY-MM-DD') AS ny_week_start_dt,
+        TO_CHAR(dte.ny_week_end_dt, 'YYYY-MM-DD') AS ny_week_end_dt,
+        TO_CHAR(dte.ny_day_of_year_num, '000') AS ny_day_of_year_num,
+        TO_CHAR(dte.ny_day_of_period_num, '00') AS ny_day_of_period_num,
+        TO_CHAR(dte.ny_day_of_week_num, '0') AS ny_day_of_week_num,
+        TO_CHAR(dte.ny_week_of_year_num, '00') AS ny_week_of_year_num,
+        TO_CHAR(dte.ny_week_of_period_num, '00') AS ny_week_of_period_num,
+        TO_CHAR(dte.ny_period_of_year_num, '00') AS ny_period_of_year_num,
+        TO_CHAR(dte.ny_year_week, '000000') AS ny_year_week,
+        TO_CHAR(dte.ny_year_period, '000000') AS ny_year_period,
+        TO_CHAR(dte.ny_year_num, '0000') AS ny_year_num
+    FROM DW{INSTANCE}A_ACC_FND.DW_FND_DATE_DIM AS dte
+    WHERE
+        dte.calendar_dt = date '{LDTK_DATE}'
+)
+SELECT '!CALENDAR_DT="' || TRIM(dte.calendar_dt) || '"' (VARCHAR(200)) "#" FROM dte UNION ALL
+SELECT '!YEAR_START_DT="' || TRIM(dte.year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!YEAR_END_DT="' || TRIM(dte.year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!PERIOD_START_DT="' || TRIM(dte.period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!PERIOD_END_DT="' || TRIM(dte.period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!WEEK_START_DT="' || TRIM(dte.week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!WEEK_END_DT="' || TRIM(dte.week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!DAY_OF_YEAR_NUM="' || TRIM(dte.day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!DAY_OF_PERIOD_NUM="' || TRIM(dte.day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!DAY_OF_WEEK_NUM="' || TRIM(dte.day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!WEEK_OF_YEAR_NUM="' || TRIM(dte.week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!WEEK_OF_PERIOD_NUM="' || TRIM(dte.week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!PERIOD_OF_YEAR_NUM="' || TRIM(dte.period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!YEAR_WEEK="' || TRIM(dte.year_week) || '"' FROM dte UNION ALL
+SELECT '!YEAR_PERIOD="' || TRIM(dte.year_period) || '"' FROM dte UNION ALL
+SELECT '!YEAR_NUM="' || TRIM(dte.year_num) || '"' FROM dte UNION ALL
+SELECT '!SEASON_CODE="' || TRIM(dte.season_code) || '"' FROM dte UNION ALL
+SELECT '!SEASON_NAME="' || TRIM(dte.season_name) || '"' FROM dte UNION ALL
+SELECT '!SEASON_DESCRIPTION="' || TRIM(dte.season_description) || '"' FROM dte UNION ALL
+SELECT '!LY_CALENDAR_DT="' || TRIM(dte.ly_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_START_DT="' || TRIM(dte.ly_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_END_DT="' || TRIM(dte.ly_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_PERIOD_START_DT="' || TRIM(dte.ly_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_PERIOD_END_DT="' || TRIM(dte.ly_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_START_DT="' || TRIM(dte.ly_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_END_DT="' || TRIM(dte.ly_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LY_DAY_OF_YEAR_NUM="' || TRIM(dte.ly_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LY_DAY_OF_PERIOD_NUM="' || TRIM(dte.ly_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LY_DAY_OF_WEEK_NUM="' || TRIM(dte.ly_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_OF_YEAR_NUM="' || TRIM(dte.ly_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.ly_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.ly_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_WEEK="' || TRIM(dte.ly_year_week) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_PERIOD="' || TRIM(dte.ly_year_period) || '"' FROM dte UNION ALL
+SELECT '!LY_YEAR_NUM="' || TRIM(dte.ly_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_CALENDAR_DT="' || TRIM(dte.lly_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_START_DT="' || TRIM(dte.lly_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_END_DT="' || TRIM(dte.lly_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_PERIOD_START_DT="' || TRIM(dte.lly_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_PERIOD_END_DT="' || TRIM(dte.lly_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_START_DT="' || TRIM(dte.lly_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_END_DT="' || TRIM(dte.lly_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLY_DAY_OF_YEAR_NUM="' || TRIM(dte.lly_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_DAY_OF_PERIOD_NUM="' || TRIM(dte.lly_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_DAY_OF_WEEK_NUM="' || TRIM(dte.lly_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_OF_YEAR_NUM="' || TRIM(dte.lly_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.lly_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.lly_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_WEEK="' || TRIM(dte.lly_year_week) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_PERIOD="' || TRIM(dte.lly_year_period) || '"' FROM dte UNION ALL
+SELECT '!LLY_YEAR_NUM="' || TRIM(dte.lly_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_CALENDAR_DT="' || TRIM(dte.llly_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_START_DT="' || TRIM(dte.llly_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_END_DT="' || TRIM(dte.llly_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_PERIOD_START_DT="' || TRIM(dte.llly_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_PERIOD_END_DT="' || TRIM(dte.llly_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_START_DT="' || TRIM(dte.llly_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_END_DT="' || TRIM(dte.llly_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!LLLY_DAY_OF_YEAR_NUM="' || TRIM(dte.llly_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_DAY_OF_PERIOD_NUM="' || TRIM(dte.llly_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_DAY_OF_WEEK_NUM="' || TRIM(dte.llly_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_OF_YEAR_NUM="' || TRIM(dte.llly_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.llly_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.llly_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_WEEK="' || TRIM(dte.llly_year_week) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_PERIOD="' || TRIM(dte.llly_year_period) || '"' FROM dte UNION ALL
+SELECT '!LLLY_YEAR_NUM="' || TRIM(dte.llly_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_CALENDAR_DT="' || TRIM(dte.ny_calendar_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_START_DT="' || TRIM(dte.ny_year_start_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_END_DT="' || TRIM(dte.ny_year_end_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_PERIOD_START_DT="' || TRIM(dte.ny_period_start_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_PERIOD_END_DT="' || TRIM(dte.ny_period_end_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_START_DT="' || TRIM(dte.ny_week_start_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_END_DT="' || TRIM(dte.ny_week_end_dt) || '"' FROM dte UNION ALL
+SELECT '!NY_DAY_OF_YEAR_NUM="' || TRIM(dte.ny_day_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_DAY_OF_PERIOD_NUM="' || TRIM(dte.ny_day_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!NY_DAY_OF_WEEK_NUM="' || TRIM(dte.ny_day_of_week_num) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_OF_YEAR_NUM="' || TRIM(dte.ny_week_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_WEEK_OF_PERIOD_NUM="' || TRIM(dte.ny_week_of_period_num) || '"' FROM dte UNION ALL
+SELECT '!NY_PERIOD_OF_YEAR_NUM="' || TRIM(dte.ny_period_of_year_num) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_WEEK="' || TRIM(dte.ny_year_week) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_PERIOD="' || TRIM(dte.ny_year_period) || '"' FROM dte UNION ALL
+SELECT '!NY_YEAR_NUM="' || TRIM(dte.ny_year_num) || '"' FROM dte
+    """
+    with conn.cursor() as cursor:
+        try:
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            for row in rows:
+                if row[0].startswith('!'):
+                    key, value = row[0][1:].split('=', 1)
+                    parameters[key] = value.strip('"')
+            # print the parameters dictionary
+            return parameters
+        except Exception as e:
+            print(f"Error executing SQL to get parameters: {e}")
+            return parameters
+    return parameters
+
+
+
 def connect_to_teradata():
     """
     Connect to Teradata using connection info from ~/.tencents/connect.yml
@@ -128,6 +320,8 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
     print(f"Processing DDL file: {filename}")
     yesterday = datetime.now() - timedelta(days=1)
     today = datetime.now()
+    # split run results
+    split_run_results = []
     # adjust yesterday and today based on rundate if provided
     if rundate:
         yesterday = datetime.strptime(rundate, '%Y-%m-%d')
@@ -143,21 +337,25 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
     # rundate is in the format YYYY-MM-DD
     params['LDTK_DATE'] = yesterday.strftime('%Y-%m-%d')
 
-    params['EFF_FROM_DATE'] = today.strftime('%Y-%m-%d')
+    params['EFF_FROM_DT'] = today.strftime('%Y-%m-%d')
     # RUN_ID = random number between 1 and 10000 
     import random
     params['RUNID'] = random.randint(1, 10000)
+    params['STREAMID'] = 'TEST'
     # job id based on filename split on <JOBNAME>_....
     job = filename.split('_')[0]
     params['JOB'] = job
-
+    get_parameters_for_step(conn, params, '',params['INSTANCE'], params['LDTK_DATE'])
+    if 'EFF_TO_DATE' not in params:
+        # if EFF_TO_DATE is not in params then set it to 9999-12-31
+        params['EFF_TO_DATE'] = params['LDTK_DATE']
 
     #print(params)
     # get steps paths
     steps_path = config.get('steps_path', 'steps')
     if not steps_path:
         print("Steps path is not specified in the config file. Please check the config file.")
-        return 0, ''
+        return 0-1, '',split_run_results
     # now create tmp path
     tmp_path = config.get('tmp_path', 'tmp')
     # if path does not exist create
@@ -169,7 +367,7 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
     sql_file = Path(steps_path) / filename
     if not sql_file.exists():
         print(f"File {sql_file} does not exist in steps path {steps_path}. Please check the config file.")
-        return 0, ''
+        return -1, '',split_run_results
 
     # now check if file exists in tmp path
     tmp_file = tmp_path / filename
@@ -208,7 +406,7 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
         sql_content = sql_template.substitute(params)
     except KeyError as e:
         print(f"Error substituting parameters in SQL content: {e}")
-        return -1, f"Error substituting parameters in SQL content: {e}"
+        return -1, f"Error substituting parameters in SQL content: {e}",split_run_results
     # write to tmp file
 
     with open(tmp_file, 'w') as f:
@@ -218,10 +416,12 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
     sql_statements = sqlparse.split(sql_content)
     if not sql_statements:
         print(f"No SQL statements found in {filename}.")
-        return 0, ''
+        return -1, '',split_run_results
 
-    # now execute each statement
+    # now execute each statement and capture timing
     for split_index, statement in enumerate(sql_statements):
+        split_result = {}
+        split_run_results.append(split_result)
         statement = statement.strip()
         filename_without_ext = Path(filename).stem
         file_name_split = tmp_split_path / f"{filename_without_ext}.{split_index}.sql"
@@ -236,8 +436,12 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
             continue
         try:
             # file name is filename.<split index>.sql
-            # remove file extension from filename
-
+            # populate split_result metadata
+            split_result['split_index'] = split_index
+            split_result['statement'] = statement
+            split_result['file_name'] = str(file_name_split)
+            import time
+            start_time = time.time()
             with conn.cursor() as cursor:
                 print(f"Executing statement: {statement}")
                 cursor.execute(statement)
@@ -247,21 +451,49 @@ def run_step_file(conn , filename, config,params=None,rundate=None):
                 row_count = cursor.rowcount
                 print(f"Row count: {row_count}")
                 fh.write(f"-- ROW COUNT: {row_count}\n")
+                split_result['row_count'] = row_count
+                split_result['status'] = 'success'
+                split_result['error'] = ''
+                end_time = time.time()
+                elapsed = end_time - start_time
+                split_result['elapsed_seconds'] = round(elapsed, 4)
+                fh.write(f"-- ELAPSED_SECONDS: {split_result['elapsed_seconds']}\n")
                 fh.close()
+        except teradatasql.DatabaseError as e:
+            print(f"Database error executing statement: {statement}\nError: {e}")
+            fh.write(f"-- ERROR: {e}\n")
+            split_result['status'] = 'error'
+            split_result['error'] = str(e)
+            try:
+                end_time = time.time()
+                split_result['elapsed_seconds'] = round(end_time - start_time, 4)
+                fh.write(f"-- ELAPSED_SECONDS: {split_result['elapsed_seconds']}\n")
+            except Exception:
+                pass
+            fh.close()
+            return -1, str(e),split_run_results
         except Exception as e:
             print(f"Error executing statement: {statement}\nError: {e}")
             fh.write(f"-- ERROR: {e}\n")
+            split_result['status'] = 'error'
+            split_result['error'] = str(e)
+            try:
+                end_time = time.time()
+                split_result['elapsed_seconds'] = round(end_time - start_time, 4)
+                fh.write(f"-- ELAPSED_SECONDS: {split_result['elapsed_seconds']}\n")
+            except Exception:
+                pass
             fh.close()
-            return -1, str(e)
+            return -1, str(e),split_run_results
 
-    return 0, ''
+    return 0, '',split_run_results
 
 if __name__ == "__main__":
 
     # load config.yaml file into config variable
     config_path = Path(__file__).parent / "config.yaml"
     if not config_path.exists():
-        print(f"Config file {config_path} does not exist. Please create it with your configuration details.")
+        print(f"Config file {config_path} does not exist. Please create it with your configuration details.") 
         sys.exit(1)
 
     # load into config variable
@@ -292,7 +524,7 @@ if __name__ == "__main__":
     #    drop_using_file(ddl_file,config)
     #    # create using file
     #    create_using_file(ddl_file,config)
-    run_step_file(conn , 'FND1041.190.TRANS.sql', config,params=None)
+    run_step_file(conn , 'FND2105.300.TARGET.sql', config,params=None)
 
 
 

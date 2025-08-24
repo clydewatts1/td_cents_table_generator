@@ -1,0 +1,482 @@
+control_columns: .nan
+description: TBD
+job_name: FND2105
+job_name_from_file: FND2105
+job_name_from_mapping: FND2105
+mapping_columns:
+- column_action: key
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 22
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: business_date
+- column_action: key
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 21
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: loc_wid
+- column_action: key
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 20
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: item_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 19
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: fct_src_map
+- column_action: nan
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 18
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: transfer_outst_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 17
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: transfer_outst_retail_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 16
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: transfer_outst_cost_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 15
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: transfer_act_repo_cost_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 14
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: transfer_act_upchrg_unit_cost
+- column_action: nan
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 13
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: transfer_act_upchrg_cost_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 12
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: stock_count_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 11
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: stock_count_snapshot_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 10
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: stock_count_retail_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 9
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: stock_count_snapshot_retail_amt
+- column_action: nan
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 8
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: total_stock_loss_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 7
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: total_stock_loss_value
+- column_action: nan
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 6
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: tsf_intake_qty
+- column_action: nan
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 5
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: tsf_intake_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 4
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: tsf_intake_cost_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 3
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: trasfer_ship_units
+- column_action: nan
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 2
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: trasfer_ship_retail_amount
+- column_action: nan
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 1
+  source_column_name: See SQL Mapping FND2105.300.TARGET
+  target_column_name: trasfer_ship_cost_amount
+mapping_columns_count: 22
+mapping_sheet_name: MAPPING
+pattern: Staging
+primary_key:
+- business_date
+- loc_wid
+- item_wid
+sql_steps:
+  FND2105.300.TARGET: "WITH TSF AS ( /* SSBI1067 */\n/* Stock transfer summary */\n\
+    \    SELECT\n        item_wid,\n        business_date,\n        location_wid,\n\
+    \        transfer_outst_units,\n        (transfer_outst_units * to_loc_unit_sell_val)\
+    \ AS transfer_outst_retail_value,\n        (transfer_outst_units * to_loc_unit_cost_val)\
+    \ AS transfer_outst_cost_value\n    FROM\n        (\n            SELECT\n    \
+    \            TSP.to_location_wid AS location_wid,\n                TSP.item_wid,\n\
+    \                date '${LDTK_DATE}' AS business_date,\n                (SUM(TSP.transfer_qty)\
+    \ - SUM(TSP.shipped_qty)) AS transfer_outst_units,\n                MAX(TSP.to_loc_unit_sell_val)\
+    \ AS to_loc_unit_sell_val,\n                MAX(TSP.to_loc_unit_cost_val) AS to_loc_unit_cost_val\n\
+    \            FROM\n                DWP01A_ACC_ORR.dw_stock_transfer_ln_fv AS TSP\n\
+    \            WHERE\n                /* Accumated sum of the week */\n        \
+    \        CAST(TSP.transfer_dt AS DATE) BETWEEN date '${WEEK_START_DT}'AND date\
+    \ '${WEEK_START_DT}'+ 6\n                AND current_flg = 'Y'\n            GROUP\
+    \ BY\n                1,\n                2,\n3\n            HAVING\n        \
+    \        transfer_outst_units IS NOT NULL\n        ) AS TSF_1\n),\nTCV AS ( /*\
+    \ SSBI1066 */\n    SELECT\n        INV.loc_wid AS location_wid,\n        ITM.item_wid,\n\
+    \        date '${LDTK_DATE}' AS business_date,\n        SUM(INTI.item_adjst_qty\
+    \ * ITM.pmk_unit_cost_amt) AS transfer_act_repo_cost_value\n    FROM\n       \
+    \ DWP01A_IDW.pmk_trsfr_wo_item AS ITM\n    INNER JOIN\n        DWP01A_IDW.invtry_tsactn\
+    \ AS INV\n        ON ITM.invtry_tsactn_wid = INV.invtry_tsactn_wid AND INV.cur_flg\
+    \ = 'Y'\n    INNER JOIN\n        DWP01A_IDW.invtry_tsactn_item AS INTI\n     \
+    \   ON ITM.invtry_tsactn_wid = INTI.invtry_tsactn_wid\n        AND ITM.item_wid\
+    \ = INTI.item_wid\n        AND INTI.cur_flg = 'Y'\n    INNER JOIN\n        DWP01A_IDW.pmk_trsfr_wo\
+    \ AS WO\n        ON INV.invtry_tsactn_wid = WO.invtry_tsactn_wid AND WO.cur_flg\
+    \ = 'Y'\n    WHERE\n        WO.pmk_wo_dttm IS NOT NULL\n        AND ITM.cur_flg\
+    \ = 'Y'\n        /* Accumated sum of the week */\n        AND WO.pmk_wo_dttm BETWEEN\
+    \ date '${WEEK_START_DT}'AND date '${LDTK_DATE}'\n    GROUP BY\n        1,\n \
+    \       2,\n3\n),\n/* Stock counts */\nSTC AS ( /* SSBI1064 */\n    SELECT\n \
+    \       item_wid,\n        loc_wid AS location_wid,\n        date '${LDTK_DATE}'\
+    \ AS business_date,\n        /* Note : This is incorrect this is based on origal\
+    \ calculation\n                  It assumes a manual count is at most once a week\
+    \ */\n        SUM(stock_count_units) AS stock_count_units,\n        SUM(stock_count_snapshot_units)\
+    \ AS stock_count_snapshot_units,\n        SUM(stock_count_retail_amt) AS stock_count_retail_amt,\n\
+    \        SUM(stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,\n\
+    \        SUM(stock_count_snapshot_units) - SUM(stock_count_units) AS total_stock_loss_units,\n\
+    \        SUM(stock_count_snapshot_retail_amt) - SUM(stock_count_retail_amt) AS\
+    \ total_stock_loss_value\n    FROM\n        DWP01A_ACC_ORR.dw_stock_count_line_fv\
+    \ AS STK_CNT_TY\n    WHERE\n        /* Accumated sum of the week */\n        STK_CNT_TY.stock_count_dt\
+    \ BETWEEN date '${WEEK_START_DT}' AND date '${LDTK_DATE}'\n        AND current_flg\
+    \ = 'Y'\n    GROUP BY\n        1,\n        2,\n3\n),\nTSFC AS ( /* SSBI1065 */\n\
+    \    /* transfer costs */\n    SELECT\n        STC1.item_wid,\n        STC1.to_location_wid\
+    \ AS location_wid,\n        date '${LDTK_DATE}' AS business_date,\n        SUM(STC1.cost_val)\
+    \ AS transfer_act_upchrg_unit_cost,\n        SUM(STC1.cost_val * DSOH.soh_retail_amount)\
+    \ AS transfer_act_upchrg_cost_value\n    FROM\n        DWP01A_ACC_ORR.dw_stock_transfer_ln_cost_fv\
+    \ AS STC1\n    INNER JOIN\n        DSOH\n        ON DSOH.item_wid = STC1.item_wid\n\
+    \        AND DSOH.location_wid = STC1.to_location_wid\n    WHERE\n        /* Accumated\
+    \ sum of the week */\n        STC1.transfer_dt BETWEEN date '${WEEK_START_DT}'\
+    \ AND date '${LDTK_DATE}'\n        AND current_flg = 'Y'\n    GROUP BY\n     \
+    \   1,\n        2,\n3\n    HAVING\n        transfer_act_upchrg_unit_cost IS NOT\
+    \ NULL\n),\nTSFI AS ( /* SSBI1064 */\n/* received stock */\n    SELECT\n     \
+    \   item_wid,\n        location_wid,\n        date '${LDTK_DATE}' AS business_date,\n\
+    \        SUM(TSFRL.received_qty) AS tsf_intake_qty,\n        SUM(TSFRL.received_qty\
+    \ * TSFRL.unit_sell_price_amt) AS tsf_intake_retail_amount,\n        SUM(TSFRL.received_qty\
+    \ * TSFRL.unit_cost_amt) AS tsf_intake_cost_amount\n    FROM\n        DWP01A_ACC_ORR.dw_tsf_receipt_ln_fv\
+    \ AS TSFRL\n    WHERE\n        /* Accumated sum of the week */\n        CAST(TSFRL.receipt_dt\
+    \ AS DATE) BETWEEN date '${WEEK_START_DT}'AND date '${LDTK_DATE}'\n    GROUP BY\n\
+    \        1,\n        2,\n3\n),\nTSFSHP AS ( /* SSBI1063 - Get the shipping quantity\
+    \ for a transfer */\n    /* shipping */\n    SELECT\n        TSF_TY.from_location_wid\
+    \ AS location_wid,\n        TSF_TY.item_wid,\n        date '${LDTK_DATE}' AS business_date,\n\
+    \        SUM(SP_TY.shipped_qty) AS trasfer_ship_units, /* Primark Week accumulated\
+    \ total */\n        SUM(SP_TY.shipped_qty * SP_TY.selling_value_per_unit) AS trasfer_ship_retail_amount,\n\
+    \        SUM(SP_TY.shipped_qty * SP_TY.cost_value_per_unit) AS trasfer_ship_cost_amount\n\
+    \    FROM\n        DWP01A_ACC_ORR.dw_stock_transfer_ln_fv AS TSF_TY /* Stock transfers\
+    \ at transaction/item */\n    INNER JOIN\n        DWP01A_ACC_ORR.dw_shipment_ln_fv\
+    \ AS SP_TY /* shipping at transaction/item */\n        ON TSF_TY.invtry_tsactn_wid\
+    \ = SP_TY.transfer_wid /* join on transaction , item for current rows only */\n\
+    \        AND TSF_TY.item_wid = SP_TY.item_wid\n        AND SP_TY.current_flg =\
+    \ 'Y'\n    WHERE\n        TSF_TY.current_flg = 'Y'\n        AND SP_TY.shipment_dt\
+    \ BETWEEN date '${WEEK_START_DT}'AND date '${LDTK_DATE}' /* For This primark Week\
+    \ */\n    GROUP BY\n        1,\n        2,\n3\n),\nSTKA AS (\n    SELECT\n   \
+    \     item_wid,\n        loc_wid AS location_wid,\n        date '${LDTK_DATE}'\
+    \ AS business_date,\n        CEILING((date '${LDTK_DATE}') - CAST(first_stock_inventory_dt\
+    \ AS DATE)) / 7 AS soh_age_in_weeks\n    FROM\n        DWP01A_ACC_ORR.dw_aged_stock_dtls_fv\n\
+    \    WHERE\n        current_flg = 'Y'\n),\nLC AS (\n  /* map wid to id */\n  \
+    \  SELECT\n        loc_id AS location_id,\n        loc_wid AS location_wid\n \
+    \   FROM\n        DWP01A_IDW.loc\n    WHERE\n        loc_sbtype_cd IN ('W', 'S')\n\
+    \        AND cur_flg = 'Y'\n),\nITM AS (\n  /* map wid to id */\n    SELECT\n\
+    \        item_id,\n        item_wid\n    FROM\n        DWP01A_IDW.item\n    WHERE\n\
+    \        cur_flg = 'Y'\n),\nDSOH AS (\n  /* get retail amount from stock pos */\n\
+    \    SELECT\n        item_wid,\n        location_wid,\n        soh_retail_amount\n\
+    \    FROM\n        dwp01a_acc_orr.dw_stock_position_dy_fv\n    WHERE\n       \
+    \ stock_inventory_date = date '${LDTK_DATE}'\n),\nFCT AS (\n    /* all stock measures\n\
+    \          do full outer joins to get all combinations\n          TODO: Make this\
+    \ more efficient\n    */\n    SELECT\n        COALESCE(TSF.business_date, TCV.business_date,\
+    \ STC.business_date,TSFC.business_date,TSFI.business_date,TSFSHP.business_date,STKA.business_date)\
+    \ AS business_date,\n        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid,TSFC.location_wid,TSFI.location_wid,TSFSHP.location_wid,STKA.location_wid)\
+    \ AS loc_wid,\n        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid,TSFC.item_wid,TSFI.item_wid,TSFSHP.item_wid,STKA.item_wid)\
+    \ AS item_wid,\n        SUM(TSF.transfer_outst_units) AS transfer_outst_units,\n\
+    \        SUM(TSF.transfer_outst_retail_value) AS transfer_outst_retail_value,\n\
+    \        SUM(TSF.transfer_outst_cost_value) AS transfer_outst_cost_value,\n  \
+    \      SUM(TCV.transfer_act_repo_cost_value) AS transfer_act_repo_cost_value,\n\
+    \        SUM(TSFC.transfer_act_upchrg_unit_cost) AS transfer_act_upchrg_unit_cost,\n\
+    \        SUM(TSFC.transfer_act_upchrg_cost_value) AS transfer_act_upchrg_cost_value,\n\
+    \        SUM(STC.stock_count_units) AS stock_count_units,\n        SUM(STC.stock_count_snapshot_units)\
+    \ AS stock_count_snapshot_units,\n        SUM(STC.stock_count_retail_amt) AS stock_count_retail_amt,\n\
+    \        SUM(STC.stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,\n\
+    \        SUM(STC.total_stock_loss_units) AS total_stock_loss_units,\n        SUM(STC.total_stock_loss_value)\
+    \ AS total_stock_loss_value,\n        SUM(TSFI.tsf_intake_qty) AS tsf_intake_qty,\n\
+    \        SUM(TSFI.tsf_intake_retail_amount) AS tsf_intake_retail_amount,\n   \
+    \     SUM(TSFI.tsf_intake_cost_amount) AS tsf_intake_cost_amount,\n        SUM(TSFSHP.trasfer_ship_units)\
+    \ AS trasfer_ship_units,\n        SUM(TSFSHP.trasfer_ship_retail_amount) AS trasfer_ship_retail_amount,\n\
+    \        SUM(TSFSHP.trasfer_ship_cost_amount) AS trasfer_ship_cost_amount,\n \
+    \       SUM(STKA.soh_age_in_weeks) AS soh_age_in_weeks\n    FROM TSF\n    FULL\
+    \ OUTER JOIN TCV\n        ON TSF.location_wid = TCV.location_wid\n        AND\
+    \ TSF.item_wid = TCV.item_wid\n        AND TSF.business_date = TCV.business_date\n\
+    \    FULL OUTER JOIN STC\n        ON STC.location_wid = TSF.location_wid\n   \
+    \     AND STC.item_wid = TSF.item_wid\n        AND STC.business_date = TSF.business_date\n\
+    \    FULL OUTER JOIN TSFC\n        ON TSF.location_wid = TSFC.location_wid\n \
+    \       AND TSF.item_wid = TSFC.item_wid\n        AND TSF.business_date = TSFC.business_date\n\
+    \    FULL OUTER JOIN TSFI\n        ON TSF.location_wid = TSFI.location_wid\n \
+    \       AND TSF.item_wid = TSFI.item_wid\n        AND TSF.business_date = TSFI.business_date\n\
+    \    FULL OUTER JOIN TSFSHP\n        ON TSF.location_wid = TSFSHP.location_wid\n\
+    \        AND TSF.item_wid = TSFSHP.item_wid\n        AND TSF.business_date = TSFSHP.business_date\n\
+    \    FULL OUTER JOIN STKA\n        ON TSF.location_wid = STKA.location_wid\n \
+    \       AND TSF.item_wid = STKA.item_wid\n        AND TSF.business_date = STKA.business_date\n\
+    \  GROUP BY 1,2,3\n)\nSELECT\n    FCT.business_date,\n    FCT.loc_wid,\n    FCT.item_wid,\n\
+    \    setbit((0(INTEGER)),1,1) as fct_src_map,\n    FCT.transfer_outst_units,\n\
+    \    FCT.transfer_outst_retail_value,\n    FCT.transfer_outst_cost_value,\n  \
+    \  FCT.transfer_act_repo_cost_value,\n    FCT.transfer_act_upchrg_unit_cost,\n\
+    \    FCT.transfer_act_upchrg_cost_value,\n    FCT.stock_count_units,\n    FCT.stock_count_snapshot_units,\n\
+    \    FCT.stock_count_retail_amt,\n    FCT.stock_count_snapshot_retail_amt,\n \
+    \   FCT.total_stock_loss_units,\n    FCT.total_stock_loss_value,\n    FCT.tsf_intake_qty,\n\
+    \    FCT.tsf_intake_retail_amount,\n    FCT.tsf_intake_cost_amount,\n    FCT.trasfer_ship_units,\n\
+    \    FCT.trasfer_ship_retail_amount,\n    FCT.trasfer_ship_cost_amount\nFROM FCT\n\
+    WHERE\n   /* Check for all zero rows */\n    COALESCE(FCT.transfer_outst_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_units, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_retail_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_cost_value, 0) <> 0\n    OR COALESCE(FCT.transfer_act_repo_cost_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_act_upchrg_cost_value, 0) <> 0\n    OR\
+    \ COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_qty, 0) <> 0\n    OR COALESCE(FCT.tsf_intake_retail_amount,\
+    \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_cost_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_retail_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_cost_amount,\
+    \ 0) <> 0;"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2105
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+  unnamed:_9: ''
+- description: Used standard update
+  file_name: FND2105.300.TARGET.sql
+  file_present: true
+  job_name: FND2105
+  notes: See Mapping
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: "WITH TSF AS ( /* SSBI1067 */\n/* Stock transfer summary */\n   \
+    \ SELECT\n        item_wid,\n        business_date,\n        location_wid,\n \
+    \       transfer_outst_units,\n        (transfer_outst_units * to_loc_unit_sell_val)\
+    \ AS transfer_outst_retail_value,\n        (transfer_outst_units * to_loc_unit_cost_val)\
+    \ AS transfer_outst_cost_value\n    FROM\n        (\n            SELECT\n    \
+    \            TSP.to_location_wid AS location_wid,\n                TSP.item_wid,\n\
+    \                date '${LDTK_DATE}' AS business_date,\n                (SUM(TSP.transfer_qty)\
+    \ - SUM(TSP.shipped_qty)) AS transfer_outst_units,\n                MAX(TSP.to_loc_unit_sell_val)\
+    \ AS to_loc_unit_sell_val,\n                MAX(TSP.to_loc_unit_cost_val) AS to_loc_unit_cost_val\n\
+    \            FROM\n                DWP01A_ACC_ORR.dw_stock_transfer_ln_fv AS TSP\n\
+    \            WHERE\n                /* Accumated sum of the week */\n        \
+    \        CAST(TSP.transfer_dt AS DATE) BETWEEN date '${WEEK_START_DT}'AND date\
+    \ '${WEEK_START_DT}'+ 6\n                AND current_flg = 'Y'\n            GROUP\
+    \ BY\n                1,\n                2,\n3\n            HAVING\n        \
+    \        transfer_outst_units IS NOT NULL\n        ) AS TSF_1\n),\nTCV AS ( /*\
+    \ SSBI1066 */\n    SELECT\n        INV.loc_wid AS location_wid,\n        ITM.item_wid,\n\
+    \        date '${LDTK_DATE}' AS business_date,\n        SUM(INTI.item_adjst_qty\
+    \ * ITM.pmk_unit_cost_amt) AS transfer_act_repo_cost_value\n    FROM\n       \
+    \ DWP01A_IDW.pmk_trsfr_wo_item AS ITM\n    INNER JOIN\n        DWP01A_IDW.invtry_tsactn\
+    \ AS INV\n        ON ITM.invtry_tsactn_wid = INV.invtry_tsactn_wid AND INV.cur_flg\
+    \ = 'Y'\n    INNER JOIN\n        DWP01A_IDW.invtry_tsactn_item AS INTI\n     \
+    \   ON ITM.invtry_tsactn_wid = INTI.invtry_tsactn_wid\n        AND ITM.item_wid\
+    \ = INTI.item_wid\n        AND INTI.cur_flg = 'Y'\n    INNER JOIN\n        DWP01A_IDW.pmk_trsfr_wo\
+    \ AS WO\n        ON INV.invtry_tsactn_wid = WO.invtry_tsactn_wid AND WO.cur_flg\
+    \ = 'Y'\n    WHERE\n        WO.pmk_wo_dttm IS NOT NULL\n        AND ITM.cur_flg\
+    \ = 'Y'\n        /* Accumated sum of the week */\n        AND WO.pmk_wo_dttm BETWEEN\
+    \ date '${WEEK_START_DT}'AND date '${LDTK_DATE}'\n    GROUP BY\n        1,\n \
+    \       2,\n3\n),\n/* Stock counts */\nSTC AS ( /* SSBI1064 */\n    SELECT\n \
+    \       item_wid,\n        loc_wid AS location_wid,\n        date '${LDTK_DATE}'\
+    \ AS business_date,\n        /* Note : This is incorrect this is based on origal\
+    \ calculation\n                  It assumes a manual count is at most once a week\
+    \ */\n        SUM(stock_count_units) AS stock_count_units,\n        SUM(stock_count_snapshot_units)\
+    \ AS stock_count_snapshot_units,\n        SUM(stock_count_retail_amt) AS stock_count_retail_amt,\n\
+    \        SUM(stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,\n\
+    \        SUM(stock_count_snapshot_units) - SUM(stock_count_units) AS total_stock_loss_units,\n\
+    \        SUM(stock_count_snapshot_retail_amt) - SUM(stock_count_retail_amt) AS\
+    \ total_stock_loss_value\n    FROM\n        DWP01A_ACC_ORR.dw_stock_count_line_fv\
+    \ AS STK_CNT_TY\n    WHERE\n        /* Accumated sum of the week */\n        STK_CNT_TY.stock_count_dt\
+    \ BETWEEN date '${WEEK_START_DT}' AND date '${LDTK_DATE}'\n        AND current_flg\
+    \ = 'Y'\n    GROUP BY\n        1,\n        2,\n3\n),\nTSFC AS ( /* SSBI1065 */\n\
+    \    /* transfer costs */\n    SELECT\n        STC1.item_wid,\n        STC1.to_location_wid\
+    \ AS location_wid,\n        date '${LDTK_DATE}' AS business_date,\n        SUM(STC1.cost_val)\
+    \ AS transfer_act_upchrg_unit_cost,\n        SUM(STC1.cost_val * DSOH.soh_retail_amount)\
+    \ AS transfer_act_upchrg_cost_value\n    FROM\n        DWP01A_ACC_ORR.dw_stock_transfer_ln_cost_fv\
+    \ AS STC1\n    INNER JOIN\n        DSOH\n        ON DSOH.item_wid = STC1.item_wid\n\
+    \        AND DSOH.location_wid = STC1.to_location_wid\n    WHERE\n        /* Accumated\
+    \ sum of the week */\n        STC1.transfer_dt BETWEEN date '${WEEK_START_DT}'\
+    \ AND date '${LDTK_DATE}'\n        AND current_flg = 'Y'\n    GROUP BY\n     \
+    \   1,\n        2,\n3\n    HAVING\n        transfer_act_upchrg_unit_cost IS NOT\
+    \ NULL\n),\nTSFI AS ( /* SSBI1064 */\n/* received stock */\n    SELECT\n     \
+    \   item_wid,\n        location_wid,\n        date '${LDTK_DATE}' AS business_date,\n\
+    \        SUM(TSFRL.received_qty) AS tsf_intake_qty,\n        SUM(TSFRL.received_qty\
+    \ * TSFRL.unit_sell_price_amt) AS tsf_intake_retail_amount,\n        SUM(TSFRL.received_qty\
+    \ * TSFRL.unit_cost_amt) AS tsf_intake_cost_amount\n    FROM\n        DWP01A_ACC_ORR.dw_tsf_receipt_ln_fv\
+    \ AS TSFRL\n    WHERE\n        /* Accumated sum of the week */\n        CAST(TSFRL.receipt_dt\
+    \ AS DATE) BETWEEN date '${WEEK_START_DT}'AND date '${LDTK_DATE}'\n    GROUP BY\n\
+    \        1,\n        2,\n3\n),\nTSFSHP AS ( /* SSBI1063 - Get the shipping quantity\
+    \ for a transfer */\n    /* shipping */\n    SELECT\n        TSF_TY.from_location_wid\
+    \ AS location_wid,\n        TSF_TY.item_wid,\n        date '${LDTK_DATE}' AS business_date,\n\
+    \        SUM(SP_TY.shipped_qty) AS trasfer_ship_units, /* Primark Week accumulated\
+    \ total */\n        SUM(SP_TY.shipped_qty * SP_TY.selling_value_per_unit) AS trasfer_ship_retail_amount,\n\
+    \        SUM(SP_TY.shipped_qty * SP_TY.cost_value_per_unit) AS trasfer_ship_cost_amount\n\
+    \    FROM\n        DWP01A_ACC_ORR.dw_stock_transfer_ln_fv AS TSF_TY /* Stock transfers\
+    \ at transaction/item */\n    INNER JOIN\n        DWP01A_ACC_ORR.dw_shipment_ln_fv\
+    \ AS SP_TY /* shipping at transaction/item */\n        ON TSF_TY.invtry_tsactn_wid\
+    \ = SP_TY.transfer_wid /* join on transaction , item for current rows only */\n\
+    \        AND TSF_TY.item_wid = SP_TY.item_wid\n        AND SP_TY.current_flg =\
+    \ 'Y'\n    WHERE\n        TSF_TY.current_flg = 'Y'\n        AND SP_TY.shipment_dt\
+    \ BETWEEN date '${WEEK_START_DT}'AND date '${LDTK_DATE}' /* For This primark Week\
+    \ */\n    GROUP BY\n        1,\n        2,\n3\n),\nSTKA AS (\n    SELECT\n   \
+    \     item_wid,\n        loc_wid AS location_wid,\n        date '${LDTK_DATE}'\
+    \ AS business_date,\n        CEILING((date '${LDTK_DATE}') - CAST(first_stock_inventory_dt\
+    \ AS DATE)) / 7 AS soh_age_in_weeks\n    FROM\n        DWP01A_ACC_ORR.dw_aged_stock_dtls_fv\n\
+    \    WHERE\n        current_flg = 'Y'\n),\nLC AS (\n  /* map wid to id */\n  \
+    \  SELECT\n        loc_id AS location_id,\n        loc_wid AS location_wid\n \
+    \   FROM\n        DWP01A_IDW.loc\n    WHERE\n        loc_sbtype_cd IN ('W', 'S')\n\
+    \        AND cur_flg = 'Y'\n),\nITM AS (\n  /* map wid to id */\n    SELECT\n\
+    \        item_id,\n        item_wid\n    FROM\n        DWP01A_IDW.item\n    WHERE\n\
+    \        cur_flg = 'Y'\n),\nDSOH AS (\n  /* get retail amount from stock pos */\n\
+    \    SELECT\n        item_wid,\n        location_wid,\n        soh_retail_amount\n\
+    \    FROM\n        dwp01a_acc_orr.dw_stock_position_dy_fv\n    WHERE\n       \
+    \ stock_inventory_date = date '${LDTK_DATE}'\n),\nFCT AS (\n    /* all stock measures\n\
+    \          do full outer joins to get all combinations\n          TODO: Make this\
+    \ more efficient\n    */\n    SELECT\n        COALESCE(TSF.business_date, TCV.business_date,\
+    \ STC.business_date,TSFC.business_date,TSFI.business_date,TSFSHP.business_date,STKA.business_date)\
+    \ AS business_date,\n        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid,TSFC.location_wid,TSFI.location_wid,TSFSHP.location_wid,STKA.location_wid)\
+    \ AS loc_wid,\n        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid,TSFC.item_wid,TSFI.item_wid,TSFSHP.item_wid,STKA.item_wid)\
+    \ AS item_wid,\n        SUM(TSF.transfer_outst_units) AS transfer_outst_units,\n\
+    \        SUM(TSF.transfer_outst_retail_value) AS transfer_outst_retail_value,\n\
+    \        SUM(TSF.transfer_outst_cost_value) AS transfer_outst_cost_value,\n  \
+    \      SUM(TCV.transfer_act_repo_cost_value) AS transfer_act_repo_cost_value,\n\
+    \        SUM(TSFC.transfer_act_upchrg_unit_cost) AS transfer_act_upchrg_unit_cost,\n\
+    \        SUM(TSFC.transfer_act_upchrg_cost_value) AS transfer_act_upchrg_cost_value,\n\
+    \        SUM(STC.stock_count_units) AS stock_count_units,\n        SUM(STC.stock_count_snapshot_units)\
+    \ AS stock_count_snapshot_units,\n        SUM(STC.stock_count_retail_amt) AS stock_count_retail_amt,\n\
+    \        SUM(STC.stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,\n\
+    \        SUM(STC.total_stock_loss_units) AS total_stock_loss_units,\n        SUM(STC.total_stock_loss_value)\
+    \ AS total_stock_loss_value,\n        SUM(TSFI.tsf_intake_qty) AS tsf_intake_qty,\n\
+    \        SUM(TSFI.tsf_intake_retail_amount) AS tsf_intake_retail_amount,\n   \
+    \     SUM(TSFI.tsf_intake_cost_amount) AS tsf_intake_cost_amount,\n        SUM(TSFSHP.trasfer_ship_units)\
+    \ AS trasfer_ship_units,\n        SUM(TSFSHP.trasfer_ship_retail_amount) AS trasfer_ship_retail_amount,\n\
+    \        SUM(TSFSHP.trasfer_ship_cost_amount) AS trasfer_ship_cost_amount,\n \
+    \       SUM(STKA.soh_age_in_weeks) AS soh_age_in_weeks\n    FROM TSF\n    FULL\
+    \ OUTER JOIN TCV\n        ON TSF.location_wid = TCV.location_wid\n        AND\
+    \ TSF.item_wid = TCV.item_wid\n        AND TSF.business_date = TCV.business_date\n\
+    \    FULL OUTER JOIN STC\n        ON STC.location_wid = TSF.location_wid\n   \
+    \     AND STC.item_wid = TSF.item_wid\n        AND STC.business_date = TSF.business_date\n\
+    \    FULL OUTER JOIN TSFC\n        ON TSF.location_wid = TSFC.location_wid\n \
+    \       AND TSF.item_wid = TSFC.item_wid\n        AND TSF.business_date = TSFC.business_date\n\
+    \    FULL OUTER JOIN TSFI\n        ON TSF.location_wid = TSFI.location_wid\n \
+    \       AND TSF.item_wid = TSFI.item_wid\n        AND TSF.business_date = TSFI.business_date\n\
+    \    FULL OUTER JOIN TSFSHP\n        ON TSF.location_wid = TSFSHP.location_wid\n\
+    \        AND TSF.item_wid = TSFSHP.item_wid\n        AND TSF.business_date = TSFSHP.business_date\n\
+    \    FULL OUTER JOIN STKA\n        ON TSF.location_wid = STKA.location_wid\n \
+    \       AND TSF.item_wid = STKA.item_wid\n        AND TSF.business_date = STKA.business_date\n\
+    \  GROUP BY 1,2,3\n)\nSELECT\n    FCT.business_date,\n    FCT.loc_wid,\n    FCT.item_wid,\n\
+    \    setbit((0(INTEGER)),1,1) as fct_src_map,\n    FCT.transfer_outst_units,\n\
+    \    FCT.transfer_outst_retail_value,\n    FCT.transfer_outst_cost_value,\n  \
+    \  FCT.transfer_act_repo_cost_value,\n    FCT.transfer_act_upchrg_unit_cost,\n\
+    \    FCT.transfer_act_upchrg_cost_value,\n    FCT.stock_count_units,\n    FCT.stock_count_snapshot_units,\n\
+    \    FCT.stock_count_retail_amt,\n    FCT.stock_count_snapshot_retail_amt,\n \
+    \   FCT.total_stock_loss_units,\n    FCT.total_stock_loss_value,\n    FCT.tsf_intake_qty,\n\
+    \    FCT.tsf_intake_retail_amount,\n    FCT.tsf_intake_cost_amount,\n    FCT.trasfer_ship_units,\n\
+    \    FCT.trasfer_ship_retail_amount,\n    FCT.trasfer_ship_cost_amount\nFROM FCT\n\
+    WHERE\n   /* Check for all zero rows */\n    COALESCE(FCT.transfer_outst_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_units, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_retail_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_cost_value, 0) <> 0\n    OR COALESCE(FCT.transfer_act_repo_cost_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_act_upchrg_cost_value, 0) <> 0\n    OR\
+    \ COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_qty, 0) <> 0\n    OR COALESCE(FCT.tsf_intake_retail_amount,\
+    \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_cost_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_retail_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_cost_amount,\
+    \ 0) <> 0;"
+  stats: ''
+  stats_target_database: T_TMP_ACC_FND
+  step_pattern: TRANS_DELETE_INSERT
+  steps: '300'
+  target_database: T_TMP_ACC_FND
+  target_table: FND_STK_FCT_02_FCT_STG
+  unnamed:_9: COLUMN(business_date,loc_wid,item_wid)
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2105
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+  unnamed:_9: ''
+stream_id: FND_FACT_DAILY
+target_database_name: T_TMP_ACC_FND
+target_table_name: FND_STK_FCT_02_FCT_STG
+transformation_key:
+- business_date
+- loc_wid
+- item_wid

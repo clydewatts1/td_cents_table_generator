@@ -20,6 +20,7 @@ columns:
   description: Load token group - like stream
   compression: ''
   quote: ''
+  default: ''
 - column_name: FNB_TOKEN_GROUP_NAME
   column_type: VARCHAR(128)
   column_format: ''
@@ -28,6 +29,7 @@ columns:
   description: Load token group - name
   compression: ''
   quote: ''
+  default: ''
 - column_name: FNB_TOKEN_DATE
   column_type: DATE
   column_format: ''
@@ -36,6 +38,7 @@ columns:
   description: Load token date
   compression: ''
   quote: ''
+  default: ''
 - column_name: FNB_TOKEN_NEXT_DATE
   column_type: DATE
   column_format: ''
@@ -44,6 +47,7 @@ columns:
   description: Next Load token date
   compression: ''
   quote: ''
+  default: ''
 - column_name: FNB_TOKEN_PREV_DATE
   column_type: DATE
   column_format: ''
@@ -52,6 +56,7 @@ columns:
   description: Prev Successful Load token date
   compression: ''
   quote: ''
+  default: ''
 - column_name: FNB_TOKEN_STATUS
   column_type: VARCHAR(30)
   column_format: ''
@@ -60,6 +65,7 @@ columns:
   description: The status of the stream OPEN , CLOSED
   compression: ''
   quote: ''
+  default: ''
 - column_name: OPEN_STATUS_TS
   column_type: TIMESTAMP(0)
   column_format: ''
@@ -68,6 +74,7 @@ columns:
   description: The time the status became open
   compression: ''
   quote: ''
+  default: ''
 - column_name: CLOSE_STATUS_TS
   column_type: TIMESTAMP(0)
   column_format: ''
@@ -76,4 +83,5 @@ columns:
   description: The time the status became closed - NULL If open
   compression: ''
   quote: ''
+  default: ''
 BUILD: []

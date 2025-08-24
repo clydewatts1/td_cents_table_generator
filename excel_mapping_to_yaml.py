@@ -7,7 +7,25 @@ import yaml
 import logging
 import pprint
 import jinja2
+import shutil
 from datetime import datetime
+
+def convert_file_from_windows_to_unix_eol(filename):
+    """
+    Convert a file from Windows EOL (CRLF) to Unix EOL (LF).
+    
+    Args:
+        filename (str): The path to the file to convert.
+    
+    Returns:
+        None
+    """
+    with open(filename, 'rb') as f:
+        content = f.read()
+    content = content.replace(b'\r\n', b'\n')
+    with open(filename, 'wb') as f:
+        f.write(content)
+    logging.info("Converted %s from Windows EOL to Unix EOL.", filename)
 
 def read_excel_to_dataframe_sql_steps(filename, config_dict,df_steps,steps_data):
     #loop through steps looking for file name then search for File Name in sheet
@@ -312,6 +330,15 @@ def read_excel_to_dataframe_steps(filename, config_dict):
             "Column 'pre_sql' is missing in the 'Steps' sheet. Adding it with default value ''."
         )
         df_steps['pre_sql'] = ''
+    # define stats_target_database column as target_database replace ^V_ with T_ using regex
+    if 'target_database' not in df_steps.columns:
+        logging.warning(
+            "Column 'target_database' is missing in the 'Steps' sheet. Adding it with default value ''."
+        )
+        df_steps['target_database'] = ''
+    # create stats_target_database column from target_database , replace ^V_ with T_ using regex
+    df_steps['stats_target_database'] = df_steps['target_database'].str.replace(r'^V_', 'T_', regex=True)
+
 
     return 0, "Read successful.", df_steps
 
@@ -617,8 +644,42 @@ def convert_excel_to_yaml(filename, config_dict):
         return -1, "Could not extract transformation key from mapping sheet."
     # convert transformation key to string and strip whitespace
     transformation_key = str(transformation_key).strip()
-
-
+    # Description D5
+    description = df_mapping.iloc[3, 3] if len(df_mapping) > 4 else None
+    if not description:
+        logging.warning(
+            "Could not extract description from mapping sheet %s in %s. Using default value 'No Description'.",
+            mapping_sheet_name,
+            filename,
+        )
+        description = 'No Description'
+    # Stream Name D6
+    stream_name = df_mapping.iloc[4, 3] if len(df_mapping) > 5 else None
+    if not stream_name:
+        logging.warning(
+            "Could not extract stream name from mapping sheet %s in %s. Using default value 'No Stream Name'.",
+            mapping_sheet_name,
+            filename,
+        )
+        stream_name = 'DEFAULT'
+    # if stream_name is not a string then convert to string
+    if not isinstance(stream_name, str):
+        stream_name = str(stream_name)
+    stream_name = stream_name.strip()
+    # if stream_name is empty then set to 'DEFAULT'
+    if not stream_name:
+        stream_name = 'DEFAULT'
+    # if stream_name is not a valid string then set to 'DEFAULT'
+    if not re.match(r'^[a-zA-Z0-9_]+$', stream_name):
+        logging.warning(
+            "Stream name %s in mapping sheet %s in %s is not a valid string. "
+            "Using default value 'DEFAULT'.",
+            stream_name,
+            mapping_sheet_name,
+            filename,
+        )
+        stream_name = 'DEFAULT'
+    
     mapping_sheet_name = "MAPPING"  # Default mapping sheet name
     # convert df_steps to a list of dictionaries
     steps_data = df_steps.to_dict(orient='records') if df_steps is not None else []
@@ -692,6 +753,9 @@ def convert_excel_to_yaml(filename, config_dict):
     transformation_key_list = [tk.strip() for tk in transformation_key.split(',')] if transformation_key else []
     try:
         yaml_dict['mapping_sheet_name'] = mapping_sheet_name
+        yaml_dict['job_name'] = job_name_from_file
+        yaml_dict['description'] = description
+        yaml_dict['stream_id']=stream_name
         yaml_dict['job_name_from_file'] = job_name_from_file
         yaml_dict['job_name_from_mapping'] = job_name_from_mapping
         yaml_dict['target_database_name'] = target_database_name
@@ -755,6 +819,28 @@ def build_job(filename, config_dict):
         return -1, "Configuration is not in the expected format."
     # job_path = config_local.get('job_path', 'jobs')
     job_path = config_local.get('job_path', 'job_path')
+    if not os.path.isdir(job_path):
+        logging.error(
+            "Job path %s does not exist. Please check your configuration.",
+            job_path,
+        )
+        return -1, "Job path does not exist."   
+    sample_path = config_local.get('sample_path', 'sample_path')
+    if not os.path.isdir(sample_path):
+        logging.error(
+            "Sample path %s does not exist. Please check your configuration.",
+            sample_path,
+        )
+        return -1, "Sample path does not exist."
+    sample_job_path = os.path.join(sample_path, 'jobs')
+    if not os.path.isdir(sample_job_path):
+        # mkdir
+        os.makedirs(sample_job_path)
+        logging.info(
+            "Sample job path %s does not exist. Creating it.",
+            sample_job_path,
+        )
+    sample_job_file_path = os.path.join(sample_job_path, filename)
     # mapping yaml_path = config_local.get('mapping_yaml_path', 'mapping_yaml')
     mapping_yaml_path = config_local.get('mapping_yaml_path', 'mapping_yaml')
     if not os.path.isdir(job_path):
@@ -782,10 +868,10 @@ def build_job(filename, config_dict):
     # check that job_path is a directory
     if not os.path.isdir(job_path):
         logging.error(
-            "Job path %s is not a directory. Please check your configuration.",
+            "Job path %s is not a directory. Please  check your configuration.",
             job_path,
         )
-        return -1, "Job path is not a directory."
+        return -1, "Job path is not a directory." 
     # Convert yaml file to job 
     # load the YAML file
     try:
@@ -808,8 +894,13 @@ def build_job(filename, config_dict):
     # job_dict is yaml_dict with additional fields
     job_dict = {
         'job_name': yaml_dict.get('job_name_from_mapping', 'OOPS101'),
-        'job_description': yaml_dict.get('job_name_from_file', 'OOPS101'),
+        'job_description': yaml_dict.get('description', 'This is a sample job description.'),
+        'stream_id': yaml_dict.get('stream_id', 'DEFAULT'),
         'yaml_file_path': yaml_file_path,
+        'author': config_local.get('author', 'Mr Primark'),
+        'version': config_local.get('version', '1.0'),
+        'build_date': datetime.now().strftime('%Y-%m-%d'),
+        'build_time': datetime.now().strftime('%H:%M:%S')
     }
     # create a job file name
     job_file_name = f"{job_dict['job_name']}.job"
@@ -917,8 +1008,13 @@ def build_job(filename, config_dict):
                 job_file.write(step)
             # Write the job footer
             job_file.write(job_footer_rendered)
-
+        # now do eol conversion to unix style
+        convert_file_from_windows_to_unix_eol(job_file_path)
         logging.info("Created job file %s successfully.", job_file_path)
+        # now copy the job file to sample job path
+        sample_job_file_path = os.path.join(sample_job_path, job_file_name)
+        shutil.copyfile(job_file_path, sample_job_file_path)
+        logging.info("Copied job file %s to %s successfully.", job_file_path, sample_job_file_path)
     except (OSError, yaml.YAMLError) as e:
         logging.error(
             "Error writing job file %s: %s",
@@ -968,11 +1064,40 @@ def build_job(filename, config_dict):
                 step_directory,
             )
             return -1, "Step directory does not exist."
+        
         step_file_path = os.path.join(step_directory, step['file_name'])
+        # Now get sample path for the step file
+        sample_path = config_local.get('sample_path', 'sample')
+        # append steps to file path
+        if not os.path.isdir(sample_path):
+            logging.error(
+                "Sample path %s does not exist. Please check your configuration.",
+                sample_path,
+            )
+            return -1, "Sample path does not exist."
+            
+        sample_step_path = os.path.join(sample_path, 'steps')
+        if not os.path.isdir(sample_step_path):
+            # mkdir the sample step path
+            try:
+                os.makedirs(sample_step_path)
+            except OSError as e:
+                logging.error("Error creating sample   step directory %s: %s",
+                    sample_step_path,
+                    str(e),
+                )
+                return -1, str(e)
+        # now step file path
+        sample_step_file_path = os.path.join(sample_step_path, step['file_name'])
         # Write the step to a file
         try:
             with open(step_file_path, 'w', encoding='utf-8') as step_file:
                 step_file.write(step_rendered)
+            # now do eol conversion to unix style
+            convert_file_from_windows_to_unix_eol(step_file_path)
+            # now copy file to sample step path
+            shutil.copyfile(step_file_path, sample_step_file_path)
+            logging.info("Created step file %s successfully.", step_file_path)
         except (OSError, yaml.YAMLError) as e:
             logging.error(
                 "Error writing step file %s: %s",
@@ -1043,7 +1168,8 @@ if __name__ == "__main__":
 
     #    except Exception as e:
     #        logger.error("Error processing file %s: %s", mapping_file, e)
-    job_name = 'FND1040'  # Example job name
+    job_name = 'FND1010'  # Example job name
+    job_name = input("Get Job Name")
     logger.info("Starting conversion and job building for %s", job_name)
     excel_name = f"{job_name}_MAPPING.xlsx"
     ret_code, ret_text = convert_excel_to_yaml(excel_name, config)

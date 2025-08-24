@@ -1,0 +1,10 @@
+{% import 'step_helper.sql.j2' as js -%}
+{{js.step_header(step,job_dict)}}
+
+
+
+{% if step.file_present == True%}{{step.sql_statement}}{% endif %}
+
+.IF ERRORCODE <> 0 THEN .QUIT 101
+
+/* End of step */

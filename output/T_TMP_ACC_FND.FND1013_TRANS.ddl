@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_TMP_ACC_FND.FND1013_TRANS.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_TMP_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,92 +10,113 @@
 /* Create table for FND1013_TRANS = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS
     (
-    calendar_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    year_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    year_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    period_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    period_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    week_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    week_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd',
-    day_of_year_num SMALLINT NOT NULL FORMAT '99',
-    day_of_period_num SMALLINT NOT NULL FORMAT '99',
-    day_of_week_num BYTEINT NOT NULL FORMAT '99',
-    week_of_year_num BYTEINT NOT NULL FORMAT '99',
-    week_of_period_num BYTEINT NOT NULL FORMAT '99',
-    period_of_year_num BYTEINT NOT NULL FORMAT '99',
-    year_week INTEGER NOT NULL FORMAT '999999',
-    year_period INTEGER NOT NULL FORMAT '999999',
-    year_num INTEGER NOT NULL FORMAT '9999',
-    season_code INTEGER  ,
-    season_name VARCHAR(5)  ,
-    season_description VARCHAR(5)  ,
-    season_map BYTE(14)  ,
-    season_wid SMALLINT  ,
-    ly_calendar_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_year_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_year_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_period_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_period_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_week_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_week_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    ly_day_of_year_num SMALLINT  FORMAT '99',
-    ly_day_of_period_num SMALLINT  FORMAT '99',
-    ly_day_of_week_num SMALLINT  FORMAT '99',
-    ly_week_of_year_num BIGINT  FORMAT '99',
-    ly_week_of_period_num BIGINT  FORMAT '99',
-    ly_period_of_year_num BIGINT  FORMAT '99',
-    ly_year_week INTEGER  FORMAT '999999',
-    ly_year_period INTEGER  FORMAT '999999',
-    ly_year_num INTEGER  FORMAT '9999',
-    lly_calendar_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_year_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_year_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_period_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_period_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_week_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_week_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    lly_day_of_year_num SMALLINT  FORMAT '99',
-    lly_day_of_period_num SMALLINT  FORMAT '99',
-    lly_day_of_week_num SMALLINT  FORMAT '99',
-    lly_week_of_year_num BIGINT  FORMAT '99',
-    lly_week_of_period_num BIGINT  FORMAT '99',
-    lly_period_of_year_num BIGINT  FORMAT '99',
-    lly_year_week INTEGER  FORMAT '999999',
-    lly_year_period INTEGER  FORMAT '999999',
-    lly_year_num INTEGER  FORMAT '9999',
-    llly_calendar_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_year_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_year_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_period_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_period_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_week_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_week_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    llly_day_of_year_num SMALLINT  FORMAT '99',
-    llly_day_of_period_num SMALLINT  FORMAT '99',
-    llly_day_of_week_num SMALLINT  FORMAT '99',
-    llly_week_of_year_num BIGINT  FORMAT '99',
-    llly_week_of_period_num BIGINT  FORMAT '99',
-    llly_period_of_year_num BIGINT  FORMAT '99',
-    llly_year_week INTEGER  FORMAT '999999',
-    llly_year_period INTEGER  FORMAT '999999',
-    llly_year_num INTEGER  FORMAT '9999',
-    ny_calendar_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_year_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_year_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_period_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_period_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_week_start_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_week_end_dt DATE  FORMAT 'yyyy-mm-dd',
-    ny_day_of_year_num SMALLINT  FORMAT '99',
-    ny_day_of_period_num SMALLINT  FORMAT '99',
-    ny_day_of_week_num SMALLINT  FORMAT '99',
-    ny_week_of_year_num BIGINT  FORMAT '99',
-    ny_week_of_period_num BIGINT  FORMAT '99',
-    ny_period_of_year_num BIGINT  FORMAT '99',
-    ny_year_week INTEGER  FORMAT '999999',
-    ny_year_period INTEGER  FORMAT '999999',
-    ny_year_num INTEGER  FORMAT '9999'     )
-    UNIQUE PRIMARY INDEX(calendar_dt)
+    calendar_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    year_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    year_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    period_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    period_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    week_start_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    week_end_dt DATE NOT NULL FORMAT 'yyyy-mm-dd' ,
+    day_of_year_num SMALLINT NOT NULL FORMAT '99' ,
+    day_of_period_num SMALLINT NOT NULL FORMAT '99' ,
+    day_of_week_num BYTEINT NOT NULL FORMAT '99' ,
+    week_of_year_num BYTEINT NOT NULL FORMAT '99' ,
+    week_of_period_num BYTEINT NOT NULL FORMAT '99' ,
+    period_of_year_num BYTEINT NOT NULL FORMAT '99' ,
+    year_week INTEGER NOT NULL FORMAT '999999' ,
+    year_period INTEGER NOT NULL FORMAT '999999' ,
+    year_num INTEGER NOT NULL FORMAT '9999' ,
+    season_code INTEGER   ,
+    season_name VARCHAR(6)   ,
+    season_description VARCHAR(20)   ,
+    season_map BYTE(14)   ,
+    season_wid SMALLINT   ,
+    ly_calendar_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_year_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_year_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_period_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_period_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_week_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_week_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ly_day_of_year_num SMALLINT  FORMAT '99' ,
+    ly_day_of_period_num SMALLINT  FORMAT '99' ,
+    ly_day_of_week_num SMALLINT  FORMAT '99' ,
+    ly_week_of_year_num BIGINT  FORMAT '99' ,
+    ly_week_of_period_num BIGINT  FORMAT '99' ,
+    ly_period_of_year_num BIGINT  FORMAT '99' ,
+    ly_year_week INTEGER  FORMAT '999999' ,
+    ly_year_period INTEGER  FORMAT '999999' ,
+    ly_year_num INTEGER  FORMAT '9999' ,
+    lly_calendar_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_year_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_year_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_period_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_period_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_week_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_week_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    lly_day_of_year_num SMALLINT  FORMAT '99' ,
+    lly_day_of_period_num SMALLINT  FORMAT '99' ,
+    lly_day_of_week_num SMALLINT  FORMAT '99' ,
+    lly_week_of_year_num BIGINT  FORMAT '99' ,
+    lly_week_of_period_num BIGINT  FORMAT '99' ,
+    lly_period_of_year_num BIGINT  FORMAT '99' ,
+    lly_year_week INTEGER  FORMAT '999999' ,
+    lly_year_period INTEGER  FORMAT '999999' ,
+    lly_year_num INTEGER  FORMAT '9999' ,
+    llly_calendar_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_year_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_year_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_period_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_period_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_week_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_week_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    llly_day_of_year_num SMALLINT  FORMAT '99' ,
+    llly_day_of_period_num SMALLINT  FORMAT '99' ,
+    llly_day_of_week_num SMALLINT  FORMAT '99' ,
+    llly_week_of_year_num BIGINT  FORMAT '99' ,
+    llly_week_of_period_num BIGINT  FORMAT '99' ,
+    llly_period_of_year_num BIGINT  FORMAT '99' ,
+    llly_year_week INTEGER  FORMAT '999999' ,
+    llly_year_period INTEGER  FORMAT '999999' ,
+    llly_year_num INTEGER  FORMAT '9999' ,
+    ny_calendar_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_year_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_year_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_period_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_period_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_week_start_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_week_end_dt DATE  FORMAT 'yyyy-mm-dd' ,
+    ny_day_of_year_num SMALLINT  FORMAT '99' ,
+    ny_day_of_period_num SMALLINT  FORMAT '99' ,
+    ny_day_of_week_num SMALLINT  FORMAT '99' ,
+    ny_week_of_year_num BIGINT  FORMAT '99' ,
+    ny_week_of_period_num BIGINT  FORMAT '99' ,
+    ny_period_of_year_num BIGINT  FORMAT '99' ,
+    ny_year_week INTEGER  FORMAT '999999' ,
+    ny_year_period INTEGER  FORMAT '999999' ,
+    ny_year_num INTEGER  FORMAT '9999' ,
+    ty_cstm_cal_dy_wid BIGINT   ,
+    ty_cstm_cal_wk_wid BIGINT   ,
+    ty_cstm_cal_prd_wid BIGINT   ,
+    ty_cstm_cal_yr_wid BIGINT   ,
+    ly_cstm_cal_dy_wid BIGINT   ,
+    ly_cstm_cal_wk_wid BIGINT   ,
+    ly_cstm_cal_prd_wid BIGINT   ,
+    ly_cstm_cal_yr_wid BIGINT   ,
+    lly_cstm_cal_dy_wid BIGINT   ,
+    lly_cstm_cal_wk_wid BIGINT   ,
+    lly_cstm_cal_prd_wid BIGINT   ,
+    lly_cstm_cal_yr_wid BIGINT   ,
+    llly_cstm_cal_dy_wid BIGINT   ,
+    llly_cstm_cal_wk_wid BIGINT   ,
+    llly_cstm_cal_prd_wid BIGINT   ,
+    llly_cstm_cal_yr_wid BIGINT   ,
+    ny_cstm_cal_dy_wid BIGINT   ,
+    ny_cstm_cal_wk_wid BIGINT   ,
+    ny_cstm_cal_prd_wid BIGINT   ,
+    ny_cstm_cal_yr_wid BIGINT    
+    )
+    PRIMARY INDEX(calendar_dt)
 ;
 
 /*-----------------------------------------------------------------------------
@@ -357,6 +378,66 @@ COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ny_year_period AS 'next year
 ;
 
 COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ny_year_num AS 'next year number YYYY aligned with primark year'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ty_cstm_cal_dy_wid AS 'Surrogate key for the day in the current year (TY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ty_cstm_cal_wk_wid AS 'Surrogate key for the week in the current year (TY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ty_cstm_cal_prd_wid AS 'Surrogate key for the period (month) in the current year (TY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ty_cstm_cal_yr_wid AS 'Surrogate key for the year of the current year (TY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ly_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day last year (LY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ly_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week last year (LY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ly_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) last year (LY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ly_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year last year (LY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.lly_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day two years ago (LLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.lly_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week two years ago (LLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.lly_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) two years ago (LLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.lly_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year two years ago (LLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.llly_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day three years ago (LLLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.llly_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week three years ago (LLLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.llly_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) three years ago (LLLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.llly_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year three years ago (LLLY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ny_cstm_cal_dy_wid AS 'Surrogate key for the corresponding day next year (NY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ny_cstm_cal_wk_wid AS 'Surrogate key for the corresponding week next year (NY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ny_cstm_cal_prd_wid AS 'Surrogate key for the corresponding period (month) next year (NY).'
+;
+
+COMMENT ON DW${INSTANCE}T_TMP_ACC_FND.FND1013_TRANS.ny_cstm_cal_yr_wid AS 'Surrogate key for the corresponding year next year (NY).'
 ;
 
 

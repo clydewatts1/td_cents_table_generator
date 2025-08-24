@@ -143,7 +143,6 @@ class ExcelFileDialog(QDialog):
 
     def clear_yaml_files(self):
         import glob
-        import shutil
         yaml_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'yaml')
         files = glob.glob(os.path.join(yaml_dir, '*.yaml'))
         count = 0
@@ -157,7 +156,6 @@ class ExcelFileDialog(QDialog):
 
     def clear_ddl_files(self):
         import glob
-        import shutil
         # Try to get output_dir from config, fallback to ./output
         output_dir = None
         if hasattr(self.parent(), 'config') and isinstance(self.parent().config, dict):
@@ -365,7 +363,7 @@ class MainWindow(QMainWindow):
                 job_vbox = QVBoxLayout()
                 job_vbox.addWidget(QLabel('Jobs:'))
                 self.job_list = QListWidget()
-                self.job_list.setSelectionMode(QListWidget.SingleSelection)
+                self.job_list.setSelectionMode(QListWidget.MultiSelection)
                 job_vbox.addWidget(self.job_list)
                 self.layout.addLayout(job_vbox)
                 # Right: Step files list
@@ -377,6 +375,9 @@ class MainWindow(QMainWindow):
                 # Add Run Step button
                 self.run_step_btn = QPushButton('Run Step')
                 step_vbox.addWidget(self.run_step_btn)
+                # Add Run All Steps button
+                self.run_all_btn = QPushButton('Run All Steps')
+                step_vbox.addWidget(self.run_all_btn)
                 self.layout.addLayout(step_vbox)
                 # Populate job list
                 self.all_jobs = []
@@ -387,20 +388,27 @@ class MainWindow(QMainWindow):
                 for fname in sorted(self.all_jobs):
                     item = QListWidgetItem(fname)
                     self.job_list.addItem(item)
-                self.job_list.currentItemChanged.connect(self.update_step_list)
+                self.job_list.itemSelectionChanged.connect(self.update_step_list_multi)
                 self.run_step_btn.clicked.connect(self.open_run_step_dialog)
+                self.run_all_btn.clicked.connect(self.run_all_steps)
 
-            def update_step_list(self, current, previous):
+            def update_step_list_multi(self):
+                # Aggregate steps from all selected jobs
                 self.step_list.clear()
-                if not current:
+                selected = self.job_list.selectedItems()
+                if not selected:
                     return
-                job_name = os.path.splitext(current.text())[0]
+                job_names = [os.path.splitext(it.text())[0] for it in selected]
+                added = set()
                 if os.path.isdir(self.steps_dir):
-                    pattern = f"{job_name}*.sql"
-                    files = fnmatch.filter(os.listdir(self.steps_dir), pattern)
-                    for fname in sorted(files):
-                        item = QListWidgetItem(fname)
-                        self.step_list.addItem(item)
+                    for job_name in sorted(job_names):
+                        pattern = f"{job_name}*.sql"
+                        files = sorted(fnmatch.filter(os.listdir(self.steps_dir), pattern))
+                        for fname in files:
+                            if fname in added:
+                                continue
+                            added.add(fname)
+                            self.step_list.addItem(QListWidgetItem(fname))
 
             def open_run_step_dialog(self):
                 selected_items = self.step_list.selectedItems()
@@ -444,18 +452,17 @@ class MainWindow(QMainWindow):
                 traffic_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 def set_traffic_light_color(state):
                     # state: 'gray', 'orange', 'green', 'red'
-                    from PyQt5.QtGui import QPixmap, QPainter, QColor
-                    pixmap = QPixmap(24, 24)
+                    pixmap = QtGui.QPixmap(24, 24)
                     pixmap.fill(Qt.transparent)
-                    painter = QPainter(pixmap)
+                    painter = QtGui.QPainter(pixmap)
                     if state == 'green':
-                        color = QColor('#008000')
+                        color = QtGui.QColor('#008000')
                     elif state == 'red':
-                        color = QColor('red')
+                        color = QtGui.QColor('red')
                     elif state == 'orange':
-                        color = QColor('orange')
+                        color = QtGui.QColor('orange')
                     else:
-                        color = QColor('gray')
+                        color = QtGui.QColor('gray')
                     painter.setBrush(color)
                     painter.setPen(Qt.black)
                     painter.drawEllipse(2, 2, 20, 20)
@@ -466,30 +473,42 @@ class MainWindow(QMainWindow):
                 run_btn = QPushButton('Run')
                 copy_btn = QPushButton('Copy Results to Clipboard')
                 copy_sql_btn = QPushButton('Copy SQL to Clipboard')
+                view_splits_btn = QPushButton('View Split Results')
+                view_splits_btn.setEnabled(False)
                 def run_step():
-                    import ddl_test
                     # Use config from parent MainWindow
-                    config = self.parent().config if hasattr(self.parent(), 'config') else {}
-                    # Use global conn if available
-                    conn = None
-                    try:
-                        import sys
-                        sys.path.append(os.getcwd())
-                        from ddl_test import conn as global_conn
-                        conn = global_conn
-                    except Exception:
-                        pass
+                    cfg = self.parent().config if hasattr(self.parent(), 'config') else {}
+                    # Use global conn if available or connect
+                    conn = getattr(ddl_test, 'conn', None)
+                    if conn is None:
+                        try:
+                            conn = ddl_test.connect_to_teradata()
+                        except Exception as e:
+                            results_text.setPlainText(f'Connection error: {e}')
+                            set_traffic_light_color('red')
+                            return
                     # Set traffic light to orange (running)
                     set_traffic_light_color('orange')
                     QApplication.processEvents()
                     # Run the step file
                     try:
-                        ret_code, ret_text = ddl_test.run_step_file(conn, step_file, config)
+                        ret_code, ret_text, split_run_results = ddl_test.run_step_file(conn, step_file, cfg)
+                        # Store detailed split execution results
+                        if not hasattr(self, 'all_split_run_results'):
+                            self.all_split_run_results = {}
+                        self.all_split_run_results[step_file] = split_run_results
+                        # Enable view button if we have results
+                        if split_run_results:
+                            view_splits_btn.setEnabled(True)
                         results_text.setPlainText(str(ret_text))
                         if ret_code == 0:
                             set_traffic_light_color('green')
                         else:
                             set_traffic_light_color('red')
+                            # Auto-open split results on failure
+                            if split_run_results:
+                                # simulate user click to reuse existing wiring
+                                view_splits_btn.click()
                     except Exception as e:
                         results_text.setPlainText(f'Error: {e}')
                         set_traffic_light_color('red')
@@ -502,28 +521,240 @@ class MainWindow(QMainWindow):
                 copy_btn.clicked.connect(copy_results)
                 copy_sql_btn.clicked.connect(copy_sql)
                 run_btn.clicked.connect(run_step)
+                
+                def open_split_results():
+                    # Retrieve stored results
+                    split_results = getattr(self, 'all_split_run_results', {}).get(step_file, [])
+                    dlg = QDialog(self)
+                    dlg.setWindowTitle(f'Split Results: {step_file}')
+                    dlg.resize(600, 400)
+                    vlayout = QVBoxLayout()
+                    # Table
+                    from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
+                    table = QTableWidget()
+                    # Define columns excluding full SQL text
+                    headers = ['Index', 'File', 'Time (s)', 'Row Count', 'Status', 'Error']
+                    table.setColumnCount(len(headers))
+                    table.setHorizontalHeaderLabels(headers)
+                    table.setRowCount(len(split_results))
+                    for r, rec in enumerate(split_results):
+                        idx = str(rec.get('split_index', ''))
+                        file_name = rec.get('file_name', '')
+                        elapsed = str(rec.get('elapsed_seconds', ''))
+                        row_count = str(rec.get('row_count', ''))
+                        status = rec.get('status', '')
+                        error = rec.get('error', '')
+                        for c, val in enumerate([idx, file_name, elapsed, row_count, status, error]):
+                            item = QTableWidgetItem(val)
+                            if c == 4:  # status color column index updated
+                                if status == 'success':
+                                    item.setForeground(QtGui.QColor('#006400'))
+                                elif status == 'error':
+                                    item.setForeground(QtGui.QColor('red'))
+                            table.setItem(r, c, item)
+                    table.resizeColumnsToContents()
+                    table.resizeRowsToContents()
+                    vlayout.addWidget(table)
+                    # Close button
+                    close_btn2 = QPushButton('Close')
+                    close_btn2.clicked.connect(dlg.accept)
+                    vlayout.addWidget(close_btn2)
+                    dlg.setLayout(vlayout)
+                    dlg.exec_()
+                view_splits_btn.clicked.connect(open_split_results)
                 # Layout for run button, copy buttons, traffic light, and label
                 hbox = QHBoxLayout()
                 hbox.addWidget(run_btn)
                 hbox.addWidget(copy_btn)
                 hbox.addWidget(copy_sql_btn)
+                hbox.addWidget(view_splits_btn)
                 hbox.addWidget(traffic_light)
                 hbox.addWidget(traffic_label)
                 hbox.addStretch(1)
                 vbox.addLayout(hbox)
                 run_step_dialog.setLayout(vbox)
                 run_step_dialog.exec_()
-            def update_step_list(self, current, previous):
-                self.step_list.clear()
-                if not current:
+            
+            def run_all_steps(self):
+                # Execute all step SQL files in order with color status
+                total = self.step_list.count()
+                if total == 0:
+                    QMessageBox.information(self, 'Run All Steps', 'No step SQL files to run.')
                     return
-                job_name = os.path.splitext(current.text())[0]
-                if os.path.isdir(self.steps_dir):
-                    pattern = f"{job_name}*.sql"
-                    files = fnmatch.filter(os.listdir(self.steps_dir), pattern)
-                    for fname in sorted(files):
-                        item = QListWidgetItem(fname)
-                        self.step_list.addItem(item)
+                # Resolve config and Teradata connection
+                cfg = self.parent().config if hasattr(self.parent(), 'config') else {}
+                try:
+                    conn = getattr(ddl_test, 'conn', None)
+                    if conn is None:
+                        conn = ddl_test.connect_to_teradata()
+                except Exception as e:
+                    QMessageBox.critical(self, 'Connection Error', f'Failed to get Teradata connection: {e}')
+                    return
+                # Disable button during run
+                self.run_all_btn.setEnabled(False)
+                self.run_step_btn.setEnabled(False) 
+                succeeded = 0
+                failed = 0
+                # Ensure storage for split results
+                if not hasattr(self, 'all_split_run_results'):
+                    self.all_split_run_results = {}
+                else:
+                    # Clear previous run's split results so aggregate view reflects only this run
+                    self.all_split_run_results.clear()
+                # Build ordered list of file names
+                names = [self.step_list.item(i).text() for i in range(total)]
+                for name in names:
+                    # Find the item again to ensure we color the right row
+                    item = None
+                    for i in range(self.step_list.count()):
+                        if self.step_list.item(i).text() == name:
+                            item = self.step_list.item(i)
+                            break
+                    if item is None:
+                        continue
+                    # Mark as running (orange)
+                    item.setForeground(QtGui.QColor('orange'))
+                    self.step_list.scrollToItem(item)
+                    QApplication.processEvents()
+                    # Execute
+                    try:
+                        ret_code, ret_text, split_run_results = ddl_test.run_step_file(conn, name, cfg)
+                        # Store detailed split execution results
+                        if not hasattr(self, 'all_split_run_results'):
+                            self.all_split_run_results = {}
+                        self.all_split_run_results[name] = split_run_results
+                        if ret_code == 0:
+                            item.setForeground(QtGui.QColor('#008000'))
+                            succeeded += 1
+                        else:
+                            item.setForeground(QtGui.QColor('red'))
+                            failed += 1
+                            # Attach error text as tooltip for quick inspection
+                            item.setToolTip(str(ret_text)[:2000])
+                    except Exception as e:
+                        item.setForeground(QtGui.QColor('red'))
+                        item.setToolTip(f'Error: {e}')
+                        failed += 1
+                    QApplication.processEvents()
+                # Re-enable buttons
+                self.run_all_btn.setEnabled(True)
+                self.run_step_btn.setEnabled(True)
+                # Summary message
+                QMessageBox.information(self, 'Run All Steps', f'Completed. Success: {succeeded}, Failed: {failed}.')
+                # Auto-open aggregate split results if any data captured
+                try:
+                    all_records = []
+                    for step_name in sorted(self.all_split_run_results.keys()):
+                        for rec in self.all_split_run_results.get(step_name, []):
+                            # Build flattened record (exclude SQL text)
+                            all_records.append({
+                                'step_file': step_name,
+                                'split_index': rec.get('split_index',''),
+                                'elapsed_seconds': rec.get('elapsed_seconds',''),
+                                'row_count': rec.get('row_count',''),
+                                'status': rec.get('status',''),
+                                'error': rec.get('error','')
+                            })
+                    if all_records:
+                        dlg = QDialog(self)
+                        dlg.setWindowTitle('Aggregate Split Results (All Steps)')
+                        dlg.resize(1000, 560)
+                        main_layout = QVBoxLayout()
+                        from PyQt5.QtWidgets import (
+                            QTableWidget, QTableWidgetItem, QTabWidget,
+                            QTreeWidget, QTreeWidgetItem, QHeaderView
+                        )
+                        tabs = QTabWidget()
+
+                        # ---------------- Table Tab (default) ----------------
+                        table = QTableWidget()
+                        headers = ['Step File', 'Index', 'Time (s)', 'Row Count', 'Status', 'Error']
+                        table.setColumnCount(len(headers))
+                        table.setHorizontalHeaderLabels(headers)
+                        table.setRowCount(len(all_records))
+                        for r, rec in enumerate(all_records):
+                            row_vals = [
+                                rec['step_file'],
+                                str(rec['split_index']),
+                                str(rec['elapsed_seconds']),
+                                str(rec['row_count']),
+                                rec['status'],
+                                rec['error']
+                            ]
+                            for c, val in enumerate(row_vals):
+                                item = QTableWidgetItem(val)
+                                if c == 4:  # Status column coloring
+                                    status_l = (rec.get('status','') or '').lower()
+                                    if status_l == 'success':
+                                        item.setForeground(QtGui.QColor('#006400'))
+                                    elif status_l == 'error':
+                                        item.setForeground(QtGui.QColor('red'))
+                                table.setItem(r, c, item)
+                        table.resizeColumnsToContents()
+                        table.resizeRowsToContents()
+                        tabs.addTab(table, 'Table')  # Default visible tab
+
+                        # ---------------- Tree Tab ----------------
+                        tree = QTreeWidget()
+                        tree.setColumnCount(3)
+                        tree.setHeaderLabels(['Node', 'Value', 'Info'])
+                        tree.header().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+                        tree.header().setSectionResizeMode(1, QHeaderView.Stretch)
+                        tree.header().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+
+                        # Group by step file
+                        grouped = {}
+                        for rec in all_records:
+                            grouped.setdefault(rec['step_file'], []).append(rec)
+
+                        for step_name in sorted(grouped.keys()):
+                            step_node = QTreeWidgetItem(tree, [step_name, '', 'step_file'])
+                            # Order by split index numeric if possible
+                            def split_key(x):
+                                try:
+                                    return int(x.get('split_index', 0))
+                                except Exception:
+                                    return str(x.get('split_index',''))
+                            for rec in sorted(grouped[step_name], key=split_key):
+                                split_idx = rec.get('split_index','')
+                                split_node = QTreeWidgetItem(step_node, [f'Split {split_idx}', '', 'split'])
+                                # Attribute children
+                                QTreeWidgetItem(split_node, ['Index', str(split_idx), 'int/str'])
+                                QTreeWidgetItem(split_node, ['Time (s)', str(rec.get('elapsed_seconds','')), 'float'])
+                                QTreeWidgetItem(split_node, ['Row Count', str(rec.get('row_count','')), 'int'])
+                                status_val = rec.get('status','')
+                                QTreeWidgetItem(split_node, ['Status', status_val, 'str'])
+                                err_val = rec.get('error','')
+                                QTreeWidgetItem(split_node, ['Error', err_val if err_val else '', 'str'])
+                        tree.expandToDepth(0)
+                        tabs.addTab(tree, 'Tree')
+
+                        main_layout.addWidget(tabs)
+
+                        # Buttons row (expand/collapse for tree)
+                        btn_h = QHBoxLayout()
+                        expand_btn = QPushButton('Expand All')
+                        collapse_btn = QPushButton('Collapse All')
+                        close_btn = QPushButton('Close')
+                        def expand_all():
+                            tree.expandAll()
+                        def collapse_all():
+                            tree.collapseAll()
+                        expand_btn.clicked.connect(expand_all)
+                        collapse_btn.clicked.connect(collapse_all)
+                        close_btn.clicked.connect(dlg.accept)
+                        btn_h.addWidget(expand_btn)
+                        btn_h.addWidget(collapse_btn)
+                        btn_h.addStretch(1)
+                        btn_h.addWidget(close_btn)
+                        main_layout.addLayout(btn_h)
+
+                        dlg.setLayout(main_layout)
+                        dlg.exec_()
+                except Exception:
+                    # Fail silently; do not block user if aggregate view fails
+                    pass
+
         dialog = RunJobDialog(job_dir, steps_dir, self)
         dialog.exec_()
 
@@ -753,18 +984,25 @@ class MainWindow(QMainWindow):
 
                 # File list
                 self.file_list = QListWidget()
-                self.file_list.setSelectionMode(QListWidget.SingleSelection)
+                self.file_list.setSelectionMode(QListWidget.MultiSelection)
                 self.layout.addWidget(self.file_list)
 
                 # Buttons
                 btn_layout = QHBoxLayout()
                 self.process_btn = QPushButton('Process')
+                self.build_btn = QPushButton('Build')
+                self.view_yaml_btn = QPushButton('View YAML')
                 self.cancel_btn = QPushButton('Cancel')
                 btn_layout.addWidget(self.process_btn)
+                btn_layout.addWidget(self.build_btn)
+                btn_layout.addWidget(self.view_yaml_btn)
                 btn_layout.addWidget(self.cancel_btn)
                 self.layout.addLayout(btn_layout)
                 self.process_btn.clicked.connect(self.process_selected)
+                self.build_btn.clicked.connect(self.build_selected)
+                self.view_yaml_btn.clicked.connect(self.view_yaml)
                 self.cancel_btn.clicked.connect(self.reject)
+                self.view_yaml_btn.setEnabled(False)
 
                 # Populate file list
                 self.all_mapping_files = []
@@ -774,6 +1012,31 @@ class MainWindow(QMainWindow):
                             self.all_mapping_files.append(fname)
                 self.filter_edit.textChanged.connect(self.populate_file_list)
                 self.populate_file_list()
+                # Update YAML button when selection changes
+                self.file_list.itemSelectionChanged.connect(self.update_view_yaml_button)
+
+            def mapping_yaml_dir(self):
+                # Resolve config and mapping yaml path
+                cfg = self.parent().config['config'] if ('config' in self.parent().config) else self.parent().config
+                return cfg.get('mapping_yaml_path', 'mapping_yaml')
+
+            def current_yaml_path(self):
+                selected_items = self.file_list.selectedItems()
+                if not selected_items:
+                    return None
+                excel_name = selected_items[0].text()  # e.g. FND2101_MAPPING.xlsx
+                base = os.path.splitext(excel_name)[0]  # FND2101_MAPPING
+                yaml_name = f"{base}.yaml"
+                return os.path.join(self.mapping_yaml_dir(), yaml_name)
+
+            def update_view_yaml_button(self):
+                yaml_path = self.current_yaml_path()
+                if yaml_path and os.path.exists(yaml_path):
+                    self.view_yaml_btn.setEnabled(True)
+                    self.view_yaml_btn.setToolTip(yaml_path)
+                else:
+                    self.view_yaml_btn.setEnabled(False)
+                    self.view_yaml_btn.setToolTip('YAML file not found')
 
             def change_directory(self):
                 new_dir = QFileDialog.getExistingDirectory(self, 'Select Mapping Directory', self.mapping_dir)
@@ -812,6 +1075,157 @@ class MainWindow(QMainWindow):
                 # Only close MappingExcelDialog if MappingCompileDialog was accepted (not just canceled)
                 if result == QDialog.Accepted:
                     self.accept()
+                # After dialog, YAML may have been created
+                self.update_view_yaml_button()
+
+            def build_selected(self):
+                # Convert To YAML + Build Job for all selected files with color feedback
+                selected_items = self.file_list.selectedItems()
+                if not selected_items:
+                    QMessageBox.warning(self, 'No File Selected', 'Please select one or more Mapping Excel files to build.')
+                    return
+                config = self.parent().config if hasattr(self.parent(), 'config') else {}
+                # Disable buttons during processing
+                self.process_btn.setEnabled(False)
+                self.build_btn.setEnabled(False)
+                self.view_yaml_btn.setEnabled(False)
+                self.cancel_btn.setEnabled(False)
+                from PyQt5.QtGui import QColor
+                success_count = 0
+                fail_count = 0
+                for item in selected_items:
+                    file_name_only = item.text()
+                    try:
+                        item.setForeground(QColor('orange'))
+                        QApplication.processEvents()
+                        # Convert to YAML
+                        code, text = excel_mapping_to_yaml.convert_excel_to_yaml(file_name_only, config)
+                        if code != 0:
+                            raise RuntimeError(text)
+                        # Build job
+                        code, text = excel_mapping_to_yaml.build_job(file_name_only, config)
+                        if code != 0:
+                            raise RuntimeError(text)
+                        item.setForeground(QColor('#006400'))
+                        item.setToolTip('Build successful')
+                        success_count += 1
+                    except Exception as e:
+                        item.setForeground(QColor('red'))
+                        item.setToolTip(str(e))
+                        fail_count += 1
+                        # Show error for each file
+                        QMessageBox.critical(self, 'Build Error', f'Failed to build {file_name_only}: {e}')
+                # Summary message
+                if success_count:
+                    QMessageBox.information(self, 'Build', f'Successfully built {success_count} job(s).')
+                if fail_count:
+                    QMessageBox.warning(self, 'Build', f'{fail_count} job(s) failed.')
+                # Re-enable buttons
+                self.process_btn.setEnabled(True)
+                self.build_btn.setEnabled(True)
+                self.cancel_btn.setEnabled(True)
+                # Re-evaluate YAML button availability
+                self.update_view_yaml_button()
+
+            def view_yaml(self):
+                yaml_path = self.current_yaml_path()
+                if not yaml_path or not os.path.exists(yaml_path):
+                    QMessageBox.information(self, 'View YAML', 'YAML file does not exist.')
+                    return
+                try:
+                    with open(yaml_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    import yaml as _pyyaml
+                    try:
+                        parsed_yaml = _pyyaml.safe_load(content)
+                    except Exception as parse_exc:
+                        parsed_yaml = None
+                except Exception as e:
+                    QMessageBox.critical(self, 'View YAML Error', f'Unable to read YAML file: {e}')
+                    return
+                dlg = QDialog(self)
+                dlg.setWindowTitle(f'YAML: {os.path.basename(yaml_path)}')
+                dlg.resize(900, 600)
+                outer_vbox = QVBoxLayout()
+
+                from PyQt5.QtWidgets import QTabWidget, QTreeWidget, QTreeWidgetItem, QHeaderView
+                tabs = QTabWidget()
+
+                # Text tab
+                text_widget = QWidget()
+                text_vbox = QVBoxLayout()
+                text_edit = QTextEdit()
+                text_edit.setReadOnly(True)
+                text_edit.setPlainText(content)
+                text_vbox.addWidget(text_edit)
+                text_widget.setLayout(text_vbox)
+                tabs.addTab(text_widget, 'Text')
+
+                # Hierarchy tab (only if parsed)
+                tree_widget = QTreeWidget()
+                tree_widget.setColumnCount(3)
+                tree_widget.setHeaderLabels(['Key / Index', 'Value', 'Type'])
+                tree_widget.header().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+                tree_widget.header().setSectionResizeMode(1, QHeaderView.Stretch)
+                tree_widget.header().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+
+                def add_node(parent, key, value):
+                    # Determine type
+                    if isinstance(value, dict):
+                        node = QTreeWidgetItem(parent, [str(key), '', 'object'])
+                        for k, v in value.items():
+                            add_node(node, k, v)
+                    elif isinstance(value, list):
+                        node = QTreeWidgetItem(parent, [str(key), f'[{len(value)}]', 'list'])
+                        for idx, item in enumerate(value):
+                            add_node(node, idx, item)
+                    else:
+                        # scalar
+                        sval = '' if value is None else str(value)
+                        vtype = type(value).__name__
+                        QTreeWidgetItem(parent, [str(key), sval, vtype])
+
+                if parsed_yaml is not None:
+                    root_parent = tree_widget.invisibleRootParent() if hasattr(tree_widget, 'invisibleRootParent') else None
+                    tree_widget.setUpdatesEnabled(False)
+                    if isinstance(parsed_yaml, dict):
+                        for k, v in parsed_yaml.items():
+                            add_node(tree_widget, k, v)
+                    elif isinstance(parsed_yaml, list):
+                        for idx, item in enumerate(parsed_yaml):
+                            add_node(tree_widget, idx, item)
+                    else:
+                        add_node(tree_widget, 'root', parsed_yaml)
+                    tree_widget.setUpdatesEnabled(True)
+                    tree_widget.expandToDepth(0)
+                else:
+                    # Show parse error placeholder
+                    QTreeWidgetItem(tree_widget, ['(parse error)', '', ''])
+
+                tabs.addTab(tree_widget, 'Hierarchy')
+
+                outer_vbox.addWidget(tabs)
+
+                # Buttons row
+                btn_hbox = QHBoxLayout()
+                expand_btn = QPushButton('Expand All')
+                collapse_btn = QPushButton('Collapse All')
+                close_btn = QPushButton('Close')
+                def expand_all():
+                    tree_widget.expandAll()
+                def collapse_all():
+                    tree_widget.collapseAll()
+                expand_btn.clicked.connect(expand_all)
+                collapse_btn.clicked.connect(collapse_all)
+                close_btn.clicked.connect(dlg.accept)
+                btn_hbox.addWidget(expand_btn)
+                btn_hbox.addWidget(collapse_btn)
+                btn_hbox.addStretch(1)
+                btn_hbox.addWidget(close_btn)
+                outer_vbox.addLayout(btn_hbox)
+
+                dlg.setLayout(outer_vbox)
+                dlg.exec_()
 
         mapping_dir = self.config['config'].get('excel_mapping_directory', '.')
         dialog = MappingExcelDialog(mapping_dir, self)

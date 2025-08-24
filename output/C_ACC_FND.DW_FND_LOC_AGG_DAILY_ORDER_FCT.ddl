@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: C_ACC_FND.DW_FND_LOC_AGG_DAILY_ORDER_FCT.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}C_ACC_FND
 * Schema: 
 * Author: Mr Primark

@@ -1,0 +1,192 @@
+control_columns: .nan
+description: Validation Process for DM_FN
+job_name: FND2103
+job_name_from_file: FND2103
+job_name_from_mapping: FND2103
+mapping_columns:
+- column_action: ''
+  column_order: nan
+  column_sequence: 87
+  column_sequence_reverse: 1
+  mapping_notes: 'This is the joins and alias.  The base table is specified as either
+    CTE or Sub query '
+  source_column_name: nan
+  target_column_name: nan
+mapping_columns_count: 1
+mapping_sheet_name: MAPPING
+pattern: Validation
+primary_key:
+- loc_wid
+- item_wid
+- business_date
+sql_steps:
+  FND2103.300.VALIDATE: "-- =============================================================================\n\
+    -- Script Name: Duplicate Primary Key Check\n-- Description: This script checks\
+    \ for duplicate records in the staging table\n--              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG'\
+    \ based on the\n--              composite primary key (business_date, loc_wid,\
+    \ item_wid).\n--              It will exit with an error code if duplicates are\
+    \ found.\n-- =============================================================================\n\
+    -- Use a Common Table Expression (CTE) to identify duplicate records.\nWITH TST\
+    \ AS (\n    SELECT\n        business_date,\n        loc_wid,\n        item_wid,\n\
+    \        COUNT(*) AS dupl_count\n    FROM\n        DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\n\
+    \    GROUP BY\n        -- Group by the columns that form the unique key to find\
+    \ duplicates.\n        business_date,\n        loc_wid,\n        item_wid\n  \
+    \  HAVING\n        -- Filter for groups with more than one record, which indicates\
+    \ a duplicate.\n        dupl_count > 1\n)\n-- Select the top 10 duplicate records\
+    \ to display as a sample.\nSELECT TOP 10\n    'Duplicate count check' AS Error_Desc,\n\
+    \    TST.* -- Select all columns from the CTE\nFROM\n    TST\nORDER BY\n    --\
+    \ Order by loc_wid to make the output consistent.\n    dupl_count DESC\n;\n--\
+    \ =============================================================================\n\
+    -- BTEQ Control Logic (Teradata Specific)\n-- =============================================================================\n\
+    -- Check the error code from the last SQL statement.\n-- If ERRORCODE is not 0,\
+    \ it means the SELECT statement failed for some reason.\n.IF ERRORCODE <> 0 THEN\
+    \ .QUIT 101\n-- Check the activity count from the last SQL statement.\n-- If ACTIVITYCOUNT\
+    \ is not 0, it means our query found and returned duplicate rows.\n-- The script\
+    \ then quits with a specific error code (102) to signal this failure.\n.IF ACTIVITYCOUNT\
+    \ <> 0 THEN .QUIT 102"
+  FND2103.310.VALIDATE: "-- =============================================================================\n\
+    -- Script Name: Single Business Date Check\n-- Description: This script verifies\
+    \ that the staging table\n--              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG'\
+    \ contains records\n--              for only one 'business_date'. The process\
+    \ should fail if\n--              data for multiple dates is present.\n-- =============================================================================\n\
+    -- Use a Common Table Expression (CTE) to count the number of distinct dates.\n\
+    WITH TST AS (\n    SELECT\n        COUNT(DISTINCT business_date) AS business_date_count\n\
+    \    FROM\n        DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\n    HAVING\n\
+    \        -- This condition is the core of the test. The query will only\n    \
+    \    -- return a row if there is more than one distinct business_date.\n     \
+    \   business_date_count > 1\n)\n-- This SELECT statement will only run and return\
+    \ a row if the CTE above\n-- found more than one business_date.\nSELECT\n    'Only\
+    \ One Business Date check failed' AS Error_Desc,\n    TST.* -- Select all columns\
+    \ from the CTE\nFROM\n    TST;\n-- =============================================================================\n\
+    -- BTEQ Control Logic (Teradata Specific)\n-- =============================================================================\n\
+    -- Check the error code from the last SQL statement.\n-- If ERRORCODE is not 0,\
+    \ it means the SELECT statement failed for some reason.\n.IF ERRORCODE <> 0 THEN\
+    \ .QUIT 101\n-- Check the activity count from the last SQL statement.\n-- If ACTIVITYCOUNT\
+    \ is not 0, it means our query found multiple business dates\n-- and returned\
+    \ a row. The script then quits with a specific error code to\n-- signal this data\
+    \ quality failure.\n.IF ACTIVITYCOUNT <> 0 THEN .QUIT 103 -- Using 103 to differentiate\
+    \ from previous check"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2103
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 4
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Validate that there are no duplicates on primary index
+  file_name: FND2103.300.VALIDATE.sql
+  file_present: true
+  job_name: FND2103
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: "-- =============================================================================\n\
+    -- Script Name: Duplicate Primary Key Check\n-- Description: This script checks\
+    \ for duplicate records in the staging table\n--              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG'\
+    \ based on the\n--              composite primary key (business_date, loc_wid,\
+    \ item_wid).\n--              It will exit with an error code if duplicates are\
+    \ found.\n-- =============================================================================\n\
+    -- Use a Common Table Expression (CTE) to identify duplicate records.\nWITH TST\
+    \ AS (\n    SELECT\n        business_date,\n        loc_wid,\n        item_wid,\n\
+    \        COUNT(*) AS dupl_count\n    FROM\n        DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\n\
+    \    GROUP BY\n        -- Group by the columns that form the unique key to find\
+    \ duplicates.\n        business_date,\n        loc_wid,\n        item_wid\n  \
+    \  HAVING\n        -- Filter for groups with more than one record, which indicates\
+    \ a duplicate.\n        dupl_count > 1\n)\n-- Select the top 10 duplicate records\
+    \ to display as a sample.\nSELECT TOP 10\n    'Duplicate count check' AS Error_Desc,\n\
+    \    TST.* -- Select all columns from the CTE\nFROM\n    TST\nORDER BY\n    --\
+    \ Order by loc_wid to make the output consistent.\n    dupl_count DESC\n;\n--\
+    \ =============================================================================\n\
+    -- BTEQ Control Logic (Teradata Specific)\n-- =============================================================================\n\
+    -- Check the error code from the last SQL statement.\n-- If ERRORCODE is not 0,\
+    \ it means the SELECT statement failed for some reason.\n.IF ERRORCODE <> 0 THEN\
+    \ .QUIT 101\n-- Check the activity count from the last SQL statement.\n-- If ACTIVITYCOUNT\
+    \ is not 0, it means our query found and returned duplicate rows.\n-- The script\
+    \ then quits with a specific error code (102) to signal this failure.\n.IF ACTIVITYCOUNT\
+    \ <> 0 THEN .QUIT 102"
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_VALIDATE
+  steps: '300'
+  target_database: ''
+  target_table: ''
+- description: Validate that there is 1 business date
+  file_name: FND2103.310.VALIDATE.sql
+  file_present: true
+  job_name: FND2103
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 3
+  source_database: ''
+  source_table: ''
+  sql_statement: "-- =============================================================================\n\
+    -- Script Name: Single Business Date Check\n-- Description: This script verifies\
+    \ that the staging table\n--              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG'\
+    \ contains records\n--              for only one 'business_date'. The process\
+    \ should fail if\n--              data for multiple dates is present.\n-- =============================================================================\n\
+    -- Use a Common Table Expression (CTE) to count the number of distinct dates.\n\
+    WITH TST AS (\n    SELECT\n        COUNT(DISTINCT business_date) AS business_date_count\n\
+    \    FROM\n        DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\n    HAVING\n\
+    \        -- This condition is the core of the test. The query will only\n    \
+    \    -- return a row if there is more than one distinct business_date.\n     \
+    \   business_date_count > 1\n)\n-- This SELECT statement will only run and return\
+    \ a row if the CTE above\n-- found more than one business_date.\nSELECT\n    'Only\
+    \ One Business Date check failed' AS Error_Desc,\n    TST.* -- Select all columns\
+    \ from the CTE\nFROM\n    TST;\n-- =============================================================================\n\
+    -- BTEQ Control Logic (Teradata Specific)\n-- =============================================================================\n\
+    -- Check the error code from the last SQL statement.\n-- If ERRORCODE is not 0,\
+    \ it means the SELECT statement failed for some reason.\n.IF ERRORCODE <> 0 THEN\
+    \ .QUIT 101\n-- Check the activity count from the last SQL statement.\n-- If ACTIVITYCOUNT\
+    \ is not 0, it means our query found multiple business dates\n-- and returned\
+    \ a row. The script then quits with a specific error code to\n-- signal this data\
+    \ quality failure.\n.IF ACTIVITYCOUNT <> 0 THEN .QUIT 103 -- Using 103 to differentiate\
+    \ from previous check"
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_VALIDATE
+  steps: '310'
+  target_database: ''
+  target_table: ''
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2103
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 4
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+stream_id: FND_FACT_DAILY
+target_database_name: T_TMP_ACC_FND
+target_table_name: FND_STK_FCT_01_FCT_STG
+transformation_key:
+- loc_wid
+- item_wid
+- business_date

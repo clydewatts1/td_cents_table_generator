@@ -3,7 +3,7 @@ databasename: T_ACC_FND
 table_name: DW_FND_LOC_AGG_DAILY_SALES_FCT
 table_description: This is the foundation date dimension
 table_kind: MULTISET
-primary_index: PRIMARY INDEX ( loc_ID ,Item_Id ) PARTITION BY RANGE_N(Business_dt
+primary_index: PRIMARY INDEX ( loc_wid ,item_wid ) PARTITION BY RANGE_N(Business_dt
   BETWEEN DATE '2015-01-01' AND DATE '2030-12-31' EACH INTERVAL '1' DAY )
 table_option: ''
 control_columns: FND_STANDARD
@@ -22,23 +22,26 @@ columns:
   description: Business Date (PK)
   compression: ''
   quote: ''
-- column_name: loc_id
+  default: ''
+- column_name: loc_wid
   column_type: LOC
   column_format: '''99999'''
   is_null: Y
   option: ''
-  description: Location ID - this can either be a store or depot (PK)
+  description: Location ID Surrogate KEY (PK)
   compression: ''
   quote: ''
-- column_name: item_id
+  default: ''
+- column_name: item_wid
   column_type: ITEM
   column_format: ''
   is_null: Y
   option: ''
-  description: Item ID - this is the SKU Orin ( PK)
+  description: Item ID Surrogate Key (PK)
   compression: ''
   quote: ''
-- column_name: Sales_Value
+  default: ''
+- column_name: sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -47,7 +50,8 @@ columns:
     in this prom type.
   compression: '0'
   quote: ''
-- column_name: Sales_Units
+  default: ''
+- column_name: sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -56,7 +60,8 @@ columns:
     the day.
   compression: '0'
   quote: ''
-- column_name: Sales_Transaction_count
+  default: ''
+- column_name: sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -64,7 +69,8 @@ columns:
   description: This Column is used identify the Sales Transaction Count
   compression: '0'
   quote: ''
-- column_name: Promotion_Sales_Value
+  default: ''
+- column_name: promotion_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -72,7 +78,8 @@ columns:
   description: Sales value of items on promotion
   compression: '0'
   quote: ''
-- column_name: Promotion_Sales_Units
+  default: ''
+- column_name: promotion_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -80,7 +87,8 @@ columns:
   description: This Column is used identify the Units sold in promotion
   compression: '0'
   quote: ''
-- column_name: Promotion_Sales_Transaction_count
+  default: ''
+- column_name: promotion_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -88,7 +96,8 @@ columns:
   description: count of sales Transactions where an item is in promotion price
   compression: '0'
   quote: ''
-- column_name: Clearance_Sales_Value
+  default: ''
+- column_name: clearance_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -96,7 +105,8 @@ columns:
   description: Sales Clearance Value including only like for like stores.
   compression: '0'
   quote: ''
-- column_name: Clearance_Sales_Units
+  default: ''
+- column_name: clearance_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -104,7 +114,8 @@ columns:
   description: Sales Clearance Units including only like for like stores.
   compression: '0'
   quote: ''
-- column_name: Clearance_Sales_Transaction_count
+  default: ''
+- column_name: clearance_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -112,7 +123,8 @@ columns:
   description: Sales Clearance Transaction count including only like for like stores.
   compression: '0'
   quote: ''
-- column_name: Regular_Sales_Value
+  default: ''
+- column_name: regular_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -122,7 +134,8 @@ columns:
     and net of returns.This shouldnot include Gift Cards
   compression: '0'
   quote: ''
-- column_name: Regular_Sales_Units
+  default: ''
+- column_name: regular_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -131,7 +144,8 @@ columns:
     at Primark) without any promotion or clearance.
   compression: '0'
   quote: ''
-- column_name: Regular_Sales_Transaction_count
+  default: ''
+- column_name: regular_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -140,7 +154,8 @@ columns:
     price
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_Sales_Value
+  default: ''
+- column_name: emp_discount_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -148,7 +163,8 @@ columns:
   description: Sales value of transactions on Employee discount
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_Sales_Units
+  default: ''
+- column_name: emp_discount_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -156,7 +172,8 @@ columns:
   description: Sales Units of transactions on Employee discount
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_Sales_Transaction_count
+  default: ''
+- column_name: emp_discount_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -164,7 +181,8 @@ columns:
   description: Sales transaction count on Employee discount
   compression: '0'
   quote: ''
-- column_name: Cash_Sales_Value
+  default: ''
+- column_name: cash_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -172,7 +190,8 @@ columns:
   description: Sales value of cash transaction
   compression: '0'
   quote: ''
-- column_name: Cash_Sales_Units
+  default: ''
+- column_name: cash_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -180,7 +199,8 @@ columns:
   description: Sales Units of cash transactions
   compression: '0'
   quote: ''
-- column_name: Cash_Sales_Transaction_count
+  default: ''
+- column_name: cash_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -188,7 +208,8 @@ columns:
   description: Sales transaction count where TENDOR TYPE is Cash
   compression: '0'
   quote: ''
-- column_name: Card_Sales_Value
+  default: ''
+- column_name: card_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -196,7 +217,8 @@ columns:
   description: Sales value of card transactions
   compression: '0'
   quote: ''
-- column_name: Card_Sales_Units
+  default: ''
+- column_name: card_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -204,7 +226,8 @@ columns:
   description: Sales units of card transactions
   compression: '0'
   quote: ''
-- column_name: Card_Sales_Transaction_count
+  default: ''
+- column_name: card_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -212,7 +235,8 @@ columns:
   description: Sales transaction count where TENDOR TYPE is Cash
   compression: '0'
   quote: ''
-- column_name: Gift_Sales_Value
+  default: ''
+- column_name: gift_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -221,7 +245,8 @@ columns:
     Gift Card
   compression: '0'
   quote: ''
-- column_name: Gift_Sales_Units
+  default: ''
+- column_name: gift_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -230,7 +255,8 @@ columns:
     Gift Card
   compression: '0'
   quote: ''
-- column_name: Gift_Sales_Transaction_count
+  default: ''
+- column_name: gift_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -239,7 +265,8 @@ columns:
     type is Gift Card
   compression: '0'
   quote: ''
-- column_name: Others_Sales_Value
+  default: ''
+- column_name: others_sales_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -247,7 +274,8 @@ columns:
   description: Sales Values except tender type is CARD,CASH,AMEX and GIFT Card
   compression: '0'
   quote: ''
-- column_name: Others_Sales_Units
+  default: ''
+- column_name: others_sales_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -255,7 +283,8 @@ columns:
   description: Sales Units except tender type is CARD,CASH,AMEX and GIFT Card
   compression: '0'
   quote: ''
-- column_name: Others_Sales_Transaction_count
+  default: ''
+- column_name: others_sales_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -264,7 +293,8 @@ columns:
     Card
   compression: '0'
   quote: ''
-- column_name: Return_Value
+  default: ''
+- column_name: return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -272,7 +302,8 @@ columns:
   description: Total Retail Value of the Items Returned
   compression: '0'
   quote: ''
-- column_name: Return_Units
+  default: ''
+- column_name: return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -280,7 +311,8 @@ columns:
   description: Total Retail Units of the Items Returned
   compression: '0'
   quote: ''
-- column_name: Return_Transaction_count
+  default: ''
+- column_name: return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -288,7 +320,8 @@ columns:
   description: Total Transaction count of the Items Returned
   compression: '0'
   quote: ''
-- column_name: Promotion_Return_Value
+  default: ''
+- column_name: promotion_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -296,7 +329,8 @@ columns:
   description: Sales value of items returned which where sold in the promotion
   compression: '0'
   quote: ''
-- column_name: Promotion_Return_Units
+  default: ''
+- column_name: promotion_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -304,7 +338,8 @@ columns:
   description: Units of items returned which where sold in the promotion
   compression: '0'
   quote: ''
-- column_name: Promotion_Return_Transaction_count
+  default: ''
+- column_name: promotion_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -312,7 +347,8 @@ columns:
   description: Count of sales Transactions returned which where sold in the promotion
   compression: '0'
   quote: ''
-- column_name: Clearance_Return_Value
+  default: ''
+- column_name: clearance_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -320,7 +356,8 @@ columns:
   description: Sales value of items returned which where sold in the clearance
   compression: '0'
   quote: ''
-- column_name: Clearance_Return_Units
+  default: ''
+- column_name: clearance_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -328,7 +365,8 @@ columns:
   description: Units of items returned which where sold in the Clearance
   compression: '0'
   quote: ''
-- column_name: Clearance_Return_Transaction_count
+  default: ''
+- column_name: clearance_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -336,7 +374,8 @@ columns:
   description: Count of sales Transactions returned which where sold in the clearance
   compression: '0'
   quote: ''
-- column_name: Regular_Return_Value
+  default: ''
+- column_name: regular_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -344,7 +383,8 @@ columns:
   description: Sales value of items returned which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Regular_Return_Units
+  default: ''
+- column_name: regular_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -352,7 +392,8 @@ columns:
   description: Units of items returned which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Regular_Return_Transaction_count
+  default: ''
+- column_name: regular_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -360,7 +401,8 @@ columns:
   description: count of returned transaction which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_Return_Value
+  default: ''
+- column_name: emp_discount_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -368,7 +410,8 @@ columns:
   description: Sales value of items returned which where sold in the Employee Discount
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_Return_Units
+  default: ''
+- column_name: emp_discount_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -376,7 +419,8 @@ columns:
   description: Units of items returned which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_Return_Transaction_count
+  default: ''
+- column_name: emp_discount_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -385,7 +429,8 @@ columns:
     price
   compression: '0'
   quote: ''
-- column_name: Cash_Return_Value
+  default: ''
+- column_name: cash_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -393,7 +438,8 @@ columns:
   description: Sales value of items returned which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Cash_Return_Units
+  default: ''
+- column_name: cash_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -401,7 +447,8 @@ columns:
   description: Units of items returned which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Cash_Return_Transaction_count
+  default: ''
+- column_name: cash_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -409,7 +456,8 @@ columns:
   description: Count of sales Transactions returned which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Card_Return_Value
+  default: ''
+- column_name: card_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -417,7 +465,8 @@ columns:
   description: Sales value of items returned which where tender type as card
   compression: '0'
   quote: ''
-- column_name: Card_Return_Units
+  default: ''
+- column_name: card_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -425,7 +474,8 @@ columns:
   description: Units of items returned which where tender type as card
   compression: '0'
   quote: ''
-- column_name: Card_Return_Transaction_count
+  default: ''
+- column_name: card_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -433,7 +483,8 @@ columns:
   description: Count of sales Transactions returned which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Gift_Return_Value
+  default: ''
+- column_name: gift_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -441,7 +492,8 @@ columns:
   description: Sales value of items returned which where tender type as Gift Card
   compression: '0'
   quote: ''
-- column_name: Gift_Return_Units
+  default: ''
+- column_name: gift_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -449,7 +501,8 @@ columns:
   description: Units of items returned which where tender type as Gift Card
   compression: '0'
   quote: ''
-- column_name: Gift_Return_Transaction_count
+  default: ''
+- column_name: gift_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -458,7 +511,8 @@ columns:
     Card
   compression: '0'
   quote: ''
-- column_name: Others_Return_Value
+  default: ''
+- column_name: others_return_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -466,7 +520,8 @@ columns:
   description: Return Values except tender type is CARD,CASH,AMEX and GIFT Card
   compression: '0'
   quote: ''
-- column_name: Others_Return_Units
+  default: ''
+- column_name: others_return_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -474,7 +529,8 @@ columns:
   description: Return Units except tender type is CARD,CASH,AMEX and GIFT Card
   compression: '0'
   quote: ''
-- column_name: Others_Return_Transaction_count
+  default: ''
+- column_name: others_return_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -483,7 +539,8 @@ columns:
     Card
   compression: '0'
   quote: ''
-- column_name: exchange_Value
+  default: ''
+- column_name: exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -491,7 +548,8 @@ columns:
   description: Total Retail Value of the Items Exchange
   compression: '0'
   quote: ''
-- column_name: exchange_Units
+  default: ''
+- column_name: exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -499,7 +557,8 @@ columns:
   description: Total Retail Units of the Items Exchange
   compression: '0'
   quote: ''
-- column_name: exchange_Transaction_count
+  default: ''
+- column_name: exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -507,7 +566,8 @@ columns:
   description: Total Transaction count of the Items Exchange
   compression: '0'
   quote: ''
-- column_name: Promotion_Exchange_Value
+  default: ''
+- column_name: promotion_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -515,7 +575,8 @@ columns:
   description: Sales value of items Exchange which where sold in the promotion
   compression: '0'
   quote: ''
-- column_name: Promotion_exchange_Units
+  default: ''
+- column_name: promotion_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -523,7 +584,8 @@ columns:
   description: Units of items Exchange which where sold in the promotion
   compression: '0'
   quote: ''
-- column_name: Promotion_exchange_Transaction_count
+  default: ''
+- column_name: promotion_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -531,7 +593,8 @@ columns:
   description: Transactions Exchange which where sold in the promotion
   compression: '0'
   quote: ''
-- column_name: Clearance_exchange_Value
+  default: ''
+- column_name: clearance_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -539,7 +602,8 @@ columns:
   description: Sales value of items Exchange which where sold in the clearance
   compression: '0'
   quote: ''
-- column_name: Clearance_exchange_Units
+  default: ''
+- column_name: clearance_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -547,7 +611,8 @@ columns:
   description: Units of items Exchange which where sold in the Clearance
   compression: '0'
   quote: ''
-- column_name: Clearance_exchange_Transaction_count
+  default: ''
+- column_name: clearance_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -555,7 +620,8 @@ columns:
   description: Count of sales Transactions Exchange which where sold in the clearance
   compression: '0'
   quote: ''
-- column_name: Regular_exchange_Value
+  default: ''
+- column_name: regular_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -563,7 +629,8 @@ columns:
   description: Sales value of items Exchange which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Regular_exchange_Units
+  default: ''
+- column_name: regular_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -571,7 +638,8 @@ columns:
   description: Units of items Exchange which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Regular_exchange_Transaction_count
+  default: ''
+- column_name: regular_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -579,7 +647,8 @@ columns:
   description: count of exchange transactions which were sold in the regularprice
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_exchange_Value
+  default: ''
+- column_name: emp_discount_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -587,7 +656,8 @@ columns:
   description: Sales value of items Exchange which where sold in the Employee Discount
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_exchange_Units
+  default: ''
+- column_name: emp_discount_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -595,7 +665,8 @@ columns:
   description: Units of items Exchange which where sold in the Regular price
   compression: '0'
   quote: ''
-- column_name: Emp_Discount_exchange_Transaction_count
+  default: ''
+- column_name: emp_discount_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -604,7 +675,8 @@ columns:
     price
   compression: '0'
   quote: ''
-- column_name: Cash_exchange_Value
+  default: ''
+- column_name: cash_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -612,7 +684,8 @@ columns:
   description: Sales value of items Exchange which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Cash_exchange_Units
+  default: ''
+- column_name: cash_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -620,7 +693,8 @@ columns:
   description: Units of items Exchange which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Cash_exchange_Transaction_count
+  default: ''
+- column_name: cash_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -628,7 +702,8 @@ columns:
   description: Count of sales Transactions Exchange which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Card_exchange_Value
+  default: ''
+- column_name: card_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -636,7 +711,8 @@ columns:
   description: Sales value of items Exchange which where tender type as card
   compression: '0'
   quote: ''
-- column_name: Card_exchange_Units
+  default: ''
+- column_name: card_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -644,7 +720,8 @@ columns:
   description: Units of items Exchange which where tender type as card
   compression: '0'
   quote: ''
-- column_name: Card_exchange_Transaction_count
+  default: ''
+- column_name: card_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -652,7 +729,8 @@ columns:
   description: Count of sales Transactions Exchange which where tender type as cash
   compression: '0'
   quote: ''
-- column_name: Gift_exchange_Value
+  default: ''
+- column_name: gift_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -660,7 +738,8 @@ columns:
   description: Sales value of items Exchange which where tender type as Gift Card
   compression: '0'
   quote: ''
-- column_name: Gift_exchange_Units
+  default: ''
+- column_name: gift_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -668,7 +747,8 @@ columns:
   description: Units of items Exchange which where tender type as Gift Card
   compression: '0'
   quote: ''
-- column_name: Gift_exchange_Transaction_count
+  default: ''
+- column_name: gift_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -677,7 +757,8 @@ columns:
     Card
   compression: '0'
   quote: ''
-- column_name: Others_exchange_Value
+  default: ''
+- column_name: others_exchange_value
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -685,7 +766,8 @@ columns:
   description: Exchange Values except tender type is CARD,CASH,AMEX and GIFT Card
   compression: '0'
   quote: ''
-- column_name: Others_exchange_Units
+  default: ''
+- column_name: others_exchange_units
   column_type: UNIT
   column_format: ''
   is_null: Y
@@ -693,7 +775,8 @@ columns:
   description: Exchange Units except tender type is CARD,CASH,AMEX and GIFT Card
   compression: '0'
   quote: ''
-- column_name: Others_exchange_Transaction_count
+  default: ''
+- column_name: others_exchange_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -702,7 +785,8 @@ columns:
     GIFT Card
   compression: '0'
   quote: ''
-- column_name: SALES_TAX_AMT
+  default: ''
+- column_name: sales_tax_amt
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -710,7 +794,8 @@ columns:
   description: This Column is used identify the Tax amount for the sales Value
   compression: '0'
   quote: ''
-- column_name: RETURN_TAX_AMT
+  default: ''
+- column_name: return_tax_amt
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -718,7 +803,8 @@ columns:
   description: Tax amount for the return Sales value
   compression: '0'
   quote: ''
-- column_name: Void_Transaction_count
+  default: ''
+- column_name: void_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -726,7 +812,8 @@ columns:
   description: Transaction count where Type = VOID
   compression: '0'
   quote: ''
-- column_name: Post_void_Transaction_count
+  default: ''
+- column_name: post_void_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -734,7 +821,8 @@ columns:
   description: Transaction count where Type = VOID
   compression: '0'
   quote: ''
-- column_name: Other_Transaction_count
+  default: ''
+- column_name: other_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -742,7 +830,8 @@ columns:
   description: Transaction count other than VOID and POST VOID
   compression: '0'
   quote: ''
-- column_name: Sales_Manual_Markup_Amt
+  default: ''
+- column_name: sales_manual_markup_amt
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -750,7 +839,8 @@ columns:
   description: Manual Mark-up done at store level
   compression: '0'
   quote: ''
-- column_name: Return_Manual_Markdown_Amt
+  default: ''
+- column_name: return_manual_markdown_amt
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -758,7 +848,8 @@ columns:
   description: Value of returns which were sold on manual mark down at store
   compression: '0'
   quote: ''
-- column_name: Sales_Manual_Count
+  default: ''
+- column_name: sales_manual_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -767,7 +858,8 @@ columns:
     the POS Scan did not work)
   compression: '0'
   quote: ''
-- column_name: Sales_Manual_Markdown_Amt
+  default: ''
+- column_name: sales_manual_markdown_amt
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -775,7 +867,8 @@ columns:
   description: Manual Mark-down done at store level
   compression: '0'
   quote: ''
-- column_name: Exchanges_with_reciepts
+  default: ''
+- column_name: exchanges_with_reciepts
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -783,7 +876,8 @@ columns:
   description: number of exchange transactions where a receipt was present
   compression: '0'
   quote: ''
-- column_name: Exchanges_without_reciepts
+  default: ''
+- column_name: exchanges_without_reciepts
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -791,7 +885,8 @@ columns:
   description: number of exchange transactions where a receipt was not present
   compression: '0'
   quote: ''
-- column_name: Returns_with_reciepts
+  default: ''
+- column_name: returns_with_reciepts
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -799,7 +894,8 @@ columns:
   description: number of return transactions where a receipt was present
   compression: '0'
   quote: ''
-- column_name: Returns_without_reciepts
+  default: ''
+- column_name: returns_without_reciepts
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -807,7 +903,8 @@ columns:
   description: number of return transactions where a receipt was present
   compression: '0'
   quote: ''
-- column_name: Sales_Scan_Count
+  default: ''
+- column_name: sales_scan_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -815,7 +912,8 @@ columns:
   description: This Column is used identify the Count of scans in POS
   compression: '0'
   quote: ''
-- column_name: No_Sale_Transaction_count
+  default: ''
+- column_name: no_sale_transaction_count
   column_type: COUNT
   column_format: ''
   is_null: Y
@@ -823,7 +921,8 @@ columns:
   description: Count of transactions where there is no sale
   compression: '0'
   quote: ''
-- column_name: Previous_Full_Week_Sales
+  default: ''
+- column_name: previous_full_week_sales
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -831,7 +930,8 @@ columns:
   description: This Column is used identify the last week sales
   compression: '0'
   quote: ''
-- column_name: SPV
+  default: ''
+- column_name: spv
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -839,7 +939,8 @@ columns:
   description: This Column is used identify the Sale Price Variance
   compression: '0'
   quote: ''
-- column_name: Sales_1st_Date
+  default: ''
+- column_name: sales_1st_date
   column_type: DATE
   column_format: ''
   is_null: ''
@@ -847,7 +948,8 @@ columns:
   description: First day when store start selling an item.Date of SALES 1ST DATE
   compression: ''
   quote: ''
-- column_name: Sales_1st_Week
+  default: ''
+- column_name: sales_1st_week
   column_type: DATE
   column_format: ''
   is_null: ''
@@ -856,7 +958,8 @@ columns:
     (This is at SKU ORIN level)
   compression: ''
   quote: ''
-- column_name: Days_at_Clearance
+  default: ''
+- column_name: days_at_clearance
   column_type: DATE
   column_format: ''
   is_null: ''
@@ -865,7 +968,8 @@ columns:
     DATE (Current) - CLEARANCE DATE
   compression: ''
   quote: ''
-- column_name: Net_Sales
+  default: ''
+- column_name: net_sales
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -874,7 +978,8 @@ columns:
     net of returns and net of VAT.SALES VALUE - SALES VAT AMOUNT
   compression: '0'
   quote: ''
-- column_name: Regular_Sell_Price
+  default: ''
+- column_name: regular_sell_price
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -883,7 +988,8 @@ columns:
     SELL PRICE)
   compression: '0'
   quote: ''
-- column_name: Sales_VAT
+  default: ''
+- column_name: sales_vat
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -891,7 +997,8 @@ columns:
   description: This Column is used identify the Vat amount on the sales
   compression: '0'
   quote: ''
-- column_name: Weeks_in_Store
+  default: ''
+- column_name: weeks_in_store
   column_type: AMOUNT
   column_format: ''
   is_null: Y
@@ -900,7 +1007,8 @@ columns:
     DATE - SALES 1ST DATE
   compression: '0'
   quote: ''
-- column_name: Item_Selling_Price
+  default: ''
+- column_name: item_selling_price
   column_type: AMOUNT
   column_format: ''
   is_null: ''
@@ -909,6 +1017,7 @@ columns:
     the item.
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: ''
   databasename: DWP01T_ACC_FND
