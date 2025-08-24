@@ -25,6 +25,7 @@ columns:
   description: Id no for a specific Location e.g. Store or Depot
   compression: ''
   quote: ''
+  default: ''
 - column_name: LOC_WID
   column_type: BIGINT
   column_format: ''
@@ -33,6 +34,7 @@ columns:
   description: Location WID
   compression: ''
   quote: ''
+  default: ''
 - column_name: location_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -42,6 +44,7 @@ columns:
     It(s) the location where customers can view and purchase goods and services.
   compression: ''
   quote: ''
+  default: ''
 - column_name: location_type
   column_type: VARCHAR(3)
   column_format: ''
@@ -51,6 +54,7 @@ columns:
     Warehouse , FA - Factory , AG - ??? , E - ???
   compression: FA','S','W'
   quote: ''
+  default: ''
 - column_name: currency_cd
   column_type: CHAR(3)
   column_format: ''
@@ -59,6 +63,7 @@ columns:
   description: This is the 3 character currency code ( USD , EUR , GBR)
   compression: GBP','EUR','USD'
   quote: ''
+  default: ''
 - column_name: address_line1
   column_type: VARCHAR(255)
   column_format: ''
@@ -68,6 +73,7 @@ columns:
     excluding city name, state, and postal (zip) code or country.
   compression: ''
   quote: ''
+  default: ''
 - column_name: address_line2
   column_type: VARCHAR(255)
   column_format: ''
@@ -77,6 +83,7 @@ columns:
     excluding city name, state, and postal (zip) code or country.
   compression: ''
   quote: ''
+  default: ''
 - column_name: address_line3
   column_type: VARCHAR(255)
   column_format: ''
@@ -86,6 +93,7 @@ columns:
     excluding city name, state, and postal (zip) code or country.
   compression: ''
   quote: ''
+  default: ''
 - column_name: city_cd
   column_type: VARCHAR(170)
   column_format: ''
@@ -94,6 +102,7 @@ columns:
   description: Uniquely identifies a city.
   compression: ''
   quote: ''
+  default: ''
 - column_name: postal_code_cd
   column_type: VARCHAR(20)
   column_format: ''
@@ -104,6 +113,7 @@ columns:
     of mail. Frequently used in marketing analysis and planning.
   compression: ''
   quote: ''
+  default: ''
 - column_name: state_province_cd
   column_type: VARCHAR(30)
   column_format: ''
@@ -112,6 +122,7 @@ columns:
   description: This Column is used identify the A code for state providences
   compression: ''
   quote: ''
+  default: ''
 - column_name: country_cd
   column_type: CHAR(2)
   column_format: ''
@@ -120,6 +131,7 @@ columns:
   description: Uniquely identifies a county.
   compression: ''
   quote: ''
+  default: ''
 - column_name: phone_number
   column_type: VARCHAR(20)
   column_format: ''
@@ -128,6 +140,7 @@ columns:
   description: Uniquely identifies a telephone number.
   compression: ''
   quote: ''
+  default: ''
 - column_name: location_mgr_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -136,6 +149,7 @@ columns:
   description: Person who manages the specific Store.
   compression: ''
   quote: ''
+  default: ''
 - column_name: stock_holding_ind
   column_type: VARCHAR(10)
   column_format: ''
@@ -145,6 +159,7 @@ columns:
     environment this will always be Y.
   compression: ''
   quote: ''
+  default: ''
 - column_name: default_warehouse_cd
   column_type: INTEGER
   column_format: ''
@@ -155,6 +170,7 @@ columns:
     Number and Depot Name.
   compression: ''
   quote: ''
+  default: ''
 - column_name: time_zone
   column_type: VARCHAR(30)
   column_format: ''
@@ -163,6 +179,7 @@ columns:
   description: Time for the current geographical location
   compression: ''
   quote: ''
+  default: ''
 - column_name: vat_region_id
   column_type: SMALLINT
   column_format: ''
@@ -171,6 +188,7 @@ columns:
   description: VAT region (vat regions are determined by the VAT authority).
   compression: ''
   quote: ''
+  default: ''
 - column_name: vat_include_ind
   column_type: CHAR(1)
   column_format: ''
@@ -180,6 +198,7 @@ columns:
     included or not
   compression: Y'
   quote: ''
+  default: ''
 - column_name: store_open_dt
   column_type: DATE
   column_format: '''YYYY-MM-DD'''
@@ -190,6 +209,7 @@ columns:
     by store
   compression: ''
   quote: ''
+  default: ''
 - column_name: store_close_dt
   column_type: DATE
   column_format: '''YYYY-MM-DD'''
@@ -198,6 +218,7 @@ columns:
   description: This Column is used identify the last day of the store
   compression: ''
   quote: ''
+  default: ''
 - column_name: start_order_days
   column_type: SMALLINT
   column_format: ''
@@ -207,6 +228,7 @@ columns:
     will begin accepting orders.
   compression: ''
   quote: ''
+  default: ''
 - column_name: selfridge_ind
   column_type: CHAR(1)
   column_format: ''
@@ -215,6 +237,7 @@ columns:
   description: This Column is used identify the Selfridge indicator
   compression: N'
   quote: ''
+  default: ''
 - column_name: finisher_ind
   column_type: VARCHAR(10)
   column_format: ''
@@ -224,6 +247,7 @@ columns:
     It could also identify an external PARTNER for reprocessing purposes.
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_entity
   column_type: VARCHAR(50)
   column_format: ''
@@ -233,6 +257,7 @@ columns:
     grouping defined by your company.
   compression: ''
   quote: ''
+  default: ''
 - column_name: physical_warehouse_cd
   column_type: INTEGER
   column_format: '''999'''
@@ -241,6 +266,7 @@ columns:
   description: Code representing the Physical warehouse for the Store
   compression: ''
   quote: ''
+  default: ''
 - column_name: default_virtual_warehouse_cd
   column_type: INTEGER
   column_format: ''
@@ -249,6 +275,7 @@ columns:
   description: This Column is used to identify the Default Depot code for the Location(Store)
   compression: ''
   quote: ''
+  default: ''
 - column_name: retail_store_hierarchy_wid
   column_type: VARCHAR(30)
   column_format: ''
@@ -257,6 +284,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: channel_id
   column_type: SMALLINT
   column_format: '''9999'''
@@ -265,6 +293,7 @@ columns:
   description: Channel Associated with Store
   compression: ''
   quote: ''
+  default: ''
 - column_name: channel_name
   column_type: VARCHAR(30)
   column_format: ''
@@ -273,6 +302,7 @@ columns:
   description: Channel Name Associated with Store
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_cd
   column_type: INTEGER
   column_format: ''
@@ -281,6 +311,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_cd_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -289,6 +320,7 @@ columns:
   description: version number associated with hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_cd
   column_type: INTEGER
   column_format: ''
@@ -297,6 +329,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_cd_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -305,6 +338,7 @@ columns:
   description: version number associated with hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_cd
   column_type: INTEGER
   column_format: ''
@@ -313,6 +347,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_cd_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -321,6 +356,7 @@ columns:
   description: version number associated with hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_cd
   column_type: INTEGER
   column_format: ''
@@ -329,6 +365,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_cd_vers_num
   column_type: SMALLINT
   column_format: ''
@@ -337,6 +374,7 @@ columns:
   description: version number associated with hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -345,6 +383,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -353,6 +392,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -361,6 +401,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_old
   column_type: VARCHAR(100)
   column_format: ''
@@ -369,6 +410,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_area_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -377,6 +419,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -385,6 +428,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: zone_manager_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -393,6 +437,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: region_manager_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -401,6 +446,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_area_manager_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -409,6 +455,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_mgr_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -417,6 +464,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: latest_refit_date
   column_type: DATE
   column_format: ''
@@ -425,6 +473,7 @@ columns:
   description: Date when a store was given a refit
   compression: ''
   quote: ''
+  default: ''
 - column_name: profile
   column_type: VARCHAR(250)
   column_format: ''
@@ -433,6 +482,7 @@ columns:
   description: TBD
   compression: ''
   quote: Y
+  default: ''
 - column_name: basement
   column_type: INTEGER
   column_format: ''
@@ -441,6 +491,7 @@ columns:
   description: Size of the basement
   compression: ''
   quote: ''
+  default: ''
 - column_name: ground_floor
   column_type: INTEGER
   column_format: ''
@@ -449,6 +500,7 @@ columns:
   description: Size of the ground floor
   compression: ''
   quote: ''
+  default: ''
 - column_name: first_floor
   column_type: INTEGER
   column_format: ''
@@ -457,6 +509,7 @@ columns:
   description: Size of the floor
   compression: ''
   quote: ''
+  default: ''
 - column_name: second_floor
   column_type: INTEGER
   column_format: ''
@@ -465,6 +518,7 @@ columns:
   description: Size of the floor
   compression: ''
   quote: ''
+  default: ''
 - column_name: third_floor
   column_type: INTEGER
   column_format: ''
@@ -473,6 +527,7 @@ columns:
   description: Size of the floor
   compression: ''
   quote: ''
+  default: ''
 - column_name: fourth_floor
   column_type: INTEGER
   column_format: ''
@@ -481,6 +536,7 @@ columns:
   description: Size of the floor
   compression: ''
   quote: ''
+  default: ''
 - column_name: fifth_floor
   column_type: INTEGER
   column_format: ''
@@ -489,6 +545,7 @@ columns:
   description: Size of the floor
   compression: ''
   quote: ''
+  default: ''
 - column_name: total
   column_type: INTEGER
   column_format: ''
@@ -497,6 +554,7 @@ columns:
   description: Total Floor Size
   compression: ''
   quote: ''
+  default: ''
 - column_name: male
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -505,6 +563,7 @@ columns:
   description: Male Decographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: female
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -513,6 +572,7 @@ columns:
   description: Female Decographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: age_year_0_to_17
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -521,6 +581,7 @@ columns:
   description: Demographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: age_year_15_to_64
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -529,6 +590,7 @@ columns:
   description: Demographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: age_year_65_plus
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -537,6 +599,7 @@ columns:
   description: Demographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: indigenous
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -545,6 +608,7 @@ columns:
   description: Demographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: eu_western
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -553,6 +617,7 @@ columns:
   description: Demographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: non_western
   column_type: DECIMAL(9,4)
   column_format: ''
@@ -561,6 +626,7 @@ columns:
   description: Demographic ratio [0,1]
   compression: ''
   quote: ''
+  default: ''
 - column_name: university
   column_type: CHAR(1)
   column_format: ''
@@ -569,6 +635,7 @@ columns:
   description: University Town Y/N
   compression: ''
   quote: ''
+  default: ''
 - column_name: tourism
   column_type: CHAR(1)
   column_format: ''
@@ -577,6 +644,7 @@ columns:
   description: Tourist Town Y/N
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -585,6 +653,7 @@ columns:
   description: The Area Name
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_manager_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -593,6 +662,7 @@ columns:
   description: The managers name associated with the area
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_area_cd
   column_type: VARCHAR(100)
   column_format: ''
@@ -601,6 +671,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_group_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -609,6 +680,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_group_manager_name
   column_type: VARCHAR(100)
   column_format: ''
@@ -617,6 +689,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: area_group_cd
   column_type: INTEGER
   column_format: ''
@@ -625,6 +698,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_wid
   column_type: INTEGER
   column_format: ''
@@ -633,6 +707,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: org_hier_country_cd
   column_type: VARCHAR(30)
   column_format: ''
@@ -641,6 +716,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: linear_footage
   column_type: INTEGER
   column_format: ''
@@ -649,6 +725,7 @@ columns:
   description: This Column is used identify the Primark linear footage space planning
   compression: ''
   quote: ''
+  default: ''
 - column_name: Store_Hierarchy_Mgr_Name
   column_type: VARCHAR(255)
   column_format: ''
@@ -657,6 +734,7 @@ columns:
   description: This Column is used identify the Manager name for the store
   compression: ''
   quote: ''
+  default: ''
 - column_name: store_format_cd
   column_type: VARCHAR(30)
   column_format: ''
@@ -665,6 +743,7 @@ columns:
   description: This Column is used identify the store format code
   compression: ''
   quote: ''
+  default: ''
 - column_name: store_format_description
   column_type: VARCHAR(128)
   column_format: ''
@@ -673,6 +752,7 @@ columns:
   description: This Column is used identify the Description of store format
   compression: ''
   quote: ''
+  default: ''
 - column_name: store_area_footage
   column_type: SMALLINT
   column_format: ''
@@ -681,6 +761,7 @@ columns:
   description: This Column is used identify the Area Footage of the store
   compression: ''
   quote: ''
+  default: ''
 - column_name: operating_unit
   column_type: VARCHAR(255)
   column_format: ''
@@ -690,6 +771,7 @@ columns:
     (Id in EBS)
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: ''
   databasename: DWP01T_ACC_FND

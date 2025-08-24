@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}V_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -12,10 +12,12 @@ REPLACE VIEW DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT
     AS
 SELECT
     business_date ,
-    loc_id ,
+    loc_wid ,
     item_wid ,
-    wk_business_date ,
+    ty_wk_business_date ,
     ly_business_date ,
+    ly_wk_business_date ,
+    lw_business_date ,
     ty_sales_ind ,
     ty_stock_ind ,
     ly_sales_ind ,
@@ -41,16 +43,22 @@ COMMENT ON VIEW DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS ''
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.business_date AS 'Business Date (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.loc_id AS 'Location ID Surrogate KEY (PK)'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.item_wid AS 'Item ID Surrogate Key (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.wk_business_date AS 'The week business date ( TD_SATURDAY )'
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ty_wk_business_date AS 'The week business date ( TD_SATURDAY )'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ly_business_date AS 'Last year business date'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ly_wk_business_date AS 'Last year wk_business_date ( Saturday )'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.lw_business_date AS 'Last week business date'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT.ty_sales_ind AS 'Indicates if the sales data was present for this row'

@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}C_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -90,6 +90,8 @@ SELECT
     tsf_intake_cost_amount ,
     ras_stock_value ,
     stock_unit_av_cost_amount ,
+    lcp_intake ,
+    lcp_gross ,
     wkly_flg ,
     listing_flg ,
     /* Control columns for auditing */
@@ -342,6 +344,12 @@ COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.ras_stock_va
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.stock_unit_av_cost_amount AS 'This Column is used identify the Average cost amount of stock unit'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_intake AS 'This Column is used identify the LCP intake Value'
+;
+
+COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.lcp_gross AS 'This Column is used identify the LCP Gross Value'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}C_ACC_FND.DW_FND_AGG_DAILY_STOCK_FCT.wkly_flg AS 'Flag to identify the Data is at weekly level or daily level (Y- Yes, N-No)'

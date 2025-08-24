@@ -198,30 +198,31 @@ DSOH AS (
 FCT AS (
     /* all stock measures
           do full outer joins to get all combinations
+          TODO: Make this more efficient
     */
     SELECT
-        COALESCE(TSF.business_date, TCV.business_date, STC.business_date) AS business_date,
-        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid) AS location_wid,
-        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid) AS item_wid,
-        TSF.transfer_outst_units,
-        TSF.transfer_outst_retail_value,
-        TSF.transfer_outst_cost_value,
-        TCV.transfer_act_repo_cost_value,
-        TSFC.transfer_act_upchrg_unit_cost,
-        TSFC.transfer_act_upchrg_cost_value,
-        STC.stock_count_units,
-        STC.stock_count_snapshot_units,
-        STC.stock_count_retail_amt,
-        STC.stock_count_snapshot_retail_amt,
-        STC.total_stock_loss_units,
-        STC.total_stock_loss_value,
-        TSFI.tsf_intake_qty,
-        TSFI.tsf_intake_retail_amount,
-        TSFI.tsf_intake_cost_amount,
-        TSFSHP.trasfer_ship_units,
-        TSFSHP.trasfer_ship_retail_amount,
-        TSFSHP.trasfer_ship_cost_amount,
-        STKA.soh_age_in_weeks
+        COALESCE(TSF.business_date, TCV.business_date, STC.business_date,TSFC.business_date,TSFI.business_date,TSFSHP.business_date,STKA.business_date) AS business_date,
+        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid,TSFC.location_wid,TSFI.location_wid,TSFSHP.location_wid,STKA.location_wid) AS loc_wid,
+        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid,TSFC.item_wid,TSFI.item_wid,TSFSHP.item_wid,STKA.item_wid) AS item_wid,
+        SUM(TSF.transfer_outst_units) AS transfer_outst_units,
+        SUM(TSF.transfer_outst_retail_value) AS transfer_outst_retail_value,
+        SUM(TSF.transfer_outst_cost_value) AS transfer_outst_cost_value,
+        SUM(TCV.transfer_act_repo_cost_value) AS transfer_act_repo_cost_value,
+        SUM(TSFC.transfer_act_upchrg_unit_cost) AS transfer_act_upchrg_unit_cost,
+        SUM(TSFC.transfer_act_upchrg_cost_value) AS transfer_act_upchrg_cost_value,
+        SUM(STC.stock_count_units) AS stock_count_units,
+        SUM(STC.stock_count_snapshot_units) AS stock_count_snapshot_units,
+        SUM(STC.stock_count_retail_amt) AS stock_count_retail_amt,
+        SUM(STC.stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,
+        SUM(STC.total_stock_loss_units) AS total_stock_loss_units,
+        SUM(STC.total_stock_loss_value) AS total_stock_loss_value,
+        SUM(TSFI.tsf_intake_qty) AS tsf_intake_qty,
+        SUM(TSFI.tsf_intake_retail_amount) AS tsf_intake_retail_amount,
+        SUM(TSFI.tsf_intake_cost_amount) AS tsf_intake_cost_amount,
+        SUM(TSFSHP.trasfer_ship_units) AS trasfer_ship_units,
+        SUM(TSFSHP.trasfer_ship_retail_amount) AS trasfer_ship_retail_amount,
+        SUM(TSFSHP.trasfer_ship_cost_amount) AS trasfer_ship_cost_amount,
+        SUM(STKA.soh_age_in_weeks) AS soh_age_in_weeks
     FROM TSF
     FULL OUTER JOIN TCV
         ON TSF.location_wid = TCV.location_wid
@@ -247,11 +248,12 @@ FCT AS (
         ON TSF.location_wid = STKA.location_wid
         AND TSF.item_wid = STKA.item_wid
         AND TSF.business_date = STKA.business_date
+  GROUP BY 1,2,3
 )
 SELECT
     FCT.business_date,
-    LC.location_id,
-    ITM.item_id,
+    FCT.loc_wid,
+    FCT.item_wid,
     setbit((0(INTEGER)),1,1) as fct_src_map,
     FCT.transfer_outst_units,
     FCT.transfer_outst_retail_value,
@@ -272,11 +274,6 @@ SELECT
     FCT.trasfer_ship_retail_amount,
     FCT.trasfer_ship_cost_amount
 FROM FCT
-INNER JOIN LC
-    /* Join so that wid can map to id */
-    ON LC.location_wid = FCT.location_wid
-INNER JOIN ITM
-    ON ITM.item_wid = FCT.item_wid
 WHERE
    /* Check for all zero rows */
     COALESCE(FCT.transfer_outst_units, 0) <> 0

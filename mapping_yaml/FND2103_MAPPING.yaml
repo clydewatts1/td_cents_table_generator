@@ -1,4 +1,6 @@
 control_columns: .nan
+description: Validation Process for DM_FN
+job_name: FND2103
 job_name_from_file: FND2103
 job_name_from_mapping: FND2103
 mapping_columns:
@@ -14,25 +16,27 @@ mapping_columns_count: 1
 mapping_sheet_name: MAPPING
 pattern: Validation
 primary_key:
-- org_hiery_wid
+- loc_wid
+- item_wid
+- business_date
 sql_steps:
   FND2103.300.VALIDATE: "-- =============================================================================\n\
     -- Script Name: Duplicate Primary Key Check\n-- Description: This script checks\
     \ for duplicate records in the staging table\n--              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG'\
-    \ based on the\n--              composite primary key (business_date, location_id,\
-    \ item_id).\n--              It will exit with an error code if duplicates are\
+    \ based on the\n--              composite primary key (business_date, loc_wid,\
+    \ item_wid).\n--              It will exit with an error code if duplicates are\
     \ found.\n-- =============================================================================\n\
     -- Use a Common Table Expression (CTE) to identify duplicate records.\nWITH TST\
-    \ AS (\n    SELECT\n        business_date,\n        location_id,\n        item_id,\n\
+    \ AS (\n    SELECT\n        business_date,\n        loc_wid,\n        item_wid,\n\
     \        COUNT(*) AS dupl_count\n    FROM\n        DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\n\
     \    GROUP BY\n        -- Group by the columns that form the unique key to find\
-    \ duplicates.\n        business_date,\n        location_id,\n        item_id\n\
-    \    HAVING\n        -- Filter for groups with more than one record, which indicates\
+    \ duplicates.\n        business_date,\n        loc_wid,\n        item_wid\n  \
+    \  HAVING\n        -- Filter for groups with more than one record, which indicates\
     \ a duplicate.\n        dupl_count > 1\n)\n-- Select the top 10 duplicate records\
     \ to display as a sample.\nSELECT TOP 10\n    'Duplicate count check' AS Error_Desc,\n\
     \    TST.* -- Select all columns from the CTE\nFROM\n    TST\nORDER BY\n    --\
-    \ Order by location_id to make the output consistent.\n    dupl_count DESC\n;\n\
-    -- =============================================================================\n\
+    \ Order by loc_wid to make the output consistent.\n    dupl_count DESC\n;\n--\
+    \ =============================================================================\n\
     -- BTEQ Control Logic (Teradata Specific)\n-- =============================================================================\n\
     -- Check the error code from the last SQL statement.\n-- If ERRORCODE is not 0,\
     \ it means the SELECT statement failed for some reason.\n.IF ERRORCODE <> 0 THEN\
@@ -76,6 +80,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
@@ -94,20 +99,20 @@ steps:
   sql_statement: "-- =============================================================================\n\
     -- Script Name: Duplicate Primary Key Check\n-- Description: This script checks\
     \ for duplicate records in the staging table\n--              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG'\
-    \ based on the\n--              composite primary key (business_date, location_id,\
-    \ item_id).\n--              It will exit with an error code if duplicates are\
+    \ based on the\n--              composite primary key (business_date, loc_wid,\
+    \ item_wid).\n--              It will exit with an error code if duplicates are\
     \ found.\n-- =============================================================================\n\
     -- Use a Common Table Expression (CTE) to identify duplicate records.\nWITH TST\
-    \ AS (\n    SELECT\n        business_date,\n        location_id,\n        item_id,\n\
+    \ AS (\n    SELECT\n        business_date,\n        loc_wid,\n        item_wid,\n\
     \        COUNT(*) AS dupl_count\n    FROM\n        DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG\n\
     \    GROUP BY\n        -- Group by the columns that form the unique key to find\
-    \ duplicates.\n        business_date,\n        location_id,\n        item_id\n\
-    \    HAVING\n        -- Filter for groups with more than one record, which indicates\
+    \ duplicates.\n        business_date,\n        loc_wid,\n        item_wid\n  \
+    \  HAVING\n        -- Filter for groups with more than one record, which indicates\
     \ a duplicate.\n        dupl_count > 1\n)\n-- Select the top 10 duplicate records\
     \ to display as a sample.\nSELECT TOP 10\n    'Duplicate count check' AS Error_Desc,\n\
     \    TST.* -- Select all columns from the CTE\nFROM\n    TST\nORDER BY\n    --\
-    \ Order by location_id to make the output consistent.\n    dupl_count DESC\n;\n\
-    -- =============================================================================\n\
+    \ Order by loc_wid to make the output consistent.\n    dupl_count DESC\n;\n--\
+    \ =============================================================================\n\
     -- BTEQ Control Logic (Teradata Specific)\n-- =============================================================================\n\
     -- Check the error code from the last SQL statement.\n-- If ERRORCODE is not 0,\
     \ it means the SELECT statement failed for some reason.\n.IF ERRORCODE <> 0 THEN\
@@ -116,6 +121,7 @@ steps:
     \ then quits with a specific error code (102) to signal this failure.\n.IF ACTIVITYCOUNT\
     \ <> 0 THEN .QUIT 102"
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_VALIDATE
   steps: '300'
   target_database: ''
@@ -154,6 +160,7 @@ steps:
     \ quality failure.\n.IF ACTIVITYCOUNT <> 0 THEN .QUIT 103 -- Using 103 to differentiate\
     \ from previous check"
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_VALIDATE
   steps: '310'
   target_database: ''
@@ -171,11 +178,15 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+stream_id: FND_FACT_DAILY
 target_database_name: T_TMP_ACC_FND
-target_table_name: DM_FND_STORE_HIER_DIM
+target_table_name: FND_STK_FCT_01_FCT_STG
 transformation_key:
-- org_hiery_wid
+- loc_wid
+- item_wid
+- business_date

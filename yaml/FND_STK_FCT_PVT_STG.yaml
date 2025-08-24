@@ -19,6 +19,7 @@ columns:
   description: Business Date (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: loc_wid
   column_type: INTEGER
   column_format: '''99999'''
@@ -27,6 +28,7 @@ columns:
   description: Location ID Surrogate KEY (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_wid
   column_type: BIGINT
   column_format: '''999999999999'''
@@ -35,6 +37,7 @@ columns:
   description: Item ID Surrogate Key (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: fct_src_map
   column_type: BYTEINT
   column_format: ''
@@ -43,6 +46,7 @@ columns:
   description: Mapping of source of each row in Pivot - used in debuging
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: ''
   databasename: DWP01T_TMP_ACC_FND

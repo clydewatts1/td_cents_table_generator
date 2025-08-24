@@ -19,6 +19,7 @@ columns:
   description: Business Date (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: loc_wid
   column_type: LOCATION
   column_format: '''99999'''
@@ -27,6 +28,7 @@ columns:
   description: Location ID Surrogate KEY (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_wid
   column_type: ITEM
   column_format: ''
@@ -35,6 +37,7 @@ columns:
   description: Item ID Surrogate Key (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: fct_src_map
   column_type: BYTEINT
   column_format: ''
@@ -43,6 +46,7 @@ columns:
   description: Bit Map of source of data used in pivot table ( 02 )
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_outst_units
   column_type: UNITS
   column_format: ''
@@ -51,6 +55,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_outst_retail_value
   column_type: AMOUNT
   column_format: ''
@@ -59,6 +64,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_outst_cost_value
   column_type: AMOUNT
   column_format: ''
@@ -67,6 +73,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_act_repo_cost_value
   column_type: AMOUNT
   column_format: ''
@@ -75,6 +82,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_act_upchrg_unit_cost
   column_type: AMOUNT
   column_format: ''
@@ -83,6 +91,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: transfer_act_upchrg_cost_value
   column_type: AMOUNT
   column_format: ''
@@ -91,6 +100,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: stock_count_units
   column_type: UNITS
   column_format: ''
@@ -99,6 +109,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: stock_count_snapshot_units
   column_type: UNITS
   column_format: ''
@@ -107,6 +118,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: stock_count_retail_amt
   column_type: AMOUNT
   column_format: ''
@@ -115,6 +127,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: stock_count_snapshot_retail_amt
   column_type: AMOUNT
   column_format: ''
@@ -123,6 +136,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: total_stock_loss_units
   column_type: UNITS
   column_format: ''
@@ -131,6 +145,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: total_stock_loss_value
   column_type: UNITS
   column_format: ''
@@ -139,6 +154,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: tsf_intake_qty
   column_type: UNITS
   column_format: ''
@@ -147,6 +163,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: tsf_intake_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -155,6 +172,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: tsf_intake_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -163,6 +181,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: trasfer_ship_units
   column_type: UNITS
   column_format: ''
@@ -171,6 +190,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: trasfer_ship_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -179,6 +199,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 - column_name: trasfer_ship_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -187,6 +208,7 @@ columns:
   description: TBD
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: ''
   databasename: DWP01T_TMP_ACC_FND

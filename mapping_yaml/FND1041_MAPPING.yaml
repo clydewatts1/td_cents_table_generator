@@ -1,380 +1,1284 @@
 control_columns: .nan
+description: Populate staging table with merchant hierarchy and version , this is
+  a staging table used for validation and snapshot
+job_name: FND1041
 job_name_from_file: FND1041
 job_name_from_mapping: FND1041
 mapping_columns:
 - column_action: key
   column_order: nan
   column_sequence: 1
-  column_sequence_reverse: 15
-  source_column_name: hier.item_sbclas_wid
-  target_column_name: item_sbclas_wid
+  column_sequence_reverse: 73
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: merch_hiery_wid
 - column_action: nan
   column_order: nan
   column_sequence: 2
-  column_sequence_reverse: 14
-  source_column_name: hier.pmk_co_cd
-  target_column_name: pmk_co_cd
+  column_sequence_reverse: 72
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: company_cd
 - column_action: nan
   column_order: nan
   column_sequence: 3
-  column_sequence_reverse: 13
-  source_column_name: xref.styl_sbclass_vers_num
-  target_column_name: pmk_co_vers_num
+  column_sequence_reverse: 71
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_wid
 - column_action: nan
   column_order: nan
   column_sequence: 4
-  column_sequence_reverse: 12
-  source_column_name: hier.dvisn_cd
-  target_column_name: dvisn_cd
+  column_sequence_reverse: 70
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: company_name
 - column_action: nan
   column_order: nan
   column_sequence: 5
-  column_sequence_reverse: 11
-  source_column_name: xref.styl_sbclass_vers_num
-  target_column_name: dvisn_vers_num
+  column_sequence_reverse: 69
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: company_version_num
 - column_action: nan
   column_order: nan
   column_sequence: 6
-  column_sequence_reverse: 10
-  source_column_name: hier.dept_cd
-  target_column_name: dept_cd
+  column_sequence_reverse: 68
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_vers_reclass_evnt_ind
 - column_action: nan
   column_order: nan
   column_sequence: 7
-  column_sequence_reverse: 9
-  source_column_name: xref.styl_sbclass_vers_num
-  target_column_name: dept_vers_num
+  column_sequence_reverse: 67
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_stl_in_count
 - column_action: nan
   column_order: nan
   column_sequence: 8
-  column_sequence_reverse: 8
-  source_column_name: hier.item_clas_cd
-  target_column_name: item_clas_cd
+  column_sequence_reverse: 66
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_stl_out_count
 - column_action: nan
   column_order: nan
   column_sequence: 9
-  column_sequence_reverse: 7
-  source_column_name: xref.styl_sbclass_vers_num
-  target_column_name: item_clas_vers_num
+  column_sequence_reverse: 65
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_stl_cmn_count
 - column_action: nan
   column_order: nan
   column_sequence: 10
-  column_sequence_reverse: 6
-  source_column_name: hier.pmk_item_sbclas_grp_cd
-  target_column_name: pmk_item_sbclas_grp_cd
+  column_sequence_reverse: 64
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_stl_del_count
 - column_action: nan
   column_order: nan
   column_sequence: 11
-  column_sequence_reverse: 5
-  source_column_name: xref.styl_sbclass_vers_num
-  target_column_name: pmk_item_sbclas_grp_vers_num
+  column_sequence_reverse: 63
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_stl_new_count
 - column_action: nan
   column_order: nan
   column_sequence: 12
-  column_sequence_reverse: 4
-  source_column_name: hier.item_sbclas_cd
-  target_column_name: item_sbclas_cd
+  column_sequence_reverse: 62
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_stl_not_common_cmn_count
 - column_action: nan
   column_order: nan
   column_sequence: 13
+  column_sequence_reverse: 61
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_co_seq_no
+- column_action: nan
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 60
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: division_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 59
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 58
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: division_name
+- column_action: nan
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 57
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: division_version_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 56
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_vers_reclass_evnt_ind
+- column_action: nan
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 55
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_stl_in_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 54
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_stl_out_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 53
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_stl_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 52
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_stl_del_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 23
+  column_sequence_reverse: 51
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_stl_new_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 24
+  column_sequence_reverse: 50
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_stl_not_common_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 25
+  column_sequence_reverse: 49
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dvisn_seq_no
+- column_action: nan
+  column_order: nan
+  column_sequence: 26
+  column_sequence_reverse: 48
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: department_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 27
+  column_sequence_reverse: 47
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 28
+  column_sequence_reverse: 46
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: department_name
+- column_action: nan
+  column_order: nan
+  column_sequence: 29
+  column_sequence_reverse: 45
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: department_version_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 30
+  column_sequence_reverse: 44
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_reclass_evnt_ind
+- column_action: nan
+  column_order: nan
+  column_sequence: 31
+  column_sequence_reverse: 43
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_stl_in_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 32
+  column_sequence_reverse: 42
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_stl_out_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 33
+  column_sequence_reverse: 41
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_stl_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 34
+  column_sequence_reverse: 40
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_stl_del_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 35
+  column_sequence_reverse: 39
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_stl_new_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 36
+  column_sequence_reverse: 38
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_stl_not_common_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 37
+  column_sequence_reverse: 37
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: dept_seq_no
+- column_action: nan
+  column_order: nan
+  column_sequence: 38
+  column_sequence_reverse: 36
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: class_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 39
+  column_sequence_reverse: 35
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_wid
+- column_action: nan
+  column_order: nan
+  column_sequence: 40
+  column_sequence_reverse: 34
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: class_name
+- column_action: nan
+  column_order: nan
+  column_sequence: 41
+  column_sequence_reverse: 33
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: class_version_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 42
+  column_sequence_reverse: 32
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: clas_evnt_ind
+- column_action: nan
+  column_order: nan
+  column_sequence: 43
+  column_sequence_reverse: 31
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_stl_in_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 44
+  column_sequence_reverse: 30
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_stl_out_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 45
+  column_sequence_reverse: 29
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_stl_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 46
+  column_sequence_reverse: 28
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_stl_del_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 47
+  column_sequence_reverse: 27
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_stl_new_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 48
+  column_sequence_reverse: 26
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_stl_not_common_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 49
+  column_sequence_reverse: 25
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_clas_seq_no
+- column_action: nan
+  column_order: nan
+  column_sequence: 50
+  column_sequence_reverse: 24
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_group_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 51
+  column_sequence_reverse: 23
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_group_name
+- column_action: nan
+  column_order: nan
+  column_sequence: 52
+  column_sequence_reverse: 22
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_group_version_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 53
+  column_sequence_reverse: 21
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_vers_reclass_evnt_ind
+- column_action: nan
+  column_order: nan
+  column_sequence: 54
+  column_sequence_reverse: 20
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_stl_in_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 55
+  column_sequence_reverse: 19
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_stl_out_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 56
+  column_sequence_reverse: 18
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_stl_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 57
+  column_sequence_reverse: 17
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_stl_del_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 58
+  column_sequence_reverse: 16
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_stl_new_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 59
+  column_sequence_reverse: 15
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_stl_not_common_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 60
+  column_sequence_reverse: 14
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: pmk_item_sbclas_grp_seq_no
+- column_action: nan
+  column_order: nan
+  column_sequence: 61
+  column_sequence_reverse: 13
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 62
+  column_sequence_reverse: 12
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_name
+- column_action: nan
+  column_order: nan
+  column_sequence: 63
+  column_sequence_reverse: 11
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_version_num
+- column_action: nan
+  column_order: nan
+  column_sequence: 64
+  column_sequence_reverse: 10
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: subclass_vers_reclass_evnt_ind
+- column_action: nan
+  column_order: nan
+  column_sequence: 65
+  column_sequence_reverse: 9
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_stl_in_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 66
+  column_sequence_reverse: 8
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_stl_out_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 67
+  column_sequence_reverse: 7
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_stl_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 68
+  column_sequence_reverse: 6
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_stl_del_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 69
+  column_sequence_reverse: 5
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_stl_new_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 70
+  column_sequence_reverse: 4
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_stl_not_common_cmn_count
+- column_action: nan
+  column_order: nan
+  column_sequence: 71
   column_sequence_reverse: 3
-  source_column_name: xref.styl_sbclass_vers_num
-  target_column_name: item_sbclas_vers_num
-mapping_columns_count: 13
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: item_sbclas_seq_no
+- column_action: nan
+  column_order: nan
+  column_sequence: 72
+  column_sequence_reverse: 2
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: buyer_cd
+- column_action: nan
+  column_order: nan
+  column_sequence: 73
+  column_sequence_reverse: 1
+  source_column_name: 'See FND1041.190.TRANS '
+  target_column_name: buyer_name
+mapping_columns_count: 73
 mapping_sheet_name: MAPPING
-pattern: Staging
+pattern: STAGING
 primary_key:
-- item_sbclass_wid
+- merch_hiery_wid
 sql_steps:
-  FND1041.190.TRANS: "-- This query constructs a comprehensive merchant hierarchy\
-    \ for styles, comparing the current\n-- hierarchy against a previous version to\
-    \ identify changes and determine new version numbers.\n-- It uses set theory concepts\
-    \ (intersections and differences) implemented via SQL window functions.\nWITH\n\
-    -- CTE 1: MHR (Merchant Hierarchy)\n-- Flattens the current, active merchant hierarchy\
-    \ by joining dimension tables from company down to subclass.\nMHR AS (\n    SELECT\n\
-    \        SCLS.item_sbclas_wid,\n        CO.pmk_co_cd,\n        DVN.dvisn_cd,\n\
-    \        DPT.dept_cd,\n        CLS.item_clas_cd,\n        SCLS.pmk_item_sbclas_grp_cd,\n\
-    \        SCLS.item_sbclas_cd\n    FROM\n        DWP01A_IDW.ITEM_SBCLAS AS SCLS\n\
-    \        INNER JOIN DWP01A_IDW.ITEM_CLAS AS CLS ON CLS.item_clas_wid = SCLS.item_clas_wid\n\
-    \        INNER JOIN DWP01A_IDW.DEPT AS DPT ON DPT.dept_wid = CLS.dept_wid\n  \
-    \      INNER JOIN DWP01A_IDW.DVISN AS DVN ON DVN.dvisn_wid = DPT.dvisn_wid\n \
-    \       INNER JOIN DWP01A_IDW.PMK_CO AS CO ON CO.pmk_co_wid = DVN.pmk_co_wid\n\
-    \        LEFT OUTER JOIN DWP01A_IDW.PMK_TCTCL_BUYR AS BYR ON DPT.pmk_tctcl_buyr_wid\
-    \ = BYR.pmk_tctcl_buyr_wid AND BYR.cur_flg = 'Y'\n    WHERE\n        SCLS.cur_flg\
-    \ = 'Y'\n        AND CO.cur_flg = 'Y'\n        AND DPT.cur_flg = 'Y'\n       \
-    \ AND CLS.cur_flg = 'Y'\n        AND DVN.cur_flg = 'Y'\n),\n-- CTE 2: MHR_STYL_BASE\
-    \ (Set B)\n-- This represents the CURRENT state of the style hierarchy (Set B).\n\
-    -- It joins the flattened hierarchy (MHR) to the current style reclassification\
-    \ data.\nMHR_STYL_BASE AS (\n    SELECT\n        STLX.styl_wid,\n        STLX.styl_sbclass_vers_num,\n\
-    \        MHR.item_sbclas_wid,\n        MHR.pmk_co_cd,\n        MHR.dvisn_cd,\n\
-    \        MHR.dept_cd,\n        MHR.item_clas_cd,\n        MHR.pmk_item_sbclas_grp_cd,\n\
-    \        MHR.item_sbclas_cd\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
-    \ AS STLX\n        INNER JOIN MHR ON STLX.item_sbclas_wid = MHR.item_sbclas_wid\n\
-    \    WHERE\n        STLX.eff_to_dt = DATE '9999-12-31' -- Filter for currently\
-    \ effective records.\n),\n-- CTE 3: XVER (Set A)\n-- This represents the ORIGINAL\
-    \ state of the style hierarchy (Set A).\n-- It pulls the versioned hierarchy data\
-    \ from a separate cross-reference table.\nXVER AS (\n    SELECT\n        styl_wid,\n\
-    \        item_sbclas_wid,\n        styl_sbclas_vers_num,\n        pmk_co_cd,\n\
-    \        pmk_co_vers_num,\n        dvisn_cd,\n        dvisn_vers_num,\n      \
-    \  dept_cd,\n        dept_vers_num,\n        item_clas_cd,\n        item_clas_vers_num,\n\
-    \        pmk_item_sbclas_grp_cd,\n        pmk_item_sbclas_grp_vers_num,\n    \
-    \    item_sbclas_cd,\n        item_sbclas_vers_num\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF\
-    \ AS XRF\n    WHERE\n        XRF.eff_to_dt = DATE '3500-12-31' -- Filter for currently\
-    \ effective records in the version history.\n),\n-- CTE 4: PMK_CO_REF\n-- This\
-    \ is the core logic CTE. It performs a FULL OUTER JOIN between the original (A)\
-    \ and current (B)\n-- hierarchies to analyze changes. It uses set theory concepts\
-    \ to count items in the intersection and differences.\nPMK_CO_REF AS (\n    SELECT\n\
-    \        -- Use COALESCE to combine keys from both datasets (A and B).\n     \
-    \   COALESCE(MSB.styl_wid, XVER.styl_wid) AS styl_wid,\n        COALESCE(MSB.item_sbclas_wid,\
-    \ XVER.item_sbclas_wid) AS item_sbclas_wid,\n        -- Merge hierarchy attributes,\
-    \ prioritizing the current hierarchy (MSB).\n        COALESCE(MSB.pmk_co_cd, XVER.pmk_co_cd)\
-    \ AS pmk_co_cd,\n        COALESCE(MSB.dvisn_cd, XVER.dvisn_cd) AS dvisn_cd,\n\
-    \        COALESCE(MSB.dept_cd, XVER.dept_cd) AS dept_cd,\n        COALESCE(MSB.item_clas_cd,\
-    \ XVER.item_clas_cd) AS item_clas_cd, -- Corrected from dept_cd\n        COALESCE(MSB.pmk_item_sbclas_grp_cd,\
-    \ XVER.pmk_item_sbclas_grp_cd) AS pmk_item_sbclas_grp_cd, -- Corrected from dept_cd\n\
-    \        COALESCE(MSB.item_sbclas_cd, XVER.item_sbclas_cd) AS item_sbclas_cd,\
-    \ -- Corrected from dept_cd\n        MSB.styl_sbclass_vers_num,\n        XVER.dept_vers_num,\n\
-    \        -- DEBUGGING COLUMNS: To observe values from both sets.\n        MSB.dept_cd\
-    \ AS a_dept_cd,\n        XVER.dept_cd AS b_dept_cd,\n        -- DEPARTMENT CHANGE\
-    \ ANALYSIS --\n        -- AnB (Intersection): Count of styles that are in the\
-    \ same department in both sets.\n        SUM(CASE WHEN MSB.dept_cd = XVER.dept_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_count,\n    \
-    \    MIN(CASE WHEN MSB.dept_cd = XVER.dept_cd THEN XVER.dept_vers_num ELSE NULL\
-    \ END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_min,\n        -- BtoA (Moved\
-    \ Into): Count of styles that moved from a different department INTO this one.\n\
-    \        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1 ELSE 0 END) OVER (PARTITION\
-    \ BY XVER.dept_cd) AS dept_btoa_count,\n        MIN(CASE WHEN MSB.dept_cd <> XVER.dept_cd\
-    \ THEN XVER.dept_vers_num ELSE NULL END) OVER (PARTITION BY XVER.dept_cd) AS dept_btoa_min,\n\
-    \        -- AtoB (Moved Out Of): Count of styles that moved OUT OF this department\
-    \ into another one.\n        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1\
-    \ ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_atob_count,\n        MIN(CASE\
-    \ WHEN MSB.dept_cd <> XVER.dept_cd THEN MSB.styl_sbclass_vers_num ELSE NULL END)\
-    \ OVER (PARTITION BY MSB.dept_cd) AS dept_atob_min,\n        -- AmB (A minus B):\
-    \ Styles that existed in the original set but not the current one (for this dept).\n\
-    \        SUM(CASE WHEN MSB.dept_cd IS NULL THEN 1 ELSE 0 END) OVER (PARTITION\
-    \ BY XVER.dept_cd) AS dept_amb_count,\n        MIN(XVER.dept_vers_num) OVER (PARTITION\
-    \ BY XVER.dept_cd) AS dept_amb_min,\n        -- BmA (B minus A): Styles that are\
-    \ new in the current set (for this dept).\n        SUM(CASE WHEN XVER.dept_cd\
-    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_count,\n\
-    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_min,\n\
-    \        -- Logic to determine the new department version number based on the\
-    \ set analysis.\n        CASE\n            WHEN dept_anb_count = 0 AND dept_btoa_count\
-    \ = 0 AND dept_atob_count = 0 AND dept_amb_count = 0 AND dept_bma_count > 0 THEN\
-    \ dept_bma_min\n            ELSE -1\n        END AS new_dept_vers_num,\n     \
-    \   -- SUBCLASS CHANGE ANALYSIS (Same logic as department analysis) --\n     \
-    \   -- AnB (Intersection)\n        SUM(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_count,\n\
-    \        MIN(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
-    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_min,\n \
-    \       -- BtoA (Moved Into)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_count,\n\
-    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
-    \ ELSE NULL END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_min,\n\
-    \        -- AtoB (Moved Out Of)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_count,\n\
-    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN MSB.styl_sbclass_vers_num\
-    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_min,\n\
-    \        -- AmB (A minus B)\n        SUM(CASE WHEN MSB.item_sbclas_cd IS NULL\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_amb_count,\n\
-    \        MIN(XVER.item_sbclas_vers_num) OVER (PARTITION BY XVER.item_sbclas_cd)\
-    \ AS sbclas_amb_min,\n        -- BmA (B minus A)\n        SUM(CASE WHEN XVER.item_sbclas_cd\
-    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_bma_count,\n\
-    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.item_sbclas_cd)\
-    \ AS sbclas_bma_min,\n        -- Logic to determine the new subclass version number.\n\
-    \        CASE\n            WHEN sbclas_anb_count = 0 AND sbclas_btoa_count = 0\
-    \ AND sbclas_atob_count = 0 AND sbclas_amb_count = 0 AND sbclas_bma_count > 0\
-    \ THEN sbclas_bma_min\n            ELSE -1\n        END AS new_sbclas_vers_num\n\
-    \    FROM\n        MHR_STYL_BASE AS MSB -- This is Set B (Current)\n        FULL\
-    \ OUTER JOIN XVER ON MSB.styl_wid = XVER.styl_wid -- This join creates the Union\
-    \ of A and B\n)\n-- Final Select: Constructs the final output record.\nSELECT\n\
-    \    PMK_CO_REF.styl_wid,\n    PMK_CO_REF.item_sbclas_wid,\n    -1 AS styl_sbclas_vers_num,\
-    \ -- Placeholder value\n    PMK_CO_REF.pmk_co_cd,\n    -1 AS pmk_co_vers_num,\
-    \ -- Placeholder value\n    PMK_CO_REF.dvisn_cd,\n    -1 AS dvisn_vers_num, --\
-    \ Placeholder value\n    PMK_CO_REF.dept_cd,\n    PMK_CO_REF.new_dept_vers_num\
-    \ AS dept_vers_num, -- Use the calculated version number\n    PMK_CO_REF.item_clas_cd,\n\
-    \    -1 AS item_clas_vers_num, -- Placeholder value\n    PMK_CO_REF.pmk_item_sbclas_grp_cd,\n\
-    \    -1 AS pmk_item_sbclas_grp_vers_num, -- Placeholder value\n    PMK_CO_REF.item_sbclas_cd,\n\
-    \    PMK_CO_REF.new_sbclas_vers_num AS item_sbclas_vers_num -- Use the calculated\
-    \ version number\nFROM\n    PMK_CO_REF"
+  FND1041.190.TRANS: "-- This query calculates the correct version number for different\
+    \ levels of the product hierarchy (company, division, department, class, subclass\
+    \ group, subclass).\n-- It identifies changes in style assignments within these\
+    \ hierarchy levels to determine when a new version is needed.\n-- The core logic\
+    \ compares two sets of data:\n--  Set A: The historical or previously existing\
+    \ style assignments for each hierarchy level.\n--  Set B: The current style assignments\
+    \ based on the latest data.\n--\n-- By analyzing the differences between these\
+    \ sets, the query can flag when a version number needs to be incremented.\n--\n\
+    --                           +-------------------------------------------------------------+\n\
+    --                           |        The Union of A and B (A U B)           \
+    \              |\n--                           | (All styles involved with a specific\
+    \ hierarchy level)       |\n--                           |                   \
+    \                                          |\n--                           | \
+    \     Set A (Historical)        Set B (Current)              |\n--           \
+    \                |   +---------------------+   +---------------------+       \
+    \  |\n--                           |   | Styles previously   |   | Styles currentlyhr\
+    \    |         |\n--                           |   | in this hierarchy   |   |\
+    \ in this hierarchy   |         |\n--                           |   |        \
+    \             +---+                     |         |\n--                      \
+    \     |   | (Represents styles  | S | (Represents styles |         |\n--     \
+    \                      |   | that might have     | t | that might have     | \
+    \        |\n--                           |   | been moved out)     | y | been\
+    \ moved in)      |         |\n--                           |   |             \
+    \        | l |                     |         |\n--                           |\
+    \   +---------------------+ e +---------------------+         |\n--          \
+    \                 |                         | s |                            \
+    \   |\n--                           |                         |   |          \
+    \                     |\n--                           |                      \
+    \   | i |                               |\n--                           |    \
+    \                     | n |                               |\n--              \
+    \             |                         |   |                               |\n\
+    --                           |                         | b |                 \
+    \              |\n--                           |                         | o |\
+    \                               |\n--                           |            \
+    \             | t |                               |\n--                      \
+    \     |                         | h |                               |\n--    \
+    \                       |                         |   |                      \
+    \         |\n--                           |                         |(Same/Unchanged\
+    \ Styles)|           |\n--                           |                       \
+    \  +-----------------------+           |\n--                           |     \
+    \                                                        |\n--               \
+    \            +-------------------------------------------------------------+\n\
+    WITH\nmhr AS (\n    -- CTE 1: mhr (Merchant Hierarchy)\n    -- This CTE builds\
+    \ the foundational merchant hierarchy by joining various dimension tables.\n \
+    \   -- It gathers information from company (co), division (dvn), department (dpt),\
+    \ class (cls), and subclass (scls).\n    -- The result is a flattened view of\
+    \ the hierarchy.\n    SELECT\n        scls.item_sbclas_wid,\n        TO_NUMBER(co.pmk_co_cd)\
+    \ (SMALLINT) AS pmk_co_cd ,\n        co.pmk_co_wid,\n        co.pmk_co_name,\n\
+    \        TO_NUMBER(dvn.dvisn_cd) (SMALLINT) AS dvisn_cd,\n        dvn.dvisn_wid,\n\
+    \        dvn.dvisn_name,\n        TO_NUMBER(dpt.dept_cd) (SMALLINT) AS dept_cd,\n\
+    \        dpt.dept_wid,\n        dpt.dept_name,\n        TO_NUMBER(cls.item_clas_cd)\
+    \ (SMALLINT) AS item_clas_cd,\n        cls.item_clas_wid,\n        cls.item_clas_name,\n\
+    \        TO_NUMBER(scls.pmk_item_sbclas_grp_cd) (SMALLINT) AS pmk_item_sbclas_grp_cd,\n\
+    \        scls.pmk_item_sbclas_grp_name,\n        TO_NUMBER(scls.item_sbclas_cd)\
+    \ (SMALLINT) AS item_sbclas_cd,\n        scls.item_sbclas_name,\n        byr.pmk_tctcl_buyr_cd\
+    \ AS buyer_cd,\n        byr.pmk_tctcl_buyr_name AS buyer_name\n    FROM dwp01a_idw.item_sbclas\
+    \ AS scls\n    INNER JOIN dwp01a_idw.item_clas AS cls\n        ON cls.item_clas_wid\
+    \ = scls.item_clas_wid\n    INNER JOIN dwp01a_idw.dept AS dpt\n        ON dpt.dept_wid\
+    \ = cls.dept_wid\n    INNER JOIN dwp01a_idw.dvisn AS dvn\n        ON dvn.dvisn_wid\
+    \ = dpt.dvisn_wid\n    INNER JOIN dwp01a_idw.pmk_co AS co\n        ON co.pmk_co_wid\
+    \ = dvn.pmk_co_wid\n    LEFT OUTER JOIN dwp01a_idw.pmk_tctcl_buyr AS byr\n   \
+    \     ON dpt.pmk_tctcl_buyr_wid = byr.pmk_tctcl_buyr_wid AND byr.cur_flg = 'Y'\n\
+    \    WHERE\n        scls.cur_flg = 'Y'\n        AND co.cur_flg = 'Y'\n       \
+    \ AND dpt.cur_flg = 'Y'\n        AND cls.cur_flg = 'Y'\n        AND dvn.cur_flg\
+    \ = 'Y'\n),\nmhrs AS (\n    -- CTE 2: mhrs (Merchant Hierarchy with Styles)\n\
+    \    -- This CTE adds style information (styl_wid) to the merchant hierarchy created\
+    \ in mhr.\n    -- It links styles to their respective subclasses.\n    SELECT\n\
+    \        stl.styl_wid,\n        mhr.*\n    FROM mhr\n    INNER JOIN (SELECT styl_wid,item_sbclas_wid,eff_from_dt,eff_to_dt\
+    \ FROM DWT04A_ACC_FND.DW_FND_STYL_SBCLASS_XREF WHERE eff_to_dt >  eff_from_dt)\
+    \  AS stl\n        ON mhr.item_sbclas_wid = stl.item_sbclas_wid \n        WHERE\
+    \   -- get the \"current rows based load token date \n                -- this\
+    \ allows catchups\n            PERIOD(stl.eff_from_dt, stl.eff_to_dt) CONTAINS\
+    \ (CURRENT_DATE - 1)\n),\nmhr_prev AS (\n    SELECT\n        mrd.merch_hiery_wid\
+    \ AS item_sbclas_wid,\n        mrd.company_cd AS pmk_co_cd,\n        mrd.company_version_num\
+    \ AS pmk_co_vers_num,\n        mrd.division_cd AS dvisn_cd,\n        mrd.division_version_num\
+    \ AS dvisn_vers_num,\n        mrd.department_cd AS dept_cd,\n        mrd.department_version_num\
+    \ AS dept_vers_num,\n        mrd.class_cd AS item_clas_cd,\n        mrd.class_version_num\
+    \ AS item_clas_vers_num,\n        mrd.subclass_group_cd AS pmk_item_sbclas_grp_cd,\n\
+    \        mrd.subclass_group_version_num AS pmk_item_sbclas_grp_vers_num,\n   \
+    \     mrd.subclass_cd AS item_sbclas_cd,\n        mrd.subclass_version_num AS\
+    \ item_sbclas_vers_num,\n        mrd.company_name,\n        mrd.division_name,\n\
+    \        mrd.department_name,\n        mrd.class_name,\n        mrd.subclass_group_name,\n\
+    \        mrd.subclass_name,\n        mrd.buyer_cd,\n        mrd.buyer_name,\n\
+    \        mrd.pmk_co_wid,\n        mrd.dvisn_wid,\n        mrd.dept_wid,\n    \
+    \    mrd.item_clas_wid,\n        mrd.merch_hiery_wid,\n        mrd.eff_to_dt\n\
+    \    FROM dwt04a_acc_fnd.dw_fnd_merc_hierarchy_hist_dim AS mrd\n    WHERE mrd.eff_to_dt\
+    \ = DATE '3500-12-31'\n),\nmhrs_prev AS (\n    SELECT\n        stl.styl_wid,\n\
+    \        mrd.merch_hiery_wid,\n        mrd.company_cd AS pmk_co_cd,\n        mrd.company_version_num\
+    \ AS pmk_co_vers_num,\n        mrd.division_cd AS dvisn_cd,\n        mrd.division_version_num\
+    \ AS dvisn_vers_num,\n        mrd.department_cd AS dept_cd,\n        mrd.department_version_num\
+    \ AS dept_vers_num,\n        mrd.class_cd AS item_clas_cd,\n        mrd.class_version_num\
+    \ AS item_clas_vers_num,\n        mrd.subclass_group_cd AS pmk_item_sbclas_grp_cd,\n\
+    \        mrd.subclass_group_version_num AS pmk_item_sbclas_grp_vers_num,\n   \
+    \     mrd.subclass_cd AS item_sbclas_cd,\n        mrd.subclass_version_num AS\
+    \ item_sbclas_vers_num,\n        mrd.company_name,\n        mrd.division_name,\n\
+    \        mrd.department_name,\n        mrd.class_name,\n        mrd.subclass_group_name,\n\
+    \        mrd.subclass_name,\n        mrd.buyer_cd,\n        mrd.buyer_name,\n\
+    \        mrd.pmk_co_wid,\n        mrd.dvisn_wid,\n        mrd.dept_wid,\n    \
+    \    mrd.item_clas_wid,\n        mrd.merch_hiery_wid AS item_sbclas_wid,\n   \
+    \     mrd.eff_to_dt\n    FROM dwt04a_acc_fnd.dw_fnd_merc_hierarchy_hist_dim AS\
+    \ mrd\n    INNER JOIN (SELECT styl_wid,item_sbclas_wid,eff_from_dt,eff_to_dt FROM\
+    \ DWT04A_ACC_FND.DW_FND_STYL_SBCLASS_XREF WHERE eff_to_dt >  eff_from_dt)  AS\
+    \ stl\n        ON mrd.merch_hiery_wid = stl.item_sbclas_wid \n        WHERE  \
+    \ -- get the previous run position\n                 -- this allows catchups\n\
+    \            PERIOD(stl.eff_from_dt, stl.eff_to_dt) CONTAINS (CURRENT_DATE - 1\
+    \ - 1)\n),\n-- CTEs 3-8: maxv (Maximum Version) Series\n-- These CTEs find the\
+    \ latest version number for each level of the hierarchy.\n-- This gives us the\
+    \ starting point for versioning. If no version exists, it defaults to 1.\npmk_co_maxv\
+    \ AS (\n    SELECT\n        bse.pmk_co_wid,\n        COALESCE(crt.pmk_co_vers_num,\
+    \ 1) AS pmk_co_vers_num\n    FROM (SELECT DISTINCT pmk_co_wid FROM dwp01a_idw.pmk_co\
+    \ WHERE cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n       \
+    \     pmk_co_wid,\n            MAX(pmk_co_vers_num) AS pmk_co_vers_num\n     \
+    \   FROM mhrs_prev\n        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP\
+    \ BY 1\n    ) AS crt\n        ON bse.pmk_co_wid = crt.pmk_co_wid\n),\ndvisn_maxv\
+    \ AS (\n    SELECT\n        bse.dvisn_wid,\n        COALESCE(crt.dvisn_vers_num,\
+    \ 1) AS dvisn_vers_num\n    FROM (SELECT DISTINCT dvisn_wid FROM dwp01a_idw.dvisn\
+    \ WHERE cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n       \
+    \     dvisn_wid,\n            MAX(dvisn_vers_num) AS dvisn_vers_num\n        FROM\
+    \ mhrs_prev\n        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n\
+    \    ) AS crt\n        ON bse.dvisn_wid = crt.dvisn_wid\n),\ndept_maxv AS (\n\
+    \    SELECT\n        bse.dept_wid,\n        COALESCE(crt.dept_vers_num, 1) AS\
+    \ dept_vers_num\n    FROM (SELECT DISTINCT dept_wid FROM dwp01a_idw.dept WHERE\
+    \ cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n            dept_wid,\n\
+    \            MAX(dept_vers_num) AS dept_vers_num\n        FROM mhrs_prev\n   \
+    \     WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n\
+    \        ON bse.dept_wid = crt.dept_wid\n),\nitem_clas_maxv AS (\n    SELECT\n\
+    \        bse.item_clas_wid,\n        COALESCE(crt.item_clas_vers_num, 1) AS item_clas_vers_num\n\
+    \    FROM (SELECT DISTINCT item_clas_wid FROM dwp01a_idw.item_clas WHERE cur_flg\
+    \ = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n            item_clas_wid,\n\
+    \            MAX(item_clas_vers_num) AS item_clas_vers_num\n        FROM mhrs_prev\n\
+    \        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n\
+    \        ON bse.item_clas_wid = crt.item_clas_wid\n),\npmk_item_sbclas_grp_maxv\
+    \ AS (\n    SELECT\n        bse.pmk_item_sbclas_grp_cd,\n        COALESCE(crt.pmk_item_sbclas_grp_vers_num,\
+    \ 1) AS pmk_item_sbclas_grp_vers_num\n    FROM (SELECT DISTINCT pmk_item_sbclas_grp_cd\
+    \ FROM dwp01a_idw.item_sbclas WHERE cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN\
+    \ (\n        SELECT\n            pmk_item_sbclas_grp_cd,\n            MAX(pmk_item_sbclas_grp_vers_num)\
+    \ AS pmk_item_sbclas_grp_vers_num\n        FROM mhrs_prev\n        WHERE eff_to_dt\
+    \ = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n        ON bse.pmk_item_sbclas_grp_cd\
+    \ = crt.pmk_item_sbclas_grp_cd\n),\nitem_sbclas_maxv AS (\n    SELECT\n      \
+    \  bse.item_sbclas_wid,\n        COALESCE(crt.item_sbclas_vers_num, 1) AS item_sbclas_vers_num\n\
+    \    FROM (SELECT DISTINCT item_sbclas_wid FROM dwp01a_idw.item_sbclas WHERE cur_flg\
+    \ = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n            item_sbclas_wid,\n\
+    \            MAX(item_sbclas_vers_num) AS item_sbclas_vers_num\n        FROM mhrs_prev\n\
+    \        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n\
+    \        ON bse.item_sbclas_wid = crt.item_sbclas_wid\n),\n-- CTEs for Set A (Historical\
+    \ Data)\n-- These CTEs define \"Set A\" by selecting the current, active records\
+    \ from the version cross-reference table.\n-- This represents the \"before\" state\
+    \ of style assignments.\npmk_co_a AS (\n    SELECT\n        pmk_co_wid,\n    \
+    \    styl_wid,\n        pmk_co_vers_num\n    FROM mhrs_prev\n),\ndvisn_a AS (\n\
+    \    SELECT\n        dvisn_wid,\n        styl_wid,\n        dvisn_vers_num\n \
+    \   FROM mhrs_prev\n),\ndept_a AS (\n    SELECT\n        dept_wid,\n        styl_wid,\n\
+    \        dvisn_vers_num\n    FROM mhrs_prev\n),\nitem_clas_a AS (\n    SELECT\n\
+    \        item_clas_wid,\n        styl_wid,\n        item_clas_vers_num\n    FROM\
+    \ mhrs_prev\n),\npmk_item_sbclas_grp_a AS (\n    SELECT\n        pmk_item_sbclas_grp_cd,\n\
+    \        styl_wid,\n        pmk_item_sbclas_grp_vers_num\n    FROM mhrs_prev\n\
+    ),\nitem_sbclas_a AS (\n    SELECT\n        item_sbclas_wid,\n        styl_wid,\n\
+    \        item_sbclas_vers_num\n    FROM mhrs_prev\n),\n-- CTEs for Set B (Current\
+    \ Data)\n-- These CTEs define \"Set B\" by selecting from the mhrs CTE.\n-- This\
+    \ represents the \"after\" or current state of style assignments.\npmk_co_b AS\
+    \ (\n    SELECT pmk_co_wid, styl_wid FROM mhrs\n),\ndvisn_b AS (\n    SELECT dvisn_wid,\
+    \ styl_wid FROM mhrs\n),\ndept_b AS (\n    SELECT dept_wid, styl_wid FROM mhrs\n\
+    ),\nitem_clas_b AS (\n    SELECT item_clas_wid, styl_wid FROM mhrs\n),\npmk_item_sbclas_grp_b\
+    \ AS (\n    SELECT pmk_item_sbclas_grp_cd, styl_wid FROM mhrs\n),\nitem_sbclas_b\
+    \ AS (\n    SELECT item_sbclas_wid, styl_wid FROM mhrs\n),\n-- CTEs for AB Merge\n\
+    -- These CTEs perform a FULL OUTER JOIN on Set A and Set B for each hierarchy\
+    \ level.\n-- This allows us to see which styles are in A only (removed), in B\
+    \ only (added), or in both (unchanged).\npmk_co_ab AS (\n    SELECT\n        COALESCE(a.styl_wid,\
+    \ b.styl_wid) AS styl_wid,\n        COALESCE(a.pmk_co_wid, b.pmk_co_wid) AS pmk_co_wid,\n\
+    \        CASE\n            WHEN a.styl_wid = b.styl_wid THEN 'AB' -- In both A\
+    \ and B (unchanged)\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS\
+    \ NULL THEN 'A' -- In A only (removed)\n            WHEN b.styl_wid IS NOT NULL\
+    \ AND a.styl_wid IS NULL THEN 'B' -- In B only (added)\n        END AS set_status,\n\
+    \        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid))\
+    \ AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM pmk_co_a AS a\n    FULL OUTER JOIN pmk_co_b\
+    \ AS b\n        ON a.pmk_co_wid = b.pmk_co_wid AND a.styl_wid = b.styl_wid\n),\n\
+    dvisn_ab AS (\n    SELECT\n        COALESCE(a.styl_wid, b.styl_wid) AS styl_wid,\n\
+    \        COALESCE(a.dvisn_wid, b.dvisn_wid) AS dvisn_wid,\n        CASE\n    \
+    \        WHEN a.styl_wid = b.styl_wid THEN 'AB'\n            WHEN a.styl_wid IS\
+    \ NOT NULL AND b.styl_wid IS NULL THEN 'A'\n            WHEN b.styl_wid IS NOT\
+    \ NULL AND a.styl_wid IS NULL THEN 'B'\n        END AS set_status,\n        MAX(a.styl_wid)\
+    \ OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid)) AS a_styl_wid,\n      \
+    \  MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid)) AS b_styl_wid,\n\
+    \        CASE WHEN a_styl_wid = b_styl_wid THEN 1 ELSE 0 END AS common_aub\n \
+    \   FROM dvisn_a AS a\n    FULL OUTER JOIN dvisn_b AS b\n        ON a.dvisn_wid\
+    \ = b.dvisn_wid AND a.styl_wid = b.styl_wid\n),\ndept_ab AS (\n    SELECT\n  \
+    \      COALESCE(a.styl_wid, b.styl_wid) AS styl_wid,\n        COALESCE(a.dept_wid,\
+    \ b.dept_wid) AS dept_wid,\n        CASE\n            WHEN a.styl_wid = b.styl_wid\
+    \ THEN 'AB'\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS NULL THEN\
+    \ 'A'\n            WHEN b.styl_wid IS NOT NULL AND a.styl_wid IS NULL THEN 'B'\n\
+    \        END AS set_status,\n        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM dept_a AS a\n    FULL OUTER JOIN dept_b\
+    \ AS b\n        ON a.dept_wid = b.dept_wid AND a.styl_wid = b.styl_wid\n),\nitem_clas_ab\
+    \ AS (\n    SELECT\n        COALESCE(a.styl_wid, b.styl_wid) AS styl_wid,\n  \
+    \      COALESCE(a.item_clas_wid, b.item_clas_wid) AS item_clas_wid,\n        CASE\n\
+    \            WHEN a.styl_wid = b.styl_wid THEN 'AB'\n            WHEN a.styl_wid\
+    \ IS NOT NULL AND b.styl_wid IS NULL THEN 'A'\n            WHEN b.styl_wid IS\
+    \ NOT NULL AND a.styl_wid IS NULL THEN 'B'\n        END AS set_status,\n     \
+    \   MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid)) AS a_styl_wid,\n\
+    \        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid))\
+    \ AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN 1 ELSE 0 END\
+    \ AS common_aub\n    FROM item_clas_a AS a\n    FULL OUTER JOIN item_clas_b AS\
+    \ b\n        ON a.item_clas_wid = b.item_clas_wid AND a.styl_wid = b.styl_wid\n\
+    ),\npmk_item_sbclas_grp_ab AS (\n    SELECT\n        COALESCE(a.styl_wid, b.styl_wid)\
+    \ AS styl_wid,\n        COALESCE(a.pmk_item_sbclas_grp_cd, b.pmk_item_sbclas_grp_cd)\
+    \ AS pmk_item_sbclas_grp_cd,\n        CASE\n            WHEN a.styl_wid = b.styl_wid\
+    \ THEN 'AB'\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS NULL THEN\
+    \ 'A'\n            WHEN b.styl_wid IS NOT NULL AND a.styl_wid IS NULL THEN 'B'\n\
+    \        END AS set_status,\n        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM pmk_item_sbclas_grp_a AS a\n    FULL OUTER\
+    \ JOIN pmk_item_sbclas_grp_b AS b\n        ON a.pmk_item_sbclas_grp_cd = b.pmk_item_sbclas_grp_cd\
+    \ AND a.styl_wid = b.styl_wid\n),\nitem_sbclas_ab AS (\n    SELECT\n        COALESCE(a.styl_wid,\
+    \ b.styl_wid) AS styl_wid,\n        COALESCE(a.item_sbclas_wid, b.item_sbclas_wid)\
+    \ AS item_sbclas_wid,\n        CASE\n            WHEN a.styl_wid = b.styl_wid\
+    \ THEN 'AB'\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS NULL THEN\
+    \ 'A'\n            WHEN b.styl_wid IS NOT NULL AND a.styl_wid IS NULL THEN 'B'\n\
+    \        END AS set_status,\n        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM item_sbclas_a AS a\n    FULL OUTER JOIN\
+    \ item_sbclas_b AS b\n        ON a.item_sbclas_wid = b.item_sbclas_wid AND a.styl_wid\
+    \ = b.styl_wid\n),\n-- CTEs for Cardinality Calculation\n-- These CTEs calculate\
+    \ the counts of added, removed, and unchanged styles.\n-- The 'version_inc' flag\
+    \ is set to 1 if there are any changes.\npmk_co_ab_card AS (\n    SELECT\n   \
+    \     pmk_co_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb, -- A minus B\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\
+    \ -- B minus A\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb, -- A intersect B\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_unamb,\
+    \ -- not common A minus B\n        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND\
+    \ ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma, -- not common B minus\
+    \ A\n        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'AB'\
+    \ THEN 1 ELSE 0 END), 0) AS card_unanb, -- not common A intersect B\n        CASE\
+    \ WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n    FROM\
+    \ pmk_co_ab AS ab\n    GROUP BY 1\n),\ndvisn_ab_card AS (\n    SELECT\n      \
+    \  dvisn_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_unanb,\n\
+    \        CASE WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n\
+    \    FROM dvisn_ab AS ab\n    GROUP BY 1\n),\ndept_ab_card AS (\n    SELECT\n\
+    \        dept_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_unanb,\n\
+    \        CASE WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n\
+    \    FROM dept_ab AS ab\n    GROUP BY 1\n),\nitem_clas_ab_card AS (\n    SELECT\n\
+    \        item_clas_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND\
+    \ ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_anb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unanb,\n        CASE WHEN card_amb > 0 OR card_bma\
+    \ > 0 THEN 1 ELSE 0 END AS version_inc\n    FROM item_clas_ab AS ab\n    GROUP\
+    \ BY 1\n),\npmk_item_sbclas_grp_ab_card AS (\n    SELECT\n        pmk_item_sbclas_grp_cd,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_unanb,\n\
+    \        CASE WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n\
+    \    FROM pmk_item_sbclas_grp_ab AS ab\n    GROUP BY 1\n),\nitem_sbclas_ab_card\
+    \ AS (\n    SELECT\n        item_sbclas_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_anb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unanb,\n        CASE WHEN card_amb > 0 OR card_bma\
+    \ > 0 THEN 1 ELSE 0 END AS version_inc\n    FROM item_sbclas_ab AS ab\n    GROUP\
+    \ BY 1\n),\n-- CTEs for Version Calculation\n-- These CTEs determine the new version\
+    \ number by adding the 'version_inc' flag to the max version.\npmk_co_version\
+    \ AS (\n    SELECT\n        maxv.pmk_co_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.pmk_co_vers_num, 1) + ab_card.version_inc, 0) AS new_pmk_co_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM pmk_co_maxv AS maxv\n    LEFT\
+    \ OUTER JOIN pmk_co_ab_card AS ab_card\n        ON maxv.pmk_co_wid = ab_card.pmk_co_wid\n\
+    ),\ndvisn_version AS (\n    SELECT\n        maxv.dvisn_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.dvisn_vers_num, 1) + ab_card.version_inc, 0) AS new_dvisn_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM dvisn_maxv AS maxv\n    LEFT\
+    \ OUTER JOIN dvisn_ab_card AS ab_card\n        ON maxv.dvisn_wid = ab_card.dvisn_wid\n\
+    ),\ndept_version AS (\n    SELECT\n        maxv.dept_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.dept_vers_num, 1) + ab_card.version_inc, 0) AS new_dept_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM dept_maxv AS maxv\n    LEFT\
+    \ OUTER JOIN dept_ab_card AS ab_card\n        ON maxv.dept_wid = ab_card.dept_wid\n\
+    ),\nitem_clas_version AS (\n    SELECT\n        maxv.item_clas_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.item_clas_vers_num, 1) + ab_card.version_inc, 0) AS new_item_clas_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM item_clas_maxv AS maxv\n  \
+    \  LEFT OUTER JOIN item_clas_ab_card AS ab_card\n        ON maxv.item_clas_wid\
+    \ = ab_card.item_clas_wid\n),\npmk_item_sbclas_grp_version AS (\n    SELECT\n\
+    \        maxv.pmk_item_sbclas_grp_cd,\n        NVL2(ab_card.version_inc, COALESCE(maxv.pmk_item_sbclas_grp_vers_num,\
+    \ 1) + ab_card.version_inc, 0) AS new_pmk_item_sbclas_grp_vers_num,\n        card_amb,\n\
+    \        card_bma,\n        card_anb,\n        card_unamb,\n        card_unbma,\n\
+    \        card_unanb\n    FROM pmk_item_sbclas_grp_maxv AS maxv\n    LEFT OUTER\
+    \ JOIN pmk_item_sbclas_grp_ab_card AS ab_card\n        ON maxv.pmk_item_sbclas_grp_cd\
+    \ = ab_card.pmk_item_sbclas_grp_cd\n),\nitem_sbclas_version AS (\n    SELECT\n\
+    \        maxv.item_sbclas_wid,\n        NVL2(ab_card.version_inc, COALESCE(maxv.item_sbclas_vers_num,\
+    \ 1) + ab_card.version_inc, 0) AS new_item_sbclas_vers_num,\n        card_amb,\n\
+    \        card_bma,\n        card_anb,\n        card_unamb,\n        card_unbma,\n\
+    \        card_unanb\n    FROM item_sbclas_maxv AS maxv\n    LEFT OUTER JOIN item_sbclas_ab_card\
+    \ AS ab_card\n        ON maxv.item_sbclas_wid = ab_card.item_sbclas_wid\n)\n--\
+    \ Final SELECT Statement\n-- This joins the original merchant hierarchy (mhr)\
+    \ with the calculated version numbers for each level.\n-- The result is the complete\
+    \ hierarchy with the correct, newly calculated version numbers.\nSELECT\n    mhr.item_sbclas_wid\
+    \ AS merch_hiery_wid,\n    mhr.pmk_co_cd AS company_cd,\n    mhr.pmk_co_wid,\n\
+    \    mhr.pmk_co_name AS company_name,\n    pmk_co_version.new_pmk_co_vers_num\
+    \ AS company_version_num,\n    CASE WHEN mhr_prev.pmk_co_vers_num = pmk_co_version.new_pmk_co_vers_num\
+    \ THEN 0 ELSE 1 END AS pmk_co_vers_reclass_evnt_ind,\n    COALESCE(pmk_co_version.card_amb,\
+    \ 0) AS pmk_co_stl_in_count,\n    COALESCE(pmk_co_version.card_bma, 0) AS pmk_co_stl_out_count,\n\
+    \    COALESCE(pmk_co_version.card_anb, 0) AS pmk_co_stl_cmn_count,\n    COALESCE(pmk_co_version.card_unamb,\
+    \ 0) AS pmk_co_stl_del_count,\n    COALESCE(pmk_co_version.card_unbma, 0) AS pmk_co_stl_new_count,\n\
+    \    COALESCE(pmk_co_version.card_unanb, 0) AS pmk_co_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.pmk_co_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS pmk_co_seq_no,\n    mhr.dvisn_cd AS division_cd,\n    mhr.dvisn_wid,\n  \
+    \  mhr.dvisn_name AS division_name,\n    dvisn_version.new_dvisn_vers_num AS division_version_num,\n\
+    \    CASE WHEN mhr_prev.dvisn_vers_num = dvisn_version.new_dvisn_vers_num THEN\
+    \ 0 ELSE 1 END AS dvisn_vers_reclass_evnt_ind,\n    COALESCE(dvisn_version.card_amb,\
+    \ 0) AS dvisn_stl_in_count,\n    COALESCE(dvisn_version.card_bma, 0) AS dvisn_stl_out_count,\n\
+    \    COALESCE(dvisn_version.card_anb, 0) AS dvisn_stl_cmn_count,\n    COALESCE(dvisn_version.card_unamb,\
+    \ 0) AS dvisn_stl_del_count,\n    COALESCE(dvisn_version.card_unbma, 0) AS dvisn_stl_new_count,\n\
+    \    COALESCE(dvisn_version.card_unanb, 0) AS dvisn_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.dvisn_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS dvisn_seq_no,\n    mhr.dept_cd AS department_cd,\n    mhr.dept_wid,\n   \
+    \ mhr.dept_name AS department_name,\n    dept_version.new_dept_vers_num AS department_version_num,\n\
+    \    CASE WHEN mhr_prev.dept_vers_num = dept_version.new_dept_vers_num THEN 0\
+    \ ELSE 1 END AS dept_reclass_evnt_ind,\n    COALESCE(dept_version.card_amb, 0)\
+    \ AS dept_stl_in_count,\n    COALESCE(dept_version.card_bma, 0) AS dept_stl_out_count,\n\
+    \    COALESCE(dept_version.card_anb, 0) AS dept_stl_cmn_count,\n    COALESCE(dept_version.card_unamb,\
+    \ 0) AS dept_stl_del_count,\n    COALESCE(dept_version.card_unbma, 0) AS dept_stl_new_count,\n\
+    \    COALESCE(dept_version.card_unanb, 0) AS dept_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.dept_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS dept_seq_no,\n    mhr.item_clas_cd AS class_cd,\n    mhr.item_clas_wid,\n\
+    \    mhr.item_clas_name AS class_name,\n    item_clas_version.new_item_clas_vers_num\
+    \ AS class_version_num,\n    CASE WHEN mhr_prev.item_clas_vers_num = item_clas_version.new_item_clas_vers_num\
+    \ THEN 0 ELSE 1 END AS clas_evnt_ind,\n    COALESCE(item_clas_version.card_amb,\
+    \ 0) AS item_clas_stl_in_count,\n    COALESCE(item_clas_version.card_bma, 0) AS\
+    \ item_clas_stl_out_count,\n    COALESCE(item_clas_version.card_anb, 0) AS item_clas_stl_cmn_count,\n\
+    \    COALESCE(item_clas_version.card_unamb, 0) AS item_clas_stl_del_count,\n \
+    \   COALESCE(item_clas_version.card_unbma, 0) AS item_clas_stl_new_count,\n  \
+    \  COALESCE(item_clas_version.card_unanb, 0) AS item_clas_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.item_clas_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS item_clas_seq_no,    \n    mhr.pmk_item_sbclas_grp_cd AS subclass_group_cd,\n\
+    \    mhr.pmk_item_sbclas_grp_name AS subclass_group_name,\n    pmk_item_sbclas_grp_version.new_pmk_item_sbclas_grp_vers_num\
+    \ AS subclass_group_version_num,\n    CASE WHEN mhr_prev.pmk_item_sbclas_grp_vers_num\
+    \ = pmk_item_sbclas_grp_version.new_pmk_item_sbclas_grp_vers_num THEN 0 ELSE 1\
+    \ END AS pmk_item_sbclas_grp_vers_reclass_evnt_ind,\n    COALESCE(pmk_item_sbclas_grp_version.card_amb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_in_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_bma,\
+    \ 0) AS pmk_item_sbclas_grp_stl_out_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_anb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_cmn_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_unamb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_del_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_unbma,\
+    \ 0) AS pmk_item_sbclas_grp_stl_new_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_unanb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_not_common_cmn_count,\n    ROW_NUMBER() OVER (PARTITION\
+    \ BY mhr.pmk_item_sbclas_grp_cd ORDER BY mhr.item_sbclas_wid) AS pmk_item_sbclas_grp_seq_no,\
+    \ \n    mhr.item_sbclas_cd AS subclass_cd,\n  --  mhr.item_sbclas_wid,\n    mhr.item_sbclas_name\
+    \ AS subclass_name,\n    item_sbclas_version.new_item_sbclas_vers_num AS subclass_version_num,\n\
+    \    CASE WHEN mhr_prev.item_sbclas_vers_num = item_sbclas_version.new_item_sbclas_vers_num\
+    \ THEN 0 ELSE 1 END AS subclass_vers_reclass_evnt_ind,\n    COALESCE(item_sbclas_version.card_amb,\
+    \ 0) AS item_sbclas_stl_in_count,\n    COALESCE(item_sbclas_version.card_bma,\
+    \ 0) AS item_sbclas_stl_out_count,\n    COALESCE(item_sbclas_version.card_anb,\
+    \ 0) AS item_sbclas_stl_cmn_count,\n    COALESCE(item_sbclas_version.card_unamb,\
+    \ 0) AS item_sbclas_stl_del_count,\n    COALESCE(item_sbclas_version.card_unbma,\
+    \ 0) AS item_sbclas_stl_new_count,\n    COALESCE(item_sbclas_version.card_unanb,\
+    \ 0) AS item_sbclas_stl_not_common_cmn_count,\n    ROW_NUMBER() OVER (PARTITION\
+    \ BY mhr.pmk_item_sbclas_grp_cd ORDER BY mhr.item_sbclas_wid) AS item_sbclas_seq_no,\
+    \ \n    mhr.buyer_cd,\n    mhr.buyer_name\nFROM mhr\nLEFT OUTER JOIN pmk_co_version\n\
+    \    ON mhr.pmk_co_wid = pmk_co_version.pmk_co_wid\nLEFT OUTER JOIN dvisn_version\n\
+    \    ON mhr.dvisn_wid = dvisn_version.dvisn_wid\nLEFT OUTER JOIN dept_version\n\
+    \    ON mhr.dept_wid = dept_version.dept_wid\nLEFT OUTER JOIN item_clas_version\n\
+    \    ON mhr.item_clas_wid = item_clas_version.item_clas_wid\nLEFT OUTER JOIN pmk_item_sbclas_grp_version\n\
+    \    ON mhr.pmk_item_sbclas_grp_cd = pmk_item_sbclas_grp_version.pmk_item_sbclas_grp_cd\n\
+    LEFT OUTER JOIN item_sbclas_version\n    ON mhr.item_sbclas_wid = item_sbclas_version.item_sbclas_wid\n\
+    LEFT OUTER JOIN mhr_prev\n    ON mhr.item_sbclas_wid = mhr_prev.merch_hiery_wid"
 steps:
 - description: ''
   file_name: ''
   file_present: false
-  job_name: FND1041
+  job_name: FND_RECLASFCN_STYL_SBCLASS_XREF
   notes: ''
   post_sql: ''
   pre_sql: ''
-  reverse_sequence_no: 5
+  reverse_sequence_no: 3
   sequence_no: 1
   source_database: ''
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
   target_table: ''
-- description: ''
+- description: Map source to trans table see mapping
   file_name: FND1041.190.TRANS.sql
   file_present: true
   job_name: FND1041
   notes: See mapping
   post_sql: ''
   pre_sql: ''
-  reverse_sequence_no: 4
+  reverse_sequence_no: 2
   sequence_no: 2
   source_database: See mapping
   source_table: ''
-  sql_statement: "-- This query constructs a comprehensive merchant hierarchy for\
-    \ styles, comparing the current\n-- hierarchy against a previous version to identify\
-    \ changes and determine new version numbers.\n-- It uses set theory concepts (intersections\
-    \ and differences) implemented via SQL window functions.\nWITH\n-- CTE 1: MHR\
-    \ (Merchant Hierarchy)\n-- Flattens the current, active merchant hierarchy by\
-    \ joining dimension tables from company down to subclass.\nMHR AS (\n    SELECT\n\
-    \        SCLS.item_sbclas_wid,\n        CO.pmk_co_cd,\n        DVN.dvisn_cd,\n\
-    \        DPT.dept_cd,\n        CLS.item_clas_cd,\n        SCLS.pmk_item_sbclas_grp_cd,\n\
-    \        SCLS.item_sbclas_cd\n    FROM\n        DWP01A_IDW.ITEM_SBCLAS AS SCLS\n\
-    \        INNER JOIN DWP01A_IDW.ITEM_CLAS AS CLS ON CLS.item_clas_wid = SCLS.item_clas_wid\n\
-    \        INNER JOIN DWP01A_IDW.DEPT AS DPT ON DPT.dept_wid = CLS.dept_wid\n  \
-    \      INNER JOIN DWP01A_IDW.DVISN AS DVN ON DVN.dvisn_wid = DPT.dvisn_wid\n \
-    \       INNER JOIN DWP01A_IDW.PMK_CO AS CO ON CO.pmk_co_wid = DVN.pmk_co_wid\n\
-    \        LEFT OUTER JOIN DWP01A_IDW.PMK_TCTCL_BUYR AS BYR ON DPT.pmk_tctcl_buyr_wid\
-    \ = BYR.pmk_tctcl_buyr_wid AND BYR.cur_flg = 'Y'\n    WHERE\n        SCLS.cur_flg\
-    \ = 'Y'\n        AND CO.cur_flg = 'Y'\n        AND DPT.cur_flg = 'Y'\n       \
-    \ AND CLS.cur_flg = 'Y'\n        AND DVN.cur_flg = 'Y'\n),\n-- CTE 2: MHR_STYL_BASE\
-    \ (Set B)\n-- This represents the CURRENT state of the style hierarchy (Set B).\n\
-    -- It joins the flattened hierarchy (MHR) to the current style reclassification\
-    \ data.\nMHR_STYL_BASE AS (\n    SELECT\n        STLX.styl_wid,\n        STLX.styl_sbclass_vers_num,\n\
-    \        MHR.item_sbclas_wid,\n        MHR.pmk_co_cd,\n        MHR.dvisn_cd,\n\
-    \        MHR.dept_cd,\n        MHR.item_clas_cd,\n        MHR.pmk_item_sbclas_grp_cd,\n\
-    \        MHR.item_sbclas_cd\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_XREF\
-    \ AS STLX\n        INNER JOIN MHR ON STLX.item_sbclas_wid = MHR.item_sbclas_wid\n\
-    \    WHERE\n        STLX.eff_to_dt = DATE '9999-12-31' -- Filter for currently\
-    \ effective records.\n),\n-- CTE 3: XVER (Set A)\n-- This represents the ORIGINAL\
-    \ state of the style hierarchy (Set A).\n-- It pulls the versioned hierarchy data\
-    \ from a separate cross-reference table.\nXVER AS (\n    SELECT\n        styl_wid,\n\
-    \        item_sbclas_wid,\n        styl_sbclas_vers_num,\n        pmk_co_cd,\n\
-    \        pmk_co_vers_num,\n        dvisn_cd,\n        dvisn_vers_num,\n      \
-    \  dept_cd,\n        dept_vers_num,\n        item_clas_cd,\n        item_clas_vers_num,\n\
-    \        pmk_item_sbclas_grp_cd,\n        pmk_item_sbclas_grp_vers_num,\n    \
-    \    item_sbclas_cd,\n        item_sbclas_vers_num\n    FROM\n        DWT04A_ACC_FND.FND_RECLASFCN_STYL_SBCLASS_VERS_XREF\
-    \ AS XRF\n    WHERE\n        XRF.eff_to_dt = DATE '3500-12-31' -- Filter for currently\
-    \ effective records in the version history.\n),\n-- CTE 4: PMK_CO_REF\n-- This\
-    \ is the core logic CTE. It performs a FULL OUTER JOIN between the original (A)\
-    \ and current (B)\n-- hierarchies to analyze changes. It uses set theory concepts\
-    \ to count items in the intersection and differences.\nPMK_CO_REF AS (\n    SELECT\n\
-    \        -- Use COALESCE to combine keys from both datasets (A and B).\n     \
-    \   COALESCE(MSB.styl_wid, XVER.styl_wid) AS styl_wid,\n        COALESCE(MSB.item_sbclas_wid,\
-    \ XVER.item_sbclas_wid) AS item_sbclas_wid,\n        -- Merge hierarchy attributes,\
-    \ prioritizing the current hierarchy (MSB).\n        COALESCE(MSB.pmk_co_cd, XVER.pmk_co_cd)\
-    \ AS pmk_co_cd,\n        COALESCE(MSB.dvisn_cd, XVER.dvisn_cd) AS dvisn_cd,\n\
-    \        COALESCE(MSB.dept_cd, XVER.dept_cd) AS dept_cd,\n        COALESCE(MSB.item_clas_cd,\
-    \ XVER.item_clas_cd) AS item_clas_cd, -- Corrected from dept_cd\n        COALESCE(MSB.pmk_item_sbclas_grp_cd,\
-    \ XVER.pmk_item_sbclas_grp_cd) AS pmk_item_sbclas_grp_cd, -- Corrected from dept_cd\n\
-    \        COALESCE(MSB.item_sbclas_cd, XVER.item_sbclas_cd) AS item_sbclas_cd,\
-    \ -- Corrected from dept_cd\n        MSB.styl_sbclass_vers_num,\n        XVER.dept_vers_num,\n\
-    \        -- DEBUGGING COLUMNS: To observe values from both sets.\n        MSB.dept_cd\
-    \ AS a_dept_cd,\n        XVER.dept_cd AS b_dept_cd,\n        -- DEPARTMENT CHANGE\
-    \ ANALYSIS --\n        -- AnB (Intersection): Count of styles that are in the\
-    \ same department in both sets.\n        SUM(CASE WHEN MSB.dept_cd = XVER.dept_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_count,\n    \
-    \    MIN(CASE WHEN MSB.dept_cd = XVER.dept_cd THEN XVER.dept_vers_num ELSE NULL\
-    \ END) OVER (PARTITION BY MSB.dept_cd) AS dept_anb_min,\n        -- BtoA (Moved\
-    \ Into): Count of styles that moved from a different department INTO this one.\n\
-    \        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1 ELSE 0 END) OVER (PARTITION\
-    \ BY XVER.dept_cd) AS dept_btoa_count,\n        MIN(CASE WHEN MSB.dept_cd <> XVER.dept_cd\
-    \ THEN XVER.dept_vers_num ELSE NULL END) OVER (PARTITION BY XVER.dept_cd) AS dept_btoa_min,\n\
-    \        -- AtoB (Moved Out Of): Count of styles that moved OUT OF this department\
-    \ into another one.\n        SUM(CASE WHEN MSB.dept_cd <> XVER.dept_cd THEN 1\
-    \ ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_atob_count,\n        MIN(CASE\
-    \ WHEN MSB.dept_cd <> XVER.dept_cd THEN MSB.styl_sbclass_vers_num ELSE NULL END)\
-    \ OVER (PARTITION BY MSB.dept_cd) AS dept_atob_min,\n        -- AmB (A minus B):\
-    \ Styles that existed in the original set but not the current one (for this dept).\n\
-    \        SUM(CASE WHEN MSB.dept_cd IS NULL THEN 1 ELSE 0 END) OVER (PARTITION\
-    \ BY XVER.dept_cd) AS dept_amb_count,\n        MIN(XVER.dept_vers_num) OVER (PARTITION\
-    \ BY XVER.dept_cd) AS dept_amb_min,\n        -- BmA (B minus A): Styles that are\
-    \ new in the current set (for this dept).\n        SUM(CASE WHEN XVER.dept_cd\
-    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_count,\n\
-    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.dept_cd) AS dept_bma_min,\n\
-    \        -- Logic to determine the new department version number based on the\
-    \ set analysis.\n        CASE\n            WHEN dept_anb_count = 0 AND dept_btoa_count\
-    \ = 0 AND dept_atob_count = 0 AND dept_amb_count = 0 AND dept_bma_count > 0 THEN\
-    \ dept_bma_min\n            ELSE -1\n        END AS new_dept_vers_num,\n     \
-    \   -- SUBCLASS CHANGE ANALYSIS (Same logic as department analysis) --\n     \
-    \   -- AnB (Intersection)\n        SUM(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_count,\n\
-    \        MIN(CASE WHEN MSB.item_sbclas_cd = XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
-    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_anb_min,\n \
-    \       -- BtoA (Moved Into)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_count,\n\
-    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN XVER.item_sbclas_vers_num\
-    \ ELSE NULL END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_btoa_min,\n\
-    \        -- AtoB (Moved Out Of)\n        SUM(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_count,\n\
-    \        MIN(CASE WHEN MSB.item_sbclas_cd <> XVER.item_sbclas_cd THEN MSB.styl_sbclass_vers_num\
-    \ ELSE NULL END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_atob_min,\n\
-    \        -- AmB (A minus B)\n        SUM(CASE WHEN MSB.item_sbclas_cd IS NULL\
-    \ THEN 1 ELSE 0 END) OVER (PARTITION BY XVER.item_sbclas_cd) AS sbclas_amb_count,\n\
-    \        MIN(XVER.item_sbclas_vers_num) OVER (PARTITION BY XVER.item_sbclas_cd)\
-    \ AS sbclas_amb_min,\n        -- BmA (B minus A)\n        SUM(CASE WHEN XVER.item_sbclas_cd\
-    \ IS NULL THEN 1 ELSE 0 END) OVER (PARTITION BY MSB.item_sbclas_cd) AS sbclas_bma_count,\n\
-    \        MIN(MSB.styl_sbclass_vers_num) OVER (PARTITION BY MSB.item_sbclas_cd)\
-    \ AS sbclas_bma_min,\n        -- Logic to determine the new subclass version number.\n\
-    \        CASE\n            WHEN sbclas_anb_count = 0 AND sbclas_btoa_count = 0\
-    \ AND sbclas_atob_count = 0 AND sbclas_amb_count = 0 AND sbclas_bma_count > 0\
-    \ THEN sbclas_bma_min\n            ELSE -1\n        END AS new_sbclas_vers_num\n\
-    \    FROM\n        MHR_STYL_BASE AS MSB -- This is Set B (Current)\n        FULL\
-    \ OUTER JOIN XVER ON MSB.styl_wid = XVER.styl_wid -- This join creates the Union\
-    \ of A and B\n)\n-- Final Select: Constructs the final output record.\nSELECT\n\
-    \    PMK_CO_REF.styl_wid,\n    PMK_CO_REF.item_sbclas_wid,\n    -1 AS styl_sbclas_vers_num,\
-    \ -- Placeholder value\n    PMK_CO_REF.pmk_co_cd,\n    -1 AS pmk_co_vers_num,\
-    \ -- Placeholder value\n    PMK_CO_REF.dvisn_cd,\n    -1 AS dvisn_vers_num, --\
-    \ Placeholder value\n    PMK_CO_REF.dept_cd,\n    PMK_CO_REF.new_dept_vers_num\
-    \ AS dept_vers_num, -- Use the calculated version number\n    PMK_CO_REF.item_clas_cd,\n\
-    \    -1 AS item_clas_vers_num, -- Placeholder value\n    PMK_CO_REF.pmk_item_sbclas_grp_cd,\n\
-    \    -1 AS pmk_item_sbclas_grp_vers_num, -- Placeholder value\n    PMK_CO_REF.item_sbclas_cd,\n\
-    \    PMK_CO_REF.new_sbclas_vers_num AS item_sbclas_vers_num -- Use the calculated\
-    \ version number\nFROM\n    PMK_CO_REF"
-  stats: ''
+  sql_statement: "-- This query calculates the correct version number for different\
+    \ levels of the product hierarchy (company, division, department, class, subclass\
+    \ group, subclass).\n-- It identifies changes in style assignments within these\
+    \ hierarchy levels to determine when a new version is needed.\n-- The core logic\
+    \ compares two sets of data:\n--  Set A: The historical or previously existing\
+    \ style assignments for each hierarchy level.\n--  Set B: The current style assignments\
+    \ based on the latest data.\n--\n-- By analyzing the differences between these\
+    \ sets, the query can flag when a version number needs to be incremented.\n--\n\
+    --                           +-------------------------------------------------------------+\n\
+    --                           |        The Union of A and B (A U B)           \
+    \              |\n--                           | (All styles involved with a specific\
+    \ hierarchy level)       |\n--                           |                   \
+    \                                          |\n--                           | \
+    \     Set A (Historical)        Set B (Current)              |\n--           \
+    \                |   +---------------------+   +---------------------+       \
+    \  |\n--                           |   | Styles previously   |   | Styles currentlyhr\
+    \    |         |\n--                           |   | in this hierarchy   |   |\
+    \ in this hierarchy   |         |\n--                           |   |        \
+    \             +---+                     |         |\n--                      \
+    \     |   | (Represents styles  | S | (Represents styles |         |\n--     \
+    \                      |   | that might have     | t | that might have     | \
+    \        |\n--                           |   | been moved out)     | y | been\
+    \ moved in)      |         |\n--                           |   |             \
+    \        | l |                     |         |\n--                           |\
+    \   +---------------------+ e +---------------------+         |\n--          \
+    \                 |                         | s |                            \
+    \   |\n--                           |                         |   |          \
+    \                     |\n--                           |                      \
+    \   | i |                               |\n--                           |    \
+    \                     | n |                               |\n--              \
+    \             |                         |   |                               |\n\
+    --                           |                         | b |                 \
+    \              |\n--                           |                         | o |\
+    \                               |\n--                           |            \
+    \             | t |                               |\n--                      \
+    \     |                         | h |                               |\n--    \
+    \                       |                         |   |                      \
+    \         |\n--                           |                         |(Same/Unchanged\
+    \ Styles)|           |\n--                           |                       \
+    \  +-----------------------+           |\n--                           |     \
+    \                                                        |\n--               \
+    \            +-------------------------------------------------------------+\n\
+    WITH\nmhr AS (\n    -- CTE 1: mhr (Merchant Hierarchy)\n    -- This CTE builds\
+    \ the foundational merchant hierarchy by joining various dimension tables.\n \
+    \   -- It gathers information from company (co), division (dvn), department (dpt),\
+    \ class (cls), and subclass (scls).\n    -- The result is a flattened view of\
+    \ the hierarchy.\n    SELECT\n        scls.item_sbclas_wid,\n        TO_NUMBER(co.pmk_co_cd)\
+    \ (SMALLINT) AS pmk_co_cd ,\n        co.pmk_co_wid,\n        co.pmk_co_name,\n\
+    \        TO_NUMBER(dvn.dvisn_cd) (SMALLINT) AS dvisn_cd,\n        dvn.dvisn_wid,\n\
+    \        dvn.dvisn_name,\n        TO_NUMBER(dpt.dept_cd) (SMALLINT) AS dept_cd,\n\
+    \        dpt.dept_wid,\n        dpt.dept_name,\n        TO_NUMBER(cls.item_clas_cd)\
+    \ (SMALLINT) AS item_clas_cd,\n        cls.item_clas_wid,\n        cls.item_clas_name,\n\
+    \        TO_NUMBER(scls.pmk_item_sbclas_grp_cd) (SMALLINT) AS pmk_item_sbclas_grp_cd,\n\
+    \        scls.pmk_item_sbclas_grp_name,\n        TO_NUMBER(scls.item_sbclas_cd)\
+    \ (SMALLINT) AS item_sbclas_cd,\n        scls.item_sbclas_name,\n        byr.pmk_tctcl_buyr_cd\
+    \ AS buyer_cd,\n        byr.pmk_tctcl_buyr_name AS buyer_name\n    FROM dwp01a_idw.item_sbclas\
+    \ AS scls\n    INNER JOIN dwp01a_idw.item_clas AS cls\n        ON cls.item_clas_wid\
+    \ = scls.item_clas_wid\n    INNER JOIN dwp01a_idw.dept AS dpt\n        ON dpt.dept_wid\
+    \ = cls.dept_wid\n    INNER JOIN dwp01a_idw.dvisn AS dvn\n        ON dvn.dvisn_wid\
+    \ = dpt.dvisn_wid\n    INNER JOIN dwp01a_idw.pmk_co AS co\n        ON co.pmk_co_wid\
+    \ = dvn.pmk_co_wid\n    LEFT OUTER JOIN dwp01a_idw.pmk_tctcl_buyr AS byr\n   \
+    \     ON dpt.pmk_tctcl_buyr_wid = byr.pmk_tctcl_buyr_wid AND byr.cur_flg = 'Y'\n\
+    \    WHERE\n        scls.cur_flg = 'Y'\n        AND co.cur_flg = 'Y'\n       \
+    \ AND dpt.cur_flg = 'Y'\n        AND cls.cur_flg = 'Y'\n        AND dvn.cur_flg\
+    \ = 'Y'\n),\nmhrs AS (\n    -- CTE 2: mhrs (Merchant Hierarchy with Styles)\n\
+    \    -- This CTE adds style information (styl_wid) to the merchant hierarchy created\
+    \ in mhr.\n    -- It links styles to their respective subclasses.\n    SELECT\n\
+    \        stl.styl_wid,\n        mhr.*\n    FROM mhr\n    INNER JOIN (SELECT styl_wid,item_sbclas_wid,eff_from_dt,eff_to_dt\
+    \ FROM DWT04A_ACC_FND.DW_FND_STYL_SBCLASS_XREF WHERE eff_to_dt >  eff_from_dt)\
+    \  AS stl\n        ON mhr.item_sbclas_wid = stl.item_sbclas_wid \n        WHERE\
+    \   -- get the \"current rows based load token date \n                -- this\
+    \ allows catchups\n            PERIOD(stl.eff_from_dt, stl.eff_to_dt) CONTAINS\
+    \ (CURRENT_DATE - 1)\n),\nmhr_prev AS (\n    SELECT\n        mrd.merch_hiery_wid\
+    \ AS item_sbclas_wid,\n        mrd.company_cd AS pmk_co_cd,\n        mrd.company_version_num\
+    \ AS pmk_co_vers_num,\n        mrd.division_cd AS dvisn_cd,\n        mrd.division_version_num\
+    \ AS dvisn_vers_num,\n        mrd.department_cd AS dept_cd,\n        mrd.department_version_num\
+    \ AS dept_vers_num,\n        mrd.class_cd AS item_clas_cd,\n        mrd.class_version_num\
+    \ AS item_clas_vers_num,\n        mrd.subclass_group_cd AS pmk_item_sbclas_grp_cd,\n\
+    \        mrd.subclass_group_version_num AS pmk_item_sbclas_grp_vers_num,\n   \
+    \     mrd.subclass_cd AS item_sbclas_cd,\n        mrd.subclass_version_num AS\
+    \ item_sbclas_vers_num,\n        mrd.company_name,\n        mrd.division_name,\n\
+    \        mrd.department_name,\n        mrd.class_name,\n        mrd.subclass_group_name,\n\
+    \        mrd.subclass_name,\n        mrd.buyer_cd,\n        mrd.buyer_name,\n\
+    \        mrd.pmk_co_wid,\n        mrd.dvisn_wid,\n        mrd.dept_wid,\n    \
+    \    mrd.item_clas_wid,\n        mrd.merch_hiery_wid,\n        mrd.eff_to_dt\n\
+    \    FROM dwt04a_acc_fnd.dw_fnd_merc_hierarchy_hist_dim AS mrd\n    WHERE mrd.eff_to_dt\
+    \ = DATE '3500-12-31'\n),\nmhrs_prev AS (\n    SELECT\n        stl.styl_wid,\n\
+    \        mrd.merch_hiery_wid,\n        mrd.company_cd AS pmk_co_cd,\n        mrd.company_version_num\
+    \ AS pmk_co_vers_num,\n        mrd.division_cd AS dvisn_cd,\n        mrd.division_version_num\
+    \ AS dvisn_vers_num,\n        mrd.department_cd AS dept_cd,\n        mrd.department_version_num\
+    \ AS dept_vers_num,\n        mrd.class_cd AS item_clas_cd,\n        mrd.class_version_num\
+    \ AS item_clas_vers_num,\n        mrd.subclass_group_cd AS pmk_item_sbclas_grp_cd,\n\
+    \        mrd.subclass_group_version_num AS pmk_item_sbclas_grp_vers_num,\n   \
+    \     mrd.subclass_cd AS item_sbclas_cd,\n        mrd.subclass_version_num AS\
+    \ item_sbclas_vers_num,\n        mrd.company_name,\n        mrd.division_name,\n\
+    \        mrd.department_name,\n        mrd.class_name,\n        mrd.subclass_group_name,\n\
+    \        mrd.subclass_name,\n        mrd.buyer_cd,\n        mrd.buyer_name,\n\
+    \        mrd.pmk_co_wid,\n        mrd.dvisn_wid,\n        mrd.dept_wid,\n    \
+    \    mrd.item_clas_wid,\n        mrd.merch_hiery_wid AS item_sbclas_wid,\n   \
+    \     mrd.eff_to_dt\n    FROM dwt04a_acc_fnd.dw_fnd_merc_hierarchy_hist_dim AS\
+    \ mrd\n    INNER JOIN (SELECT styl_wid,item_sbclas_wid,eff_from_dt,eff_to_dt FROM\
+    \ DWT04A_ACC_FND.DW_FND_STYL_SBCLASS_XREF WHERE eff_to_dt >  eff_from_dt)  AS\
+    \ stl\n        ON mrd.merch_hiery_wid = stl.item_sbclas_wid \n        WHERE  \
+    \ -- get the previous run position\n                 -- this allows catchups\n\
+    \            PERIOD(stl.eff_from_dt, stl.eff_to_dt) CONTAINS (CURRENT_DATE - 1\
+    \ - 1)\n),\n-- CTEs 3-8: maxv (Maximum Version) Series\n-- These CTEs find the\
+    \ latest version number for each level of the hierarchy.\n-- This gives us the\
+    \ starting point for versioning. If no version exists, it defaults to 1.\npmk_co_maxv\
+    \ AS (\n    SELECT\n        bse.pmk_co_wid,\n        COALESCE(crt.pmk_co_vers_num,\
+    \ 1) AS pmk_co_vers_num\n    FROM (SELECT DISTINCT pmk_co_wid FROM dwp01a_idw.pmk_co\
+    \ WHERE cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n       \
+    \     pmk_co_wid,\n            MAX(pmk_co_vers_num) AS pmk_co_vers_num\n     \
+    \   FROM mhrs_prev\n        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP\
+    \ BY 1\n    ) AS crt\n        ON bse.pmk_co_wid = crt.pmk_co_wid\n),\ndvisn_maxv\
+    \ AS (\n    SELECT\n        bse.dvisn_wid,\n        COALESCE(crt.dvisn_vers_num,\
+    \ 1) AS dvisn_vers_num\n    FROM (SELECT DISTINCT dvisn_wid FROM dwp01a_idw.dvisn\
+    \ WHERE cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n       \
+    \     dvisn_wid,\n            MAX(dvisn_vers_num) AS dvisn_vers_num\n        FROM\
+    \ mhrs_prev\n        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n\
+    \    ) AS crt\n        ON bse.dvisn_wid = crt.dvisn_wid\n),\ndept_maxv AS (\n\
+    \    SELECT\n        bse.dept_wid,\n        COALESCE(crt.dept_vers_num, 1) AS\
+    \ dept_vers_num\n    FROM (SELECT DISTINCT dept_wid FROM dwp01a_idw.dept WHERE\
+    \ cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n            dept_wid,\n\
+    \            MAX(dept_vers_num) AS dept_vers_num\n        FROM mhrs_prev\n   \
+    \     WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n\
+    \        ON bse.dept_wid = crt.dept_wid\n),\nitem_clas_maxv AS (\n    SELECT\n\
+    \        bse.item_clas_wid,\n        COALESCE(crt.item_clas_vers_num, 1) AS item_clas_vers_num\n\
+    \    FROM (SELECT DISTINCT item_clas_wid FROM dwp01a_idw.item_clas WHERE cur_flg\
+    \ = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n            item_clas_wid,\n\
+    \            MAX(item_clas_vers_num) AS item_clas_vers_num\n        FROM mhrs_prev\n\
+    \        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n\
+    \        ON bse.item_clas_wid = crt.item_clas_wid\n),\npmk_item_sbclas_grp_maxv\
+    \ AS (\n    SELECT\n        bse.pmk_item_sbclas_grp_cd,\n        COALESCE(crt.pmk_item_sbclas_grp_vers_num,\
+    \ 1) AS pmk_item_sbclas_grp_vers_num\n    FROM (SELECT DISTINCT pmk_item_sbclas_grp_cd\
+    \ FROM dwp01a_idw.item_sbclas WHERE cur_flg = 'Y') AS bse\n    LEFT OUTER JOIN\
+    \ (\n        SELECT\n            pmk_item_sbclas_grp_cd,\n            MAX(pmk_item_sbclas_grp_vers_num)\
+    \ AS pmk_item_sbclas_grp_vers_num\n        FROM mhrs_prev\n        WHERE eff_to_dt\
+    \ = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n        ON bse.pmk_item_sbclas_grp_cd\
+    \ = crt.pmk_item_sbclas_grp_cd\n),\nitem_sbclas_maxv AS (\n    SELECT\n      \
+    \  bse.item_sbclas_wid,\n        COALESCE(crt.item_sbclas_vers_num, 1) AS item_sbclas_vers_num\n\
+    \    FROM (SELECT DISTINCT item_sbclas_wid FROM dwp01a_idw.item_sbclas WHERE cur_flg\
+    \ = 'Y') AS bse\n    LEFT OUTER JOIN (\n        SELECT\n            item_sbclas_wid,\n\
+    \            MAX(item_sbclas_vers_num) AS item_sbclas_vers_num\n        FROM mhrs_prev\n\
+    \        WHERE eff_to_dt = DATE '3500-12-31'\n        GROUP BY 1\n    ) AS crt\n\
+    \        ON bse.item_sbclas_wid = crt.item_sbclas_wid\n),\n-- CTEs for Set A (Historical\
+    \ Data)\n-- These CTEs define \"Set A\" by selecting the current, active records\
+    \ from the version cross-reference table.\n-- This represents the \"before\" state\
+    \ of style assignments.\npmk_co_a AS (\n    SELECT\n        pmk_co_wid,\n    \
+    \    styl_wid,\n        pmk_co_vers_num\n    FROM mhrs_prev\n),\ndvisn_a AS (\n\
+    \    SELECT\n        dvisn_wid,\n        styl_wid,\n        dvisn_vers_num\n \
+    \   FROM mhrs_prev\n),\ndept_a AS (\n    SELECT\n        dept_wid,\n        styl_wid,\n\
+    \        dvisn_vers_num\n    FROM mhrs_prev\n),\nitem_clas_a AS (\n    SELECT\n\
+    \        item_clas_wid,\n        styl_wid,\n        item_clas_vers_num\n    FROM\
+    \ mhrs_prev\n),\npmk_item_sbclas_grp_a AS (\n    SELECT\n        pmk_item_sbclas_grp_cd,\n\
+    \        styl_wid,\n        pmk_item_sbclas_grp_vers_num\n    FROM mhrs_prev\n\
+    ),\nitem_sbclas_a AS (\n    SELECT\n        item_sbclas_wid,\n        styl_wid,\n\
+    \        item_sbclas_vers_num\n    FROM mhrs_prev\n),\n-- CTEs for Set B (Current\
+    \ Data)\n-- These CTEs define \"Set B\" by selecting from the mhrs CTE.\n-- This\
+    \ represents the \"after\" or current state of style assignments.\npmk_co_b AS\
+    \ (\n    SELECT pmk_co_wid, styl_wid FROM mhrs\n),\ndvisn_b AS (\n    SELECT dvisn_wid,\
+    \ styl_wid FROM mhrs\n),\ndept_b AS (\n    SELECT dept_wid, styl_wid FROM mhrs\n\
+    ),\nitem_clas_b AS (\n    SELECT item_clas_wid, styl_wid FROM mhrs\n),\npmk_item_sbclas_grp_b\
+    \ AS (\n    SELECT pmk_item_sbclas_grp_cd, styl_wid FROM mhrs\n),\nitem_sbclas_b\
+    \ AS (\n    SELECT item_sbclas_wid, styl_wid FROM mhrs\n),\n-- CTEs for AB Merge\n\
+    -- These CTEs perform a FULL OUTER JOIN on Set A and Set B for each hierarchy\
+    \ level.\n-- This allows us to see which styles are in A only (removed), in B\
+    \ only (added), or in both (unchanged).\npmk_co_ab AS (\n    SELECT\n        COALESCE(a.styl_wid,\
+    \ b.styl_wid) AS styl_wid,\n        COALESCE(a.pmk_co_wid, b.pmk_co_wid) AS pmk_co_wid,\n\
+    \        CASE\n            WHEN a.styl_wid = b.styl_wid THEN 'AB' -- In both A\
+    \ and B (unchanged)\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS\
+    \ NULL THEN 'A' -- In A only (removed)\n            WHEN b.styl_wid IS NOT NULL\
+    \ AND a.styl_wid IS NULL THEN 'B' -- In B only (added)\n        END AS set_status,\n\
+    \        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid))\
+    \ AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM pmk_co_a AS a\n    FULL OUTER JOIN pmk_co_b\
+    \ AS b\n        ON a.pmk_co_wid = b.pmk_co_wid AND a.styl_wid = b.styl_wid\n),\n\
+    dvisn_ab AS (\n    SELECT\n        COALESCE(a.styl_wid, b.styl_wid) AS styl_wid,\n\
+    \        COALESCE(a.dvisn_wid, b.dvisn_wid) AS dvisn_wid,\n        CASE\n    \
+    \        WHEN a.styl_wid = b.styl_wid THEN 'AB'\n            WHEN a.styl_wid IS\
+    \ NOT NULL AND b.styl_wid IS NULL THEN 'A'\n            WHEN b.styl_wid IS NOT\
+    \ NULL AND a.styl_wid IS NULL THEN 'B'\n        END AS set_status,\n        MAX(a.styl_wid)\
+    \ OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid)) AS a_styl_wid,\n      \
+    \  MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid)) AS b_styl_wid,\n\
+    \        CASE WHEN a_styl_wid = b_styl_wid THEN 1 ELSE 0 END AS common_aub\n \
+    \   FROM dvisn_a AS a\n    FULL OUTER JOIN dvisn_b AS b\n        ON a.dvisn_wid\
+    \ = b.dvisn_wid AND a.styl_wid = b.styl_wid\n),\ndept_ab AS (\n    SELECT\n  \
+    \      COALESCE(a.styl_wid, b.styl_wid) AS styl_wid,\n        COALESCE(a.dept_wid,\
+    \ b.dept_wid) AS dept_wid,\n        CASE\n            WHEN a.styl_wid = b.styl_wid\
+    \ THEN 'AB'\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS NULL THEN\
+    \ 'A'\n            WHEN b.styl_wid IS NOT NULL AND a.styl_wid IS NULL THEN 'B'\n\
+    \        END AS set_status,\n        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM dept_a AS a\n    FULL OUTER JOIN dept_b\
+    \ AS b\n        ON a.dept_wid = b.dept_wid AND a.styl_wid = b.styl_wid\n),\nitem_clas_ab\
+    \ AS (\n    SELECT\n        COALESCE(a.styl_wid, b.styl_wid) AS styl_wid,\n  \
+    \      COALESCE(a.item_clas_wid, b.item_clas_wid) AS item_clas_wid,\n        CASE\n\
+    \            WHEN a.styl_wid = b.styl_wid THEN 'AB'\n            WHEN a.styl_wid\
+    \ IS NOT NULL AND b.styl_wid IS NULL THEN 'A'\n            WHEN b.styl_wid IS\
+    \ NOT NULL AND a.styl_wid IS NULL THEN 'B'\n        END AS set_status,\n     \
+    \   MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid)) AS a_styl_wid,\n\
+    \        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid, b.styl_wid))\
+    \ AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN 1 ELSE 0 END\
+    \ AS common_aub\n    FROM item_clas_a AS a\n    FULL OUTER JOIN item_clas_b AS\
+    \ b\n        ON a.item_clas_wid = b.item_clas_wid AND a.styl_wid = b.styl_wid\n\
+    ),\npmk_item_sbclas_grp_ab AS (\n    SELECT\n        COALESCE(a.styl_wid, b.styl_wid)\
+    \ AS styl_wid,\n        COALESCE(a.pmk_item_sbclas_grp_cd, b.pmk_item_sbclas_grp_cd)\
+    \ AS pmk_item_sbclas_grp_cd,\n        CASE\n            WHEN a.styl_wid = b.styl_wid\
+    \ THEN 'AB'\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS NULL THEN\
+    \ 'A'\n            WHEN b.styl_wid IS NOT NULL AND a.styl_wid IS NULL THEN 'B'\n\
+    \        END AS set_status,\n        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM pmk_item_sbclas_grp_a AS a\n    FULL OUTER\
+    \ JOIN pmk_item_sbclas_grp_b AS b\n        ON a.pmk_item_sbclas_grp_cd = b.pmk_item_sbclas_grp_cd\
+    \ AND a.styl_wid = b.styl_wid\n),\nitem_sbclas_ab AS (\n    SELECT\n        COALESCE(a.styl_wid,\
+    \ b.styl_wid) AS styl_wid,\n        COALESCE(a.item_sbclas_wid, b.item_sbclas_wid)\
+    \ AS item_sbclas_wid,\n        CASE\n            WHEN a.styl_wid = b.styl_wid\
+    \ THEN 'AB'\n            WHEN a.styl_wid IS NOT NULL AND b.styl_wid IS NULL THEN\
+    \ 'A'\n            WHEN b.styl_wid IS NOT NULL AND a.styl_wid IS NULL THEN 'B'\n\
+    \        END AS set_status,\n        MAX(a.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS a_styl_wid,\n        MAX(b.styl_wid) OVER (PARTITION BY COALESCE(a.styl_wid,\
+    \ b.styl_wid)) AS b_styl_wid,\n        CASE WHEN a_styl_wid = b_styl_wid THEN\
+    \ 1 ELSE 0 END AS common_aub\n    FROM item_sbclas_a AS a\n    FULL OUTER JOIN\
+    \ item_sbclas_b AS b\n        ON a.item_sbclas_wid = b.item_sbclas_wid AND a.styl_wid\
+    \ = b.styl_wid\n),\n-- CTEs for Cardinality Calculation\n-- These CTEs calculate\
+    \ the counts of added, removed, and unchanged styles.\n-- The 'version_inc' flag\
+    \ is set to 1 if there are any changes.\npmk_co_ab_card AS (\n    SELECT\n   \
+    \     pmk_co_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb, -- A minus B\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\
+    \ -- B minus A\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb, -- A intersect B\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_unamb,\
+    \ -- not common A minus B\n        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND\
+    \ ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma, -- not common B minus\
+    \ A\n        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'AB'\
+    \ THEN 1 ELSE 0 END), 0) AS card_unanb, -- not common A intersect B\n        CASE\
+    \ WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n    FROM\
+    \ pmk_co_ab AS ab\n    GROUP BY 1\n),\ndvisn_ab_card AS (\n    SELECT\n      \
+    \  dvisn_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_unanb,\n\
+    \        CASE WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n\
+    \    FROM dvisn_ab AS ab\n    GROUP BY 1\n),\ndept_ab_card AS (\n    SELECT\n\
+    \        dept_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status\
+    \ = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_unanb,\n\
+    \        CASE WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n\
+    \    FROM dept_ab AS ab\n    GROUP BY 1\n),\nitem_clas_ab_card AS (\n    SELECT\n\
+    \        item_clas_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND\
+    \ ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_anb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unanb,\n        CASE WHEN card_amb > 0 OR card_bma\
+    \ > 0 THEN 1 ELSE 0 END AS version_inc\n    FROM item_clas_ab AS ab\n    GROUP\
+    \ BY 1\n),\npmk_item_sbclas_grp_ab_card AS (\n    SELECT\n        pmk_item_sbclas_grp_cd,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_anb,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'A' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN 1 ELSE 0 END), 0) AS card_unanb,\n\
+    \        CASE WHEN card_amb > 0 OR card_bma > 0 THEN 1 ELSE 0 END AS version_inc\n\
+    \    FROM pmk_item_sbclas_grp_ab AS ab\n    GROUP BY 1\n),\nitem_sbclas_ab_card\
+    \ AS (\n    SELECT\n        item_sbclas_wid,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 1 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_amb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 1 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_bma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 1 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_anb,\n        COALESCE(SUM(CASE WHEN ab.common_aub\
+    \ = 0 AND ab.set_status = 'A' THEN 1 ELSE 0 END), 0) AS card_unamb,\n        COALESCE(SUM(CASE\
+    \ WHEN ab.common_aub = 0 AND ab.set_status = 'B' THEN 1 ELSE 0 END), 0) AS card_unbma,\n\
+    \        COALESCE(SUM(CASE WHEN ab.common_aub = 0 AND ab.set_status = 'AB' THEN\
+    \ 1 ELSE 0 END), 0) AS card_unanb,\n        CASE WHEN card_amb > 0 OR card_bma\
+    \ > 0 THEN 1 ELSE 0 END AS version_inc\n    FROM item_sbclas_ab AS ab\n    GROUP\
+    \ BY 1\n),\n-- CTEs for Version Calculation\n-- These CTEs determine the new version\
+    \ number by adding the 'version_inc' flag to the max version.\npmk_co_version\
+    \ AS (\n    SELECT\n        maxv.pmk_co_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.pmk_co_vers_num, 1) + ab_card.version_inc, 0) AS new_pmk_co_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM pmk_co_maxv AS maxv\n    LEFT\
+    \ OUTER JOIN pmk_co_ab_card AS ab_card\n        ON maxv.pmk_co_wid = ab_card.pmk_co_wid\n\
+    ),\ndvisn_version AS (\n    SELECT\n        maxv.dvisn_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.dvisn_vers_num, 1) + ab_card.version_inc, 0) AS new_dvisn_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM dvisn_maxv AS maxv\n    LEFT\
+    \ OUTER JOIN dvisn_ab_card AS ab_card\n        ON maxv.dvisn_wid = ab_card.dvisn_wid\n\
+    ),\ndept_version AS (\n    SELECT\n        maxv.dept_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.dept_vers_num, 1) + ab_card.version_inc, 0) AS new_dept_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM dept_maxv AS maxv\n    LEFT\
+    \ OUTER JOIN dept_ab_card AS ab_card\n        ON maxv.dept_wid = ab_card.dept_wid\n\
+    ),\nitem_clas_version AS (\n    SELECT\n        maxv.item_clas_wid,\n        NVL2(ab_card.version_inc,\
+    \ COALESCE(maxv.item_clas_vers_num, 1) + ab_card.version_inc, 0) AS new_item_clas_vers_num,\n\
+    \        card_amb,\n        card_bma,\n        card_anb,\n        card_unamb,\n\
+    \        card_unbma,\n        card_unanb\n    FROM item_clas_maxv AS maxv\n  \
+    \  LEFT OUTER JOIN item_clas_ab_card AS ab_card\n        ON maxv.item_clas_wid\
+    \ = ab_card.item_clas_wid\n),\npmk_item_sbclas_grp_version AS (\n    SELECT\n\
+    \        maxv.pmk_item_sbclas_grp_cd,\n        NVL2(ab_card.version_inc, COALESCE(maxv.pmk_item_sbclas_grp_vers_num,\
+    \ 1) + ab_card.version_inc, 0) AS new_pmk_item_sbclas_grp_vers_num,\n        card_amb,\n\
+    \        card_bma,\n        card_anb,\n        card_unamb,\n        card_unbma,\n\
+    \        card_unanb\n    FROM pmk_item_sbclas_grp_maxv AS maxv\n    LEFT OUTER\
+    \ JOIN pmk_item_sbclas_grp_ab_card AS ab_card\n        ON maxv.pmk_item_sbclas_grp_cd\
+    \ = ab_card.pmk_item_sbclas_grp_cd\n),\nitem_sbclas_version AS (\n    SELECT\n\
+    \        maxv.item_sbclas_wid,\n        NVL2(ab_card.version_inc, COALESCE(maxv.item_sbclas_vers_num,\
+    \ 1) + ab_card.version_inc, 0) AS new_item_sbclas_vers_num,\n        card_amb,\n\
+    \        card_bma,\n        card_anb,\n        card_unamb,\n        card_unbma,\n\
+    \        card_unanb\n    FROM item_sbclas_maxv AS maxv\n    LEFT OUTER JOIN item_sbclas_ab_card\
+    \ AS ab_card\n        ON maxv.item_sbclas_wid = ab_card.item_sbclas_wid\n)\n--\
+    \ Final SELECT Statement\n-- This joins the original merchant hierarchy (mhr)\
+    \ with the calculated version numbers for each level.\n-- The result is the complete\
+    \ hierarchy with the correct, newly calculated version numbers.\nSELECT\n    mhr.item_sbclas_wid\
+    \ AS merch_hiery_wid,\n    mhr.pmk_co_cd AS company_cd,\n    mhr.pmk_co_wid,\n\
+    \    mhr.pmk_co_name AS company_name,\n    pmk_co_version.new_pmk_co_vers_num\
+    \ AS company_version_num,\n    CASE WHEN mhr_prev.pmk_co_vers_num = pmk_co_version.new_pmk_co_vers_num\
+    \ THEN 0 ELSE 1 END AS pmk_co_vers_reclass_evnt_ind,\n    COALESCE(pmk_co_version.card_amb,\
+    \ 0) AS pmk_co_stl_in_count,\n    COALESCE(pmk_co_version.card_bma, 0) AS pmk_co_stl_out_count,\n\
+    \    COALESCE(pmk_co_version.card_anb, 0) AS pmk_co_stl_cmn_count,\n    COALESCE(pmk_co_version.card_unamb,\
+    \ 0) AS pmk_co_stl_del_count,\n    COALESCE(pmk_co_version.card_unbma, 0) AS pmk_co_stl_new_count,\n\
+    \    COALESCE(pmk_co_version.card_unanb, 0) AS pmk_co_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.pmk_co_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS pmk_co_seq_no,\n    mhr.dvisn_cd AS division_cd,\n    mhr.dvisn_wid,\n  \
+    \  mhr.dvisn_name AS division_name,\n    dvisn_version.new_dvisn_vers_num AS division_version_num,\n\
+    \    CASE WHEN mhr_prev.dvisn_vers_num = dvisn_version.new_dvisn_vers_num THEN\
+    \ 0 ELSE 1 END AS dvisn_vers_reclass_evnt_ind,\n    COALESCE(dvisn_version.card_amb,\
+    \ 0) AS dvisn_stl_in_count,\n    COALESCE(dvisn_version.card_bma, 0) AS dvisn_stl_out_count,\n\
+    \    COALESCE(dvisn_version.card_anb, 0) AS dvisn_stl_cmn_count,\n    COALESCE(dvisn_version.card_unamb,\
+    \ 0) AS dvisn_stl_del_count,\n    COALESCE(dvisn_version.card_unbma, 0) AS dvisn_stl_new_count,\n\
+    \    COALESCE(dvisn_version.card_unanb, 0) AS dvisn_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.dvisn_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS dvisn_seq_no,\n    mhr.dept_cd AS department_cd,\n    mhr.dept_wid,\n   \
+    \ mhr.dept_name AS department_name,\n    dept_version.new_dept_vers_num AS department_version_num,\n\
+    \    CASE WHEN mhr_prev.dept_vers_num = dept_version.new_dept_vers_num THEN 0\
+    \ ELSE 1 END AS dept_reclass_evnt_ind,\n    COALESCE(dept_version.card_amb, 0)\
+    \ AS dept_stl_in_count,\n    COALESCE(dept_version.card_bma, 0) AS dept_stl_out_count,\n\
+    \    COALESCE(dept_version.card_anb, 0) AS dept_stl_cmn_count,\n    COALESCE(dept_version.card_unamb,\
+    \ 0) AS dept_stl_del_count,\n    COALESCE(dept_version.card_unbma, 0) AS dept_stl_new_count,\n\
+    \    COALESCE(dept_version.card_unanb, 0) AS dept_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.dept_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS dept_seq_no,\n    mhr.item_clas_cd AS class_cd,\n    mhr.item_clas_wid,\n\
+    \    mhr.item_clas_name AS class_name,\n    item_clas_version.new_item_clas_vers_num\
+    \ AS class_version_num,\n    CASE WHEN mhr_prev.item_clas_vers_num = item_clas_version.new_item_clas_vers_num\
+    \ THEN 0 ELSE 1 END AS clas_evnt_ind,\n    COALESCE(item_clas_version.card_amb,\
+    \ 0) AS item_clas_stl_in_count,\n    COALESCE(item_clas_version.card_bma, 0) AS\
+    \ item_clas_stl_out_count,\n    COALESCE(item_clas_version.card_anb, 0) AS item_clas_stl_cmn_count,\n\
+    \    COALESCE(item_clas_version.card_unamb, 0) AS item_clas_stl_del_count,\n \
+    \   COALESCE(item_clas_version.card_unbma, 0) AS item_clas_stl_new_count,\n  \
+    \  COALESCE(item_clas_version.card_unanb, 0) AS item_clas_stl_not_common_cmn_count,\n\
+    \    ROW_NUMBER() OVER (PARTITION BY mhr.item_clas_wid ORDER BY mhr.item_sbclas_wid)\
+    \ AS item_clas_seq_no,    \n    mhr.pmk_item_sbclas_grp_cd AS subclass_group_cd,\n\
+    \    mhr.pmk_item_sbclas_grp_name AS subclass_group_name,\n    pmk_item_sbclas_grp_version.new_pmk_item_sbclas_grp_vers_num\
+    \ AS subclass_group_version_num,\n    CASE WHEN mhr_prev.pmk_item_sbclas_grp_vers_num\
+    \ = pmk_item_sbclas_grp_version.new_pmk_item_sbclas_grp_vers_num THEN 0 ELSE 1\
+    \ END AS pmk_item_sbclas_grp_vers_reclass_evnt_ind,\n    COALESCE(pmk_item_sbclas_grp_version.card_amb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_in_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_bma,\
+    \ 0) AS pmk_item_sbclas_grp_stl_out_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_anb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_cmn_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_unamb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_del_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_unbma,\
+    \ 0) AS pmk_item_sbclas_grp_stl_new_count,\n    COALESCE(pmk_item_sbclas_grp_version.card_unanb,\
+    \ 0) AS pmk_item_sbclas_grp_stl_not_common_cmn_count,\n    ROW_NUMBER() OVER (PARTITION\
+    \ BY mhr.pmk_item_sbclas_grp_cd ORDER BY mhr.item_sbclas_wid) AS pmk_item_sbclas_grp_seq_no,\
+    \ \n    mhr.item_sbclas_cd AS subclass_cd,\n  --  mhr.item_sbclas_wid,\n    mhr.item_sbclas_name\
+    \ AS subclass_name,\n    item_sbclas_version.new_item_sbclas_vers_num AS subclass_version_num,\n\
+    \    CASE WHEN mhr_prev.item_sbclas_vers_num = item_sbclas_version.new_item_sbclas_vers_num\
+    \ THEN 0 ELSE 1 END AS subclass_vers_reclass_evnt_ind,\n    COALESCE(item_sbclas_version.card_amb,\
+    \ 0) AS item_sbclas_stl_in_count,\n    COALESCE(item_sbclas_version.card_bma,\
+    \ 0) AS item_sbclas_stl_out_count,\n    COALESCE(item_sbclas_version.card_anb,\
+    \ 0) AS item_sbclas_stl_cmn_count,\n    COALESCE(item_sbclas_version.card_unamb,\
+    \ 0) AS item_sbclas_stl_del_count,\n    COALESCE(item_sbclas_version.card_unbma,\
+    \ 0) AS item_sbclas_stl_new_count,\n    COALESCE(item_sbclas_version.card_unanb,\
+    \ 0) AS item_sbclas_stl_not_common_cmn_count,\n    ROW_NUMBER() OVER (PARTITION\
+    \ BY mhr.pmk_item_sbclas_grp_cd ORDER BY mhr.item_sbclas_wid) AS item_sbclas_seq_no,\
+    \ \n    mhr.buyer_cd,\n    mhr.buyer_name\nFROM mhr\nLEFT OUTER JOIN pmk_co_version\n\
+    \    ON mhr.pmk_co_wid = pmk_co_version.pmk_co_wid\nLEFT OUTER JOIN dvisn_version\n\
+    \    ON mhr.dvisn_wid = dvisn_version.dvisn_wid\nLEFT OUTER JOIN dept_version\n\
+    \    ON mhr.dept_wid = dept_version.dept_wid\nLEFT OUTER JOIN item_clas_version\n\
+    \    ON mhr.item_clas_wid = item_clas_version.item_clas_wid\nLEFT OUTER JOIN pmk_item_sbclas_grp_version\n\
+    \    ON mhr.pmk_item_sbclas_grp_cd = pmk_item_sbclas_grp_version.pmk_item_sbclas_grp_cd\n\
+    LEFT OUTER JOIN item_sbclas_version\n    ON mhr.item_sbclas_wid = item_sbclas_version.item_sbclas_wid\n\
+    LEFT OUTER JOIN mhr_prev\n    ON mhr.item_sbclas_wid = mhr_prev.merch_hiery_wid"
+  stats: COLUMN(merch_hiery_wid)
+  stats_target_database: T_TMP_ACC_FND
   step_pattern: STANDARD_TRANS
   steps: '190'
   target_database: T_TMP_ACC_FND
-  target_table: FND1041_TRANS
-- description: Uses standard snapshot/full apply looking for changes between trans
-    and target table
-  file_name: FND1041.200.VALID.sql
-  file_present: false
-  job_name: FND1041
-  notes: ''
-  post_sql: ''
-  pre_sql: ''
-  reverse_sequence_no: 3
-  sequence_no: 3
-  source_database: T_TMP_ACC_FND
-  source_table: FND1041_TRANS
-  sql_statement: '/* ERROR : no steps found for this step */'
-  stats: ''
-  step_pattern: SNAPSHOT_VALID
-  steps: '200'
-  target_database: T_TMP_ACC_FND
-  target_table: FND1041_VALID
-- description: 'Used standard snapshot/full apply '
-  file_name: FND1041.300.TARGET.sql
-  file_present: false
-  job_name: FND1041
-  notes: ''
-  post_sql: ''
-  pre_sql: ''
-  reverse_sequence_no: 2
-  sequence_no: 4
-  source_database: T_TMP_ACC_FND
-  source_table: FND1041_VALID
-  sql_statement: '/* ERROR : no steps found for this step */'
-  stats: ''
-  step_pattern: SNAPSHOT_TARGET
-  steps: '300'
-  target_database: V_ACC_FND
-  target_table: DM_FND_STORE_HIER_DIM
+  target_table: FND_MERC_HIERARCHY_DIM
 - description: ''
   file_name: ''
   file_present: false
@@ -383,18 +1287,18 @@ steps:
   post_sql: ''
   pre_sql: ''
   reverse_sequence_no: 1
-  sequence_no: 5
+  sequence_no: 3
   source_database: ''
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+stream_id: FND_DIM
 target_database_name: T_TMP_ACC_FND
-target_table_name: 'FND_RECLASFCN_STYL_SBCLASS_VERS_XREF
-
-  '
+target_table_name: FND_MERC_HIERARCHY_DIM
 transformation_key:
-- item_sbclass_wid
+- merch_hiery_wid

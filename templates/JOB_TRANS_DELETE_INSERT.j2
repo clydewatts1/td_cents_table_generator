@@ -1,10 +1,9 @@
 {% import 'job_helper.j2' as jh -%}
+
 #-------------------------------------------------------------------------------
 # Step {{step.steps}} : {{step.description}}
-# Step Pattern JOB_TRANS_DELETE_INSERT
-# TODO: Add step parameters
 #-------------------------------------------------------------------------------
 
 step {{step.steps}} Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-{{jh.job_variables(step.steps,step.file_name)}}
+              {{jh.job_variables(step.steps,step.file_name)}}
 

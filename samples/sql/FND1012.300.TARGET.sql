@@ -1,8 +1,7 @@
--- This query selects all columns from a pre-built, denormalized date dimension staging table.
--- The table contains a wide range of calendar and date-related attributes for the current
--- year (TY), last year (LY), two years prior (LLY), three years prior (LLLY), and next year (NY).
+/*-- This query selects all columns from a pre-built, denormalized date dimension staging table.
+-- The table contains a wide range of calendar and date-related attributes for The current
+-- year (TY), last year (LY), two years prior (LLY), three years prior (LLLY), and next year (NY).*/
 SELECT
-    -- Current calendar date and its attributes
     STG.calendar_dt,
     STG.year_start_dt,
     STG.year_end_dt,
@@ -19,13 +18,11 @@ SELECT
     STG.year_week,
     STG.year_period,
     STG.year_num,
-    -- Seasonal attributes
     STG.season_code,
     STG.season_name,
     STG.season_description,
     STG.season_map,
     STG.season_wid,
-    -- Last Year (LY) attributes
     STG.ly_calendar_dt,
     STG.ly_year_start_dt,
     STG.ly_year_end_dt,
@@ -42,7 +39,6 @@ SELECT
     STG.ly_year_week,
     STG.ly_year_period,
     STG.ly_year_num,
-    -- Last Last Year (LLY) attributes
     STG.lly_calendar_dt,
     STG.lly_year_start_dt,
     STG.lly_year_end_dt,
@@ -59,7 +55,6 @@ SELECT
     STG.lly_year_week,
     STG.lly_year_period,
     STG.lly_year_num,
-    -- Last Last Last Year (LLLY) attributes
     STG.llly_calendar_dt,
     STG.llly_year_start_dt,
     STG.llly_year_end_dt,
@@ -76,7 +71,6 @@ SELECT
     STG.llly_year_week,
     STG.llly_year_period,
     STG.llly_year_num,
-    -- Next Year (NY) attributes
     STG.ny_calendar_dt,
     STG.ny_year_start_dt,
     STG.ny_year_end_dt,
@@ -93,8 +87,28 @@ SELECT
     STG.ny_year_week,
     STG.ny_year_period,
     STG.ny_year_num,
+    STG.ty_cstm_cal_dy_wid,
+    STG.ty_cstm_cal_wk_wid,
+    STG.ty_cstm_cal_prd_wid,
+    STG.ty_cstm_cal_yr_wid,
+    STG.ly_cstm_cal_dy_wid,
+    STG.ly_cstm_cal_wk_wid,
+    STG.ly_cstm_cal_prd_wid,
+    STG.ly_cstm_cal_yr_wid,
+    STG.lly_cstm_cal_dy_wid,
+    STG.lly_cstm_cal_wk_wid,
+    STG.lly_cstm_cal_prd_wid,
+    STG.lly_cstm_cal_yr_wid,
+    STG.llly_cstm_cal_dy_wid,
+    STG.llly_cstm_cal_wk_wid,
+    STG.llly_cstm_cal_prd_wid,
+    STG.llly_cstm_cal_yr_wid,
+    STG.ny_cstm_cal_dy_wid,
+    STG.ny_cstm_cal_wk_wid,
+    STG.ny_cstm_cal_prd_wid,
+    STG.ny_cstm_cal_yr_wid,
     /* Control Columns */
-    date '${EFF_TO_DATE}' AS eff_from_dt,
+    date '${EFF_FROM_DT}' AS eff_from_dt,
     date '3500-12-31' AS eff_to_dt,
     0 AS del_ind,
     ${RUNID} AS run_id,

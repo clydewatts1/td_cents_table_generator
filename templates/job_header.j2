@@ -4,18 +4,18 @@
 #
 # ===============================================================================
 # ===============================================================================
-# File Name           : {{ job_file_name }}
+# File Name           : {{ job_dict.get('job_name') }}.job
 # Pattern             : {{ pattern }}
-# Purpose             : {{ purpose }}
-# Author              : {{ author }}
+# Purpose             : {%- set desc = job_dict.get('job_description', ' To Be Defined') -%}{{ desc|string|replace('\r\n','\n')|replace('\r','\n')|replace('\n','\n#                     : ') }}
+# Author              : {{ job_dict.get('author','MS Primark') }}
 # File Type           : JOB
-# Creation Date       : {{ creation_date }}
-# Version             : {{ version }}
+# Creation Date       : {{ job_dict.get('build_date') }} 
+# Build Time          : {{ job_dict.get('build_date') }} {{ job_dict.get('build_time') }}
 # -------------------------------------------------------------------------------
 # Change History :
 # Ver  | Date        |  Modified By           |  Change Description
 # -------------------------------------------------------------------------------
-# 1.0  | 18 Oct 2021 |  TERADATA              |  INITIAL VERSION
+# 0.0  | {{ job_dict.get('build_date')}} |  {{ job_dict.get('author','MS Primark') }}              |  INITIAL VERSION
 # ===============================================================================
 
 FPATH=$FPATH:$HOME/includes
@@ -25,19 +25,4 @@ echo ---------------------------------------
 echo JOB=${JOB:?}
 echo ---------------------------------------
 
-
-## job specific
-
-SKIP_STEPS_CONTROL=1
-INSERTED_STAGING=0
-REJECTED_STAGING=0
-DUPLICATE_STAGING=0
-INSERTED_TARGET=0
-REJECTED_TARGET=0
-DUPLICATE_TARGET=0
-
-
-tjc_stepout -e
-tjc_onerror "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT"
-tjc_ontimeout "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT  > /dev/null 2>&1"
-
+STREAMID={{ job_dict.get('stream_id','DEFAULT') }}

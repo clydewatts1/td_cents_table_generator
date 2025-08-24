@@ -1,4 +1,6 @@
 control_columns: .nan
+description: "Populate Group 1 \u2013 Staging Fact Sales "
+job_name: FND2202
 job_name_from_file: FND2202
 job_name_from_mapping: FND2202
 mapping_columns:
@@ -13,13 +15,13 @@ mapping_columns:
   column_sequence: 2
   column_sequence_reverse: 102
   source_column_name: See SQL FND2202.300.TARGET
-  target_column_name: location_id
+  target_column_name: loc_wid
 - column_action: key
   column_order: nan
   column_sequence: 3
   column_sequence_reverse: 101
   source_column_name: See SQL FND2202.300.TARGET
-  target_column_name: item_id
+  target_column_name: item_wid
 - column_action: nan
   column_order: nan
   column_sequence: 4
@@ -626,552 +628,18 @@ mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid
 sql_steps:
-  FND2202.300.TARGET: "-- This query aggregates sales transaction data, calculating\
-    \ net sales, returns, and tax amounts\n-- by accounting for post-void (PVOID)\
-    \ transactions. It prepares the data for insertion\n-- into a volatile table.\n\
-    -- CTE 1: TRANSACTIONS_PREPARED\n-- Purpose: To prepare the raw transaction data\
-    \ by separating standard transaction values\n-- from post-void (PVOID) values.\
-    \ This is the foundational step to ensure accurate net calculations.\nWITH TRANSACTIONS_PREPARED\
-    \ AS (\n    SELECT\n        SLS.location_id,\n        item_id,\n        item_wid,\n\
-    \        SLS.loc_wid,\n        sales_txn_id,\n        sales_business_dt,\n   \
-    \     till_num,\n        calendar_hour_id,\n        cashier_id,\n        -- Flag\
-    \ to identify if a transaction is a post-void\n        CASE WHEN sales_type_cd\
-    \ <> 'PVOID' THEN 1 ELSE 0 END AS flag,\n        sales_type_cd,\n        orignl_sls_tsactn_id,\n\
-    \        original_sales_txn_item_id,\n        sales_txn_dt,\n        -- Isolate\
-    \ original sales amounts, setting to 0 for PVOID\n        CASE WHEN sales_type_cd\
-    \ <> 'PVOID' THEN sales_amt ELSE 0 END AS sales_amt,\n        CASE WHEN sales_type_cd\
-    \ <> 'PVOID' THEN sales_units ELSE 0 END AS sales_units,\n        CASE WHEN sales_type_cd\
-    \ <> 'PVOID' THEN return_units ELSE 0 END AS return_units,\n        CASE WHEN\
-    \ sales_type_cd <> 'PVOID' THEN return_amt ELSE 0 END AS return_amt,\n       \
-    \ -- Isolate post-voided sales amounts, setting to 0 for standard transactions\n\
-    \        CASE WHEN sales_type_cd = 'PVOID' THEN sales_amt ELSE 0 END AS pvoid_sales_amt,\n\
-    \        CASE WHEN sales_type_cd = 'PVOID' THEN sales_units ELSE 0 END AS pvoid_sales_units,\n\
-    \        CASE WHEN sales_type_cd = 'PVOID' THEN return_amt ELSE 0 END AS pvoid_return_amt,\n\
-    \        CASE WHEN sales_type_cd = 'PVOID' THEN return_units ELSE 0 END AS pvoid_return_units,\n\
-    \        -- Isolate original tax amounts\n        CASE WHEN sales_type_cd <> 'PVOID'\
-    \ THEN sales_tax_amt ELSE 0 END AS sales_tax_amt,\n        CASE WHEN sales_type_cd\
-    \ <> 'PVOID' THEN return_tax_amt ELSE 0 END AS return_tax_amt,\n        -- Isolate\
-    \ post-voided tax amounts\n        CASE WHEN sales_type_cd = 'PVOID' THEN sales_tax_amt\
-    \ ELSE 0 END AS pvoid_sales_tax_amt,\n        CASE WHEN sales_type_cd = 'PVOID'\
-    \ THEN return_tax_amt ELSE 0 END AS pvoid_return_tax_amt,\n        sales_employee_discount_amt,\n\
-    \        sales_scan_count,\n        sales_manual_count,\n        return_employee_discount_amt,\n\
-    \        return_scan_count,\n        return_manual_count,\n        sales_manual_markdown_amt,\n\
-    \        sales_manual_markup_amt,\n        return_manual_markdown_amt,\n     \
-    \   return_manual_markup_amt,\n        void_flg,\n        no_sale_flg,\n     \
-    \   cancelled_flg,\n        sales_currency_cd,\n        processing_ind,\n    \
-    \    sales_tsactn_line_number,\n        updated_sales_type_cd,\n        gift_card_item_ind,\n\
-    \        eff_from_dttm,\n        eff_to_dttm,\n        cur_flg,\n        del_flg,\n\
-    \        w_insrt_dttm,\n        w_updt_dttm,\n        ssor_id,\n        nrt_processing_ind,\n\
-    \        retail_type\n    FROM DW${INSTANCE}A_ACC_ODS.DW_ODS_SLS_TXN_LN_FV AS\
-    \ SLS\n    -- Filter for yesterday's sales data.\n    WHERE SLS.sales_business_dt\
-    \ = date '${LDTK_DATE}'\n        -- Filter out fully voided transactions and ensure\
-    \ the void flag is not true.\n        AND sales_type_cd <> 'VOID' AND COALESCE(void_flg,\
-    \ 'false') = 'false'\n        AND item_id IS NOT NULL AND location_id IS NOT NULL\n\
-    \        AND cur_flg = 'Y'\n),\n-- CTE 2: VOL_DW_ODS_SLS_TXN_LN_FV\n-- Purpose:\
-    \ To calculate the net transaction amounts by subtracting the post-voided values\n\
-    -- from the original transaction values. This CTE effectively cleans the data.\n\
-    VOL_DW_ODS_SLS_TXN_LN_FV AS (\n    SELECT\n        -- Key identifiers for the\
-    \ transaction\n        location_id,\n        item_id,\n        item_wid,\n   \
-    \     loc_wid,\n        sales_txn_id,\n        sales_business_dt,\n        till_num,\n\
-    \        calendar_hour_id,\n        cashier_id,\n        sales_type_cd,\n    \
-    \    orignl_sls_tsactn_id,\n        original_sales_txn_item_id,\n        sales_txn_dt,\n\
-    \        -- Calculate net sales tax by subtracting post-voided tax from the original\
-    \ tax amount\n        SUM(sales_tax_amt) - SUM(pvoid_sales_tax_amt) AS sales_tax_amt,\n\
-    \        sales_employee_discount_amt,\n        sales_scan_count,\n        sales_manual_count,\n\
-    \        -- Calculate net return tax similarly\n        SUM(return_tax_amt) -\
-    \ SUM(pvoid_return_tax_amt) AS return_tax_amt,\n        return_employee_discount_amt,\n\
-    \        return_scan_count,\n        return_manual_count,\n        sales_manual_markdown_amt,\n\
-    \        sales_manual_markup_amt,\n        return_manual_markdown_amt,\n     \
-    \   return_manual_markup_amt,\n        -- Flags and metadata\n        void_flg,\n\
-    \        no_sale_flg,\n        cancelled_flg,\n        sales_currency_cd,\n  \
-    \      processing_ind,\n        sales_tsactn_line_number,\n        updated_sales_type_cd,\n\
-    \        gift_card_item_ind,\n        eff_from_dttm,\n        eff_to_dttm,\n \
-    \       cur_flg,\n        del_flg,\n        w_insrt_dttm,\n        w_updt_dttm,\n\
-    \        ssor_id,\n        nrt_processing_ind,\n        retail_type,\n       \
-    \ -- Calculate net sales units and amounts\n        SUM(sales_units) - SUM(pvoid_sales_units)\
-    \ AS sales_units,\n        SUM(sales_amt) - SUM(pvoid_sales_amt) AS sales_amt,\n\
-    \        -- Calculate net return units and amounts\n        SUM(return_units)\
-    \ - SUM(pvoid_return_units) AS return_units,\n        SUM(return_amt) - SUM(pvoid_return_amt)\
-    \ AS return_amt\n    FROM TRANSACTIONS_PREPARED\n    -- Group by all non-aggregated\
-    \ columns to get the correct sums for each transaction line.\n    GROUP BY 1,\
-    \ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 19, 20, 21, 22, 23, 24,\
-    \ 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42\n),\n\
-    -- CTE 3: VOL_SLS_TXN_TY_DATA\n-- Purpose: To select the cleaned transaction data\
-    \ for the specific business day being processed.\nVOL_SLS_TXN_TY_DATA AS (\n \
-    \   SELECT\n        location_id,\n        loc_wid,\n        item_wid,\n      \
-    \  item_id,\n        date '${LDTK_DATE}' AS business_day_id,\n        CAST(eff_from_dttm\
-    \ AS DATE) AS effective_from_dt,\n        no_sale_flg,\n        void_flg,\n  \
-    \      sales_type_cd,\n        updated_sales_type_cd,\n        sales_txn_id,\n\
-    \        sales_tsactn_line_number,\n        cancelled_flg,\n        orignl_sls_tsactn_id\
-    \ AS original_sales_txn_id,\n        retail_type,\n        sales_amt,\n      \
-    \  sales_units,\n        return_amt,\n        return_units,\n        sales_employee_discount_amt,\n\
-    \        return_employee_discount_amt,\n        sales_tax_amt,\n        return_tax_amt,\n\
-    \        sales_manual_markup_amt,\n        sales_manual_markdown_amt,\n      \
-    \  return_manual_markdown_amt,\n        sales_manual_count,\n        sales_scan_count\n\
-    \    FROM VOL_DW_ODS_SLS_TXN_LN_FV\n    -- Filter to ensure data is for the correct\
-    \ day and is the current active record.\n    -- not need done earlier\n   -- WHERE\
-    \ business_day_id = CURRENT_DATE - 1\n    ---    AND cur_flg = 'Y'\n),\n-- CTE\
-    \ 4: VOL_SLS_TXN_TY_DELTA_DATA\n-- Purpose: A staging CTE that passes the data\
-    \ through to the next aggregation step.\nVOL_SLS_TXN_TY_DELTA_DATA AS (\n    SELECT\n\
-    \        location_id,\n        loc_wid,\n        item_wid,\n        item_id,\n\
-    \        business_day_id,\n        effective_from_dt,\n        no_sale_flg,\n\
-    \        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n \
-    \       sales_txn_id,\n        sales_tsactn_line_number,\n        cancelled_flg,\n\
-    \        original_sales_txn_id,\n        retail_type,\n        sales_amt,\n  \
-    \      sales_units,\n        return_amt,\n        return_units,\n        sales_employee_discount_amt,\n\
-    \        return_employee_discount_amt,\n        sales_tax_amt,\n        return_tax_amt,\n\
-    \        sales_manual_markup_amt,\n        sales_manual_markdown_amt,\n      \
-    \  return_manual_markdown_amt,\n        sales_manual_count,\n        sales_scan_count\n\
-    \    FROM VOL_SLS_TXN_TY_DATA AS TY\n),\n-- CTE 5: VOL_SLS_TXN_TY\n-- Purpose:\
-    \ To aggregate the transaction data to the transaction line level.\nVOL_SLS_TXN_TY\
-    \ AS (\n    SELECT\n        location_id,\n        loc_wid,\n        item_wid,\n\
-    \        item_id,\n        business_day_id,\n        no_sale_flg,\n        void_flg,\n\
-    \        sales_type_cd,\n        updated_sales_type_cd,\n        sales_txn_id,\n\
-    \        cancelled_flg,\n        original_sales_txn_id,\n        retail_type,\n\
-    \        SUM(sales_amt) AS sales_amt,\n        SUM(sales_units) AS sales_units,\n\
-    \        SUM(return_amt) AS return_amt,\n        SUM(return_units) AS return_units,\n\
-    \        SUM(sales_employee_discount_amt) AS sales_employee_discount_amt,\n  \
-    \      SUM(return_employee_discount_amt) AS return_employee_discount_amt,\n  \
-    \      SUM(sales_tax_amt) AS sales_tax_amt,\n        SUM(return_tax_amt) AS return_tax_amt,\n\
-    \        SUM(sales_manual_markup_amt) AS sales_manual_markup_amt,\n        SUM(sales_manual_markdown_amt)\
-    \ AS sales_manual_markdown_amt,\n        SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n\
-    \        SUM(sales_manual_count) AS sales_manual_count,\n        SUM(sales_scan_count)\
-    \ AS sales_scan_count\n    FROM VOL_SLS_TXN_TY_DELTA_DATA\n    GROUP BY\n    \
-    \    location_id,\n        loc_wid,\n        item_wid,\n        item_id,\n   \
-    \     business_day_id,\n        no_sale_flg,\n        void_flg,\n        sales_type_cd,\n\
-    \        updated_sales_type_cd,\n        sales_txn_id,\n        cancelled_flg,\n\
-    \        original_sales_txn_id,\n        retail_type\n),\n-- CTE 6: VOL_POS_TENDER_TYPE\n\
-    -- Purpose: To create a reference map for tender types, converting tender codes\
-    \ into descriptive categories.\nVOL_POS_TENDER_TYPE AS (\n    SELECT\n       \
-    \ tender_type_description,\n        tender_group_description,\n        tender_type_code,\n\
-    \        CASE\n            WHEN TND.tender_type_code = '3020' THEN 'Amex'\n  \
-    \          WHEN TND.tender_type_code = '3260' THEN 'Giftcard'\n            WHEN\
-    \ TND.tender_type_code BETWEEN '1000' AND '1999' THEN 'Cash'\n            WHEN\
-    \ (TND.tender_type_code BETWEEN '3000' AND '3999' OR tender_type_code = '6') AND\
-    \ TND.tender_type_code NOT IN '3020' THEN 'Card'\n            ELSE 'Others'\n\
-    \        END AS tender_type\n    FROM DW${INSTANCE}A_ACC_ORR.DW_POS_TENDER_TYPE_DV\
-    \ AS TND\n    WHERE current_flg = 'Y'\n),\n-- CTE 7: VOL_TENDER_SALES_TXN_TY\n\
-    -- Purpose: To fetch tender data for the previous day's sales transactions.\n\
-    VOL_TENDER_SALES_TXN_TY AS (\n    SELECT\n        TNDR_TY.sales_transaction_id,\n\
-    \        TNDR_TY.location_id,\n        -- Note: Comment indicates a potential\
-    \ upstream bug causing a date mismatch.\n        date '${LDTK_DATE}' AS sales_business_date,\n\
-    \        TNDR_TY.effective_from_dt,\n        tender_type_code,\n        tender_sales_amount\n\
-    \    FROM DW${INSTANCE}A_ACC_ORR.DW_TNDR_SALES_TRX_LN_FV AS TNDR_TY\n    WHERE\
-    \ TNDR_TY.sales_business_date = date '${LDTK_DATE}' -- Filtering for T-2 due to\
-    \ upstream issue.\n        AND TNDR_TY.current_flg = 'Y'\n),\n-- CTE 8: VOL_TENDER_SALES_TXN_LA_TY\n\
-    -- Purpose: To capture the latest tender records for transactions that may have\
-    \ been updated.\nVOL_TENDER_SALES_TXN_LA_TY AS (\n    SELECT\n        TNDR_T.sales_transaction_id,\n\
-    \        TNDR_T.location_id,\n        TNDR_T.sales_business_date,\n        TNDR_T.tender_type_code,\n\
-    \        TNDR_T.tender_sales_amount\n    FROM DW${INSTANCE}A_ACC_ORR.DW_TNDR_SALES_TRX_LN_FV\
-    \ AS TNDR_T\n    INNER JOIN VOL_TENDER_SALES_TXN_TY AS T_CAL_L\n        ON TNDR_T.sales_transaction_id\
-    \ = T_CAL_L.sales_transaction_id\n        AND TNDR_T.location_id = T_CAL_L.location_id\n\
-    \        AND TNDR_T.sales_business_date = T_CAL_L.sales_business_date\n      \
-    \  AND TNDR_T.effective_from_dt <> T_CAL_L.effective_from_dt\n    WHERE TNDR_T.current_flg\
-    \ = 'Y'\n),\n-- CTE 9: VOL_TND_SLS_TXN_TY_PRE\n-- Purpose: To calculate the ratio\
-    \ of each tender type used within a single transaction.\n-- This is necessary\
-    \ to prorate sales amounts across multiple payment methods.\nVOL_TND_SLS_TXN_TY_PRE\
-    \ AS (\n    SELECT\n        sales_transaction_id,\n        location_id,\n    \
-    \    sales_business_date,\n        TND.tender_type_code,\n        POS.tender_type,\n\
-    \        -- Calculate the total tender amount for the entire transaction.\n  \
-    \      SUM(tender_sales_amount) OVER (PARTITION BY sales_transaction_id) AS full_tndr,\n\
-    \        -- Calculate the ratio of this specific tender line to the total transaction\
-    \ amount.\n        COALESCE((tender_sales_amount / (CASE WHEN full_tndr IS NULL\
-    \ OR full_tndr = 0 THEN 1 ELSE full_tndr END)), 0) AS rat_tndr,\n        -- Create\
-    \ ratio and count columns for each tender category.\n        CASE WHEN tender_type\
-    \ = 'Cash' THEN rat_tndr ELSE 0 END AS cash_rat,\n        CASE WHEN tender_type\
-    \ = 'Cash' THEN 1 ELSE 0 END AS cash_txn_cnt,\n        CASE WHEN tender_type =\
-    \ 'Card' THEN rat_tndr ELSE 0 END AS card_rat,\n        CASE WHEN tender_type\
-    \ = 'Card' THEN 1 ELSE 0 END AS card_txn_cnt,\n        CASE WHEN tender_type =\
-    \ 'Amex' THEN rat_tndr ELSE 0 END AS amex_rat,\n        CASE WHEN tender_type\
-    \ = 'Amex' THEN 1 ELSE 0 END AS amex_txn_cnt,\n        CASE WHEN tender_type =\
-    \ 'Giftcard' THEN rat_tndr ELSE 0 END AS giftcard_rat,\n        CASE WHEN tender_type\
-    \ = 'Giftcard' THEN 1 ELSE 0 END AS giftcard_txn_cnt,\n        CASE WHEN tender_type\
-    \ = 'Others' THEN rat_tndr ELSE 0 END AS others_rat,\n        CASE WHEN tender_type\
-    \ = 'Others' THEN 1 ELSE 0 END AS others_txn_cnt\n    FROM VOL_TENDER_SALES_TXN_TY\
-    \ AS TND\n    INNER JOIN VOL_POS_TENDER_TYPE AS POS\n        ON TND.tender_type_code\
-    \ = POS.tender_type_code\n),\n-- CTE 10: VOL_TND_SLS_TXN_TY\n-- Purpose: To aggregate\
-    \ the tender ratios to get the final tender split for each transaction.\nVOL_TND_SLS_TXN_TY\
-    \ AS (\n    SELECT\n        sales_transaction_id,\n        location_id,\n    \
-    \    sales_business_date,\n        SUM(cash_rat) AS cash_rat,\n        SUM(card_rat)\
-    \ AS card_rat,\n        SUM(amex_rat) AS amex_rat,\n        SUM(giftcard_rat)\
-    \ AS giftcard_rat,\n        SUM(others_rat) AS others_rat,\n        SUM(cash_txn_cnt)\
-    \ AS cash_txn_cnt,\n        SUM(card_txn_cnt) AS card_txn_cnt,\n        SUM(amex_txn_cnt)\
-    \ AS amex_txn_cnt,\n        SUM(giftcard_txn_cnt) AS giftcard_txn_cnt,\n     \
-    \   SUM(others_txn_cnt) AS others_txn_cnt\n    FROM VOL_TND_SLS_TXN_TY_PRE\n \
-    \   GROUP BY 1, 2, 3\n),\n-- CTE 11: SLS_TNDR_TY\n-- Purpose: This is the main\
-    \ calculation engine. It joins sales data with tender data\n-- and calculates\
-    \ a wide range of metrics based on transaction type, retail type, and tender type.\n\
-    SLS_TNDR_TY AS (\n    SELECT\n        TY.sales_txn_id,\n        TY.location_id,\n\
-    \        TY.loc_wid,\n        TY.item_id,\n        TY.item_wid,\n        TY.business_day_id,\n\
-    \        -- Base sales and return metrics\n        TY.sales_amt AS sales_amt,\n\
-    \        TY.sales_units AS sales_units,\n        CASE WHEN TY.sales_type_cd =\
-    \ 'SALE' THEN 1 ELSE 0 END AS sales_transaction_count,\n        TY.return_amt\
-    \ AS return_amt,\n        TY.return_units AS return_units,\n        CASE WHEN\
-    \ TY.sales_type_cd = 'RETURN' THEN 1 ELSE 0 END AS return_transaction_count,\n\
-    \        -- Exchange metrics\n        CASE WHEN (TY.updated_sales_type_cd = 'EXCH'\
-    \ AND TY.sales_type_cd = 'SALE') THEN TY.sales_amt ELSE 0 END AS exchange_value,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN TY.sales_units ELSE 0 END AS exchange_units,\n        CASE WHEN (TY.updated_sales_type_cd\
-    \ = 'EXCH' AND TY.sales_type_cd = 'SALE') THEN 1 ELSE 0 END AS exchange_transaction_count,\n\
-    \        -- Employee discount metrics\n        CASE WHEN (COALESCE(TY.sales_employee_discount_amt,\
-    \ 0) > 0 AND TY.sales_amt > 0 AND TY.return_amt > 0) THEN TY.sales_amt ELSE 0\
-    \ END AS emp_discount_exchange_value,\n        CASE WHEN (COALESCE(TY.sales_employee_discount_amt,\
-    \ 0) > 0 AND TY.sales_amt > 0 AND TY.return_amt > 0) THEN TY.sales_units ELSE\
-    \ 0 END AS emp_discount_exchange_units,\n        CASE WHEN (COALESCE(TY.sales_employee_discount_amt,\
-    \ 0) > 0 AND TY.sales_amt > 0 AND TY.return_amt > 0) THEN 1 ELSE 0 END AS emp_discount_exchange_transaction_count,\n\
-    \        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN TY.sales_employee_discount_amt ELSE 0 END AS emp_discount_sales_value,\n\
-    \        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ AND TY.sales_employee_discount_amt > 0 THEN TY.sales_units ELSE 0 END AS emp_discount_sales_units,\n\
-    \        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ AND TY.sales_employee_discount_amt > 0 THEN 1 ELSE 0 END AS emp_discount_sales_transaction_count,\n\
-    \        CASE WHEN TY.sales_type_cd = 'RETURN' AND TY.updated_sales_type_cd =\
-    \ 'RETURN' THEN TY.return_employee_discount_amt ELSE 0 END AS emp_discount_return_value,\n\
-    \        CASE WHEN TY.sales_type_cd = 'RETURN' AND TY.updated_sales_type_cd =\
-    \ 'RETURN' AND TY.return_employee_discount_amt > 0 THEN TY.return_units ELSE 0\
-    \ END AS emp_discount_return_units,\n        CASE WHEN TY.sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' AND TY.return_employee_discount_amt\
-    \ > 0 THEN 1 ELSE 0 END AS emp_discount_return_transaction_count,\n        --\
-    \ Tax and transaction status metrics\n        TY.sales_tax_amt AS sales_tax_amt,\n\
-    \        TY.return_tax_amt AS return_tax_amt,\n        CASE WHEN TY.void_flg =\
-    \ 'Y' THEN 1 ELSE 0 END AS void_transaction_count,\n        CASE WHEN TY.updated_sales_type_cd\
-    \ = 'PVOID' THEN 1 ELSE 0 END AS post_void_transaction_count,\n        CASE WHEN\
-    \ TY.cancelled_flg = 'N' AND TY.void_flg = 'N' THEN 1 ELSE 0 END AS other_transaction_count,\n\
-    \        -- Manual adjustment and receipt metrics\n        TY.sales_manual_markup_amt\
-    \ AS sales_manual_markup_amt,\n        TY.sales_manual_markdown_amt AS sales_manual_markdown_amt,\n\
-    \        TY.return_manual_markdown_amt AS return_manual_markdown_amt,\n      \
-    \  CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
-    \ TY.sales_manual_count ELSE 0 END AS sales_manual_count,\n        CASE WHEN TY.sales_type_cd\
-    \ = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN TY.sales_scan_count ELSE\
-    \ 0 END AS sales_scan_count,\n        CASE WHEN TY.updated_sales_type_cd = 'EXCH'\
-    \ AND TY.original_sales_txn_id IS NOT NULL AND TY.sales_amt > 0 THEN TY.sales_amt\
-    \ ELSE 0 END AS exchanges_with_reciepts,\n        CASE WHEN TY.updated_sales_type_cd\
-    \ = 'EXCH' AND TY.original_sales_txn_id IS NULL AND TY.sales_amt > 0 THEN TY.sales_amt\
-    \ ELSE 0 END AS exchanges_without_reciepts,\n        CASE WHEN TY.updated_sales_type_cd\
-    \ = 'RETURN' AND TY.original_sales_txn_id IS NOT NULL AND TY.return_amt > 0 THEN\
-    \ TY.return_amt ELSE 0 END AS returns_with_reciepts,\n        CASE WHEN TY.updated_sales_type_cd\
-    \ = 'RETURN' AND TY.original_sales_txn_id IS NULL AND TY.return_amt > 0 THEN TY.return_amt\
-    \ ELSE 0 END AS returns_without_reciepts,\n        CASE WHEN TY.no_sale_flg =\
-    \ 'Y' THEN 1 ELSE 0 END AS no_sale_transaction_count,\n        -- Markdown sales\
-    \ metrics\n        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd\
-    \ = 'SALE' AND TY.retail_type IN ('P', 'C') THEN TY.sales_amt ELSE 0 END AS markdown_sales,\n\
-    \        -- Sales metrics prorated by tender type\n        CASE WHEN sales_type_cd\
-    \ = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN (TY.sales_amt * TN_DY.cash_rat)\
-    \ ELSE 0 END AS cash_sales_value,\n        CASE WHEN sales_type_cd = 'SALE' AND\
-    \ TY.updated_sales_type_cd = 'SALE' THEN CEIL((TY.sales_units * TN_DY.cash_rat))\
-    \ ELSE 0 END AS cash_sales_units,\n        CASE WHEN sales_type_cd = 'SALE' AND\
-    \ TY.updated_sales_type_cd = 'SALE' THEN TN_DY.cash_txn_cnt ELSE 0 END AS cash_sales_transaction_count,\n\
-    \        CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN (TY.sales_amt * TN_DY.card_rat) ELSE 0 END AS card_sales_value,\n     \
-    \   CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
-    \ CEIL((TY.sales_units * TN_DY.card_rat)) ELSE 0 END AS card_sales_units,\n  \
-    \      CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN TN_DY.card_txn_cnt ELSE 0 END AS card_sales_transaction_count,\n      \
-    \  CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
-    \ (TY.sales_amt * TN_DY.giftcard_rat) ELSE 0 END AS gift_sales_value,\n      \
-    \  CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
-    \ CEIL((TY.sales_units * TN_DY.giftcard_rat)) ELSE 0 END AS gift_sales_units,\n\
-    \        CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN TN_DY.giftcard_txn_cnt ELSE 0 END AS gift_sales_transaction_count,\n  \
-    \      CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN (TY.sales_amt * TN_DY.others_rat) ELSE 0 END AS others_sales_value,\n \
-    \       CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN CEIL((TY.sales_units * TN_DY.others_rat)) ELSE 0 END AS others_sales_units,\n\
-    \        CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
-    \ THEN TN_DY.others_txn_cnt ELSE 0 END AS others_sales_transaction_count,\n  \
-    \      -- Return metrics prorated by tender type\n        CASE WHEN sales_type_cd\
-    \ = 'RETURN' AND TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.cash_rat)\
-    \ ELSE 0 END AS cash_return_value,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.cash_rat))\
-    \ ELSE 0 END AS cash_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.cash_txn_cnt ELSE 0 END AS\
-    \ cash_return_transaction_count,\n        CASE WHEN sales_type_cd = 'RETURN' AND\
-    \ TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.card_rat) ELSE\
-    \ 0 END AS card_return_value,\n        CASE WHEN sales_type_cd = 'RETURN' AND\
-    \ TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.card_rat))\
-    \ ELSE 0 END AS card_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.card_txn_cnt ELSE 0 END AS\
-    \ card_return_transaction_count,\n        CASE WHEN sales_type_cd = 'RETURN' AND\
-    \ TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.giftcard_rat)\
-    \ ELSE 0 END AS gift_return_value,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.giftcard_rat))\
-    \ ELSE 0 END AS gift_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.giftcard_txn_cnt ELSE 0 END\
-    \ AS gift_return_transaction_count,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.others_rat)\
-    \ ELSE 0 END AS others_return_value,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.others_rat))\
-    \ ELSE 0 END AS others_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
-    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.others_txn_cnt ELSE 0 END\
-    \ AS others_return_transaction_count,\n        -- Exchange metrics prorated by\
-    \ tender type\n        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd\
-    \ = 'SALE') THEN (TY.sales_amt * TN_DY.cash_rat) ELSE 0 END AS cash_exchange_value,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN CEIL((TY.sales_units * TN_DY.cash_rat)) ELSE 0 END AS cash_exchange_units,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN TN_DY.cash_txn_cnt ELSE 0 END AS cash_exchange_transaction_count,\n   \
-    \     CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN (TY.sales_amt * TN_DY.card_rat) ELSE 0 END AS card_exchange_value,\n  \
-    \      CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN CEIL((TY.sales_units * TN_DY.card_rat)) ELSE 0 END AS card_exchange_units,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN TN_DY.card_txn_cnt ELSE 0 END AS card_exchange_transaction_count,\n   \
-    \     CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN (TY.sales_amt * TN_DY.giftcard_rat) ELSE 0 END AS gift_exchange_value,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN CEIL((TY.sales_units * TN_DY.giftcard_rat)) ELSE 0 END AS gift_exchange_units,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN TN_DY.giftcard_txn_cnt ELSE 0 END AS gift_exchange_transaction_count,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN (TY.sales_amt * TN_DY.others_rat) ELSE 0 END AS others_exchange_value,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN CEIL((TY.sales_units * TN_DY.others_rat)) ELSE 0 END AS others_exchange_units,\n\
-    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
-    \ THEN TN_DY.others_txn_cnt ELSE 0 END AS others_exchange_transaction_count,\n\
-    \        -- Sales metrics by retail type (Promotion, Clearance, Regular)\n   \
-    \     CASE WHEN TY.retail_type = 'P' THEN TY.sales_amt ELSE 0 END AS promotion_sales_value,\n\
-    \        CASE WHEN TY.retail_type = 'P' THEN TY.sales_units ELSE 0 END AS promotion_sales_units,\n\
-    \        CASE WHEN TY.retail_type = 'P' AND TY.sales_type_cd = 'SALE' THEN 1 ELSE\
-    \ 0 END AS promotion_sales_transaction_count,\n        CASE WHEN TY.retail_type\
-    \ = 'C' THEN TY.sales_amt ELSE 0 END AS clearance_sales_value,\n        CASE WHEN\
-    \ TY.retail_type = 'C' THEN TY.sales_units ELSE 0 END AS clearance_sales_units,\n\
-    \        CASE WHEN TY.retail_type = 'C' AND TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd\
-    \ = 'SALE' THEN 1 ELSE 0 END AS clearance_sales_transaction_count,\n        CASE\
-    \ WHEN TY.retail_type = 'R' THEN TY.sales_amt ELSE 0 END AS regular_sales_value,\n\
-    \        CASE WHEN TY.retail_type = 'R' THEN TY.sales_units ELSE 0 END AS regular_sales_units,\n\
-    \        CASE WHEN TY.retail_type = 'R' AND TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd\
-    \ = 'SALE' THEN 1 ELSE 0 END AS regular_sales_transaction_count,\n        -- Return\
-    \ metrics by retail type\n        CASE WHEN TY.retail_type = 'P' THEN TY.return_amt\
-    \ ELSE 0 END AS promotion_return_value,\n        CASE WHEN TY.retail_type = 'P'\
-    \ THEN TY.return_units ELSE 0 END AS promotion_return_units,\n        CASE WHEN\
-    \ TY.retail_type = 'P' AND TY.sales_type_cd = 'RETURN' THEN 1 ELSE 0 END AS promotion_return_transaction_count,\n\
-    \        CASE WHEN TY.retail_type = 'C' THEN TY.return_amt ELSE 0 END AS clearance_return_value,\n\
-    \        CASE WHEN TY.retail_type = 'C' THEN TY.return_units ELSE 0 END AS clearance_return_units,\n\
-    \        CASE WHEN TY.retail_type = 'C' AND TY.sales_type_cd = 'RETURN' THEN 1\
-    \ ELSE 0 END AS clearance_return_transaction_count,\n        CASE WHEN TY.retail_type\
-    \ = 'R' THEN TY.return_amt ELSE 0 END AS regular_return_value,\n        CASE WHEN\
-    \ TY.retail_type = 'R' THEN TY.return_units ELSE 0 END AS regular_return_units,\n\
-    \        CASE WHEN TY.retail_type = 'R' AND TY.sales_type_cd = 'RETURN' THEN 1\
-    \ ELSE 0 END AS regular_return_transaction_count,\n        -- Exchange metrics\
-    \ by retail type\n        CASE WHEN TY.retail_type = 'P' THEN TY.sales_amt ELSE\
-    \ 0 END AS promotion_exchange_value,\n        CASE WHEN TY.retail_type = 'P' THEN\
-    \ TY.sales_units ELSE 0 END AS promotion_exchange_units,\n        CASE WHEN TY.retail_type\
-    \ = 'P' AND (TY.updated_sales_type_cd = 'EXCH') THEN 1 ELSE 0 END AS promotion_exchange_transaction_count,\n\
-    \        CASE WHEN TY.retail_type = 'C' THEN (TY.sales_amt - TY.return_amt) ELSE\
-    \ 0 END AS clearance_exchange_value,\n        CASE WHEN TY.retail_type = 'C' THEN\
-    \ TY.sales_units ELSE 0 END AS clearance_exchange_units,\n        CASE WHEN TY.retail_type\
-    \ = 'C' AND (TY.updated_sales_type_cd = 'EXCH') THEN 1 ELSE 0 END AS clearance_exchange_transaction_count,\n\
-    \        CASE WHEN TY.retail_type = 'R' THEN TY.sales_amt ELSE 0 END AS regular_exchange_value,\n\
-    \        CASE WHEN TY.retail_type = 'R' THEN TY.sales_units ELSE 0 END AS regular_exchange_units,\n\
-    \        CASE WHEN TY.retail_type = 'R' AND (TY.updated_sales_type_cd = 'EXCH')\
-    \ THEN 1 ELSE 0 END AS regular_exchange_transaction_count\n    FROM VOL_SLS_TXN_TY\
-    \ AS TY\n    LEFT OUTER JOIN VOL_TND_SLS_TXN_TY AS TN_DY\n        ON TY.sales_txn_id\
-    \ = TN_DY.sales_transaction_id\n        AND TY.location_id = TN_DY.location_id\n\
-    \        AND TY.business_day_id = TN_DY.sales_business_date\n),\n-- CTE 12: VOL_SLS_TXN_THY\n\
-    -- Purpose: To perform the main aggregation, summing up all the calculated metrics\
-    \ to the\n-- item, location, and day level. This creates the final summary data.\n\
-    VOL_SLS_TXN_THY AS (\n    SELECT\n        location_id,\n        loc_wid,\n   \
-    \     item_id,\n        item_wid,\n        business_day_id,\n        SUM(sales_amt)\
-    \ AS sales_amt,\n        SUM(sales_units) AS sales_units,\n        SUM(sales_transaction_count)\
-    \ AS sales_transaction_count,\n        SUM(return_amt) AS return_amt,\n      \
-    \  SUM(return_units) AS return_units,\n        SUM(return_transaction_count) AS\
-    \ return_transaction_count,\n        SUM(exchange_value) AS exchange_value,\n\
-    \        SUM(exchange_units) AS exchange_units,\n        SUM(exchange_transaction_count)\
-    \ AS exchange_transaction_count,\n        SUM(emp_discount_exchange_value) AS\
-    \ emp_discount_exchange_value,\n        SUM(emp_discount_exchange_units) AS emp_discount_exchange_units,\n\
-    \        SUM(emp_discount_exchange_transaction_count) AS emp_discount_exchange_transaction_count,\n\
-    \        SUM(emp_discount_sales_value) AS emp_discount_sales_value,\n        SUM(emp_discount_sales_units)\
-    \ AS emp_discount_sales_units,\n        SUM(emp_discount_sales_transaction_count)\
-    \ AS emp_discount_sales_transaction_count,\n        SUM(emp_discount_return_value)\
-    \ AS emp_discount_return_value,\n        SUM(emp_discount_return_units) AS emp_discount_return_units,\n\
-    \        SUM(emp_discount_return_transaction_count) AS emp_discount_return_transaction_count,\n\
-    \        SUM(sales_tax_amt) AS sales_tax_amt,\n        SUM(return_tax_amt) AS\
-    \ return_tax_amt,\n        SUM(void_transaction_count) AS void_transaction_count,\n\
-    \        SUM(post_void_transaction_count) AS post_void_transaction_count,\n  \
-    \      SUM(other_transaction_count) AS other_transaction_count,\n        SUM(sales_manual_markup_amt)\
-    \ AS sales_manual_markup_amt,\n        SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n\
-    \        SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n    \
-    \    SUM(sales_manual_count) AS sales_manual_count,\n        SUM(sales_scan_count)\
-    \ AS sales_scan_count,\n        SUM(exchanges_with_reciepts) AS exchanges_with_reciepts,\n\
-    \        SUM(exchanges_without_reciepts) AS exchanges_without_reciepts,\n    \
-    \    SUM(returns_with_reciepts) AS returns_with_reciepts,\n        SUM(returns_without_reciepts)\
-    \ AS returns_without_reciepts,\n        SUM(no_sale_transaction_count) AS no_sale_transaction_count,\n\
-    \        SUM(markdown_sales) AS markdown_sales,\n        SUM(cash_sales_value)\
-    \ AS cash_sales_value,\n        SUM(cash_sales_units) AS cash_sales_units,\n \
-    \       SUM(cash_sales_transaction_count) AS cash_sales_transaction_count,\n \
-    \       SUM(card_sales_value) AS card_sales_value,\n        SUM(card_sales_units)\
-    \ AS card_sales_units,\n        SUM(card_sales_transaction_count) AS card_sales_transaction_count,\n\
-    \        SUM(gift_sales_value) AS gift_sales_value,\n        SUM(gift_sales_units)\
-    \ AS gift_sales_units,\n        SUM(gift_sales_transaction_count) AS gift_sales_transaction_count,\n\
-    \        SUM(others_sales_value) AS others_sales_value,\n        SUM(others_sales_units)\
-    \ AS others_sales_units,\n        SUM(others_sales_transaction_count) AS others_sales_transaction_count,\n\
-    \        SUM(cash_return_value) AS cash_return_value,\n        SUM(cash_return_units)\
-    \ AS cash_return_units,\n        SUM(cash_return_transaction_count) AS cash_return_transaction_count,\n\
-    \        SUM(card_return_value) AS card_return_value,\n        SUM(card_return_units)\
-    \ AS card_return_units,\n        SUM(card_return_transaction_count) AS card_return_transaction_count,\n\
-    \        SUM(gift_return_value) AS gift_return_value,\n        SUM(gift_return_units)\
-    \ AS gift_return_units,\n        SUM(gift_return_transaction_count) AS gift_return_transaction_count,\n\
-    \        SUM(others_return_value) AS others_return_value,\n        SUM(others_return_units)\
-    \ AS others_return_units,\n        SUM(others_return_transaction_count) AS others_return_transaction_count,\n\
-    \        SUM(cash_exchange_value) AS cash_exchange_value,\n        SUM(cash_exchange_units)\
-    \ AS cash_exchange_units,\n        SUM(cash_exchange_transaction_count) AS cash_exchange_transaction_count,\n\
-    \        SUM(card_exchange_value) AS card_exchange_value,\n        SUM(card_exchange_units)\
-    \ AS card_exchange_units,\n        SUM(card_exchange_transaction_count) AS card_exchange_transaction_count,\n\
-    \        SUM(gift_exchange_value) AS gift_exchange_value,\n        SUM(gift_exchange_units)\
-    \ AS gift_exchange_units,\n        SUM(gift_exchange_transaction_count) AS gift_exchange_transaction_count,\n\
-    \        SUM(others_exchange_value) AS others_exchange_value,\n        SUM(others_exchange_units)\
-    \ AS others_exchange_units,\n        SUM(others_exchange_transaction_count) AS\
-    \ others_exchange_transaction_count,\n        SUM(promotion_sales_value) AS promotion_sales_value,\n\
-    \        SUM(promotion_sales_units) AS promotion_sales_units,\n        SUM(promotion_sales_transaction_count)\
-    \ AS promotion_sales_transaction_count,\n        SUM(clearance_sales_value) AS\
-    \ clearance_sales_value,\n        SUM(clearance_sales_units) AS clearance_sales_units,\n\
-    \        SUM(clearance_sales_transaction_count) AS clearance_sales_transaction_count,\n\
-    \        SUM(regular_sales_value) AS regular_sales_value,\n        SUM(regular_sales_units)\
-    \ AS regular_sales_units,\n        SUM(regular_sales_transaction_count) AS regular_sales_transaction_count,\n\
-    \        SUM(promotion_return_value) AS promotion_return_value,\n        SUM(promotion_return_units)\
-    \ AS promotion_return_units,\n        SUM(promotion_return_transaction_count)\
-    \ AS promotion_return_transaction_count,\n        SUM(clearance_return_value)\
-    \ AS clearance_return_value,\n        SUM(clearance_return_units) AS clearance_return_units,\n\
-    \        SUM(clearance_return_transaction_count) AS clearance_return_transaction_count,\n\
-    \        SUM(regular_return_value) AS regular_return_value,\n        SUM(regular_return_units)\
-    \ AS regular_return_units,\n        SUM(regular_return_transaction_count) AS regular_return_transaction_count,\n\
-    \        SUM(promotion_exchange_value) AS promotion_exchange_value,\n        SUM(promotion_exchange_units)\
-    \ AS promotion_exchange_units,\n        SUM(promotion_exchange_transaction_count)\
-    \ AS promotion_exchange_transaction_count,\n        SUM(clearance_exchange_value)\
-    \ AS clearance_exchange_value,\n        SUM(clearance_exchange_units) AS clearance_exchange_units,\n\
-    \        SUM(clearance_exchange_transaction_count) AS clearance_exchange_transaction_count,\n\
-    \        SUM(regular_exchange_value) AS regular_exchange_value,\n        SUM(regular_exchange_units)\
-    \ AS regular_exchange_units,\n        SUM(regular_exchange_transaction_count)\
-    \ AS regular_exchange_transaction_count\n    FROM SLS_TNDR_TY\n    GROUP BY 1,\
-    \ 2, 3, 4, 5\n),\n-- CTE 13: VOL_SLS_CLEAR_THY\n-- Purpose: To find the first\
-    \ date an item was sold on clearance at a specific location.\nVOL_SLS_CLEAR_THY\
-    \ AS (\n    SELECT\n        item_wid,\n        loc_wid,\n        MIN(business_day_id)\
-    \ AS clearance_1st_date\n    FROM VOL_SLS_TXN_TY_DATA\n    WHERE sales_type_cd\
-    \ = 'SALE' AND updated_sales_type_cd = 'SALE' AND retail_type = 'C'\n    GROUP\
-    \ BY 1, 2\n),\n-- CTE 14: VOL_SLS_1_THY\n-- Purpose: To find the first date an\
-    \ item was ever sold at a specific location.\nVOL_SLS_1_THY AS (\n    SELECT\n\
-    \        item_wid,\n        loc_wid,\n        MIN(business_day_id) AS sales_1st_date\n\
-    \    FROM VOL_SLS_TXN_TY_DATA\n    GROUP BY 1, 2\n)\n-- Final Select Statement\n\
-    -- Purpose: To join the aggregated sales data with the first-sale and first-clearance\
-    \ dates,\n-- and present the final, fully aggregated results.\nSELECT\n    SUB.business_day_id\
-    \ AS business_date,\n    SUB.location_id AS location_id,\n    -- SUB.loc_wid AS\
-    \ location_wid, -- Waiting for design change\n    SUB.item_id AS item_id,\n  \
-    \  -- SUB.item_wid AS item_wid, -- Waiting for design change\n    setbit((0(INTEGER)),0,1)\
-    \ AS fct_src_map,\n    MIN(SL.sales_1st_date) AS sales_1st_date,\n    MIN(CLEAR.clearance_1st_date)\
-    \ AS clearance_1st_date,\n    SUM(sales_amt) AS sales_value,\n    SUM(sales_units)\
-    \ AS sales_units,\n    SUM(sales_transaction_count) AS sales_transaction_count,\n\
-    \    SUM(return_amt) AS return_value,\n    SUM(return_units) AS return_units,\n\
-    \    SUM(return_transaction_count) AS return_transaction_count,\n    SUM(exchange_value)\
-    \ AS exchange_value,\n    SUM(exchange_units) AS exchange_units,\n    SUM(exchange_transaction_count)\
-    \ AS exchange_transaction_count,\n    SUM(emp_discount_exchange_value) AS emp_discount_exchange_value,\n\
-    \    SUM(emp_discount_exchange_units) AS emp_discount_exchange_units,\n    SUM(emp_discount_exchange_transaction_count)\
-    \ AS emp_discount_exchange_transaction_count,\n    SUM(emp_discount_sales_value)\
-    \ AS emp_discount_sales_value,\n    SUM(emp_discount_sales_units) AS emp_discount_sales_units,\n\
-    \    SUM(emp_discount_sales_transaction_count) AS emp_discount_sales_transaction_count,\n\
-    \    SUM(emp_discount_return_value) AS emp_discount_return_value,\n    SUM(emp_discount_return_units)\
-    \ AS emp_discount_return_units,\n    SUM(emp_discount_return_transaction_count)\
-    \ AS emp_discount_return_transaction_count,\n    SUM(sales_tax_amt) AS sales_tax_amt,\n\
-    \    SUM(return_tax_amt) AS return_tax_amt,\n    SUM(void_transaction_count) AS\
-    \ void_transaction_count,\n    SUM(post_void_transaction_count) AS post_void_transaction_count,\n\
-    \    SUM(other_transaction_count) AS other_transaction_count,\n    SUM(sales_manual_markup_amt)\
-    \ AS sales_manual_markup_amt,\n    SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n\
-    \    SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n    SUM(sales_manual_count)\
-    \ AS sales_manual_count,\n    SUM(sales_scan_count) AS sales_scan_count,\n   \
-    \ SUM(exchanges_with_reciepts) AS exchanges_with_reciepts,\n    SUM(exchanges_without_reciepts)\
-    \ AS exchanges_without_reciepts,\n    SUM(returns_with_reciepts) AS returns_with_reciepts,\n\
-    \    SUM(returns_without_reciepts) AS returns_without_reciepts,\n    SUM(no_sale_transaction_count)\
-    \ AS no_sale_transaction_count,\n    SUM(markdown_sales) AS markdown_sales,\n\
-    \    SUM(cash_sales_value) AS cash_sales_value,\n    SUM(cash_sales_units) AS\
-    \ cash_sales_units,\n    SUM(cash_sales_transaction_count) AS cash_sales_transaction_count,\n\
-    \    SUM(card_sales_value) AS card_sales_value,\n    SUM(card_sales_units) AS\
-    \ card_sales_units,\n    SUM(card_sales_transaction_count) AS card_sales_transaction_count,\n\
-    \    SUM(gift_sales_value) AS gift_sales_value,\n    SUM(gift_sales_units) AS\
-    \ gift_sales_units,\n    SUM(gift_sales_transaction_count) AS gift_sales_transaction_count,\n\
-    \    SUM(others_sales_value) AS others_sales_value,\n    SUM(others_sales_units)\
-    \ AS others_sales_units,\n    SUM(others_sales_transaction_count) AS others_sales_transaction_count,\n\
-    \    SUM(cash_return_value) AS cash_return_value,\n    SUM(cash_return_units)\
-    \ AS cash_return_units,\n    SUM(cash_return_transaction_count) AS cash_return_transaction_count,\n\
-    \    SUM(card_return_value) AS card_return_value,\n    SUM(card_return_units)\
-    \ AS card_return_units,\n    SUM(card_return_transaction_count) AS card_return_transaction_count,\n\
-    \    SUM(gift_return_value) AS gift_return_value,\n    SUM(gift_return_units)\
-    \ AS gift_return_units,\n    SUM(gift_return_transaction_count) AS gift_return_transaction_count,\n\
-    \    SUM(others_return_value) AS others_return_value,\n    SUM(others_return_units)\
-    \ AS others_return_units,\n    SUM(others_return_transaction_count) AS others_return_transaction_count,\n\
-    \    SUM(cash_exchange_value) AS cash_exchange_value,\n    SUM(cash_exchange_units)\
-    \ AS cash_exchange_units,\n    SUM(cash_exchange_transaction_count) AS cash_exchange_transaction_count,\n\
-    \    SUM(card_exchange_value) AS card_exchange_value,\n    SUM(card_exchange_units)\
-    \ AS card_exchange_units,\n    SUM(card_exchange_transaction_count) AS card_exchange_transaction_count,\n\
-    \    SUM(gift_exchange_value) AS gift_exchange_value,\n    SUM(gift_exchange_units)\
-    \ AS gift_exchange_units,\n    SUM(gift_exchange_transaction_count) AS gift_exchange_transaction_count,\n\
-    \    SUM(others_exchange_value) AS others_exchange_value,\n    SUM(others_exchange_units)\
-    \ AS others_exchange_units,\n    SUM(others_exchange_transaction_count) AS others_exchange_transaction_count,\n\
-    \ --   SUM(markdown_sales) AS markdown_sales,\n    SUM(promotion_sales_value)\
-    \ AS promotion_sales_value,\n    SUM(promotion_sales_units) AS promotion_sales_units,\n\
-    \    SUM(promotion_sales_transaction_count) AS promotion_sales_transaction_count,\n\
-    \    SUM(clearance_sales_value) AS clearance_sales_value,\n    SUM(clearance_sales_units)\
-    \ AS clearance_sales_units,\n    SUM(clearance_sales_transaction_count) AS clearance_sales_transaction_count,\n\
-    \    SUM(regular_sales_value) AS regular_sales_value,\n    SUM(regular_sales_units)\
-    \ AS regular_sales_units,\n    SUM(regular_sales_transaction_count) AS regular_sales_transaction_count,\n\
-    \    SUM(promotion_return_value) AS promotion_return_value,\n    SUM(promotion_return_units)\
-    \ AS promotion_return_units,\n    SUM(promotion_return_transaction_count) AS promotion_return_transaction_count,\n\
-    \    SUM(clearance_return_value) AS clearance_return_value,\n    SUM(clearance_return_units)\
-    \ AS clearance_return_units,\n    SUM(clearance_return_transaction_count) AS clearance_return_transaction_count,\n\
-    \    SUM(regular_return_value) AS regular_return_value,\n    SUM(regular_return_units)\
-    \ AS regular_return_units,\n    SUM(regular_return_transaction_count) AS regular_return_transaction_count,\n\
-    \    SUM(promotion_exchange_value) AS promotion_exchange_value,\n    SUM(promotion_exchange_units)\
-    \ AS promotion_exchange_units,\n    SUM(promotion_exchange_transaction_count)\
-    \ AS promotion_exchange_transaction_count,\n    SUM(clearance_exchange_value)\
-    \ AS clearance_exchange_value,\n    SUM(clearance_exchange_units) AS clearance_exchange_units,\n\
-    \    SUM(clearance_exchange_transaction_count) AS clearance_exchange_transaction_count,\n\
-    \    SUM(regular_exchange_value) AS regular_exchange_value,\n    SUM(regular_exchange_units)\
-    \ AS regular_exchange_units,\n    SUM(regular_exchange_transaction_count) AS regular_exchange_transaction_count\n\
-    FROM VOL_SLS_TXN_THY AS SUB\nLEFT OUTER JOIN VOL_SLS_1_THY AS SL\n    ON SUB.item_wid\
-    \ = SL.item_wid\n    AND SUB.loc_wid = SL.loc_wid\nLEFT OUTER JOIN VOL_SLS_CLEAR_THY\
-    \ AS CLEAR\n    ON SUB.item_wid = CLEAR.item_wid\n    AND SUB.loc_wid = CLEAR.loc_wid\n\
-    GROUP BY 1, 2, 3"
-steps:
-- description: ''
-  file_name: ''
-  file_present: false
-  job_name: FND2202
-  notes: ''
-  post_sql: ''
-  pre_sql: ''
-  reverse_sequence_no: 3
-  sequence_no: 1
-  source_database: ''
-  source_table: ''
-  sql_statement: '/* ERROR : no steps found for this step */'
-  stats: ''
-  step_pattern: STANDARD_START
-  steps: Start
-  target_database: ''
-  target_table: ''
-- description: Use Standard Delete insert to populate trans target
-  file_name: FND2202.300.TARGET.sql
-  file_present: true
-  job_name: FND2202
-  notes: See Mapping
-  post_sql: ''
-  pre_sql: ''
-  reverse_sequence_no: 2
-  sequence_no: 2
-  source_database: ''
-  source_table: ''
-  sql_statement: "-- This query aggregates sales transaction data, calculating net\
-    \ sales, returns, and tax amounts\n-- by accounting for post-void (PVOID) transactions.\
-    \ It prepares the data for insertion\n-- into a volatile table.\n-- CTE 1: TRANSACTIONS_PREPARED\n\
-    -- Purpose: To prepare the raw transaction data by separating standard transaction\
-    \ values\n-- from post-void (PVOID) values. This is the foundational step to ensure\
-    \ accurate net calculations.\nWITH TRANSACTIONS_PREPARED AS (\n    SELECT\n  \
-    \      SLS.location_id,\n        item_id,\n        item_wid,\n        SLS.loc_wid,\n\
-    \        sales_txn_id,\n        sales_business_dt,\n        till_num,\n      \
-    \  calendar_hour_id,\n        cashier_id,\n        -- Flag to identify if a transaction\
-    \ is a post-void\n        CASE WHEN sales_type_cd <> 'PVOID' THEN 1 ELSE 0 END\
-    \ AS flag,\n        sales_type_cd,\n        orignl_sls_tsactn_id,\n        original_sales_txn_item_id,\n\
+  FND2202.300.TARGET: "-- CTE 1: TRANSACTIONS_PREPARED\n-- Purpose: To select and\
+    \ prepare the initial sales transaction data from the source table.\n-- This CTE\
+    \ filters for a specific business date, excludes voided transactions, and separates\n\
+    -- standard sales and returns from post-voided (PVOID) transactions.\nWITH TRANSACTIONS_PREPARED\
+    \ AS (\n    SELECT\n        SLS.loc_wid,\n        item_wid,\n        sales_txn_id,\n\
+    \        sales_business_dt,\n        till_num,\n        calendar_hour_id,\n  \
+    \      cashier_id,\n        -- Flag to identify if a transaction is a post-void\n\
+    \        -- CASE WHEN sales_type_cd <> 'PVOID' THEN 1 ELSE 0 END AS flag,\n  \
+    \      sales_type_cd,\n        orignl_sls_tsactn_id,\n        original_sales_txn_item_id,\n\
     \        sales_txn_dt,\n        -- Isolate original sales amounts, setting to\
     \ 0 for PVOID\n        CASE WHEN sales_type_cd <> 'PVOID' THEN sales_amt ELSE\
     \ 0 END AS sales_amt,\n        CASE WHEN sales_type_cd <> 'PVOID' THEN sales_units\
@@ -1201,55 +669,58 @@ steps:
     \ SLS\n    -- Filter for yesterday's sales data.\n    WHERE SLS.sales_business_dt\
     \ = date '${LDTK_DATE}'\n        -- Filter out fully voided transactions and ensure\
     \ the void flag is not true.\n        AND sales_type_cd <> 'VOID' AND COALESCE(void_flg,\
-    \ 'false') = 'false'\n        AND item_id IS NOT NULL AND location_id IS NOT NULL\n\
+    \ 'false') = 'false'\n        AND item_wid IS NOT NULL AND loc_wid IS NOT NULL\n\
     \        AND cur_flg = 'Y'\n),\n-- CTE 2: VOL_DW_ODS_SLS_TXN_LN_FV\n-- Purpose:\
     \ To calculate the net transaction amounts by subtracting the post-voided values\n\
     -- from the original transaction values. This CTE effectively cleans the data.\n\
     VOL_DW_ODS_SLS_TXN_LN_FV AS (\n    SELECT\n        -- Key identifiers for the\
-    \ transaction\n        location_id,\n        item_id,\n        item_wid,\n   \
-    \     loc_wid,\n        sales_txn_id,\n        sales_business_dt,\n        till_num,\n\
-    \        calendar_hour_id,\n        cashier_id,\n        sales_type_cd,\n    \
-    \    orignl_sls_tsactn_id,\n        original_sales_txn_item_id,\n        sales_txn_dt,\n\
+    \ transaction\n        loc_wid, --1\n        item_wid, --2\n        sales_txn_id,\
+    \ --3\n        sales_business_dt, --4\n        till_num, --5\n        calendar_hour_id,\
+    \ --6\n        cashier_id, --7\n        sales_type_cd, --8\n        orignl_sls_tsactn_id,\
+    \ --9\n        original_sales_txn_item_id, --10\n        sales_txn_dt, --11\n\
     \        -- Calculate net sales tax by subtracting post-voided tax from the original\
-    \ tax amount\n        SUM(sales_tax_amt) - SUM(pvoid_sales_tax_amt) AS sales_tax_amt,\n\
-    \        sales_employee_discount_amt,\n        sales_scan_count,\n        sales_manual_count,\n\
-    \        -- Calculate net return tax similarly\n        SUM(return_tax_amt) -\
-    \ SUM(pvoid_return_tax_amt) AS return_tax_amt,\n        return_employee_discount_amt,\n\
-    \        return_scan_count,\n        return_manual_count,\n        sales_manual_markdown_amt,\n\
-    \        sales_manual_markup_amt,\n        return_manual_markdown_amt,\n     \
-    \   return_manual_markup_amt,\n        -- Flags and metadata\n        void_flg,\n\
-    \        no_sale_flg,\n        cancelled_flg,\n        sales_currency_cd,\n  \
-    \      processing_ind,\n        sales_tsactn_line_number,\n        updated_sales_type_cd,\n\
-    \        gift_card_item_ind,\n        eff_from_dttm,\n        eff_to_dttm,\n \
-    \       cur_flg,\n        del_flg,\n        w_insrt_dttm,\n        w_updt_dttm,\n\
-    \        ssor_id,\n        nrt_processing_ind,\n        retail_type,\n       \
-    \ -- Calculate net sales units and amounts\n        SUM(sales_units) - SUM(pvoid_sales_units)\
-    \ AS sales_units,\n        SUM(sales_amt) - SUM(pvoid_sales_amt) AS sales_amt,\n\
-    \        -- Calculate net return units and amounts\n        SUM(return_units)\
-    \ - SUM(pvoid_return_units) AS return_units,\n        SUM(return_amt) - SUM(pvoid_return_amt)\
-    \ AS return_amt\n    FROM TRANSACTIONS_PREPARED\n    -- Group by all non-aggregated\
-    \ columns to get the correct sums for each transaction line.\n    GROUP BY 1,\
-    \ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 19, 20, 21, 22, 23, 24,\
-    \ 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42\n),\n\
-    -- CTE 3: VOL_SLS_TXN_TY_DATA\n-- Purpose: To select the cleaned transaction data\
-    \ for the specific business day being processed.\nVOL_SLS_TXN_TY_DATA AS (\n \
-    \   SELECT\n        location_id,\n        loc_wid,\n        item_wid,\n      \
-    \  item_id,\n        date '${LDTK_DATE}' AS business_day_id,\n        CAST(eff_from_dttm\
-    \ AS DATE) AS effective_from_dt,\n        no_sale_flg,\n        void_flg,\n  \
-    \      sales_type_cd,\n        updated_sales_type_cd,\n        sales_txn_id,\n\
-    \        sales_tsactn_line_number,\n        cancelled_flg,\n        orignl_sls_tsactn_id\
-    \ AS original_sales_txn_id,\n        retail_type,\n        sales_amt,\n      \
-    \  sales_units,\n        return_amt,\n        return_units,\n        sales_employee_discount_amt,\n\
-    \        return_employee_discount_amt,\n        sales_tax_amt,\n        return_tax_amt,\n\
-    \        sales_manual_markup_amt,\n        sales_manual_markdown_amt,\n      \
-    \  return_manual_markdown_amt,\n        sales_manual_count,\n        sales_scan_count\n\
-    \    FROM VOL_DW_ODS_SLS_TXN_LN_FV\n    -- Filter to ensure data is for the correct\
-    \ day and is the current active record.\n    -- not need done earlier\n   -- WHERE\
-    \ business_day_id = CURRENT_DATE - 1\n    ---    AND cur_flg = 'Y'\n),\n-- CTE\
-    \ 4: VOL_SLS_TXN_TY_DELTA_DATA\n-- Purpose: A staging CTE that passes the data\
-    \ through to the next aggregation step.\nVOL_SLS_TXN_TY_DELTA_DATA AS (\n    SELECT\n\
-    \        location_id,\n        loc_wid,\n        item_wid,\n        item_id,\n\
-    \        business_day_id,\n        effective_from_dt,\n        no_sale_flg,\n\
+    \ tax amount\n        SUM(sales_tax_amt) - SUM(pvoid_sales_tax_amt) AS sales_tax_amt,\
+    \ --12 (Aggregated)\n        sales_employee_discount_amt, --13\n        sales_scan_count,\
+    \ --14\n        sales_manual_count, --15\n        -- Calculate net return tax\
+    \ similarly\n        SUM(return_tax_amt) - SUM(pvoid_return_tax_amt) AS return_tax_amt,\
+    \ --16 (Aggregated)\n        return_employee_discount_amt, --17\n        return_scan_count,\
+    \ --18\n        return_manual_count, --19\n        sales_manual_markdown_amt,\
+    \ --20\n        sales_manual_markup_amt, --21\n        return_manual_markdown_amt,\
+    \ --22\n        return_manual_markup_amt, --23\n        -- Flags and metadata\n\
+    \        void_flg, --24\n        no_sale_flg, --25\n        cancelled_flg, --26\n\
+    \        sales_currency_cd, --27\n        processing_ind, --28\n        sales_tsactn_line_number,\
+    \ --29\n        updated_sales_type_cd, --30\n        gift_card_item_ind, --31\n\
+    \        eff_from_dttm, --32\n        eff_to_dttm, --33\n        cur_flg, --34\n\
+    \        del_flg, --35\n        w_insrt_dttm, --36\n        w_updt_dttm, --37\n\
+    \        ssor_id, --38\n        nrt_processing_ind, --39\n        retail_type,\
+    \ --40\n        -- Calculate net sales units and amounts\n        SUM(sales_units)\
+    \ - SUM(pvoid_sales_units) AS sales_units, --41 (Aggregated)\n        SUM(sales_amt)\
+    \ - SUM(pvoid_sales_amt) AS sales_amt, --42 (Aggregated)\n        -- Calculate\
+    \ net return units and amounts\n        SUM(return_units) - SUM(pvoid_return_units)\
+    \ AS return_units, --43 (Aggregated)\n        SUM(return_amt) - SUM(pvoid_return_amt)\
+    \ AS return_amt --44 (Aggregated)\n    FROM TRANSACTIONS_PREPARED\n    -- FIX:\
+    \ The GROUP BY clause now correctly includes all non-aggregated columns by their\
+    \ position number\n    -- and excludes the aggregated columns.\n    GROUP BY 1,\
+    \ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24,\
+    \ 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40\n),\n-- CTE 3:\
+    \ VOL_SLS_TXN_TY_DATA\n-- Purpose: To select the cleaned transaction data for\
+    \ the specific business day being processed.\nVOL_SLS_TXN_TY_DATA AS (\n    SELECT\n\
+    \        loc_wid,\n        item_wid,\n        date '${LDTK_DATE}' AS business_day_id,\n\
+    \        CAST(eff_from_dttm AS DATE) AS effective_from_dt,\n        no_sale_flg,\n\
+    \        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n \
+    \       sales_txn_id,\n        sales_tsactn_line_number,\n        cancelled_flg,\n\
+    \        orignl_sls_tsactn_id AS original_sales_txn_id,\n        retail_type,\n\
+    \        sales_amt,\n        sales_units,\n        return_amt,\n        return_units,\n\
+    \        sales_employee_discount_amt,\n        return_employee_discount_amt,\n\
+    \        sales_tax_amt,\n        return_tax_amt,\n        sales_manual_markup_amt,\n\
+    \        sales_manual_markdown_amt,\n        return_manual_markdown_amt,\n   \
+    \     sales_manual_count,\n        sales_scan_count\n    FROM VOL_DW_ODS_SLS_TXN_LN_FV\n\
+    \    -- Filter to ensure data is for the correct day and is the current active\
+    \ record.\n    -- not need done earlier   -- WHERE business_day_id = CURRENT_DATE\
+    \ - 1\n    ---    AND cur_flg = 'Y'\n),\n-- CTE 4: VOL_SLS_TXN_TY_DELTA_DATA\n\
+    -- Purpose: A staging CTE that passes the data through to the next aggregation\
+    \ step.\nVOL_SLS_TXN_TY_DELTA_DATA AS (\n    SELECT\n        loc_wid,\n      \
+    \  item_wid,\n        business_day_id,\n        effective_from_dt,\n        no_sale_flg,\n\
     \        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n \
     \       sales_txn_id,\n        sales_tsactn_line_number,\n        cancelled_flg,\n\
     \        original_sales_txn_id,\n        retail_type,\n        sales_amt,\n  \
@@ -1259,88 +730,102 @@ steps:
     \  return_manual_markdown_amt,\n        sales_manual_count,\n        sales_scan_count\n\
     \    FROM VOL_SLS_TXN_TY_DATA AS TY\n),\n-- CTE 5: VOL_SLS_TXN_TY\n-- Purpose:\
     \ To aggregate the transaction data to the transaction line level.\nVOL_SLS_TXN_TY\
-    \ AS (\n    SELECT\n        location_id,\n        loc_wid,\n        item_wid,\n\
-    \        item_id,\n        business_day_id,\n        no_sale_flg,\n        void_flg,\n\
-    \        sales_type_cd,\n        updated_sales_type_cd,\n        sales_txn_id,\n\
-    \        cancelled_flg,\n        original_sales_txn_id,\n        retail_type,\n\
-    \        SUM(sales_amt) AS sales_amt,\n        SUM(sales_units) AS sales_units,\n\
-    \        SUM(return_amt) AS return_amt,\n        SUM(return_units) AS return_units,\n\
-    \        SUM(sales_employee_discount_amt) AS sales_employee_discount_amt,\n  \
-    \      SUM(return_employee_discount_amt) AS return_employee_discount_amt,\n  \
-    \      SUM(sales_tax_amt) AS sales_tax_amt,\n        SUM(return_tax_amt) AS return_tax_amt,\n\
-    \        SUM(sales_manual_markup_amt) AS sales_manual_markup_amt,\n        SUM(sales_manual_markdown_amt)\
-    \ AS sales_manual_markdown_amt,\n        SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n\
-    \        SUM(sales_manual_count) AS sales_manual_count,\n        SUM(sales_scan_count)\
-    \ AS sales_scan_count\n    FROM VOL_SLS_TXN_TY_DELTA_DATA\n    GROUP BY\n    \
-    \    location_id,\n        loc_wid,\n        item_wid,\n        item_id,\n   \
-    \     business_day_id,\n        no_sale_flg,\n        void_flg,\n        sales_type_cd,\n\
-    \        updated_sales_type_cd,\n        sales_txn_id,\n        cancelled_flg,\n\
-    \        original_sales_txn_id,\n        retail_type\n),\n-- CTE 6: VOL_POS_TENDER_TYPE\n\
-    -- Purpose: To create a reference map for tender types, converting tender codes\
-    \ into descriptive categories.\nVOL_POS_TENDER_TYPE AS (\n    SELECT\n       \
-    \ tender_type_description,\n        tender_group_description,\n        tender_type_code,\n\
-    \        CASE\n            WHEN TND.tender_type_code = '3020' THEN 'Amex'\n  \
-    \          WHEN TND.tender_type_code = '3260' THEN 'Giftcard'\n            WHEN\
-    \ TND.tender_type_code BETWEEN '1000' AND '1999' THEN 'Cash'\n            WHEN\
-    \ (TND.tender_type_code BETWEEN '3000' AND '3999' OR tender_type_code = '6') AND\
-    \ TND.tender_type_code NOT IN '3020' THEN 'Card'\n            ELSE 'Others'\n\
-    \        END AS tender_type\n    FROM DW${INSTANCE}A_ACC_ORR.DW_POS_TENDER_TYPE_DV\
+    \ AS (\n    SELECT\n        loc_wid,\n        item_wid,\n        business_day_id,\n\
+    \        no_sale_flg,\n        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n\
+    \        sales_txn_id,\n        cancelled_flg,\n        original_sales_txn_id,\n\
+    \        retail_type,\n        SUM(sales_amt) AS sales_amt,\n        SUM(sales_units)\
+    \ AS sales_units,\n        SUM(return_amt) AS return_amt,\n        SUM(return_units)\
+    \ AS return_units,\n        SUM(sales_employee_discount_amt) AS sales_employee_discount_amt,\n\
+    \        SUM(return_employee_discount_amt) AS return_employee_discount_amt,\n\
+    \        SUM(sales_tax_amt) AS sales_tax_amt,\n        SUM(return_tax_amt) AS\
+    \ return_tax_amt,\n        SUM(sales_manual_markup_amt) AS sales_manual_markup_amt,\n\
+    \        SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n      \
+    \  SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n        SUM(sales_manual_count)\
+    \ AS sales_manual_count,\n        SUM(sales_scan_count) AS sales_scan_count\n\
+    \    FROM VOL_SLS_TXN_TY_DELTA_DATA\n    -- FIX: Changed to numbered GROUP BY\
+    \ as requested.\n    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11\n),\n-- CTE 6:\
+    \ VOL_POS_TENDER_TYPE\n-- Purpose: To create a reference map for tender types,\
+    \ converting tender codes into descriptive categories.\nVOL_POS_TENDER_TYPE AS\
+    \ (\n    SELECT\n        tender_type_description,\n        tender_group_description,\n\
+    \        tender_type_code,\n        CASE\n            WHEN TND.tender_type_code\
+    \ = '3020' THEN 'Amex'\n            WHEN TND.tender_type_code = '3260' THEN 'Giftcard'\n\
+    \            WHEN TND.tender_type_code BETWEEN '1000' AND '1999' THEN 'Cash'\n\
+    \            WHEN (TND.tender_type_code BETWEEN '3000' AND '3999' OR tender_type_code\
+    \ = '6') AND TND.tender_type_code NOT IN ('3020') THEN 'Card'\n            ELSE\
+    \ 'Others'\n        END AS tender_type\n    FROM DW${INSTANCE}A_ACC_ORR.DW_POS_TENDER_TYPE_DV\
     \ AS TND\n    WHERE current_flg = 'Y'\n),\n-- CTE 7: VOL_TENDER_SALES_TXN_TY\n\
     -- Purpose: To fetch tender data for the previous day's sales transactions.\n\
-    VOL_TENDER_SALES_TXN_TY AS (\n    SELECT\n        TNDR_TY.sales_transaction_id,\n\
-    \        TNDR_TY.location_id,\n        -- Note: Comment indicates a potential\
-    \ upstream bug causing a date mismatch.\n        date '${LDTK_DATE}' AS sales_business_date,\n\
-    \        TNDR_TY.effective_from_dt,\n        tender_type_code,\n        tender_sales_amount\n\
-    \    FROM DW${INSTANCE}A_ACC_ORR.DW_TNDR_SALES_TRX_LN_FV AS TNDR_TY\n    WHERE\
-    \ TNDR_TY.sales_business_date = date '${LDTK_DATE}' -- Filtering for T-2 due to\
-    \ upstream issue.\n        AND TNDR_TY.current_flg = 'Y'\n),\n-- CTE 8: VOL_TENDER_SALES_TXN_LA_TY\n\
-    -- Purpose: To capture the latest tender records for transactions that may have\
-    \ been updated.\nVOL_TENDER_SALES_TXN_LA_TY AS (\n    SELECT\n        TNDR_T.sales_transaction_id,\n\
-    \        TNDR_T.location_id,\n        TNDR_T.sales_business_date,\n        TNDR_T.tender_type_code,\n\
-    \        TNDR_T.tender_sales_amount\n    FROM DW${INSTANCE}A_ACC_ORR.DW_TNDR_SALES_TRX_LN_FV\
-    \ AS TNDR_T\n    INNER JOIN VOL_TENDER_SALES_TXN_TY AS T_CAL_L\n        ON TNDR_T.sales_transaction_id\
-    \ = T_CAL_L.sales_transaction_id\n        AND TNDR_T.location_id = T_CAL_L.location_id\n\
-    \        AND TNDR_T.sales_business_date = T_CAL_L.sales_business_date\n      \
-    \  AND TNDR_T.effective_from_dt <> T_CAL_L.effective_from_dt\n    WHERE TNDR_T.current_flg\
-    \ = 'Y'\n),\n-- CTE 9: VOL_TND_SLS_TXN_TY_PRE\n-- Purpose: To calculate the ratio\
-    \ of each tender type used within a single transaction.\n-- This is necessary\
-    \ to prorate sales amounts across multiple payment methods.\nVOL_TND_SLS_TXN_TY_PRE\
-    \ AS (\n    SELECT\n        sales_transaction_id,\n        location_id,\n    \
-    \    sales_business_date,\n        TND.tender_type_code,\n        POS.tender_type,\n\
-    \        -- Calculate the total tender amount for the entire transaction.\n  \
-    \      SUM(tender_sales_amount) OVER (PARTITION BY sales_transaction_id) AS full_tndr,\n\
-    \        -- Calculate the ratio of this specific tender line to the total transaction\
-    \ amount.\n        COALESCE((tender_sales_amount / (CASE WHEN full_tndr IS NULL\
-    \ OR full_tndr = 0 THEN 1 ELSE full_tndr END)), 0) AS rat_tndr,\n        -- Create\
-    \ ratio and count columns for each tender category.\n        CASE WHEN tender_type\
-    \ = 'Cash' THEN rat_tndr ELSE 0 END AS cash_rat,\n        CASE WHEN tender_type\
-    \ = 'Cash' THEN 1 ELSE 0 END AS cash_txn_cnt,\n        CASE WHEN tender_type =\
-    \ 'Card' THEN rat_tndr ELSE 0 END AS card_rat,\n        CASE WHEN tender_type\
-    \ = 'Card' THEN 1 ELSE 0 END AS card_txn_cnt,\n        CASE WHEN tender_type =\
-    \ 'Amex' THEN rat_tndr ELSE 0 END AS amex_rat,\n        CASE WHEN tender_type\
-    \ = 'Amex' THEN 1 ELSE 0 END AS amex_txn_cnt,\n        CASE WHEN tender_type =\
-    \ 'Giftcard' THEN rat_tndr ELSE 0 END AS giftcard_rat,\n        CASE WHEN tender_type\
-    \ = 'Giftcard' THEN 1 ELSE 0 END AS giftcard_txn_cnt,\n        CASE WHEN tender_type\
-    \ = 'Others' THEN rat_tndr ELSE 0 END AS others_rat,\n        CASE WHEN tender_type\
-    \ = 'Others' THEN 1 ELSE 0 END AS others_txn_cnt\n    FROM VOL_TENDER_SALES_TXN_TY\
-    \ AS TND\n    INNER JOIN VOL_POS_TENDER_TYPE AS POS\n        ON TND.tender_type_code\
-    \ = POS.tender_type_code\n),\n-- CTE 10: VOL_TND_SLS_TXN_TY\n-- Purpose: To aggregate\
+    VOL_SLS_TSACTN AS (\n    SELECT\n        sls_tsactn_id,\n        pos_dvc_id,\n\
+    \        rptd_as_dttm,\n        updt_tsactn_type,\n        tsactn_type_cd,\n \
+    \       ssor_id\n    FROM DW${INSTANCE}A_IDW.SLS_TSACTN\n    WHERE\n        CAST(rptd_as_dttm\
+    \ AS DATE) = DATE '${LDTK_DATE}'\n        AND ssor_id <> 3\n        AND COALESCE(updt_tsactn_type,\
+    \ tsactn_type_cd) <> 'PVOID'\n),\n-- CTE 8: Selects device event data for join\
+    \ logic.\nVOL_POS_DVC_EV AS (\n    SELECT\n        pos_dvc_id,\n        sls_tsactn_id,\n\
+    \        pos_dvc_ev_dttm,\n        ssor_id\n    FROM DW${INSTANCE}A_IDW.POS_DVC_EV\n\
+    \    WHERE\n        CAST(pos_dvc_ev_dttm AS DATE) = DATE '${LDTK_DATE}'\n    \
+    \    AND ssor_id <> 3\n),\n-- CTE 9: Selects payment line data to link sales transactions\
+    \ to payment transactions.\nVOL_SLS_PMT_LN AS (\n    SELECT\n        sls_tsactn_id,\n\
+    \        pmt_tsactn_id,\n        pmt_appl_dttm,\n        ssor_id\n    FROM DW${INSTANCE}A_IDW.SLS_PMT_LN\n\
+    \    WHERE\n        CAST(pmt_appl_dttm AS DATE) = DATE '${LDTK_DATE}'\n      \
+    \  AND ssor_id <> 3\n),\n-- CTE 10: Selects payment transaction details like tender\
+    \ type and amount.\nVOL_PMT_TSACTN AS (\n    SELECT\n        pmt_tsactn_id,\n\
+    \        pmt_type_cd,\n        tndrd_pmt_amt,\n        tndrd_pmt_dttm,\n     \
+    \   ssor_id\n    FROM DW${INSTANCE}A_IDW.PMT_TSACTN\n    WHERE\n        CAST(tndrd_pmt_dttm\
+    \ AS DATE) = DATE '${LDTK_DATE}'\n        AND ssor_id <> 3\n),\n-- CTE 11: TNDR_TY\
+    \ - Joins the above CTEs to create a detailed tender transaction view.\nTNDR_TY\
+    \ AS (\n    SELECT DISTINCT\n        A.loc_wid,\n        B.sls_tsactn_id AS \"\
+    sales_transaction_id\",\n        B.rptd_as_dttm AS \"sales_business_date\",\n\
+    \        E.pmt_type_cd AS \"tender_type_code\",\n        E.tndrd_pmt_amt AS \"\
+    tender_sales_amount\",\n        A.eff_from_dttm AS \"effective_from_dt\"\n   \
+    \ FROM DW${INSTANCE}A_IDW.POS_DVC AS A\n    INNER JOIN VOL_SLS_TSACTN AS B\n \
+    \       ON A.pos_dvc_id = B.pos_dvc_id\n    INNER JOIN VOL_POS_DVC_EV AS C\n \
+    \       ON A.pos_dvc_id = C.pos_dvc_id AND B.sls_tsactn_id = C.sls_tsactn_id\n\
+    \    INNER JOIN VOL_SLS_PMT_LN AS D\n        ON B.sls_tsactn_id = D.sls_tsactn_id\n\
+    \    INNER JOIN VOL_PMT_TSACTN AS E\n        ON D.pmt_tsactn_id = E.pmt_tsactn_id\n\
+    \    WHERE A.ssor_id <> 3\n),\n-- CTE 12: Filters tender data for the specific\
+    \ business date required.\nVOL_TENDER_SALES_TXN_TY AS (\n    SELECT\n        TNDR_TY.\"\
+    sales_transaction_id\",\n        TNDR_TY.loc_wid,\n        DATE '${LDTK_DATE}'\
+    \ AS sales_business_date,\n        TNDR_TY.\"effective_from_dt\",\n        TNDR_TY.\"\
+    tender_type_code\",\n        TNDR_TY.\"tender_sales_amount\"\n    FROM TNDR_TY\n\
+    \    WHERE\n        TNDR_TY.\"sales_business_date\" = DATE '${LDTK_DATE}'\n),\n\
+    -- CTE 13: VOL_TND_SLS_TXN_TY_PRE\n-- Purpose: To calculate the ratio of each\
+    \ tender type used within a single transaction.\n-- This is necessary to prorate\
+    \ sales amounts across multiple payment methods.\nVOL_TND_SLS_TXN_TY_PRE AS (\n\
+    \    SELECT\n        sales_transaction_id,\n        loc_wid,\n        sales_business_date,\n\
+    \        TND.tender_type_code,\n        POS.tender_type,\n        -- Calculate\
+    \ the total tender amount for the entire transaction.\n        SUM(tender_sales_amount)\
+    \ OVER (PARTITION BY sales_transaction_id) AS full_tndr,\n        -- Calculate\
+    \ the ratio of this specific tender line to the total transaction amount.\n  \
+    \      COALESCE((tender_sales_amount / (CASE WHEN full_tndr IS NULL OR full_tndr\
+    \ = 0 THEN 1 ELSE full_tndr END)), 0) AS rat_tndr,\n        -- Create ratio and\
+    \ count columns for each tender category.\n        CASE WHEN tender_type = 'Cash'\
+    \ THEN rat_tndr ELSE 0 END AS cash_rat,\n        CASE WHEN tender_type = 'Cash'\
+    \ THEN 1 ELSE 0 END AS cash_txn_cnt,\n        CASE WHEN tender_type = 'Card' THEN\
+    \ rat_tndr ELSE 0 END AS card_rat,\n        CASE WHEN tender_type = 'Card' THEN\
+    \ 1 ELSE 0 END AS card_txn_cnt,\n        CASE WHEN tender_type = 'Amex' THEN rat_tndr\
+    \ ELSE 0 END AS amex_rat,\n        CASE WHEN tender_type = 'Amex' THEN 1 ELSE\
+    \ 0 END AS amex_txn_cnt,\n        CASE WHEN tender_type = 'Giftcard' THEN rat_tndr\
+    \ ELSE 0 END AS giftcard_rat,\n        CASE WHEN tender_type = 'Giftcard' THEN\
+    \ 1 ELSE 0 END AS giftcard_txn_cnt,\n        CASE WHEN tender_type = 'Others'\
+    \ THEN rat_tndr ELSE 0 END AS others_rat,\n        CASE WHEN tender_type = 'Others'\
+    \ THEN 1 ELSE 0 END AS others_txn_cnt\n    FROM VOL_TENDER_SALES_TXN_TY AS TND\n\
+    \    INNER JOIN VOL_POS_TENDER_TYPE AS POS\n        ON TND.tender_type_code =\
+    \ POS.tender_type_code\n),\n-- CTE 14: VOL_TND_SLS_TXN_TY\n-- Purpose: To aggregate\
     \ the tender ratios to get the final tender split for each transaction.\nVOL_TND_SLS_TXN_TY\
-    \ AS (\n    SELECT\n        sales_transaction_id,\n        location_id,\n    \
-    \    sales_business_date,\n        SUM(cash_rat) AS cash_rat,\n        SUM(card_rat)\
-    \ AS card_rat,\n        SUM(amex_rat) AS amex_rat,\n        SUM(giftcard_rat)\
-    \ AS giftcard_rat,\n        SUM(others_rat) AS others_rat,\n        SUM(cash_txn_cnt)\
-    \ AS cash_txn_cnt,\n        SUM(card_txn_cnt) AS card_txn_cnt,\n        SUM(amex_txn_cnt)\
-    \ AS amex_txn_cnt,\n        SUM(giftcard_txn_cnt) AS giftcard_txn_cnt,\n     \
-    \   SUM(others_txn_cnt) AS others_txn_cnt\n    FROM VOL_TND_SLS_TXN_TY_PRE\n \
-    \   GROUP BY 1, 2, 3\n),\n-- CTE 11: SLS_TNDR_TY\n-- Purpose: This is the main\
-    \ calculation engine. It joins sales data with tender data\n-- and calculates\
-    \ a wide range of metrics based on transaction type, retail type, and tender type.\n\
-    SLS_TNDR_TY AS (\n    SELECT\n        TY.sales_txn_id,\n        TY.location_id,\n\
-    \        TY.loc_wid,\n        TY.item_id,\n        TY.item_wid,\n        TY.business_day_id,\n\
-    \        -- Base sales and return metrics\n        TY.sales_amt AS sales_amt,\n\
-    \        TY.sales_units AS sales_units,\n        CASE WHEN TY.sales_type_cd =\
-    \ 'SALE' THEN 1 ELSE 0 END AS sales_transaction_count,\n        TY.return_amt\
+    \ AS (\n    SELECT\n        sales_transaction_id,\n        loc_wid,\n        sales_business_date,\n\
+    \        SUM(cash_rat) AS cash_rat,\n        SUM(card_rat) AS card_rat,\n    \
+    \    SUM(amex_rat) AS amex_rat,\n        SUM(giftcard_rat) AS giftcard_rat,\n\
+    \        SUM(others_rat) AS others_rat,\n        SUM(cash_txn_cnt) AS cash_txn_cnt,\n\
+    \        SUM(card_txn_cnt) AS card_txn_cnt,\n        SUM(amex_txn_cnt) AS amex_txn_cnt,\n\
+    \        SUM(giftcard_txn_cnt) AS giftcard_txn_cnt,\n        SUM(others_txn_cnt)\
+    \ AS others_txn_cnt\n    FROM VOL_TND_SLS_TXN_TY_PRE\n    GROUP BY 1, 2, 3\n),\n\
+    -- CTE 15: SLS_TNDR_TY\n-- Purpose: This is the main calculation engine. It joins\
+    \ sales data with tender data\n-- and calculates a wide range of metrics based\
+    \ on transaction type, retail type, and tender type.\nSLS_TNDR_TY AS (\n    SELECT\n\
+    \        TY.sales_txn_id,\n        TY.loc_wid,\n        TY.item_wid,\n       \
+    \ TY.business_day_id,\n        -- Base sales and return metrics\n        TY.sales_amt\
+    \ AS sales_amt,\n        TY.sales_units AS sales_units,\n        CASE WHEN TY.sales_type_cd\
+    \ = 'SALE' THEN 1 ELSE 0 END AS sales_transaction_count,\n        TY.return_amt\
     \ AS return_amt,\n        TY.return_units AS return_units,\n        CASE WHEN\
     \ TY.sales_type_cd = 'RETURN' THEN 1 ELSE 0 END AS return_transaction_count,\n\
     \        -- Exchange metrics\n        CASE WHEN (TY.updated_sales_type_cd = 'EXCH'\
@@ -1501,29 +986,28 @@ steps:
     \        CASE WHEN TY.retail_type = 'R' AND (TY.updated_sales_type_cd = 'EXCH')\
     \ THEN 1 ELSE 0 END AS regular_exchange_transaction_count\n    FROM VOL_SLS_TXN_TY\
     \ AS TY\n    LEFT OUTER JOIN VOL_TND_SLS_TXN_TY AS TN_DY\n        ON TY.sales_txn_id\
-    \ = TN_DY.sales_transaction_id\n        AND TY.location_id = TN_DY.location_id\n\
-    \        AND TY.business_day_id = TN_DY.sales_business_date\n),\n-- CTE 12: VOL_SLS_TXN_THY\n\
+    \ = TN_DY.sales_transaction_id\n        AND TY.loc_wid = TN_DY.loc_wid\n     \
+    \   AND TY.business_day_id = TN_DY.sales_business_date\n),\n-- CTE 16: VOL_SLS_TXN_THY\n\
     -- Purpose: To perform the main aggregation, summing up all the calculated metrics\
     \ to the\n-- item, location, and day level. This creates the final summary data.\n\
-    VOL_SLS_TXN_THY AS (\n    SELECT\n        location_id,\n        loc_wid,\n   \
-    \     item_id,\n        item_wid,\n        business_day_id,\n        SUM(sales_amt)\
-    \ AS sales_amt,\n        SUM(sales_units) AS sales_units,\n        SUM(sales_transaction_count)\
-    \ AS sales_transaction_count,\n        SUM(return_amt) AS return_amt,\n      \
-    \  SUM(return_units) AS return_units,\n        SUM(return_transaction_count) AS\
-    \ return_transaction_count,\n        SUM(exchange_value) AS exchange_value,\n\
-    \        SUM(exchange_units) AS exchange_units,\n        SUM(exchange_transaction_count)\
-    \ AS exchange_transaction_count,\n        SUM(emp_discount_exchange_value) AS\
-    \ emp_discount_exchange_value,\n        SUM(emp_discount_exchange_units) AS emp_discount_exchange_units,\n\
-    \        SUM(emp_discount_exchange_transaction_count) AS emp_discount_exchange_transaction_count,\n\
-    \        SUM(emp_discount_sales_value) AS emp_discount_sales_value,\n        SUM(emp_discount_sales_units)\
-    \ AS emp_discount_sales_units,\n        SUM(emp_discount_sales_transaction_count)\
-    \ AS emp_discount_sales_transaction_count,\n        SUM(emp_discount_return_value)\
-    \ AS emp_discount_return_value,\n        SUM(emp_discount_return_units) AS emp_discount_return_units,\n\
-    \        SUM(emp_discount_return_transaction_count) AS emp_discount_return_transaction_count,\n\
-    \        SUM(sales_tax_amt) AS sales_tax_amt,\n        SUM(return_tax_amt) AS\
-    \ return_tax_amt,\n        SUM(void_transaction_count) AS void_transaction_count,\n\
-    \        SUM(post_void_transaction_count) AS post_void_transaction_count,\n  \
-    \      SUM(other_transaction_count) AS other_transaction_count,\n        SUM(sales_manual_markup_amt)\
+    VOL_SLS_TXN_THY AS (\n    SELECT\n        loc_wid,\n        item_wid,\n      \
+    \  business_day_id,\n        SUM(sales_amt) AS sales_amt,\n        SUM(sales_units)\
+    \ AS sales_units,\n        SUM(sales_transaction_count) AS sales_transaction_count,\n\
+    \        SUM(return_amt) AS return_amt,\n        SUM(return_units) AS return_units,\n\
+    \        SUM(return_transaction_count) AS return_transaction_count,\n        SUM(exchange_value)\
+    \ AS exchange_value,\n        SUM(exchange_units) AS exchange_units,\n       \
+    \ SUM(exchange_transaction_count) AS exchange_transaction_count,\n        SUM(emp_discount_exchange_value)\
+    \ AS emp_discount_exchange_value,\n        SUM(emp_discount_exchange_units) AS\
+    \ emp_discount_exchange_units,\n        SUM(emp_discount_exchange_transaction_count)\
+    \ AS emp_discount_exchange_transaction_count,\n        SUM(emp_discount_sales_value)\
+    \ AS emp_discount_sales_value,\n        SUM(emp_discount_sales_units) AS emp_discount_sales_units,\n\
+    \        SUM(emp_discount_sales_transaction_count) AS emp_discount_sales_transaction_count,\n\
+    \        SUM(emp_discount_return_value) AS emp_discount_return_value,\n      \
+    \  SUM(emp_discount_return_units) AS emp_discount_return_units,\n        SUM(emp_discount_return_transaction_count)\
+    \ AS emp_discount_return_transaction_count,\n        SUM(sales_tax_amt) AS sales_tax_amt,\n\
+    \        SUM(return_tax_amt) AS return_tax_amt,\n        SUM(void_transaction_count)\
+    \ AS void_transaction_count,\n        SUM(post_void_transaction_count) AS post_void_transaction_count,\n\
+    \        SUM(other_transaction_count) AS other_transaction_count,\n        SUM(sales_manual_markup_amt)\
     \ AS sales_manual_markup_amt,\n        SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n\
     \        SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n    \
     \    SUM(sales_manual_count) AS sales_manual_count,\n        SUM(sales_scan_count)\
@@ -1578,21 +1062,21 @@ steps:
     \        SUM(regular_exchange_value) AS regular_exchange_value,\n        SUM(regular_exchange_units)\
     \ AS regular_exchange_units,\n        SUM(regular_exchange_transaction_count)\
     \ AS regular_exchange_transaction_count\n    FROM SLS_TNDR_TY\n    GROUP BY 1,\
-    \ 2, 3, 4, 5\n),\n-- CTE 13: VOL_SLS_CLEAR_THY\n-- Purpose: To find the first\
-    \ date an item was sold on clearance at a specific location.\nVOL_SLS_CLEAR_THY\
-    \ AS (\n    SELECT\n        item_wid,\n        loc_wid,\n        MIN(business_day_id)\
+    \ 2, 3\n),\n-- CTE 17: VOL_SLS_CLEAR_THY\n-- Purpose: To find the first date an\
+    \ item was sold on clearance at a specific location.\nVOL_SLS_CLEAR_THY AS (\n\
+    \    SELECT\n        item_wid,\n        loc_wid,\n        MIN(business_day_id)\
     \ AS clearance_1st_date\n    FROM VOL_SLS_TXN_TY_DATA\n    WHERE sales_type_cd\
     \ = 'SALE' AND updated_sales_type_cd = 'SALE' AND retail_type = 'C'\n    GROUP\
-    \ BY 1, 2\n),\n-- CTE 14: VOL_SLS_1_THY\n-- Purpose: To find the first date an\
+    \ BY 1, 2\n),\n-- CTE 18: VOL_SLS_1_THY\n-- Purpose: To find the first date an\
     \ item was ever sold at a specific location.\nVOL_SLS_1_THY AS (\n    SELECT\n\
     \        item_wid,\n        loc_wid,\n        MIN(business_day_id) AS sales_1st_date\n\
     \    FROM VOL_SLS_TXN_TY_DATA\n    GROUP BY 1, 2\n)\n-- Final Select Statement\n\
     -- Purpose: To join the aggregated sales data with the first-sale and first-clearance\
     \ dates,\n-- and present the final, fully aggregated results.\nSELECT\n    SUB.business_day_id\
-    \ AS business_date,\n    SUB.location_id AS location_id,\n    -- SUB.loc_wid AS\
-    \ location_wid, -- Waiting for design change\n    SUB.item_id AS item_id,\n  \
-    \  -- SUB.item_wid AS item_wid, -- Waiting for design change\n    setbit((0(INTEGER)),0,1)\
-    \ AS fct_src_map,\n    MIN(SL.sales_1st_date) AS sales_1st_date,\n    MIN(CLEAR.clearance_1st_date)\
+    \ AS business_date,\n    SUB.loc_wid AS loc_wid,\n    -- SUB.loc_wid AS location_wid,\
+    \ -- Waiting for design change\n    SUB.item_wid AS item_wid,\n    -- SUB.item_wid\
+    \ AS item_wid, -- Waiting for design change\n    setbit((0(INTEGER)),0,1) AS fct_src_map,\n\
+    \    MIN(SL.sales_1st_date) AS sales_1st_date,\n    MIN(CLEAR.clearance_1st_date)\
     \ AS clearance_1st_date,\n    SUM(sales_amt) AS sales_value,\n    SUM(sales_units)\
     \ AS sales_units,\n    SUM(sales_transaction_count) AS sales_transaction_count,\n\
     \    SUM(return_amt) AS return_value,\n    SUM(return_units) AS return_units,\n\
@@ -1663,8 +1147,556 @@ steps:
     FROM VOL_SLS_TXN_THY AS SUB\nLEFT OUTER JOIN VOL_SLS_1_THY AS SL\n    ON SUB.item_wid\
     \ = SL.item_wid\n    AND SUB.loc_wid = SL.loc_wid\nLEFT OUTER JOIN VOL_SLS_CLEAR_THY\
     \ AS CLEAR\n    ON SUB.item_wid = CLEAR.item_wid\n    AND SUB.loc_wid = CLEAR.loc_wid\n\
-    GROUP BY 1, 2, 3"
+    GROUP BY 1, 2, 3;"
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND2202
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: Use Standard Delete insert to populate trans target
+  file_name: FND2202.300.TARGET.sql
+  file_present: true
+  job_name: FND2202
+  notes: See Mapping
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: "-- CTE 1: TRANSACTIONS_PREPARED\n-- Purpose: To select and prepare\
+    \ the initial sales transaction data from the source table.\n-- This CTE filters\
+    \ for a specific business date, excludes voided transactions, and separates\n\
+    -- standard sales and returns from post-voided (PVOID) transactions.\nWITH TRANSACTIONS_PREPARED\
+    \ AS (\n    SELECT\n        SLS.loc_wid,\n        item_wid,\n        sales_txn_id,\n\
+    \        sales_business_dt,\n        till_num,\n        calendar_hour_id,\n  \
+    \      cashier_id,\n        -- Flag to identify if a transaction is a post-void\n\
+    \        -- CASE WHEN sales_type_cd <> 'PVOID' THEN 1 ELSE 0 END AS flag,\n  \
+    \      sales_type_cd,\n        orignl_sls_tsactn_id,\n        original_sales_txn_item_id,\n\
+    \        sales_txn_dt,\n        -- Isolate original sales amounts, setting to\
+    \ 0 for PVOID\n        CASE WHEN sales_type_cd <> 'PVOID' THEN sales_amt ELSE\
+    \ 0 END AS sales_amt,\n        CASE WHEN sales_type_cd <> 'PVOID' THEN sales_units\
+    \ ELSE 0 END AS sales_units,\n        CASE WHEN sales_type_cd <> 'PVOID' THEN\
+    \ return_units ELSE 0 END AS return_units,\n        CASE WHEN sales_type_cd <>\
+    \ 'PVOID' THEN return_amt ELSE 0 END AS return_amt,\n        -- Isolate post-voided\
+    \ sales amounts, setting to 0 for standard transactions\n        CASE WHEN sales_type_cd\
+    \ = 'PVOID' THEN sales_amt ELSE 0 END AS pvoid_sales_amt,\n        CASE WHEN sales_type_cd\
+    \ = 'PVOID' THEN sales_units ELSE 0 END AS pvoid_sales_units,\n        CASE WHEN\
+    \ sales_type_cd = 'PVOID' THEN return_amt ELSE 0 END AS pvoid_return_amt,\n  \
+    \      CASE WHEN sales_type_cd = 'PVOID' THEN return_units ELSE 0 END AS pvoid_return_units,\n\
+    \        -- Isolate original tax amounts\n        CASE WHEN sales_type_cd <> 'PVOID'\
+    \ THEN sales_tax_amt ELSE 0 END AS sales_tax_amt,\n        CASE WHEN sales_type_cd\
+    \ <> 'PVOID' THEN return_tax_amt ELSE 0 END AS return_tax_amt,\n        -- Isolate\
+    \ post-voided tax amounts\n        CASE WHEN sales_type_cd = 'PVOID' THEN sales_tax_amt\
+    \ ELSE 0 END AS pvoid_sales_tax_amt,\n        CASE WHEN sales_type_cd = 'PVOID'\
+    \ THEN return_tax_amt ELSE 0 END AS pvoid_return_tax_amt,\n        sales_employee_discount_amt,\n\
+    \        sales_scan_count,\n        sales_manual_count,\n        return_employee_discount_amt,\n\
+    \        return_scan_count,\n        return_manual_count,\n        sales_manual_markdown_amt,\n\
+    \        sales_manual_markup_amt,\n        return_manual_markdown_amt,\n     \
+    \   return_manual_markup_amt,\n        void_flg,\n        no_sale_flg,\n     \
+    \   cancelled_flg,\n        sales_currency_cd,\n        processing_ind,\n    \
+    \    sales_tsactn_line_number,\n        updated_sales_type_cd,\n        gift_card_item_ind,\n\
+    \        eff_from_dttm,\n        eff_to_dttm,\n        cur_flg,\n        del_flg,\n\
+    \        w_insrt_dttm,\n        w_updt_dttm,\n        ssor_id,\n        nrt_processing_ind,\n\
+    \        retail_type\n    FROM DW${INSTANCE}A_ACC_ODS.DW_ODS_SLS_TXN_LN_FV AS\
+    \ SLS\n    -- Filter for yesterday's sales data.\n    WHERE SLS.sales_business_dt\
+    \ = date '${LDTK_DATE}'\n        -- Filter out fully voided transactions and ensure\
+    \ the void flag is not true.\n        AND sales_type_cd <> 'VOID' AND COALESCE(void_flg,\
+    \ 'false') = 'false'\n        AND item_wid IS NOT NULL AND loc_wid IS NOT NULL\n\
+    \        AND cur_flg = 'Y'\n),\n-- CTE 2: VOL_DW_ODS_SLS_TXN_LN_FV\n-- Purpose:\
+    \ To calculate the net transaction amounts by subtracting the post-voided values\n\
+    -- from the original transaction values. This CTE effectively cleans the data.\n\
+    VOL_DW_ODS_SLS_TXN_LN_FV AS (\n    SELECT\n        -- Key identifiers for the\
+    \ transaction\n        loc_wid, --1\n        item_wid, --2\n        sales_txn_id,\
+    \ --3\n        sales_business_dt, --4\n        till_num, --5\n        calendar_hour_id,\
+    \ --6\n        cashier_id, --7\n        sales_type_cd, --8\n        orignl_sls_tsactn_id,\
+    \ --9\n        original_sales_txn_item_id, --10\n        sales_txn_dt, --11\n\
+    \        -- Calculate net sales tax by subtracting post-voided tax from the original\
+    \ tax amount\n        SUM(sales_tax_amt) - SUM(pvoid_sales_tax_amt) AS sales_tax_amt,\
+    \ --12 (Aggregated)\n        sales_employee_discount_amt, --13\n        sales_scan_count,\
+    \ --14\n        sales_manual_count, --15\n        -- Calculate net return tax\
+    \ similarly\n        SUM(return_tax_amt) - SUM(pvoid_return_tax_amt) AS return_tax_amt,\
+    \ --16 (Aggregated)\n        return_employee_discount_amt, --17\n        return_scan_count,\
+    \ --18\n        return_manual_count, --19\n        sales_manual_markdown_amt,\
+    \ --20\n        sales_manual_markup_amt, --21\n        return_manual_markdown_amt,\
+    \ --22\n        return_manual_markup_amt, --23\n        -- Flags and metadata\n\
+    \        void_flg, --24\n        no_sale_flg, --25\n        cancelled_flg, --26\n\
+    \        sales_currency_cd, --27\n        processing_ind, --28\n        sales_tsactn_line_number,\
+    \ --29\n        updated_sales_type_cd, --30\n        gift_card_item_ind, --31\n\
+    \        eff_from_dttm, --32\n        eff_to_dttm, --33\n        cur_flg, --34\n\
+    \        del_flg, --35\n        w_insrt_dttm, --36\n        w_updt_dttm, --37\n\
+    \        ssor_id, --38\n        nrt_processing_ind, --39\n        retail_type,\
+    \ --40\n        -- Calculate net sales units and amounts\n        SUM(sales_units)\
+    \ - SUM(pvoid_sales_units) AS sales_units, --41 (Aggregated)\n        SUM(sales_amt)\
+    \ - SUM(pvoid_sales_amt) AS sales_amt, --42 (Aggregated)\n        -- Calculate\
+    \ net return units and amounts\n        SUM(return_units) - SUM(pvoid_return_units)\
+    \ AS return_units, --43 (Aggregated)\n        SUM(return_amt) - SUM(pvoid_return_amt)\
+    \ AS return_amt --44 (Aggregated)\n    FROM TRANSACTIONS_PREPARED\n    -- FIX:\
+    \ The GROUP BY clause now correctly includes all non-aggregated columns by their\
+    \ position number\n    -- and excludes the aggregated columns.\n    GROUP BY 1,\
+    \ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24,\
+    \ 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40\n),\n-- CTE 3:\
+    \ VOL_SLS_TXN_TY_DATA\n-- Purpose: To select the cleaned transaction data for\
+    \ the specific business day being processed.\nVOL_SLS_TXN_TY_DATA AS (\n    SELECT\n\
+    \        loc_wid,\n        item_wid,\n        date '${LDTK_DATE}' AS business_day_id,\n\
+    \        CAST(eff_from_dttm AS DATE) AS effective_from_dt,\n        no_sale_flg,\n\
+    \        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n \
+    \       sales_txn_id,\n        sales_tsactn_line_number,\n        cancelled_flg,\n\
+    \        orignl_sls_tsactn_id AS original_sales_txn_id,\n        retail_type,\n\
+    \        sales_amt,\n        sales_units,\n        return_amt,\n        return_units,\n\
+    \        sales_employee_discount_amt,\n        return_employee_discount_amt,\n\
+    \        sales_tax_amt,\n        return_tax_amt,\n        sales_manual_markup_amt,\n\
+    \        sales_manual_markdown_amt,\n        return_manual_markdown_amt,\n   \
+    \     sales_manual_count,\n        sales_scan_count\n    FROM VOL_DW_ODS_SLS_TXN_LN_FV\n\
+    \    -- Filter to ensure data is for the correct day and is the current active\
+    \ record.\n    -- not need done earlier   -- WHERE business_day_id = CURRENT_DATE\
+    \ - 1\n    ---    AND cur_flg = 'Y'\n),\n-- CTE 4: VOL_SLS_TXN_TY_DELTA_DATA\n\
+    -- Purpose: A staging CTE that passes the data through to the next aggregation\
+    \ step.\nVOL_SLS_TXN_TY_DELTA_DATA AS (\n    SELECT\n        loc_wid,\n      \
+    \  item_wid,\n        business_day_id,\n        effective_from_dt,\n        no_sale_flg,\n\
+    \        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n \
+    \       sales_txn_id,\n        sales_tsactn_line_number,\n        cancelled_flg,\n\
+    \        original_sales_txn_id,\n        retail_type,\n        sales_amt,\n  \
+    \      sales_units,\n        return_amt,\n        return_units,\n        sales_employee_discount_amt,\n\
+    \        return_employee_discount_amt,\n        sales_tax_amt,\n        return_tax_amt,\n\
+    \        sales_manual_markup_amt,\n        sales_manual_markdown_amt,\n      \
+    \  return_manual_markdown_amt,\n        sales_manual_count,\n        sales_scan_count\n\
+    \    FROM VOL_SLS_TXN_TY_DATA AS TY\n),\n-- CTE 5: VOL_SLS_TXN_TY\n-- Purpose:\
+    \ To aggregate the transaction data to the transaction line level.\nVOL_SLS_TXN_TY\
+    \ AS (\n    SELECT\n        loc_wid,\n        item_wid,\n        business_day_id,\n\
+    \        no_sale_flg,\n        void_flg,\n        sales_type_cd,\n        updated_sales_type_cd,\n\
+    \        sales_txn_id,\n        cancelled_flg,\n        original_sales_txn_id,\n\
+    \        retail_type,\n        SUM(sales_amt) AS sales_amt,\n        SUM(sales_units)\
+    \ AS sales_units,\n        SUM(return_amt) AS return_amt,\n        SUM(return_units)\
+    \ AS return_units,\n        SUM(sales_employee_discount_amt) AS sales_employee_discount_amt,\n\
+    \        SUM(return_employee_discount_amt) AS return_employee_discount_amt,\n\
+    \        SUM(sales_tax_amt) AS sales_tax_amt,\n        SUM(return_tax_amt) AS\
+    \ return_tax_amt,\n        SUM(sales_manual_markup_amt) AS sales_manual_markup_amt,\n\
+    \        SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n      \
+    \  SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n        SUM(sales_manual_count)\
+    \ AS sales_manual_count,\n        SUM(sales_scan_count) AS sales_scan_count\n\
+    \    FROM VOL_SLS_TXN_TY_DELTA_DATA\n    -- FIX: Changed to numbered GROUP BY\
+    \ as requested.\n    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11\n),\n-- CTE 6:\
+    \ VOL_POS_TENDER_TYPE\n-- Purpose: To create a reference map for tender types,\
+    \ converting tender codes into descriptive categories.\nVOL_POS_TENDER_TYPE AS\
+    \ (\n    SELECT\n        tender_type_description,\n        tender_group_description,\n\
+    \        tender_type_code,\n        CASE\n            WHEN TND.tender_type_code\
+    \ = '3020' THEN 'Amex'\n            WHEN TND.tender_type_code = '3260' THEN 'Giftcard'\n\
+    \            WHEN TND.tender_type_code BETWEEN '1000' AND '1999' THEN 'Cash'\n\
+    \            WHEN (TND.tender_type_code BETWEEN '3000' AND '3999' OR tender_type_code\
+    \ = '6') AND TND.tender_type_code NOT IN ('3020') THEN 'Card'\n            ELSE\
+    \ 'Others'\n        END AS tender_type\n    FROM DW${INSTANCE}A_ACC_ORR.DW_POS_TENDER_TYPE_DV\
+    \ AS TND\n    WHERE current_flg = 'Y'\n),\n-- CTE 7: VOL_TENDER_SALES_TXN_TY\n\
+    -- Purpose: To fetch tender data for the previous day's sales transactions.\n\
+    VOL_SLS_TSACTN AS (\n    SELECT\n        sls_tsactn_id,\n        pos_dvc_id,\n\
+    \        rptd_as_dttm,\n        updt_tsactn_type,\n        tsactn_type_cd,\n \
+    \       ssor_id\n    FROM DW${INSTANCE}A_IDW.SLS_TSACTN\n    WHERE\n        CAST(rptd_as_dttm\
+    \ AS DATE) = DATE '${LDTK_DATE}'\n        AND ssor_id <> 3\n        AND COALESCE(updt_tsactn_type,\
+    \ tsactn_type_cd) <> 'PVOID'\n),\n-- CTE 8: Selects device event data for join\
+    \ logic.\nVOL_POS_DVC_EV AS (\n    SELECT\n        pos_dvc_id,\n        sls_tsactn_id,\n\
+    \        pos_dvc_ev_dttm,\n        ssor_id\n    FROM DW${INSTANCE}A_IDW.POS_DVC_EV\n\
+    \    WHERE\n        CAST(pos_dvc_ev_dttm AS DATE) = DATE '${LDTK_DATE}'\n    \
+    \    AND ssor_id <> 3\n),\n-- CTE 9: Selects payment line data to link sales transactions\
+    \ to payment transactions.\nVOL_SLS_PMT_LN AS (\n    SELECT\n        sls_tsactn_id,\n\
+    \        pmt_tsactn_id,\n        pmt_appl_dttm,\n        ssor_id\n    FROM DW${INSTANCE}A_IDW.SLS_PMT_LN\n\
+    \    WHERE\n        CAST(pmt_appl_dttm AS DATE) = DATE '${LDTK_DATE}'\n      \
+    \  AND ssor_id <> 3\n),\n-- CTE 10: Selects payment transaction details like tender\
+    \ type and amount.\nVOL_PMT_TSACTN AS (\n    SELECT\n        pmt_tsactn_id,\n\
+    \        pmt_type_cd,\n        tndrd_pmt_amt,\n        tndrd_pmt_dttm,\n     \
+    \   ssor_id\n    FROM DW${INSTANCE}A_IDW.PMT_TSACTN\n    WHERE\n        CAST(tndrd_pmt_dttm\
+    \ AS DATE) = DATE '${LDTK_DATE}'\n        AND ssor_id <> 3\n),\n-- CTE 11: TNDR_TY\
+    \ - Joins the above CTEs to create a detailed tender transaction view.\nTNDR_TY\
+    \ AS (\n    SELECT DISTINCT\n        A.loc_wid,\n        B.sls_tsactn_id AS \"\
+    sales_transaction_id\",\n        B.rptd_as_dttm AS \"sales_business_date\",\n\
+    \        E.pmt_type_cd AS \"tender_type_code\",\n        E.tndrd_pmt_amt AS \"\
+    tender_sales_amount\",\n        A.eff_from_dttm AS \"effective_from_dt\"\n   \
+    \ FROM DW${INSTANCE}A_IDW.POS_DVC AS A\n    INNER JOIN VOL_SLS_TSACTN AS B\n \
+    \       ON A.pos_dvc_id = B.pos_dvc_id\n    INNER JOIN VOL_POS_DVC_EV AS C\n \
+    \       ON A.pos_dvc_id = C.pos_dvc_id AND B.sls_tsactn_id = C.sls_tsactn_id\n\
+    \    INNER JOIN VOL_SLS_PMT_LN AS D\n        ON B.sls_tsactn_id = D.sls_tsactn_id\n\
+    \    INNER JOIN VOL_PMT_TSACTN AS E\n        ON D.pmt_tsactn_id = E.pmt_tsactn_id\n\
+    \    WHERE A.ssor_id <> 3\n),\n-- CTE 12: Filters tender data for the specific\
+    \ business date required.\nVOL_TENDER_SALES_TXN_TY AS (\n    SELECT\n        TNDR_TY.\"\
+    sales_transaction_id\",\n        TNDR_TY.loc_wid,\n        DATE '${LDTK_DATE}'\
+    \ AS sales_business_date,\n        TNDR_TY.\"effective_from_dt\",\n        TNDR_TY.\"\
+    tender_type_code\",\n        TNDR_TY.\"tender_sales_amount\"\n    FROM TNDR_TY\n\
+    \    WHERE\n        TNDR_TY.\"sales_business_date\" = DATE '${LDTK_DATE}'\n),\n\
+    -- CTE 13: VOL_TND_SLS_TXN_TY_PRE\n-- Purpose: To calculate the ratio of each\
+    \ tender type used within a single transaction.\n-- This is necessary to prorate\
+    \ sales amounts across multiple payment methods.\nVOL_TND_SLS_TXN_TY_PRE AS (\n\
+    \    SELECT\n        sales_transaction_id,\n        loc_wid,\n        sales_business_date,\n\
+    \        TND.tender_type_code,\n        POS.tender_type,\n        -- Calculate\
+    \ the total tender amount for the entire transaction.\n        SUM(tender_sales_amount)\
+    \ OVER (PARTITION BY sales_transaction_id) AS full_tndr,\n        -- Calculate\
+    \ the ratio of this specific tender line to the total transaction amount.\n  \
+    \      COALESCE((tender_sales_amount / (CASE WHEN full_tndr IS NULL OR full_tndr\
+    \ = 0 THEN 1 ELSE full_tndr END)), 0) AS rat_tndr,\n        -- Create ratio and\
+    \ count columns for each tender category.\n        CASE WHEN tender_type = 'Cash'\
+    \ THEN rat_tndr ELSE 0 END AS cash_rat,\n        CASE WHEN tender_type = 'Cash'\
+    \ THEN 1 ELSE 0 END AS cash_txn_cnt,\n        CASE WHEN tender_type = 'Card' THEN\
+    \ rat_tndr ELSE 0 END AS card_rat,\n        CASE WHEN tender_type = 'Card' THEN\
+    \ 1 ELSE 0 END AS card_txn_cnt,\n        CASE WHEN tender_type = 'Amex' THEN rat_tndr\
+    \ ELSE 0 END AS amex_rat,\n        CASE WHEN tender_type = 'Amex' THEN 1 ELSE\
+    \ 0 END AS amex_txn_cnt,\n        CASE WHEN tender_type = 'Giftcard' THEN rat_tndr\
+    \ ELSE 0 END AS giftcard_rat,\n        CASE WHEN tender_type = 'Giftcard' THEN\
+    \ 1 ELSE 0 END AS giftcard_txn_cnt,\n        CASE WHEN tender_type = 'Others'\
+    \ THEN rat_tndr ELSE 0 END AS others_rat,\n        CASE WHEN tender_type = 'Others'\
+    \ THEN 1 ELSE 0 END AS others_txn_cnt\n    FROM VOL_TENDER_SALES_TXN_TY AS TND\n\
+    \    INNER JOIN VOL_POS_TENDER_TYPE AS POS\n        ON TND.tender_type_code =\
+    \ POS.tender_type_code\n),\n-- CTE 14: VOL_TND_SLS_TXN_TY\n-- Purpose: To aggregate\
+    \ the tender ratios to get the final tender split for each transaction.\nVOL_TND_SLS_TXN_TY\
+    \ AS (\n    SELECT\n        sales_transaction_id,\n        loc_wid,\n        sales_business_date,\n\
+    \        SUM(cash_rat) AS cash_rat,\n        SUM(card_rat) AS card_rat,\n    \
+    \    SUM(amex_rat) AS amex_rat,\n        SUM(giftcard_rat) AS giftcard_rat,\n\
+    \        SUM(others_rat) AS others_rat,\n        SUM(cash_txn_cnt) AS cash_txn_cnt,\n\
+    \        SUM(card_txn_cnt) AS card_txn_cnt,\n        SUM(amex_txn_cnt) AS amex_txn_cnt,\n\
+    \        SUM(giftcard_txn_cnt) AS giftcard_txn_cnt,\n        SUM(others_txn_cnt)\
+    \ AS others_txn_cnt\n    FROM VOL_TND_SLS_TXN_TY_PRE\n    GROUP BY 1, 2, 3\n),\n\
+    -- CTE 15: SLS_TNDR_TY\n-- Purpose: This is the main calculation engine. It joins\
+    \ sales data with tender data\n-- and calculates a wide range of metrics based\
+    \ on transaction type, retail type, and tender type.\nSLS_TNDR_TY AS (\n    SELECT\n\
+    \        TY.sales_txn_id,\n        TY.loc_wid,\n        TY.item_wid,\n       \
+    \ TY.business_day_id,\n        -- Base sales and return metrics\n        TY.sales_amt\
+    \ AS sales_amt,\n        TY.sales_units AS sales_units,\n        CASE WHEN TY.sales_type_cd\
+    \ = 'SALE' THEN 1 ELSE 0 END AS sales_transaction_count,\n        TY.return_amt\
+    \ AS return_amt,\n        TY.return_units AS return_units,\n        CASE WHEN\
+    \ TY.sales_type_cd = 'RETURN' THEN 1 ELSE 0 END AS return_transaction_count,\n\
+    \        -- Exchange metrics\n        CASE WHEN (TY.updated_sales_type_cd = 'EXCH'\
+    \ AND TY.sales_type_cd = 'SALE') THEN TY.sales_amt ELSE 0 END AS exchange_value,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN TY.sales_units ELSE 0 END AS exchange_units,\n        CASE WHEN (TY.updated_sales_type_cd\
+    \ = 'EXCH' AND TY.sales_type_cd = 'SALE') THEN 1 ELSE 0 END AS exchange_transaction_count,\n\
+    \        -- Employee discount metrics\n        CASE WHEN (COALESCE(TY.sales_employee_discount_amt,\
+    \ 0) > 0 AND TY.sales_amt > 0 AND TY.return_amt > 0) THEN TY.sales_amt ELSE 0\
+    \ END AS emp_discount_exchange_value,\n        CASE WHEN (COALESCE(TY.sales_employee_discount_amt,\
+    \ 0) > 0 AND TY.sales_amt > 0 AND TY.return_amt > 0) THEN TY.sales_units ELSE\
+    \ 0 END AS emp_discount_exchange_units,\n        CASE WHEN (COALESCE(TY.sales_employee_discount_amt,\
+    \ 0) > 0 AND TY.sales_amt > 0 AND TY.return_amt > 0) THEN 1 ELSE 0 END AS emp_discount_exchange_transaction_count,\n\
+    \        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN TY.sales_employee_discount_amt ELSE 0 END AS emp_discount_sales_value,\n\
+    \        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ AND TY.sales_employee_discount_amt > 0 THEN TY.sales_units ELSE 0 END AS emp_discount_sales_units,\n\
+    \        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ AND TY.sales_employee_discount_amt > 0 THEN 1 ELSE 0 END AS emp_discount_sales_transaction_count,\n\
+    \        CASE WHEN TY.sales_type_cd = 'RETURN' AND TY.updated_sales_type_cd =\
+    \ 'RETURN' THEN TY.return_employee_discount_amt ELSE 0 END AS emp_discount_return_value,\n\
+    \        CASE WHEN TY.sales_type_cd = 'RETURN' AND TY.updated_sales_type_cd =\
+    \ 'RETURN' AND TY.return_employee_discount_amt > 0 THEN TY.return_units ELSE 0\
+    \ END AS emp_discount_return_units,\n        CASE WHEN TY.sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' AND TY.return_employee_discount_amt\
+    \ > 0 THEN 1 ELSE 0 END AS emp_discount_return_transaction_count,\n        --\
+    \ Tax and transaction status metrics\n        TY.sales_tax_amt AS sales_tax_amt,\n\
+    \        TY.return_tax_amt AS return_tax_amt,\n        CASE WHEN TY.void_flg =\
+    \ 'Y' THEN 1 ELSE 0 END AS void_transaction_count,\n        CASE WHEN TY.updated_sales_type_cd\
+    \ = 'PVOID' THEN 1 ELSE 0 END AS post_void_transaction_count,\n        CASE WHEN\
+    \ TY.cancelled_flg = 'N' AND TY.void_flg = 'N' THEN 1 ELSE 0 END AS other_transaction_count,\n\
+    \        -- Manual adjustment and receipt metrics\n        TY.sales_manual_markup_amt\
+    \ AS sales_manual_markup_amt,\n        TY.sales_manual_markdown_amt AS sales_manual_markdown_amt,\n\
+    \        TY.return_manual_markdown_amt AS return_manual_markdown_amt,\n      \
+    \  CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
+    \ TY.sales_manual_count ELSE 0 END AS sales_manual_count,\n        CASE WHEN TY.sales_type_cd\
+    \ = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN TY.sales_scan_count ELSE\
+    \ 0 END AS sales_scan_count,\n        CASE WHEN TY.updated_sales_type_cd = 'EXCH'\
+    \ AND TY.original_sales_txn_id IS NOT NULL AND TY.sales_amt > 0 THEN TY.sales_amt\
+    \ ELSE 0 END AS exchanges_with_reciepts,\n        CASE WHEN TY.updated_sales_type_cd\
+    \ = 'EXCH' AND TY.original_sales_txn_id IS NULL AND TY.sales_amt > 0 THEN TY.sales_amt\
+    \ ELSE 0 END AS exchanges_without_reciepts,\n        CASE WHEN TY.updated_sales_type_cd\
+    \ = 'RETURN' AND TY.original_sales_txn_id IS NOT NULL AND TY.return_amt > 0 THEN\
+    \ TY.return_amt ELSE 0 END AS returns_with_reciepts,\n        CASE WHEN TY.updated_sales_type_cd\
+    \ = 'RETURN' AND TY.original_sales_txn_id IS NULL AND TY.return_amt > 0 THEN TY.return_amt\
+    \ ELSE 0 END AS returns_without_reciepts,\n        CASE WHEN TY.no_sale_flg =\
+    \ 'Y' THEN 1 ELSE 0 END AS no_sale_transaction_count,\n        -- Markdown sales\
+    \ metrics\n        CASE WHEN TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd\
+    \ = 'SALE' AND TY.retail_type IN ('P', 'C') THEN TY.sales_amt ELSE 0 END AS markdown_sales,\n\
+    \        -- Sales metrics prorated by tender type\n        CASE WHEN sales_type_cd\
+    \ = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN (TY.sales_amt * TN_DY.cash_rat)\
+    \ ELSE 0 END AS cash_sales_value,\n        CASE WHEN sales_type_cd = 'SALE' AND\
+    \ TY.updated_sales_type_cd = 'SALE' THEN CEIL((TY.sales_units * TN_DY.cash_rat))\
+    \ ELSE 0 END AS cash_sales_units,\n        CASE WHEN sales_type_cd = 'SALE' AND\
+    \ TY.updated_sales_type_cd = 'SALE' THEN TN_DY.cash_txn_cnt ELSE 0 END AS cash_sales_transaction_count,\n\
+    \        CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN (TY.sales_amt * TN_DY.card_rat) ELSE 0 END AS card_sales_value,\n     \
+    \   CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
+    \ CEIL((TY.sales_units * TN_DY.card_rat)) ELSE 0 END AS card_sales_units,\n  \
+    \      CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN TN_DY.card_txn_cnt ELSE 0 END AS card_sales_transaction_count,\n      \
+    \  CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
+    \ (TY.sales_amt * TN_DY.giftcard_rat) ELSE 0 END AS gift_sales_value,\n      \
+    \  CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE' THEN\
+    \ CEIL((TY.sales_units * TN_DY.giftcard_rat)) ELSE 0 END AS gift_sales_units,\n\
+    \        CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN TN_DY.giftcard_txn_cnt ELSE 0 END AS gift_sales_transaction_count,\n  \
+    \      CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN (TY.sales_amt * TN_DY.others_rat) ELSE 0 END AS others_sales_value,\n \
+    \       CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN CEIL((TY.sales_units * TN_DY.others_rat)) ELSE 0 END AS others_sales_units,\n\
+    \        CASE WHEN sales_type_cd = 'SALE' AND TY.updated_sales_type_cd = 'SALE'\
+    \ THEN TN_DY.others_txn_cnt ELSE 0 END AS others_sales_transaction_count,\n  \
+    \      -- Return metrics prorated by tender type\n        CASE WHEN sales_type_cd\
+    \ = 'RETURN' AND TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.cash_rat)\
+    \ ELSE 0 END AS cash_return_value,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.cash_rat))\
+    \ ELSE 0 END AS cash_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.cash_txn_cnt ELSE 0 END AS\
+    \ cash_return_transaction_count,\n        CASE WHEN sales_type_cd = 'RETURN' AND\
+    \ TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.card_rat) ELSE\
+    \ 0 END AS card_return_value,\n        CASE WHEN sales_type_cd = 'RETURN' AND\
+    \ TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.card_rat))\
+    \ ELSE 0 END AS card_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.card_txn_cnt ELSE 0 END AS\
+    \ card_return_transaction_count,\n        CASE WHEN sales_type_cd = 'RETURN' AND\
+    \ TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.giftcard_rat)\
+    \ ELSE 0 END AS gift_return_value,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.giftcard_rat))\
+    \ ELSE 0 END AS gift_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.giftcard_txn_cnt ELSE 0 END\
+    \ AS gift_return_transaction_count,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN (TY.return_amt * TN_DY.others_rat)\
+    \ ELSE 0 END AS others_return_value,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN CEIL((TY.return_units * TN_DY.others_rat))\
+    \ ELSE 0 END AS others_return_units,\n        CASE WHEN sales_type_cd = 'RETURN'\
+    \ AND TY.updated_sales_type_cd = 'RETURN' THEN TN_DY.others_txn_cnt ELSE 0 END\
+    \ AS others_return_transaction_count,\n        -- Exchange metrics prorated by\
+    \ tender type\n        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd\
+    \ = 'SALE') THEN (TY.sales_amt * TN_DY.cash_rat) ELSE 0 END AS cash_exchange_value,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN CEIL((TY.sales_units * TN_DY.cash_rat)) ELSE 0 END AS cash_exchange_units,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN TN_DY.cash_txn_cnt ELSE 0 END AS cash_exchange_transaction_count,\n   \
+    \     CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN (TY.sales_amt * TN_DY.card_rat) ELSE 0 END AS card_exchange_value,\n  \
+    \      CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN CEIL((TY.sales_units * TN_DY.card_rat)) ELSE 0 END AS card_exchange_units,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN TN_DY.card_txn_cnt ELSE 0 END AS card_exchange_transaction_count,\n   \
+    \     CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN (TY.sales_amt * TN_DY.giftcard_rat) ELSE 0 END AS gift_exchange_value,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN CEIL((TY.sales_units * TN_DY.giftcard_rat)) ELSE 0 END AS gift_exchange_units,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN TN_DY.giftcard_txn_cnt ELSE 0 END AS gift_exchange_transaction_count,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN (TY.sales_amt * TN_DY.others_rat) ELSE 0 END AS others_exchange_value,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN CEIL((TY.sales_units * TN_DY.others_rat)) ELSE 0 END AS others_exchange_units,\n\
+    \        CASE WHEN (TY.updated_sales_type_cd = 'EXCH' AND TY.sales_type_cd = 'SALE')\
+    \ THEN TN_DY.others_txn_cnt ELSE 0 END AS others_exchange_transaction_count,\n\
+    \        -- Sales metrics by retail type (Promotion, Clearance, Regular)\n   \
+    \     CASE WHEN TY.retail_type = 'P' THEN TY.sales_amt ELSE 0 END AS promotion_sales_value,\n\
+    \        CASE WHEN TY.retail_type = 'P' THEN TY.sales_units ELSE 0 END AS promotion_sales_units,\n\
+    \        CASE WHEN TY.retail_type = 'P' AND TY.sales_type_cd = 'SALE' THEN 1 ELSE\
+    \ 0 END AS promotion_sales_transaction_count,\n        CASE WHEN TY.retail_type\
+    \ = 'C' THEN TY.sales_amt ELSE 0 END AS clearance_sales_value,\n        CASE WHEN\
+    \ TY.retail_type = 'C' THEN TY.sales_units ELSE 0 END AS clearance_sales_units,\n\
+    \        CASE WHEN TY.retail_type = 'C' AND TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd\
+    \ = 'SALE' THEN 1 ELSE 0 END AS clearance_sales_transaction_count,\n        CASE\
+    \ WHEN TY.retail_type = 'R' THEN TY.sales_amt ELSE 0 END AS regular_sales_value,\n\
+    \        CASE WHEN TY.retail_type = 'R' THEN TY.sales_units ELSE 0 END AS regular_sales_units,\n\
+    \        CASE WHEN TY.retail_type = 'R' AND TY.sales_type_cd = 'SALE' AND TY.updated_sales_type_cd\
+    \ = 'SALE' THEN 1 ELSE 0 END AS regular_sales_transaction_count,\n        -- Return\
+    \ metrics by retail type\n        CASE WHEN TY.retail_type = 'P' THEN TY.return_amt\
+    \ ELSE 0 END AS promotion_return_value,\n        CASE WHEN TY.retail_type = 'P'\
+    \ THEN TY.return_units ELSE 0 END AS promotion_return_units,\n        CASE WHEN\
+    \ TY.retail_type = 'P' AND TY.sales_type_cd = 'RETURN' THEN 1 ELSE 0 END AS promotion_return_transaction_count,\n\
+    \        CASE WHEN TY.retail_type = 'C' THEN TY.return_amt ELSE 0 END AS clearance_return_value,\n\
+    \        CASE WHEN TY.retail_type = 'C' THEN TY.return_units ELSE 0 END AS clearance_return_units,\n\
+    \        CASE WHEN TY.retail_type = 'C' AND TY.sales_type_cd = 'RETURN' THEN 1\
+    \ ELSE 0 END AS clearance_return_transaction_count,\n        CASE WHEN TY.retail_type\
+    \ = 'R' THEN TY.return_amt ELSE 0 END AS regular_return_value,\n        CASE WHEN\
+    \ TY.retail_type = 'R' THEN TY.return_units ELSE 0 END AS regular_return_units,\n\
+    \        CASE WHEN TY.retail_type = 'R' AND TY.sales_type_cd = 'RETURN' THEN 1\
+    \ ELSE 0 END AS regular_return_transaction_count,\n        -- Exchange metrics\
+    \ by retail type\n        CASE WHEN TY.retail_type = 'P' THEN TY.sales_amt ELSE\
+    \ 0 END AS promotion_exchange_value,\n        CASE WHEN TY.retail_type = 'P' THEN\
+    \ TY.sales_units ELSE 0 END AS promotion_exchange_units,\n        CASE WHEN TY.retail_type\
+    \ = 'P' AND (TY.updated_sales_type_cd = 'EXCH') THEN 1 ELSE 0 END AS promotion_exchange_transaction_count,\n\
+    \        CASE WHEN TY.retail_type = 'C' THEN (TY.sales_amt - TY.return_amt) ELSE\
+    \ 0 END AS clearance_exchange_value,\n        CASE WHEN TY.retail_type = 'C' THEN\
+    \ TY.sales_units ELSE 0 END AS clearance_exchange_units,\n        CASE WHEN TY.retail_type\
+    \ = 'C' AND (TY.updated_sales_type_cd = 'EXCH') THEN 1 ELSE 0 END AS clearance_exchange_transaction_count,\n\
+    \        CASE WHEN TY.retail_type = 'R' THEN TY.sales_amt ELSE 0 END AS regular_exchange_value,\n\
+    \        CASE WHEN TY.retail_type = 'R' THEN TY.sales_units ELSE 0 END AS regular_exchange_units,\n\
+    \        CASE WHEN TY.retail_type = 'R' AND (TY.updated_sales_type_cd = 'EXCH')\
+    \ THEN 1 ELSE 0 END AS regular_exchange_transaction_count\n    FROM VOL_SLS_TXN_TY\
+    \ AS TY\n    LEFT OUTER JOIN VOL_TND_SLS_TXN_TY AS TN_DY\n        ON TY.sales_txn_id\
+    \ = TN_DY.sales_transaction_id\n        AND TY.loc_wid = TN_DY.loc_wid\n     \
+    \   AND TY.business_day_id = TN_DY.sales_business_date\n),\n-- CTE 16: VOL_SLS_TXN_THY\n\
+    -- Purpose: To perform the main aggregation, summing up all the calculated metrics\
+    \ to the\n-- item, location, and day level. This creates the final summary data.\n\
+    VOL_SLS_TXN_THY AS (\n    SELECT\n        loc_wid,\n        item_wid,\n      \
+    \  business_day_id,\n        SUM(sales_amt) AS sales_amt,\n        SUM(sales_units)\
+    \ AS sales_units,\n        SUM(sales_transaction_count) AS sales_transaction_count,\n\
+    \        SUM(return_amt) AS return_amt,\n        SUM(return_units) AS return_units,\n\
+    \        SUM(return_transaction_count) AS return_transaction_count,\n        SUM(exchange_value)\
+    \ AS exchange_value,\n        SUM(exchange_units) AS exchange_units,\n       \
+    \ SUM(exchange_transaction_count) AS exchange_transaction_count,\n        SUM(emp_discount_exchange_value)\
+    \ AS emp_discount_exchange_value,\n        SUM(emp_discount_exchange_units) AS\
+    \ emp_discount_exchange_units,\n        SUM(emp_discount_exchange_transaction_count)\
+    \ AS emp_discount_exchange_transaction_count,\n        SUM(emp_discount_sales_value)\
+    \ AS emp_discount_sales_value,\n        SUM(emp_discount_sales_units) AS emp_discount_sales_units,\n\
+    \        SUM(emp_discount_sales_transaction_count) AS emp_discount_sales_transaction_count,\n\
+    \        SUM(emp_discount_return_value) AS emp_discount_return_value,\n      \
+    \  SUM(emp_discount_return_units) AS emp_discount_return_units,\n        SUM(emp_discount_return_transaction_count)\
+    \ AS emp_discount_return_transaction_count,\n        SUM(sales_tax_amt) AS sales_tax_amt,\n\
+    \        SUM(return_tax_amt) AS return_tax_amt,\n        SUM(void_transaction_count)\
+    \ AS void_transaction_count,\n        SUM(post_void_transaction_count) AS post_void_transaction_count,\n\
+    \        SUM(other_transaction_count) AS other_transaction_count,\n        SUM(sales_manual_markup_amt)\
+    \ AS sales_manual_markup_amt,\n        SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n\
+    \        SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n    \
+    \    SUM(sales_manual_count) AS sales_manual_count,\n        SUM(sales_scan_count)\
+    \ AS sales_scan_count,\n        SUM(exchanges_with_reciepts) AS exchanges_with_reciepts,\n\
+    \        SUM(exchanges_without_reciepts) AS exchanges_without_reciepts,\n    \
+    \    SUM(returns_with_reciepts) AS returns_with_reciepts,\n        SUM(returns_without_reciepts)\
+    \ AS returns_without_reciepts,\n        SUM(no_sale_transaction_count) AS no_sale_transaction_count,\n\
+    \        SUM(markdown_sales) AS markdown_sales,\n        SUM(cash_sales_value)\
+    \ AS cash_sales_value,\n        SUM(cash_sales_units) AS cash_sales_units,\n \
+    \       SUM(cash_sales_transaction_count) AS cash_sales_transaction_count,\n \
+    \       SUM(card_sales_value) AS card_sales_value,\n        SUM(card_sales_units)\
+    \ AS card_sales_units,\n        SUM(card_sales_transaction_count) AS card_sales_transaction_count,\n\
+    \        SUM(gift_sales_value) AS gift_sales_value,\n        SUM(gift_sales_units)\
+    \ AS gift_sales_units,\n        SUM(gift_sales_transaction_count) AS gift_sales_transaction_count,\n\
+    \        SUM(others_sales_value) AS others_sales_value,\n        SUM(others_sales_units)\
+    \ AS others_sales_units,\n        SUM(others_sales_transaction_count) AS others_sales_transaction_count,\n\
+    \        SUM(cash_return_value) AS cash_return_value,\n        SUM(cash_return_units)\
+    \ AS cash_return_units,\n        SUM(cash_return_transaction_count) AS cash_return_transaction_count,\n\
+    \        SUM(card_return_value) AS card_return_value,\n        SUM(card_return_units)\
+    \ AS card_return_units,\n        SUM(card_return_transaction_count) AS card_return_transaction_count,\n\
+    \        SUM(gift_return_value) AS gift_return_value,\n        SUM(gift_return_units)\
+    \ AS gift_return_units,\n        SUM(gift_return_transaction_count) AS gift_return_transaction_count,\n\
+    \        SUM(others_return_value) AS others_return_value,\n        SUM(others_return_units)\
+    \ AS others_return_units,\n        SUM(others_return_transaction_count) AS others_return_transaction_count,\n\
+    \        SUM(cash_exchange_value) AS cash_exchange_value,\n        SUM(cash_exchange_units)\
+    \ AS cash_exchange_units,\n        SUM(cash_exchange_transaction_count) AS cash_exchange_transaction_count,\n\
+    \        SUM(card_exchange_value) AS card_exchange_value,\n        SUM(card_exchange_units)\
+    \ AS card_exchange_units,\n        SUM(card_exchange_transaction_count) AS card_exchange_transaction_count,\n\
+    \        SUM(gift_exchange_value) AS gift_exchange_value,\n        SUM(gift_exchange_units)\
+    \ AS gift_exchange_units,\n        SUM(gift_exchange_transaction_count) AS gift_exchange_transaction_count,\n\
+    \        SUM(others_exchange_value) AS others_exchange_value,\n        SUM(others_exchange_units)\
+    \ AS others_exchange_units,\n        SUM(others_exchange_transaction_count) AS\
+    \ others_exchange_transaction_count,\n        SUM(promotion_sales_value) AS promotion_sales_value,\n\
+    \        SUM(promotion_sales_units) AS promotion_sales_units,\n        SUM(promotion_sales_transaction_count)\
+    \ AS promotion_sales_transaction_count,\n        SUM(clearance_sales_value) AS\
+    \ clearance_sales_value,\n        SUM(clearance_sales_units) AS clearance_sales_units,\n\
+    \        SUM(clearance_sales_transaction_count) AS clearance_sales_transaction_count,\n\
+    \        SUM(regular_sales_value) AS regular_sales_value,\n        SUM(regular_sales_units)\
+    \ AS regular_sales_units,\n        SUM(regular_sales_transaction_count) AS regular_sales_transaction_count,\n\
+    \        SUM(promotion_return_value) AS promotion_return_value,\n        SUM(promotion_return_units)\
+    \ AS promotion_return_units,\n        SUM(promotion_return_transaction_count)\
+    \ AS promotion_return_transaction_count,\n        SUM(clearance_return_value)\
+    \ AS clearance_return_value,\n        SUM(clearance_return_units) AS clearance_return_units,\n\
+    \        SUM(clearance_return_transaction_count) AS clearance_return_transaction_count,\n\
+    \        SUM(regular_return_value) AS regular_return_value,\n        SUM(regular_return_units)\
+    \ AS regular_return_units,\n        SUM(regular_return_transaction_count) AS regular_return_transaction_count,\n\
+    \        SUM(promotion_exchange_value) AS promotion_exchange_value,\n        SUM(promotion_exchange_units)\
+    \ AS promotion_exchange_units,\n        SUM(promotion_exchange_transaction_count)\
+    \ AS promotion_exchange_transaction_count,\n        SUM(clearance_exchange_value)\
+    \ AS clearance_exchange_value,\n        SUM(clearance_exchange_units) AS clearance_exchange_units,\n\
+    \        SUM(clearance_exchange_transaction_count) AS clearance_exchange_transaction_count,\n\
+    \        SUM(regular_exchange_value) AS regular_exchange_value,\n        SUM(regular_exchange_units)\
+    \ AS regular_exchange_units,\n        SUM(regular_exchange_transaction_count)\
+    \ AS regular_exchange_transaction_count\n    FROM SLS_TNDR_TY\n    GROUP BY 1,\
+    \ 2, 3\n),\n-- CTE 17: VOL_SLS_CLEAR_THY\n-- Purpose: To find the first date an\
+    \ item was sold on clearance at a specific location.\nVOL_SLS_CLEAR_THY AS (\n\
+    \    SELECT\n        item_wid,\n        loc_wid,\n        MIN(business_day_id)\
+    \ AS clearance_1st_date\n    FROM VOL_SLS_TXN_TY_DATA\n    WHERE sales_type_cd\
+    \ = 'SALE' AND updated_sales_type_cd = 'SALE' AND retail_type = 'C'\n    GROUP\
+    \ BY 1, 2\n),\n-- CTE 18: VOL_SLS_1_THY\n-- Purpose: To find the first date an\
+    \ item was ever sold at a specific location.\nVOL_SLS_1_THY AS (\n    SELECT\n\
+    \        item_wid,\n        loc_wid,\n        MIN(business_day_id) AS sales_1st_date\n\
+    \    FROM VOL_SLS_TXN_TY_DATA\n    GROUP BY 1, 2\n)\n-- Final Select Statement\n\
+    -- Purpose: To join the aggregated sales data with the first-sale and first-clearance\
+    \ dates,\n-- and present the final, fully aggregated results.\nSELECT\n    SUB.business_day_id\
+    \ AS business_date,\n    SUB.loc_wid AS loc_wid,\n    -- SUB.loc_wid AS location_wid,\
+    \ -- Waiting for design change\n    SUB.item_wid AS item_wid,\n    -- SUB.item_wid\
+    \ AS item_wid, -- Waiting for design change\n    setbit((0(INTEGER)),0,1) AS fct_src_map,\n\
+    \    MIN(SL.sales_1st_date) AS sales_1st_date,\n    MIN(CLEAR.clearance_1st_date)\
+    \ AS clearance_1st_date,\n    SUM(sales_amt) AS sales_value,\n    SUM(sales_units)\
+    \ AS sales_units,\n    SUM(sales_transaction_count) AS sales_transaction_count,\n\
+    \    SUM(return_amt) AS return_value,\n    SUM(return_units) AS return_units,\n\
+    \    SUM(return_transaction_count) AS return_transaction_count,\n    SUM(exchange_value)\
+    \ AS exchange_value,\n    SUM(exchange_units) AS exchange_units,\n    SUM(exchange_transaction_count)\
+    \ AS exchange_transaction_count,\n    SUM(emp_discount_exchange_value) AS emp_discount_exchange_value,\n\
+    \    SUM(emp_discount_exchange_units) AS emp_discount_exchange_units,\n    SUM(emp_discount_exchange_transaction_count)\
+    \ AS emp_discount_exchange_transaction_count,\n    SUM(emp_discount_sales_value)\
+    \ AS emp_discount_sales_value,\n    SUM(emp_discount_sales_units) AS emp_discount_sales_units,\n\
+    \    SUM(emp_discount_sales_transaction_count) AS emp_discount_sales_transaction_count,\n\
+    \    SUM(emp_discount_return_value) AS emp_discount_return_value,\n    SUM(emp_discount_return_units)\
+    \ AS emp_discount_return_units,\n    SUM(emp_discount_return_transaction_count)\
+    \ AS emp_discount_return_transaction_count,\n    SUM(sales_tax_amt) AS sales_tax_amt,\n\
+    \    SUM(return_tax_amt) AS return_tax_amt,\n    SUM(void_transaction_count) AS\
+    \ void_transaction_count,\n    SUM(post_void_transaction_count) AS post_void_transaction_count,\n\
+    \    SUM(other_transaction_count) AS other_transaction_count,\n    SUM(sales_manual_markup_amt)\
+    \ AS sales_manual_markup_amt,\n    SUM(sales_manual_markdown_amt) AS sales_manual_markdown_amt,\n\
+    \    SUM(return_manual_markdown_amt) AS return_manual_markdown_amt,\n    SUM(sales_manual_count)\
+    \ AS sales_manual_count,\n    SUM(sales_scan_count) AS sales_scan_count,\n   \
+    \ SUM(exchanges_with_reciepts) AS exchanges_with_reciepts,\n    SUM(exchanges_without_reciepts)\
+    \ AS exchanges_without_reciepts,\n    SUM(returns_with_reciepts) AS returns_with_reciepts,\n\
+    \    SUM(returns_without_reciepts) AS returns_without_reciepts,\n    SUM(no_sale_transaction_count)\
+    \ AS no_sale_transaction_count,\n    SUM(markdown_sales) AS markdown_sales,\n\
+    \    SUM(cash_sales_value) AS cash_sales_value,\n    SUM(cash_sales_units) AS\
+    \ cash_sales_units,\n    SUM(cash_sales_transaction_count) AS cash_sales_transaction_count,\n\
+    \    SUM(card_sales_value) AS card_sales_value,\n    SUM(card_sales_units) AS\
+    \ card_sales_units,\n    SUM(card_sales_transaction_count) AS card_sales_transaction_count,\n\
+    \    SUM(gift_sales_value) AS gift_sales_value,\n    SUM(gift_sales_units) AS\
+    \ gift_sales_units,\n    SUM(gift_sales_transaction_count) AS gift_sales_transaction_count,\n\
+    \    SUM(others_sales_value) AS others_sales_value,\n    SUM(others_sales_units)\
+    \ AS others_sales_units,\n    SUM(others_sales_transaction_count) AS others_sales_transaction_count,\n\
+    \    SUM(cash_return_value) AS cash_return_value,\n    SUM(cash_return_units)\
+    \ AS cash_return_units,\n    SUM(cash_return_transaction_count) AS cash_return_transaction_count,\n\
+    \    SUM(card_return_value) AS card_return_value,\n    SUM(card_return_units)\
+    \ AS card_return_units,\n    SUM(card_return_transaction_count) AS card_return_transaction_count,\n\
+    \    SUM(gift_return_value) AS gift_return_value,\n    SUM(gift_return_units)\
+    \ AS gift_return_units,\n    SUM(gift_return_transaction_count) AS gift_return_transaction_count,\n\
+    \    SUM(others_return_value) AS others_return_value,\n    SUM(others_return_units)\
+    \ AS others_return_units,\n    SUM(others_return_transaction_count) AS others_return_transaction_count,\n\
+    \    SUM(cash_exchange_value) AS cash_exchange_value,\n    SUM(cash_exchange_units)\
+    \ AS cash_exchange_units,\n    SUM(cash_exchange_transaction_count) AS cash_exchange_transaction_count,\n\
+    \    SUM(card_exchange_value) AS card_exchange_value,\n    SUM(card_exchange_units)\
+    \ AS card_exchange_units,\n    SUM(card_exchange_transaction_count) AS card_exchange_transaction_count,\n\
+    \    SUM(gift_exchange_value) AS gift_exchange_value,\n    SUM(gift_exchange_units)\
+    \ AS gift_exchange_units,\n    SUM(gift_exchange_transaction_count) AS gift_exchange_transaction_count,\n\
+    \    SUM(others_exchange_value) AS others_exchange_value,\n    SUM(others_exchange_units)\
+    \ AS others_exchange_units,\n    SUM(others_exchange_transaction_count) AS others_exchange_transaction_count,\n\
+    \ --   SUM(markdown_sales) AS markdown_sales,\n    SUM(promotion_sales_value)\
+    \ AS promotion_sales_value,\n    SUM(promotion_sales_units) AS promotion_sales_units,\n\
+    \    SUM(promotion_sales_transaction_count) AS promotion_sales_transaction_count,\n\
+    \    SUM(clearance_sales_value) AS clearance_sales_value,\n    SUM(clearance_sales_units)\
+    \ AS clearance_sales_units,\n    SUM(clearance_sales_transaction_count) AS clearance_sales_transaction_count,\n\
+    \    SUM(regular_sales_value) AS regular_sales_value,\n    SUM(regular_sales_units)\
+    \ AS regular_sales_units,\n    SUM(regular_sales_transaction_count) AS regular_sales_transaction_count,\n\
+    \    SUM(promotion_return_value) AS promotion_return_value,\n    SUM(promotion_return_units)\
+    \ AS promotion_return_units,\n    SUM(promotion_return_transaction_count) AS promotion_return_transaction_count,\n\
+    \    SUM(clearance_return_value) AS clearance_return_value,\n    SUM(clearance_return_units)\
+    \ AS clearance_return_units,\n    SUM(clearance_return_transaction_count) AS clearance_return_transaction_count,\n\
+    \    SUM(regular_return_value) AS regular_return_value,\n    SUM(regular_return_units)\
+    \ AS regular_return_units,\n    SUM(regular_return_transaction_count) AS regular_return_transaction_count,\n\
+    \    SUM(promotion_exchange_value) AS promotion_exchange_value,\n    SUM(promotion_exchange_units)\
+    \ AS promotion_exchange_units,\n    SUM(promotion_exchange_transaction_count)\
+    \ AS promotion_exchange_transaction_count,\n    SUM(clearance_exchange_value)\
+    \ AS clearance_exchange_value,\n    SUM(clearance_exchange_units) AS clearance_exchange_units,\n\
+    \    SUM(clearance_exchange_transaction_count) AS clearance_exchange_transaction_count,\n\
+    \    SUM(regular_exchange_value) AS regular_exchange_value,\n    SUM(regular_exchange_units)\
+    \ AS regular_exchange_units,\n    SUM(regular_exchange_transaction_count) AS regular_exchange_transaction_count\n\
+    FROM VOL_SLS_TXN_THY AS SUB\nLEFT OUTER JOIN VOL_SLS_1_THY AS SL\n    ON SUB.item_wid\
+    \ = SL.item_wid\n    AND SUB.loc_wid = SL.loc_wid\nLEFT OUTER JOIN VOL_SLS_CLEAR_THY\
+    \ AS CLEAR\n    ON SUB.item_wid = CLEAR.item_wid\n    AND SUB.loc_wid = CLEAR.loc_wid\n\
+    GROUP BY 1, 2, 3;"
+  stats: ''
+  stats_target_database: T_TMP_ACC_FND
   step_pattern: TRANS_DELETE_INSERT
   steps: '300'
   target_database: T_TMP_ACC_FND
@@ -1682,13 +1714,15 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+stream_id: FND_FACT_DAILY
 target_database_name: T_TMP_ACC_FND
 target_table_name: FND_SLS_FCT_01_FCT_STG
 transformation_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid

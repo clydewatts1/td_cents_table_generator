@@ -1,4 +1,6 @@
 control_columns: .nan
+description: TBD
+job_name: FND2233
 job_name_from_file: FND2233
 job_name_from_mapping: FND2233
 mapping_columns:
@@ -14,15 +16,15 @@ mapping_columns:
   column_sequence: 2
   column_sequence_reverse: 50
   mapping_notes: Merge Into  transform KEY
-  source_column_name: FCT.loc_id
-  target_column_name: loc_id
+  source_column_name: FCT.loc_wid
+  target_column_name: loc_wid
 - column_action: ''
   column_order: nan
   column_sequence: 3
   column_sequence_reverse: 49
   mapping_notes: Merge Into  transform KEY
-  source_column_name: FCT.item_id
-  target_column_name: item_id
+  source_column_name: FCT.item_wid
+  target_column_name: item_wid
 - column_action: ''
   column_order: nan
   column_sequence: 4
@@ -56,26 +58,26 @@ mapping_columns:
   column_order: nan
   column_sequence: 48
   column_sequence_reverse: 4
-  mapping_notes: "    ON lc.loc_id = SLS.location_id\n    AND lc.cur_flg = 'Y'\n \
-    \   AND lc.loc_sbtype_cd IN ('W', 'S')"
+  mapping_notes: "    ON lc.loc_wid = SLS.loc_wid\n    AND lc.cur_flg = 'Y'\n    AND\
+    \ lc.loc_sbtype_cd IN ('W', 'S')"
   source_column_name: dwp01a_idw.loc
   target_column_name: lc
 - column_action: ''
   column_order: nan
   column_sequence: 49
   column_sequence_reverse: 3
-  mapping_notes: "    ON itm.item_id = SLS.item_id\n    AND itm.cur_flg = 'Y' "
+  mapping_notes: "    ON itm.item_wid = SLS.item_wid\n    AND itm.cur_flg = 'Y' "
   source_column_name: dwp01a_idw.item
   target_column_name: itm
 - column_action: ''
   column_order: nan
   column_sequence: 50
   column_sequence_reverse: 2
-  mapping_notes: "LEFT JOIN stpsel\n    ON SLS.item_id = stpsel.item_id\n    AND SLS.location_id\
-    \ = stpsel.loc_id"
-  source_column_name: "stpsel AS (\n    SELECT DISTINCT\n        item_id,\n      \
-    \  loc_id,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item AS pli\n \
-    \   WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        -- and item_status_cd\
+  mapping_notes: "LEFT JOIN stpsel\n    ON SLS.item_wid = stpsel.item_wid\n    AND\
+    \ SLS.loc_wid = stpsel.loc_wid"
+  source_column_name: "stpsel AS (\n    SELECT DISTINCT\n        item_wid,\n     \
+    \   loc_wid,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item AS pli\n\
+    \    WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        -- and item_status_cd\
     \ <> '-1'\n        AND ssor_id = 4\n        AND level_cd = 'PSR_BLK'\n)"
   target_column_name: stpsel
 - column_action: ''
@@ -109,58 +111,89 @@ mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid
 sql_steps:
   FND2233.300.TARGET: "-- =================================================================================================\n\
-    -- This BTEQ script manages the daily stock pivot table (DW_FND_LOC_ITEM_PVT_FCT).\n\
-    -- It ensures that for a given business date (yesterday), the table accurately\
-    \ reflects\n-- which location-item combinations have stock records by setting\
-    \ a flag (ty_stock_ind).\n--\n-- Logic Overview:\n-- 1.  Start a transaction to\
-    \ ensure atomicity.\n-- 2.  Lock the target table to prevent concurrent modifications.\n\
-    -- 3.  Reset the stock indicator flag for all records for the target business\
-    \ date.\n-- 4.  Merge data from the daily staging table (FND_SLS_FCT_PVT_STG).\n\
-    --     - If a location-item record already exists, update its stock flag.\n--\
-    \     - If it's a new location-item combination, insert a new record.\n-- 5. \
-    \ Commit the transaction upon successful completion.\n-- =================================================================================================\n\
-    -- Step 1: Begin a transaction block. All subsequent operations will be treated\
-    \ as a single\n-- atomic unit. If any step fails, the entire transaction will\
-    \ be rolled back.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n--\
-    \ Step 2: Lock the target table in WRITE mode. This is a crucial step to ensure\
-    \ data consistency\n-- by preventing other processes from modifying the table\
-    \ during the merge operation.\nLOCKING TABLE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
-    \ FOR WRITE;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 3: Reset the stock indicator\
-    \ for the target business date (yesterday).\n-- This is a safety measure to ensure\
-    \ that if an item had stock previously but doesn't\n-- in the current run, its\
-    \ flag is correctly set to '0' before the merge.\nUPDATE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\n\
-    SET\n    ty_sales_ind = 0\nWHERE\n    business_date = date '${EFF_FROM_DT}';\n\
-    .IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 4: Merge the source staging data into\
-    \ the pivot fact table.\n-- The MERGE statement is an efficient way to handle\
-    \ both inserts and updates in a single pass.\nMERGE INTO DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
-    \ AS trg\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS src\n    --\
-    \ Define the join condition to match records between the source and target tables.\n\
-    \    ON trg.business_date = src.business_date\n    AND trg.loc_id = src.location_id\n\
-    \    AND trg.item_id = src.item_id\n-- 'WHEN MATCHED': This clause executes if\
-    \ a record from the source table finds a\n-- matching record in the target table\
-    \ based on the join condition.\nWHEN MATCHED THEN\n    UPDATE SET\n        --\
-    \ Set the stock indicator to '1' to signify that this item has a stock\n     \
-    \   -- record for the given business date.\n        ty_sales_ind = 1,\n      \
-    \  -- Update the audit columns to track when this record was last updated.\n \
-    \       update_run_id = ${RUNID}, -- Placeholder for the run ID\n        update_job_id\
-    \ = '${JOB}' -- The name of the job that is running this script.\n-- 'WHEN NOT\
-    \ MATCHED': This clause executes if a record from the source table does not\n\
-    -- find a matching record in the target table. This indicates a new location-item\
-    \ combination.\nWHEN NOT MATCHED THEN\n    INSERT (\n        business_date,\n\
-    \        loc_id,\n        item_id,\n        ty_sales_ind,\n        wk_business_date,\n\
-    \        ly_business_date,\n        eff_from_dt,\n        eff_to_dt,\n       \
-    \ del_ind,\n        run_id,\n        update_run_id,\n        job_id,\n       \
-    \ update_job_id\n    )\n    VALUES (\n        src.business_date,\n        src.location_id,\n\
-    \        src.item_id,\n        1, -- Set the stock indicator to '1' for the new\
-    \ record.\n        date '${WEEK_START_DT}', -- Teradata function to get the date\
-    \ of the Saturday of the week.\n        date '${LY_CALENDAR_DT}', -- Calculate\
-    \ the date for the same day last year (approximated).\n        date '${EFF_FROM_DT}',\
-    \ -- The effective start date for this record.\n        DATE '3500-12-31', --\
-    \ A high-date to indicate the record is currently active.\n        0, -- Deletion\
+    -- SCRIPT: Manages the daily sales pivot table (DW_FND_LOC_ITEM_PVT_FCT).\n--\n\
+    -- PURPOSE: This script updates the pivot table to indicate which location-item\
+    \ combinations\n-- have sales for a given business date. It uses a staging table\
+    \ to efficiently\n-- merge daily sales data, setting a 'ty_sales_ind' flag for\
+    \ active sales.\n--\n-- LOGIC:\n-- 1. Lock the target table to prevent conflicts.\n\
+    -- 2. Reset the sales flag for the given week to handle items that no longer have\
+    \ sales.\n-- 3. Merge today's sales data, updating existing records and inserting\
+    \ new ones.\n-- 4. Merge last year's sales data to update the 'ly_sales_ind' for\
+    \ historical comparison.\n-- 5. All operations are performed within a single transaction\
+    \ to ensure atomicity.\n-- =================================================================================================\n\
+    -- Begin a transaction to ensure all operations are completed as a single atomic\
+    \ unit.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Lock the target\
+    \ table to prevent other processes from modifying it during the update.\nLOCKING\
+    \ TABLE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT FOR WRITE;\n.IF ERRORCODE\
+    \ <> 0 THEN .QUIT 101;\n-- Reset the sales indicator for the entire week before\
+    \ applying daily updates.\n-- This ensures that items without new sales are correctly\
+    \ flagged as having no sales.\nUPDATE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\n\
+    SET\n    ty_sales_ind = 0\nWHERE\n    business_date BETWEEN date '${WEEK_START_DT}'\
+    \ AND date '${WEEK_END_DT}';\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Merge daily\
+    \ sales data from the staging table into the main pivot table.\n-- This handles\
+    \ both updates to existing location-item pairs and inserts for new ones.\nMERGE\
+    \ INTO DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS trg\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG\
+    \ AS src\n    -- Match records on business_date, location, and item.\n    ON trg.business_date\
+    \ = src.business_date\n    AND trg.loc_wid = src.loc_wid\n    AND trg.item_wid\
+    \ = src.item_wid\n-- If a matching record exists, update its sales flag and audit\
+    \ columns.\nWHEN MATCHED THEN\n    UPDATE SET\n        ty_sales_ind = 1, -- Set\
+    \ flag to 1 to indicate sales for the day.\n        update_run_id = ${RUNID},\n\
+    \        update_job_id = '${JOB}'\n-- If no matching record exists, insert a new\
+    \ row for the new location-item combination.\nWHEN NOT MATCHED THEN\n    INSERT\
+    \ (\n        business_date, loc_wid, item_wid, ty_sales_ind,\n        ty_wk_business_date,\
+    \ ly_business_date, ly_wk_business_date, lw_business_date,\n        eff_from_dt,\
+    \ eff_to_dt, del_ind,\n        run_id, update_run_id, job_id, update_job_id\n\
+    \    )\n    VALUES (\n        src.business_date, src.loc_wid, src.item_wid, 1,\
+    \ -- New record, so set sales flag to 1.\n        date '${WEEK_END_DT}', -- End\
+    \ of the current business week.\n        date '${LY_CALENDAR_DT}', -- Corresponding\
+    \ date from the previous year.\n        td_saturday(td_sunday(date '${WEEK_END_DT}')+1),\
+    \ -- End of the business week from the previous year.\n        date '${WEEK_END_DT}'\
+    \ - 7, -- Corresponding date from the previous week.\n        date '${EFF_FROM_DT}',\
+    \ -- Effective start date for the record.\n        DATE '3500-12-31', -- High-date\
+    \ indicating the record is currently active.\n        0, -- Deletion indicator;\
+    \ 0 means active.\n        ${RUNID}, NULL, -- Initial run ID; update_run_id is\
+    \ NULL for new records.\n        '${JOB}', NULL -- Initial job ID; update_job_id\
+    \ is NULL for new records.\n    );\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Merge\
+    \ last year's sales data to populate the 'ly_sales_ind' flag.\n-- This self-join\
+    \ allows for year-over-year sales comparison on the same record.\nMERGE INTO DWT04V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
+    \ AS trg\nUSING DWT04V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS src\n    -- Match today's\
+    \ records with the corresponding records from last year.\n    ON trg.business_date\
+    \ = date '${LDTK_DATE}' -- Today's date.\n    AND src.business_date = date '${LY_CALENDAR_DT}'\
+    \ -- Corresponding date from last year.\n    AND trg.loc_wid = src.loc_wid\n \
+    \   AND trg.item_wid = src.item_wid\n-- If a match is found, update the 'ly_sales_ind'\
+    \ flag to indicate there were sales last year.\nWHEN MATCHED THEN\n    UPDATE\
+    \ SET\n        ly_sales_ind = 1,\n        update_run_id =${RUNID},\n        update_job_id\
+    \ = '${JOB}'\n-- If no match is found for today's date, insert a new record to\
+    \ capture last year's sales data.\nWHEN NOT MATCHED THEN\n    INSERT (\n     \
+    \   business_date, loc_wid, item_wid, ly_sales_ind,\n        ty_wk_business_date,\
+    \ ly_business_date, ly_wk_business_date, lw_business_date,\n        eff_from_dt,\
+    \ eff_to_dt, del_ind,\n        run_id, update_run_id, job_id, update_job_id\n\
+    \    )\n    VALUES (\n        date '${LDTK_DATE}', src.loc_wid, src.item_wid,\
+    \ 1, -- Set last year's sales flag to 1.\n        date '${WEEK_END_DT}', -- End\
+    \ of the current business week.\n        date '${LY_CALENDAR_DT}', -- Corresponding\
+    \ date from the previous year.\n        td_saturday(td_sunday(date '${WEEK_END_DT}')+1),\
+    \ -- End of the business week from the previous year.\n        date '${WEEK_END_DT}'\
+    \ - 7, -- Corresponding date from the previous week.\n        date '${EFF_FROM_DT}',\
+    \ -- Effective start date for the record.\n        DATE '3500-12-31', -- High-date\
+    \ indicating the record is currently active.\n        0, -- Deletion indicator;\
+    \ 0 means active.\n        ${RUNID}, NULL,\n        '${JOB}', NULL\n    );\n.IF\
+    \ ERRORCODE <> 0 THEN .QUIT 101;\n-- Commit the transaction to make all changes\
+    \ permanent.\nEND TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n        ly_business_date,\n\
+    \        ly_wk_business_date,\n        lw_business_date,\n        eff_from_dt,\n\
+    \        eff_to_dt,\n        del_ind,\n        run_id,\n        update_run_id,\n\
+    \        job_id,\n        update_job_id\n    )\n    VALUES (\n        date '${LDTK_DATE}',\n\
+    \       src.loc_wid,\n        src.item_wid,\n        1, -- Set the sales indicator\
+    \ to '1' for the new record.\n        date '${WEEK_END_DT}', -- Teradata function\
+    \ to get the date of the Saturday of the week.\n        date '${LY_CALENDAR_DT}',\
+    \ -- Calculate the date for the same day last year (approximated).\n        td_saturday(td_sunday(date\
+    \ '${WEEK_END_DT}')+1), -- Last years end of business week\n        date '${EFF_FROM_DT}',\
+    \ -- The effective start date for this record.\n        date '${WEEK_END_DT}'\
+    \ - 7, -- Last weeks equivalent business date\n        DATE '3500-12-31', -- A\
+    \ high-date to indicate the record is currently active.\n        0, -- Deletion\
     \ indicator; 0 means the record is active.\n        ${RUNID}, -- Placeholder for\
     \ the initial run ID.\n        NULL, -- update_run_id is NULL for new records.\n\
     \        '${JOB}', -- The name of the job that created this record.\n        NULL\
@@ -184,6 +217,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
@@ -200,54 +234,85 @@ steps:
   source_database: T_TMP_ACC_FND
   source_table: FND1023_TRANS
   sql_statement: "-- =================================================================================================\n\
-    -- This BTEQ script manages the daily stock pivot table (DW_FND_LOC_ITEM_PVT_FCT).\n\
-    -- It ensures that for a given business date (yesterday), the table accurately\
-    \ reflects\n-- which location-item combinations have stock records by setting\
-    \ a flag (ty_stock_ind).\n--\n-- Logic Overview:\n-- 1.  Start a transaction to\
-    \ ensure atomicity.\n-- 2.  Lock the target table to prevent concurrent modifications.\n\
-    -- 3.  Reset the stock indicator flag for all records for the target business\
-    \ date.\n-- 4.  Merge data from the daily staging table (FND_SLS_FCT_PVT_STG).\n\
-    --     - If a location-item record already exists, update its stock flag.\n--\
-    \     - If it's a new location-item combination, insert a new record.\n-- 5. \
-    \ Commit the transaction upon successful completion.\n-- =================================================================================================\n\
-    -- Step 1: Begin a transaction block. All subsequent operations will be treated\
-    \ as a single\n-- atomic unit. If any step fails, the entire transaction will\
-    \ be rolled back.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n--\
-    \ Step 2: Lock the target table in WRITE mode. This is a crucial step to ensure\
-    \ data consistency\n-- by preventing other processes from modifying the table\
-    \ during the merge operation.\nLOCKING TABLE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
-    \ FOR WRITE;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 3: Reset the stock indicator\
-    \ for the target business date (yesterday).\n-- This is a safety measure to ensure\
-    \ that if an item had stock previously but doesn't\n-- in the current run, its\
-    \ flag is correctly set to '0' before the merge.\nUPDATE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\n\
-    SET\n    ty_sales_ind = 0\nWHERE\n    business_date = date '${EFF_FROM_DT}';\n\
-    .IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Step 4: Merge the source staging data into\
-    \ the pivot fact table.\n-- The MERGE statement is an efficient way to handle\
-    \ both inserts and updates in a single pass.\nMERGE INTO DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
-    \ AS trg\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS src\n    --\
-    \ Define the join condition to match records between the source and target tables.\n\
-    \    ON trg.business_date = src.business_date\n    AND trg.loc_id = src.location_id\n\
-    \    AND trg.item_id = src.item_id\n-- 'WHEN MATCHED': This clause executes if\
-    \ a record from the source table finds a\n-- matching record in the target table\
-    \ based on the join condition.\nWHEN MATCHED THEN\n    UPDATE SET\n        --\
-    \ Set the stock indicator to '1' to signify that this item has a stock\n     \
-    \   -- record for the given business date.\n        ty_sales_ind = 1,\n      \
-    \  -- Update the audit columns to track when this record was last updated.\n \
-    \       update_run_id = ${RUNID}, -- Placeholder for the run ID\n        update_job_id\
-    \ = '${JOB}' -- The name of the job that is running this script.\n-- 'WHEN NOT\
-    \ MATCHED': This clause executes if a record from the source table does not\n\
-    -- find a matching record in the target table. This indicates a new location-item\
-    \ combination.\nWHEN NOT MATCHED THEN\n    INSERT (\n        business_date,\n\
-    \        loc_id,\n        item_id,\n        ty_sales_ind,\n        wk_business_date,\n\
-    \        ly_business_date,\n        eff_from_dt,\n        eff_to_dt,\n       \
-    \ del_ind,\n        run_id,\n        update_run_id,\n        job_id,\n       \
-    \ update_job_id\n    )\n    VALUES (\n        src.business_date,\n        src.location_id,\n\
-    \        src.item_id,\n        1, -- Set the stock indicator to '1' for the new\
-    \ record.\n        date '${WEEK_START_DT}', -- Teradata function to get the date\
-    \ of the Saturday of the week.\n        date '${LY_CALENDAR_DT}', -- Calculate\
-    \ the date for the same day last year (approximated).\n        date '${EFF_FROM_DT}',\
-    \ -- The effective start date for this record.\n        DATE '3500-12-31', --\
-    \ A high-date to indicate the record is currently active.\n        0, -- Deletion\
+    -- SCRIPT: Manages the daily sales pivot table (DW_FND_LOC_ITEM_PVT_FCT).\n--\n\
+    -- PURPOSE: This script updates the pivot table to indicate which location-item\
+    \ combinations\n-- have sales for a given business date. It uses a staging table\
+    \ to efficiently\n-- merge daily sales data, setting a 'ty_sales_ind' flag for\
+    \ active sales.\n--\n-- LOGIC:\n-- 1. Lock the target table to prevent conflicts.\n\
+    -- 2. Reset the sales flag for the given week to handle items that no longer have\
+    \ sales.\n-- 3. Merge today's sales data, updating existing records and inserting\
+    \ new ones.\n-- 4. Merge last year's sales data to update the 'ly_sales_ind' for\
+    \ historical comparison.\n-- 5. All operations are performed within a single transaction\
+    \ to ensure atomicity.\n-- =================================================================================================\n\
+    -- Begin a transaction to ensure all operations are completed as a single atomic\
+    \ unit.\nBEGIN TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Lock the target\
+    \ table to prevent other processes from modifying it during the update.\nLOCKING\
+    \ TABLE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT FOR WRITE;\n.IF ERRORCODE\
+    \ <> 0 THEN .QUIT 101;\n-- Reset the sales indicator for the entire week before\
+    \ applying daily updates.\n-- This ensures that items without new sales are correctly\
+    \ flagged as having no sales.\nUPDATE DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\n\
+    SET\n    ty_sales_ind = 0\nWHERE\n    business_date BETWEEN date '${WEEK_START_DT}'\
+    \ AND date '${WEEK_END_DT}';\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Merge daily\
+    \ sales data from the staging table into the main pivot table.\n-- This handles\
+    \ both updates to existing location-item pairs and inserts for new ones.\nMERGE\
+    \ INTO DW${INSTANCE}V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS trg\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG\
+    \ AS src\n    -- Match records on business_date, location, and item.\n    ON trg.business_date\
+    \ = src.business_date\n    AND trg.loc_wid = src.loc_wid\n    AND trg.item_wid\
+    \ = src.item_wid\n-- If a matching record exists, update its sales flag and audit\
+    \ columns.\nWHEN MATCHED THEN\n    UPDATE SET\n        ty_sales_ind = 1, -- Set\
+    \ flag to 1 to indicate sales for the day.\n        update_run_id = ${RUNID},\n\
+    \        update_job_id = '${JOB}'\n-- If no matching record exists, insert a new\
+    \ row for the new location-item combination.\nWHEN NOT MATCHED THEN\n    INSERT\
+    \ (\n        business_date, loc_wid, item_wid, ty_sales_ind,\n        ty_wk_business_date,\
+    \ ly_business_date, ly_wk_business_date, lw_business_date,\n        eff_from_dt,\
+    \ eff_to_dt, del_ind,\n        run_id, update_run_id, job_id, update_job_id\n\
+    \    )\n    VALUES (\n        src.business_date, src.loc_wid, src.item_wid, 1,\
+    \ -- New record, so set sales flag to 1.\n        date '${WEEK_END_DT}', -- End\
+    \ of the current business week.\n        date '${LY_CALENDAR_DT}', -- Corresponding\
+    \ date from the previous year.\n        td_saturday(td_sunday(date '${WEEK_END_DT}')+1),\
+    \ -- End of the business week from the previous year.\n        date '${WEEK_END_DT}'\
+    \ - 7, -- Corresponding date from the previous week.\n        date '${EFF_FROM_DT}',\
+    \ -- Effective start date for the record.\n        DATE '3500-12-31', -- High-date\
+    \ indicating the record is currently active.\n        0, -- Deletion indicator;\
+    \ 0 means active.\n        ${RUNID}, NULL, -- Initial run ID; update_run_id is\
+    \ NULL for new records.\n        '${JOB}', NULL -- Initial job ID; update_job_id\
+    \ is NULL for new records.\n    );\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n-- Merge\
+    \ last year's sales data to populate the 'ly_sales_ind' flag.\n-- This self-join\
+    \ allows for year-over-year sales comparison on the same record.\nMERGE INTO DWT04V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT\
+    \ AS trg\nUSING DWT04V_ACC_FND.DW_FND_LOC_ITEM_PVT_FCT AS src\n    -- Match today's\
+    \ records with the corresponding records from last year.\n    ON trg.business_date\
+    \ = date '${LDTK_DATE}' -- Today's date.\n    AND src.business_date = date '${LY_CALENDAR_DT}'\
+    \ -- Corresponding date from last year.\n    AND trg.loc_wid = src.loc_wid\n \
+    \   AND trg.item_wid = src.item_wid\n-- If a match is found, update the 'ly_sales_ind'\
+    \ flag to indicate there were sales last year.\nWHEN MATCHED THEN\n    UPDATE\
+    \ SET\n        ly_sales_ind = 1,\n        update_run_id =${RUNID},\n        update_job_id\
+    \ = '${JOB}'\n-- If no match is found for today's date, insert a new record to\
+    \ capture last year's sales data.\nWHEN NOT MATCHED THEN\n    INSERT (\n     \
+    \   business_date, loc_wid, item_wid, ly_sales_ind,\n        ty_wk_business_date,\
+    \ ly_business_date, ly_wk_business_date, lw_business_date,\n        eff_from_dt,\
+    \ eff_to_dt, del_ind,\n        run_id, update_run_id, job_id, update_job_id\n\
+    \    )\n    VALUES (\n        date '${LDTK_DATE}', src.loc_wid, src.item_wid,\
+    \ 1, -- Set last year's sales flag to 1.\n        date '${WEEK_END_DT}', -- End\
+    \ of the current business week.\n        date '${LY_CALENDAR_DT}', -- Corresponding\
+    \ date from the previous year.\n        td_saturday(td_sunday(date '${WEEK_END_DT}')+1),\
+    \ -- End of the business week from the previous year.\n        date '${WEEK_END_DT}'\
+    \ - 7, -- Corresponding date from the previous week.\n        date '${EFF_FROM_DT}',\
+    \ -- Effective start date for the record.\n        DATE '3500-12-31', -- High-date\
+    \ indicating the record is currently active.\n        0, -- Deletion indicator;\
+    \ 0 means active.\n        ${RUNID}, NULL,\n        '${JOB}', NULL\n    );\n.IF\
+    \ ERRORCODE <> 0 THEN .QUIT 101;\n-- Commit the transaction to make all changes\
+    \ permanent.\nEND TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;\n        ly_business_date,\n\
+    \        ly_wk_business_date,\n        lw_business_date,\n        eff_from_dt,\n\
+    \        eff_to_dt,\n        del_ind,\n        run_id,\n        update_run_id,\n\
+    \        job_id,\n        update_job_id\n    )\n    VALUES (\n        date '${LDTK_DATE}',\n\
+    \       src.loc_wid,\n        src.item_wid,\n        1, -- Set the sales indicator\
+    \ to '1' for the new record.\n        date '${WEEK_END_DT}', -- Teradata function\
+    \ to get the date of the Saturday of the week.\n        date '${LY_CALENDAR_DT}',\
+    \ -- Calculate the date for the same day last year (approximated).\n        td_saturday(td_sunday(date\
+    \ '${WEEK_END_DT}')+1), -- Last years end of business week\n        date '${EFF_FROM_DT}',\
+    \ -- The effective start date for this record.\n        date '${WEEK_END_DT}'\
+    \ - 7, -- Last weeks equivalent business date\n        DATE '3500-12-31', -- A\
+    \ high-date to indicate the record is currently active.\n        0, -- Deletion\
     \ indicator; 0 means the record is active.\n        ${RUNID}, -- Placeholder for\
     \ the initial run ID.\n        NULL, -- update_run_id is NULL for new records.\n\
     \        '${JOB}', -- The name of the job that created this record.\n        NULL\
@@ -257,11 +322,12 @@ steps:
     \ 5: End the transaction. If all previous steps were successful, the changes\n\
     -- are committed to the database, making them permanent.\nEND TRANSACTION;\n.IF\
     \ ERRORCODE <> 0 THEN .QUIT 101;"
-  stats: ''
+  stats: COLUMN(business_date,loc_wid,item_wid)
+  stats_target_database: T_ACC_FND
   step_pattern: TRANS_BESPOKE
   steps: '300'
   target_database: V_ACC_FND
-  target_table: DW_FND_AGG_DAILY_STOCK_FCT
+  target_table: DW_FND_LOC_ITEM_PVT_FCT
 - description: ''
   file_name: ''
   file_present: false
@@ -275,13 +341,15 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
   target_table: ''
-target_database_name: T_TMP_ACC_FND
-target_table_name: DW_FND_AGG_DAILY_STOCK_FCT
+stream_id: nan
+target_database_name: T_ACC_FND
+target_table_name: DW_FND_LOC_ITEM_PVT_FCT
 transformation_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid

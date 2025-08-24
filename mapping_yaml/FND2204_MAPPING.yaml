@@ -1,4 +1,6 @@
 control_columns: .nan
+description: TBD
+job_name: FND2204
 job_name_from_file: FND2204
 job_name_from_mapping: FND2204
 mapping_columns:
@@ -12,14 +14,14 @@ mapping_columns:
   column_order: nan
   column_sequence: 2
   column_sequence_reverse: 50
-  source_column_name: FCT.loc_id
-  target_column_name: loc_id
+  source_column_name: FCT.loc_wid
+  target_column_name: loc_wid
 - column_action: key
   column_order: nan
   column_sequence: 3
   column_sequence_reverse: 49
-  source_column_name: FCT.item_id
-  target_column_name: item_id
+  source_column_name: FCT.item_wid
+  target_column_name: item_wid
 - column_action: nan
   column_order: nan
   column_sequence: 4
@@ -39,27 +41,27 @@ mapping_columns:
   column_sequence_reverse: 5
   source_column_name: dwp01a_acc_orr.dw_stock_position_dy_fv
   target_column_name: SLS
-- column_action: "    on lc.loc_id = sls.location_id\n    and lc.cur_flg = 'y'\n \
-    \   and lc.loc_sbtype_cd in ('w', 's')"
+- column_action: "    on lc.loc_wid = sls.loc_wid\n    and lc.cur_flg = 'y'\n    and\
+    \ lc.loc_sbtype_cd in ('w', 's')"
   column_order: nan
   column_sequence: 48
   column_sequence_reverse: 4
   source_column_name: dwp01a_idw.loc
   target_column_name: lc
-- column_action: "    on itm.item_id = sls.item_id\n    and itm.cur_flg = 'y' "
+- column_action: "    on itm.item_wid = sls.item_wid\n    and itm.cur_flg = 'y' "
   column_order: nan
   column_sequence: 49
   column_sequence_reverse: 3
   source_column_name: dwp01a_idw.item
   target_column_name: itm
-- column_action: "left join stpsel\n    on sls.item_id = stpsel.item_id\n    and sls.location_id\
-    \ = stpsel.loc_id"
+- column_action: "left join stpsel\n    on sls.item_wid = stpsel.item_wid\n    and\
+    \ sls.loc_wid = stpsel.loc_wid"
   column_order: nan
   column_sequence: 50
   column_sequence_reverse: 2
-  source_column_name: "stpsel AS (\n    SELECT DISTINCT\n        item_id,\n      \
-    \  loc_id,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item AS pli\n \
-    \   WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        -- and item_status_cd\
+  source_column_name: "stpsel AS (\n    SELECT DISTINCT\n        item_wid,\n     \
+    \   loc_wid,\n        pmk_stop_sell\n    FROM dwp01a_idw.pmk_loc_item AS pli\n\
+    \    WHERE cur_flg = 'Y'\n        AND pmk_stop_sell = 'Y'\n        -- and item_status_cd\
     \ <> '-1'\n        AND ssor_id = 4\n        AND level_cd = 'PSR_BLK'\n)"
   target_column_name: stpsel
 - column_action: nan
@@ -92,24 +94,24 @@ mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid
 sql_steps:
   FND2204.300.TARGET: "/*\nThis MERGE statement updates the target pivot table (FND_SLS_FCT_PVT_STG)\n\
     from the source staging table (FND_SLS_FCT_01_FCT_STG).\nKey Logic:\n1. Records\
-    \ are matched on business_date, location_id, and item_id.\n2. WHEN MATCHED:\n\
-    \   - The fct_src_map is updated using a bitwise OR (BITOR).\n   - This combines\
-    \ the bitmask from the target with the bitmask from the source,\n     preserving\
-    \ a history of all data sources that have contributed to the record.\n     For\
-    \ example, if T.fct_src_map is 1 (binary 0001) and S.fct_src_map is 2 (binary\
-    \ 0010),\n     the result will be 3 (binary 0011).\n3. WHEN NOT MATCHED:\n   -\
-    \ A new record is inserted into the target table with the data from the source.\n\
-    */\nMERGE INTO DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS T\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG\
-    \ AS S\n   ON T.business_date = S.business_date\n  AND T.location_id = S.location_id\n\
-    \  AND T.item_id = S.item_id\nWHEN MATCHED THEN\n   UPDATE SET\n      fct_src_map\
+    \ are matched on business_date, loc_wid, and item_wid.\n2. WHEN MATCHED:\n   -\
+    \ The fct_src_map is updated using a bitwise OR (BITOR).\n   - This combines the\
+    \ bitmask from the target with the bitmask from the source,\n     preserving a\
+    \ history of all data sources that have contributed to the record.\n     For example,\
+    \ if T.fct_src_map is 1 (binary 0001) and S.fct_src_map is 2 (binary 0010),\n\
+    \     the result will be 3 (binary 0011).\n3. WHEN NOT MATCHED:\n   - A new record\
+    \ is inserted into the target table with the data from the source.\n*/\nMERGE\
+    \ INTO DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS T\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG\
+    \ AS S\n   ON T.business_date = S.business_date\n  AND T.loc_wid = S.loc_wid\n\
+    \  AND T.item_wid = S.item_wid\nWHEN MATCHED THEN\n   UPDATE SET\n      fct_src_map\
     \ = BITOR(T.fct_src_map, S.fct_src_map)\nWHEN NOT MATCHED THEN\n   INSERT (\n\
-    \      business_date,\n      location_id,\n      item_id,\n      fct_src_map\n\
-    \   )\n   VALUES (\n      S.business_date,\n      S.location_id,\n      S.item_id,\n\
+    \      business_date,\n      loc_wid,\n      item_wid,\n      fct_src_map\n  \
+    \ )\n   VALUES (\n      S.business_date,\n      S.loc_wid,\n      S.item_wid,\n\
     \      S.fct_src_map\n   );"
 steps:
 - description: ''
@@ -125,6 +127,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
@@ -142,21 +145,22 @@ steps:
   source_table: ''
   sql_statement: "/*\nThis MERGE statement updates the target pivot table (FND_SLS_FCT_PVT_STG)\n\
     from the source staging table (FND_SLS_FCT_01_FCT_STG).\nKey Logic:\n1. Records\
-    \ are matched on business_date, location_id, and item_id.\n2. WHEN MATCHED:\n\
-    \   - The fct_src_map is updated using a bitwise OR (BITOR).\n   - This combines\
-    \ the bitmask from the target with the bitmask from the source,\n     preserving\
-    \ a history of all data sources that have contributed to the record.\n     For\
-    \ example, if T.fct_src_map is 1 (binary 0001) and S.fct_src_map is 2 (binary\
-    \ 0010),\n     the result will be 3 (binary 0011).\n3. WHEN NOT MATCHED:\n   -\
-    \ A new record is inserted into the target table with the data from the source.\n\
-    */\nMERGE INTO DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS T\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG\
-    \ AS S\n   ON T.business_date = S.business_date\n  AND T.location_id = S.location_id\n\
-    \  AND T.item_id = S.item_id\nWHEN MATCHED THEN\n   UPDATE SET\n      fct_src_map\
+    \ are matched on business_date, loc_wid, and item_wid.\n2. WHEN MATCHED:\n   -\
+    \ The fct_src_map is updated using a bitwise OR (BITOR).\n   - This combines the\
+    \ bitmask from the target with the bitmask from the source,\n     preserving a\
+    \ history of all data sources that have contributed to the record.\n     For example,\
+    \ if T.fct_src_map is 1 (binary 0001) and S.fct_src_map is 2 (binary 0010),\n\
+    \     the result will be 3 (binary 0011).\n3. WHEN NOT MATCHED:\n   - A new record\
+    \ is inserted into the target table with the data from the source.\n*/\nMERGE\
+    \ INTO DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS T\nUSING DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG\
+    \ AS S\n   ON T.business_date = S.business_date\n  AND T.loc_wid = S.loc_wid\n\
+    \  AND T.item_wid = S.item_wid\nWHEN MATCHED THEN\n   UPDATE SET\n      fct_src_map\
     \ = BITOR(T.fct_src_map, S.fct_src_map)\nWHEN NOT MATCHED THEN\n   INSERT (\n\
-    \      business_date,\n      location_id,\n      item_id,\n      fct_src_map\n\
-    \   )\n   VALUES (\n      S.business_date,\n      S.location_id,\n      S.item_id,\n\
+    \      business_date,\n      loc_wid,\n      item_wid,\n      fct_src_map\n  \
+    \ )\n   VALUES (\n      S.business_date,\n      S.loc_wid,\n      S.item_wid,\n\
     \      S.fct_src_map\n   );"
-  stats: ''
+  stats: COLUMN(business_date,loc_wid,item_wid)
+  stats_target_database: T_TMP_ACC_FND
   step_pattern: TRANS_BESPOKE
   steps: '300'
   target_database: T_TMP_ACC_FND
@@ -174,13 +178,15 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+stream_id: FND_FACT_DAILY
 target_database_name: T_TMP_ACC_FND
 target_table_name: 'FND_SLS_FCT_01_FCT_STG '
 transformation_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid

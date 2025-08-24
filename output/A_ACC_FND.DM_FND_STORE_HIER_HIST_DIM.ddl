@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: A_ACC_FND.DM_FND_STORE_HIER_HIST_DIM.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}A_ACC_FND
 * Schema: 
 * Author: Mr Primark

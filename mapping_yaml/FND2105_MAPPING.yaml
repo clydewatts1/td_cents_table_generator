@@ -1,4 +1,6 @@
 control_columns: .nan
+description: TBD
+job_name: FND2105
 job_name_from_file: FND2105
 job_name_from_mapping: FND2105
 mapping_columns:
@@ -13,13 +15,13 @@ mapping_columns:
   column_sequence: 2
   column_sequence_reverse: 21
   source_column_name: See SQL Mapping FND2105.300.TARGET
-  target_column_name: location_id
+  target_column_name: loc_wid
 - column_action: key
   column_order: nan
   column_sequence: 3
   column_sequence_reverse: 20
   source_column_name: See SQL Mapping FND2105.300.TARGET
-  target_column_name: item_id
+  target_column_name: item_wid
 - column_action: nan
   column_order: nan
   column_sequence: 4
@@ -139,8 +141,8 @@ mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid
 sql_steps:
   FND2105.300.TARGET: "WITH TSF AS ( /* SSBI1067 */\n/* Stock transfer summary */\n\
     \    SELECT\n        item_wid,\n        business_date,\n        location_wid,\n\
@@ -224,21 +226,29 @@ sql_steps:
     \    SELECT\n        item_wid,\n        location_wid,\n        soh_retail_amount\n\
     \    FROM\n        dwp01a_acc_orr.dw_stock_position_dy_fv\n    WHERE\n       \
     \ stock_inventory_date = date '${LDTK_DATE}'\n),\nFCT AS (\n    /* all stock measures\n\
-    \          do full outer joins to get all combinations\n    */\n    SELECT\n \
-    \       COALESCE(TSF.business_date, TCV.business_date, STC.business_date) AS business_date,\n\
-    \        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid) AS location_wid,\n\
-    \        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid) AS item_wid,\n   \
-    \     TSF.transfer_outst_units,\n        TSF.transfer_outst_retail_value,\n  \
-    \      TSF.transfer_outst_cost_value,\n        TCV.transfer_act_repo_cost_value,\n\
-    \        TSFC.transfer_act_upchrg_unit_cost,\n        TSFC.transfer_act_upchrg_cost_value,\n\
-    \        STC.stock_count_units,\n        STC.stock_count_snapshot_units,\n   \
-    \     STC.stock_count_retail_amt,\n        STC.stock_count_snapshot_retail_amt,\n\
-    \        STC.total_stock_loss_units,\n        STC.total_stock_loss_value,\n  \
-    \      TSFI.tsf_intake_qty,\n        TSFI.tsf_intake_retail_amount,\n        TSFI.tsf_intake_cost_amount,\n\
-    \        TSFSHP.trasfer_ship_units,\n        TSFSHP.trasfer_ship_retail_amount,\n\
-    \        TSFSHP.trasfer_ship_cost_amount,\n        STKA.soh_age_in_weeks\n   \
-    \ FROM TSF\n    FULL OUTER JOIN TCV\n        ON TSF.location_wid = TCV.location_wid\n\
-    \        AND TSF.item_wid = TCV.item_wid\n        AND TSF.business_date = TCV.business_date\n\
+    \          do full outer joins to get all combinations\n          TODO: Make this\
+    \ more efficient\n    */\n    SELECT\n        COALESCE(TSF.business_date, TCV.business_date,\
+    \ STC.business_date,TSFC.business_date,TSFI.business_date,TSFSHP.business_date,STKA.business_date)\
+    \ AS business_date,\n        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid,TSFC.location_wid,TSFI.location_wid,TSFSHP.location_wid,STKA.location_wid)\
+    \ AS loc_wid,\n        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid,TSFC.item_wid,TSFI.item_wid,TSFSHP.item_wid,STKA.item_wid)\
+    \ AS item_wid,\n        SUM(TSF.transfer_outst_units) AS transfer_outst_units,\n\
+    \        SUM(TSF.transfer_outst_retail_value) AS transfer_outst_retail_value,\n\
+    \        SUM(TSF.transfer_outst_cost_value) AS transfer_outst_cost_value,\n  \
+    \      SUM(TCV.transfer_act_repo_cost_value) AS transfer_act_repo_cost_value,\n\
+    \        SUM(TSFC.transfer_act_upchrg_unit_cost) AS transfer_act_upchrg_unit_cost,\n\
+    \        SUM(TSFC.transfer_act_upchrg_cost_value) AS transfer_act_upchrg_cost_value,\n\
+    \        SUM(STC.stock_count_units) AS stock_count_units,\n        SUM(STC.stock_count_snapshot_units)\
+    \ AS stock_count_snapshot_units,\n        SUM(STC.stock_count_retail_amt) AS stock_count_retail_amt,\n\
+    \        SUM(STC.stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,\n\
+    \        SUM(STC.total_stock_loss_units) AS total_stock_loss_units,\n        SUM(STC.total_stock_loss_value)\
+    \ AS total_stock_loss_value,\n        SUM(TSFI.tsf_intake_qty) AS tsf_intake_qty,\n\
+    \        SUM(TSFI.tsf_intake_retail_amount) AS tsf_intake_retail_amount,\n   \
+    \     SUM(TSFI.tsf_intake_cost_amount) AS tsf_intake_cost_amount,\n        SUM(TSFSHP.trasfer_ship_units)\
+    \ AS trasfer_ship_units,\n        SUM(TSFSHP.trasfer_ship_retail_amount) AS trasfer_ship_retail_amount,\n\
+    \        SUM(TSFSHP.trasfer_ship_cost_amount) AS trasfer_ship_cost_amount,\n \
+    \       SUM(STKA.soh_age_in_weeks) AS soh_age_in_weeks\n    FROM TSF\n    FULL\
+    \ OUTER JOIN TCV\n        ON TSF.location_wid = TCV.location_wid\n        AND\
+    \ TSF.item_wid = TCV.item_wid\n        AND TSF.business_date = TCV.business_date\n\
     \    FULL OUTER JOIN STC\n        ON STC.location_wid = TSF.location_wid\n   \
     \     AND STC.item_wid = TSF.item_wid\n        AND STC.business_date = TSF.business_date\n\
     \    FULL OUTER JOIN TSFC\n        ON TSF.location_wid = TSFC.location_wid\n \
@@ -249,26 +259,24 @@ sql_steps:
     \        AND TSF.item_wid = TSFSHP.item_wid\n        AND TSF.business_date = TSFSHP.business_date\n\
     \    FULL OUTER JOIN STKA\n        ON TSF.location_wid = STKA.location_wid\n \
     \       AND TSF.item_wid = STKA.item_wid\n        AND TSF.business_date = STKA.business_date\n\
-    )\nSELECT\n    FCT.business_date,\n    LC.location_id,\n    ITM.item_id,\n   \
-    \ setbit((0(INTEGER)),1,1) as fct_src_map,\n    FCT.transfer_outst_units,\n  \
-    \  FCT.transfer_outst_retail_value,\n    FCT.transfer_outst_cost_value,\n    FCT.transfer_act_repo_cost_value,\n\
-    \    FCT.transfer_act_upchrg_unit_cost,\n    FCT.transfer_act_upchrg_cost_value,\n\
-    \    FCT.stock_count_units,\n    FCT.stock_count_snapshot_units,\n    FCT.stock_count_retail_amt,\n\
-    \    FCT.stock_count_snapshot_retail_amt,\n    FCT.total_stock_loss_units,\n \
-    \   FCT.total_stock_loss_value,\n    FCT.tsf_intake_qty,\n    FCT.tsf_intake_retail_amount,\n\
-    \    FCT.tsf_intake_cost_amount,\n    FCT.trasfer_ship_units,\n    FCT.trasfer_ship_retail_amount,\n\
-    \    FCT.trasfer_ship_cost_amount\nFROM FCT\nINNER JOIN LC\n    /* Join so that\
-    \ wid can map to id */\n    ON LC.location_wid = FCT.location_wid\nINNER JOIN\
-    \ ITM\n    ON ITM.item_wid = FCT.item_wid\nWHERE\n   /* Check for all zero rows\
-    \ */\n    COALESCE(FCT.transfer_outst_units, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_units,\
-    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_retail_value, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_cost_value,\
-    \ 0) <> 0\n    OR COALESCE(FCT.transfer_act_repo_cost_value, 0) <> 0\n    OR COALESCE(FCT.stock_count_units,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt, 0) <> 0\n    OR\
-    \ COALESCE(FCT.transfer_act_upchrg_cost_value, 0) <> 0\n    OR COALESCE(FCT.stock_count_units,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt, 0) <> 0\n    OR\
-    \ COALESCE(FCT.tsf_intake_qty, 0) <> 0\n    OR COALESCE(FCT.tsf_intake_retail_amount,\
+    \  GROUP BY 1,2,3\n)\nSELECT\n    FCT.business_date,\n    FCT.loc_wid,\n    FCT.item_wid,\n\
+    \    setbit((0(INTEGER)),1,1) as fct_src_map,\n    FCT.transfer_outst_units,\n\
+    \    FCT.transfer_outst_retail_value,\n    FCT.transfer_outst_cost_value,\n  \
+    \  FCT.transfer_act_repo_cost_value,\n    FCT.transfer_act_upchrg_unit_cost,\n\
+    \    FCT.transfer_act_upchrg_cost_value,\n    FCT.stock_count_units,\n    FCT.stock_count_snapshot_units,\n\
+    \    FCT.stock_count_retail_amt,\n    FCT.stock_count_snapshot_retail_amt,\n \
+    \   FCT.total_stock_loss_units,\n    FCT.total_stock_loss_value,\n    FCT.tsf_intake_qty,\n\
+    \    FCT.tsf_intake_retail_amount,\n    FCT.tsf_intake_cost_amount,\n    FCT.trasfer_ship_units,\n\
+    \    FCT.trasfer_ship_retail_amount,\n    FCT.trasfer_ship_cost_amount\nFROM FCT\n\
+    WHERE\n   /* Check for all zero rows */\n    COALESCE(FCT.transfer_outst_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_units, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_retail_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_cost_value, 0) <> 0\n    OR COALESCE(FCT.transfer_act_repo_cost_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_act_upchrg_cost_value, 0) <> 0\n    OR\
+    \ COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_qty, 0) <> 0\n    OR COALESCE(FCT.tsf_intake_retail_amount,\
     \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_cost_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_units,\
     \ 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_retail_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_cost_amount,\
     \ 0) <> 0;"
@@ -286,10 +294,12 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
   target_table: ''
+  unnamed:_9: ''
 - description: Used standard update
   file_name: FND2105.300.TARGET.sql
   file_present: true
@@ -383,21 +393,29 @@ steps:
     \    SELECT\n        item_wid,\n        location_wid,\n        soh_retail_amount\n\
     \    FROM\n        dwp01a_acc_orr.dw_stock_position_dy_fv\n    WHERE\n       \
     \ stock_inventory_date = date '${LDTK_DATE}'\n),\nFCT AS (\n    /* all stock measures\n\
-    \          do full outer joins to get all combinations\n    */\n    SELECT\n \
-    \       COALESCE(TSF.business_date, TCV.business_date, STC.business_date) AS business_date,\n\
-    \        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid) AS location_wid,\n\
-    \        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid) AS item_wid,\n   \
-    \     TSF.transfer_outst_units,\n        TSF.transfer_outst_retail_value,\n  \
-    \      TSF.transfer_outst_cost_value,\n        TCV.transfer_act_repo_cost_value,\n\
-    \        TSFC.transfer_act_upchrg_unit_cost,\n        TSFC.transfer_act_upchrg_cost_value,\n\
-    \        STC.stock_count_units,\n        STC.stock_count_snapshot_units,\n   \
-    \     STC.stock_count_retail_amt,\n        STC.stock_count_snapshot_retail_amt,\n\
-    \        STC.total_stock_loss_units,\n        STC.total_stock_loss_value,\n  \
-    \      TSFI.tsf_intake_qty,\n        TSFI.tsf_intake_retail_amount,\n        TSFI.tsf_intake_cost_amount,\n\
-    \        TSFSHP.trasfer_ship_units,\n        TSFSHP.trasfer_ship_retail_amount,\n\
-    \        TSFSHP.trasfer_ship_cost_amount,\n        STKA.soh_age_in_weeks\n   \
-    \ FROM TSF\n    FULL OUTER JOIN TCV\n        ON TSF.location_wid = TCV.location_wid\n\
-    \        AND TSF.item_wid = TCV.item_wid\n        AND TSF.business_date = TCV.business_date\n\
+    \          do full outer joins to get all combinations\n          TODO: Make this\
+    \ more efficient\n    */\n    SELECT\n        COALESCE(TSF.business_date, TCV.business_date,\
+    \ STC.business_date,TSFC.business_date,TSFI.business_date,TSFSHP.business_date,STKA.business_date)\
+    \ AS business_date,\n        COALESCE(TSF.location_wid, TCV.location_wid, STC.location_wid,TSFC.location_wid,TSFI.location_wid,TSFSHP.location_wid,STKA.location_wid)\
+    \ AS loc_wid,\n        COALESCE(TSF.item_wid, TCV.item_wid, STC.item_wid,TSFC.item_wid,TSFI.item_wid,TSFSHP.item_wid,STKA.item_wid)\
+    \ AS item_wid,\n        SUM(TSF.transfer_outst_units) AS transfer_outst_units,\n\
+    \        SUM(TSF.transfer_outst_retail_value) AS transfer_outst_retail_value,\n\
+    \        SUM(TSF.transfer_outst_cost_value) AS transfer_outst_cost_value,\n  \
+    \      SUM(TCV.transfer_act_repo_cost_value) AS transfer_act_repo_cost_value,\n\
+    \        SUM(TSFC.transfer_act_upchrg_unit_cost) AS transfer_act_upchrg_unit_cost,\n\
+    \        SUM(TSFC.transfer_act_upchrg_cost_value) AS transfer_act_upchrg_cost_value,\n\
+    \        SUM(STC.stock_count_units) AS stock_count_units,\n        SUM(STC.stock_count_snapshot_units)\
+    \ AS stock_count_snapshot_units,\n        SUM(STC.stock_count_retail_amt) AS stock_count_retail_amt,\n\
+    \        SUM(STC.stock_count_snapshot_retail_amt) AS stock_count_snapshot_retail_amt,\n\
+    \        SUM(STC.total_stock_loss_units) AS total_stock_loss_units,\n        SUM(STC.total_stock_loss_value)\
+    \ AS total_stock_loss_value,\n        SUM(TSFI.tsf_intake_qty) AS tsf_intake_qty,\n\
+    \        SUM(TSFI.tsf_intake_retail_amount) AS tsf_intake_retail_amount,\n   \
+    \     SUM(TSFI.tsf_intake_cost_amount) AS tsf_intake_cost_amount,\n        SUM(TSFSHP.trasfer_ship_units)\
+    \ AS trasfer_ship_units,\n        SUM(TSFSHP.trasfer_ship_retail_amount) AS trasfer_ship_retail_amount,\n\
+    \        SUM(TSFSHP.trasfer_ship_cost_amount) AS trasfer_ship_cost_amount,\n \
+    \       SUM(STKA.soh_age_in_weeks) AS soh_age_in_weeks\n    FROM TSF\n    FULL\
+    \ OUTER JOIN TCV\n        ON TSF.location_wid = TCV.location_wid\n        AND\
+    \ TSF.item_wid = TCV.item_wid\n        AND TSF.business_date = TCV.business_date\n\
     \    FULL OUTER JOIN STC\n        ON STC.location_wid = TSF.location_wid\n   \
     \     AND STC.item_wid = TSF.item_wid\n        AND STC.business_date = TSF.business_date\n\
     \    FULL OUTER JOIN TSFC\n        ON TSF.location_wid = TSFC.location_wid\n \
@@ -408,34 +426,34 @@ steps:
     \        AND TSF.item_wid = TSFSHP.item_wid\n        AND TSF.business_date = TSFSHP.business_date\n\
     \    FULL OUTER JOIN STKA\n        ON TSF.location_wid = STKA.location_wid\n \
     \       AND TSF.item_wid = STKA.item_wid\n        AND TSF.business_date = STKA.business_date\n\
-    )\nSELECT\n    FCT.business_date,\n    LC.location_id,\n    ITM.item_id,\n   \
-    \ setbit((0(INTEGER)),1,1) as fct_src_map,\n    FCT.transfer_outst_units,\n  \
-    \  FCT.transfer_outst_retail_value,\n    FCT.transfer_outst_cost_value,\n    FCT.transfer_act_repo_cost_value,\n\
-    \    FCT.transfer_act_upchrg_unit_cost,\n    FCT.transfer_act_upchrg_cost_value,\n\
-    \    FCT.stock_count_units,\n    FCT.stock_count_snapshot_units,\n    FCT.stock_count_retail_amt,\n\
-    \    FCT.stock_count_snapshot_retail_amt,\n    FCT.total_stock_loss_units,\n \
-    \   FCT.total_stock_loss_value,\n    FCT.tsf_intake_qty,\n    FCT.tsf_intake_retail_amount,\n\
-    \    FCT.tsf_intake_cost_amount,\n    FCT.trasfer_ship_units,\n    FCT.trasfer_ship_retail_amount,\n\
-    \    FCT.trasfer_ship_cost_amount\nFROM FCT\nINNER JOIN LC\n    /* Join so that\
-    \ wid can map to id */\n    ON LC.location_wid = FCT.location_wid\nINNER JOIN\
-    \ ITM\n    ON ITM.item_wid = FCT.item_wid\nWHERE\n   /* Check for all zero rows\
-    \ */\n    COALESCE(FCT.transfer_outst_units, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_units,\
-    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_retail_value, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_cost_value,\
-    \ 0) <> 0\n    OR COALESCE(FCT.transfer_act_repo_cost_value, 0) <> 0\n    OR COALESCE(FCT.stock_count_units,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt, 0) <> 0\n    OR\
-    \ COALESCE(FCT.transfer_act_upchrg_cost_value, 0) <> 0\n    OR COALESCE(FCT.stock_count_units,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt,\
-    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt, 0) <> 0\n    OR\
-    \ COALESCE(FCT.tsf_intake_qty, 0) <> 0\n    OR COALESCE(FCT.tsf_intake_retail_amount,\
+    \  GROUP BY 1,2,3\n)\nSELECT\n    FCT.business_date,\n    FCT.loc_wid,\n    FCT.item_wid,\n\
+    \    setbit((0(INTEGER)),1,1) as fct_src_map,\n    FCT.transfer_outst_units,\n\
+    \    FCT.transfer_outst_retail_value,\n    FCT.transfer_outst_cost_value,\n  \
+    \  FCT.transfer_act_repo_cost_value,\n    FCT.transfer_act_upchrg_unit_cost,\n\
+    \    FCT.transfer_act_upchrg_cost_value,\n    FCT.stock_count_units,\n    FCT.stock_count_snapshot_units,\n\
+    \    FCT.stock_count_retail_amt,\n    FCT.stock_count_snapshot_retail_amt,\n \
+    \   FCT.total_stock_loss_units,\n    FCT.total_stock_loss_value,\n    FCT.tsf_intake_qty,\n\
+    \    FCT.tsf_intake_retail_amount,\n    FCT.tsf_intake_cost_amount,\n    FCT.trasfer_ship_units,\n\
+    \    FCT.trasfer_ship_retail_amount,\n    FCT.trasfer_ship_cost_amount\nFROM FCT\n\
+    WHERE\n   /* Check for all zero rows */\n    COALESCE(FCT.transfer_outst_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_units, 0) <> 0\n    OR COALESCE(FCT.transfer_outst_retail_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_outst_cost_value, 0) <> 0\n    OR COALESCE(FCT.transfer_act_repo_cost_value,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.transfer_act_upchrg_cost_value, 0) <> 0\n    OR\
+    \ COALESCE(FCT.stock_count_units, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_units,\
+    \ 0) <> 0\n    OR COALESCE(FCT.stock_count_retail_amt, 0) <> 0\n    OR COALESCE(FCT.stock_count_snapshot_retail_amt,\
+    \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_qty, 0) <> 0\n    OR COALESCE(FCT.tsf_intake_retail_amount,\
     \ 0) <> 0\n    OR COALESCE(FCT.tsf_intake_cost_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_units,\
     \ 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_retail_amount, 0) <> 0\n    OR COALESCE(FCT.trasfer_ship_cost_amount,\
     \ 0) <> 0;"
   stats: ''
+  stats_target_database: T_TMP_ACC_FND
   step_pattern: TRANS_DELETE_INSERT
   steps: '300'
   target_database: T_TMP_ACC_FND
   target_table: FND_STK_FCT_02_FCT_STG
+  unnamed:_9: COLUMN(business_date,loc_wid,item_wid)
 - description: ''
   file_name: ''
   file_present: false
@@ -449,13 +467,16 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+  unnamed:_9: ''
+stream_id: FND_FACT_DAILY
 target_database_name: T_TMP_ACC_FND
 target_table_name: FND_STK_FCT_02_FCT_STG
 transformation_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid

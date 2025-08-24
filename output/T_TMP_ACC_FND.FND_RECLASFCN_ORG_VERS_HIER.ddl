@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: T_TMP_ACC_FND.FND_RECLASFCN_ORG_VERS_HIER.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}T_TMP_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -10,17 +10,18 @@
 /* Create table for FND_RECLASFCN_ORG_VERS_HIER = */
 CREATE MULTISET TABLE DW${INSTANCE}T_TMP_ACC_FND.FND_RECLASFCN_ORG_VERS_HIER
     (
-    org_hiery_wid INTEGER NOT NULL ,
-    org_hiery_vers_num SMALLINT NOT NULL ,
-    org_hier_country_cd SMALLINT NOT NULL ,
-    company_cd SMALLINT NOT NULL ,
-    company_vers_num SMALLINT NOT NULL ,
-    zone_cd SMALLINT NOT NULL ,
-    zone_vers_num SMALLINT NOT NULL ,
-    region_cd SMALLINT NOT NULL ,
-    region_vers_num SMALLINT NOT NULL ,
-    area_cd SMALLINT NOT NULL ,
-    area_vers_num SMALLINT NOT NULL      )
+    org_hiery_wid INTEGER NOT NULL  ,
+    org_hiery_vers_num SMALLINT NOT NULL  ,
+    org_hier_country_cd SMALLINT NOT NULL  ,
+    company_cd SMALLINT NOT NULL  ,
+    company_vers_num SMALLINT NOT NULL  ,
+    zone_cd SMALLINT NOT NULL  ,
+    zone_vers_num SMALLINT NOT NULL  ,
+    region_cd SMALLINT NOT NULL  ,
+    region_vers_num SMALLINT NOT NULL  ,
+    area_cd SMALLINT NOT NULL  ,
+    area_vers_num SMALLINT NOT NULL   
+    )
     UNIQUE PRIMARY INDEX(ORG_HIERY_WID)
 ;
 

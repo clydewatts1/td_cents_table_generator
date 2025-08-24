@@ -18,6 +18,7 @@ columns:
   description: Unique identifier for Organization Hierarchy
   compression: ''
   quote: ''
+  default: ''
 - column_name: loc_wid
   column_type: INTEGER
   column_format: ''
@@ -26,6 +27,7 @@ columns:
   description: Unique Identifier for Location ID this is either the store or the warehouse
   compression: ''
   quote: ''
+  default: ''
 - column_name: loc_org_hier_vers_num
   column_type: INTEGER
   column_format: ''
@@ -36,6 +38,7 @@ columns:
     , if changed then bumped version no for table
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: FND1020
   databasename: DWP01T_ACC_FND

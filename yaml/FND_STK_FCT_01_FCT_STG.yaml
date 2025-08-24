@@ -19,6 +19,7 @@ columns:
   description: Business Date (PK)
   compression: ''
   quote: ''
+  default: ''
 - column_name: loc_wid
   column_type: BIGINT
   column_format: '''99999'''
@@ -27,6 +28,7 @@ columns:
   description: Location WID ( Location ID - Surrogate Key )
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_wid
   column_type: BIGINT
   column_format: ''
@@ -35,6 +37,7 @@ columns:
   description: Item WID ( Item ID - Surrogate Key )
   compression: ''
   quote: ''
+  default: ''
 - column_name: fct_src_map
   column_type: BYTEINT
   column_format: ''
@@ -43,6 +46,7 @@ columns:
   description: Bit Map of source of data used in pivot table ( 01 )
   compression: '1'
   quote: ''
+  default: ''
 - column_name: location_soh_units
   column_type: UNITS
   column_format: ''
@@ -51,6 +55,7 @@ columns:
   description: This Column is used identify the Primark Location stock on hand units
   compression: '0'
   quote: ''
+  default: ''
 - column_name: depot_soh_units
   column_type: UNITS
   column_format: ''
@@ -59,6 +64,7 @@ columns:
   description: This column is used to identify the Depot Stock On Hand Units
   compression: '0'
   quote: ''
+  default: ''
 - column_name: location_pack_units
   column_type: UNITS
   column_format: ''
@@ -67,6 +73,7 @@ columns:
   description: This Column is used identify the Primark Location pack units
   compression: '0'
   quote: ''
+  default: ''
 - column_name: depot_pack_units
   column_type: UNITS
   column_format: ''
@@ -75,6 +82,7 @@ columns:
   description: SOH_Pack_Units from the stock position table for the specific WH
   compression: '0'
   quote: ''
+  default: ''
 - column_name: location_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -83,6 +91,7 @@ columns:
   description: This Column is used identify the Primark Location retail amount
   compression: '0'
   quote: ''
+  default: ''
 - column_name: depot_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -91,6 +100,7 @@ columns:
   description: SOH_Retail_Amount from the stock position table for the specific WH
   compression: '0'
   quote: ''
+  default: ''
 - column_name: unit_cost_amount
   column_type: UNITS
   column_format: ''
@@ -99,6 +109,7 @@ columns:
   description: This Column is used identify the Unit cost price of an item
   compression: '0'
   quote: ''
+  default: ''
 - column_name: unit_retail_amount
   column_type: UNITS
   column_format: ''
@@ -107,6 +118,7 @@ columns:
   description: Unit price value at retail for the specific item.
   compression: '0'
   quote: ''
+  default: ''
 - column_name: on_order_units
   column_type: UNITS
   column_format: ''
@@ -116,6 +128,7 @@ columns:
     and not yet received).
   compression: '0'
   quote: ''
+  default: ''
 - column_name: on_order_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -125,6 +138,7 @@ columns:
     COST VALUE).
   compression: '0'
   quote: ''
+  default: ''
 - column_name: on_order_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -133,6 +147,7 @@ columns:
   description: Retail Value of Packs on order (commitment ordered and not yet received).
   compression: '0'
   quote: ''
+  default: ''
 - column_name: on_order_pack_units
   column_type: UNITS
   column_format: ''
@@ -142,6 +157,7 @@ columns:
     Cartons and Sets)
   compression: '0'
   quote: ''
+  default: ''
 - column_name: return_to_vendor_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -151,6 +167,7 @@ columns:
     units * Unit retail price)
   compression: '0'
   quote: ''
+  default: ''
 - column_name: return_to_vendor_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -160,6 +177,7 @@ columns:
     from the supplier. RTV NON MERCH COST VALUE + RTV MERCH COST VALUE
   compression: '0'
   quote: ''
+  default: ''
 - column_name: return_to_vendor_units
   column_type: UNITS
   column_format: ''
@@ -169,6 +187,7 @@ columns:
     from the supplier.
   compression: '0'
   quote: ''
+  default: ''
 - column_name: return_to_vendor_pack_units
   column_type: UNITS
   column_format: ''
@@ -178,6 +197,7 @@ columns:
     from the supplier.
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_expected_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -187,6 +207,7 @@ columns:
     qty
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_expected_pack_units
   column_type: UNITS
   column_format: ''
@@ -195,6 +216,7 @@ columns:
   description: Pack units of the transfer quantity
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_expected_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -203,6 +225,7 @@ columns:
   description: Retail Value of the transfer quantity Retail price * Transfer qty
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_expected_units
   column_type: UNITS
   column_format: ''
@@ -211,6 +234,7 @@ columns:
   description: This Column is used identify the Units of the transfer quantity
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_reserved_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -219,6 +243,7 @@ columns:
   description: Supplier cost amount of units confirmed for Transfer
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_reserved_pack_units
   column_type: UNITS
   column_format: ''
@@ -227,6 +252,7 @@ columns:
   description: Pack Units confirmed for Transfer But yet to transferred
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_reserved_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -235,6 +261,7 @@ columns:
   description: Retail amount of units confirmed for Transfer
   compression: '0'
   quote: ''
+  default: ''
 - column_name: transfer_reserved_units
   column_type: UNITS
   column_format: ''
@@ -243,6 +270,7 @@ columns:
   description: This Column is used identify the Units confirmed for Transfer
   compression: '0'
   quote: ''
+  default: ''
 - column_name: in_transit_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -252,6 +280,7 @@ columns:
     transit qty
   compression: '0'
   quote: ''
+  default: ''
 - column_name: in_transit_pack_units
   column_type: UNITS
   column_format: ''
@@ -260,6 +289,7 @@ columns:
   description: Pack units of the items in transit
   compression: '0'
   quote: ''
+  default: ''
 - column_name: in_transit_units
   column_type: UNITS
   column_format: ''
@@ -269,6 +299,7 @@ columns:
     UNITS - TRANSFER RECEIVED UNITS
   compression: '0'
   quote: ''
+  default: ''
 - column_name: in_transit_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -278,6 +309,7 @@ columns:
     VALUE - TRANSFER RECEIVED VALUE
   compression: '0'
   quote: ''
+  default: ''
 - column_name: non_sellable_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -287,6 +319,7 @@ columns:
     * count(items) where sellable ind = N
   compression: '0'
   quote: ''
+  default: ''
 - column_name: non_sellable_pack_units
   column_type: UNITS
   column_format: ''
@@ -296,6 +329,7 @@ columns:
     where sellable ind = N
   compression: '0'
   quote: ''
+  default: ''
 - column_name: non_sellable_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -305,6 +339,7 @@ columns:
     * count(items) where sellable ind = N
   compression: '0'
   quote: ''
+  default: ''
 - column_name: non_sellable_units
   column_type: UNITS
   column_format: ''
@@ -314,6 +349,7 @@ columns:
     qty
   compression: '0'
   quote: ''
+  default: ''
 - column_name: psr_blocked_units
   column_type: UNITS
   column_format: ''
@@ -322,6 +358,7 @@ columns:
   description: Count of units which are not marked for PSR BLOCKED
   compression: '0'
   quote: ''
+  default: ''
 - column_name: psr_retail_amount
   column_type: AMOUNT
   column_format: ''
@@ -330,6 +367,7 @@ columns:
   description: Retail Value of the items which are not marked for PSR BLOCKED
   compression: '0'
   quote: ''
+  default: ''
 - column_name: psr_blocked_pack_units
   column_type: UNITS
   column_format: ''
@@ -339,6 +377,7 @@ columns:
     units) where PSR BLOCKED ind = Y
   compression: '0'
   quote: ''
+  default: ''
 - column_name: psr_blocked_cost_amount
   column_type: AMOUNT
   column_format: ''
@@ -347,6 +386,7 @@ columns:
   description: Cost amount Blocked from Primark stock replenishment system
   compression: '0'
   quote: ''
+  default: ''
 - column_name: carryover_units
   column_type: UNITS
   column_format: ''
@@ -357,6 +397,7 @@ columns:
     CARRYOVER FLAG = Y
   compression: '0'
   quote: ''
+  default: ''
 - column_name: carryover_value
   column_type: AMOUNT
   column_format: ''
@@ -367,6 +408,7 @@ columns:
     FLAG = Y
   compression: '0'
   quote: ''
+  default: ''
 - column_name: stock_unit_av_cost_amount
   column_type: UNITS
   column_format: ''
@@ -375,6 +417,7 @@ columns:
   description: This Column is used identify the Average cost amount of stock unit
   compression: '0'
   quote: ''
+  default: ''
 - column_name: regular_unit_retail_amt
   column_type: UNITS
   column_format: ''
@@ -383,6 +426,7 @@ columns:
   description: Unit Retail amount for regular price
   compression: '0'
   quote: ''
+  default: ''
 - column_name: damaged_adjustment_units
   column_type: UNITS
   column_format: ''
@@ -392,6 +436,7 @@ columns:
     measure. Type = DAMAGED
   compression: '0'
   quote: ''
+  default: ''
 - column_name: damaged_adjustment_amount
   column_type: AMOUNT
   column_format: ''
@@ -400,6 +445,7 @@ columns:
   description: This Column is used to identify the Stock Damaged Adjustment Amount
   compression: '0'
   quote: ''
+  default: ''
 - column_name: soiled_adjustment_units
   column_type: UNITS
   column_format: ''
@@ -409,6 +455,7 @@ columns:
     measure. Type = SOLID
   compression: '0'
   quote: ''
+  default: ''
 - column_name: soiled_adjustment_amount
   column_type: AMOUNT
   column_format: ''
@@ -417,6 +464,7 @@ columns:
   description: This Column is used identify the Soiled Adjustment amount
   compression: '0'
   quote: ''
+  default: ''
 - column_name: auto_adjustment_units
   column_type: UNITS
   column_format: ''
@@ -426,6 +474,7 @@ columns:
     measure. Type = AUTO ADJUSTMNET
   compression: '0'
   quote: ''
+  default: ''
 - column_name: auto_adjustment_amount
   column_type: AMOUNT
   column_format: ''
@@ -435,6 +484,7 @@ columns:
     Type = AUTO ADJUSTMENT
   compression: '0'
   quote: ''
+  default: ''
 - column_name: other_adjustment_units
   column_type: UNITS
   column_format: ''
@@ -444,6 +494,7 @@ columns:
     measure. Type = OTHER ADJUSTMNET
   compression: '0'
   quote: ''
+  default: ''
 - column_name: other_adjustment_amount
   column_type: AMOUNT
   column_format: ''
@@ -453,6 +504,7 @@ columns:
     measure. Type = OTHER ADJUSTMNET
   compression: '0'
   quote: ''
+  default: ''
 - column_name: stock_cnt_adj_units
   column_type: UNITS
   column_format: ''
@@ -462,6 +514,7 @@ columns:
     measure
   compression: '0'
   quote: ''
+  default: ''
 - column_name: stock_cnt_adj_retail_value
   column_type: AMOUNT
   column_format: ''
@@ -470,6 +523,7 @@ columns:
   description: TBD
   compression: '0'
   quote: ''
+  default: ''
 - column_name: listed_stock
   column_type: UNITS
   column_format: ''
@@ -479,6 +533,7 @@ columns:
     on hand
   compression: '0'
   quote: ''
+  default: ''
 - column_name: listing_flg
   column_type: CHAR(1)
   column_format: ''
@@ -487,6 +542,7 @@ columns:
   description: Indicates if the Markdown is Listed Y/N
   compression: Y'
   quote: ''
+  default: ''
 - column_name: nlp_stock_value
   column_type: AMOUNT
   column_format: ''
@@ -495,6 +551,7 @@ columns:
   description: NLP( next lowest price) On Hand Stock Value
   compression: '0'
   quote: ''
+  default: ''
 - column_name: nlp_stock_units
   column_type: UNITS
   column_format: ''
@@ -503,6 +560,7 @@ columns:
   description: NLP( next lowest price) On Hand Stock Units
   compression: '0'
   quote: ''
+  default: ''
 - column_name: ras_units
   column_type: UNITS
   column_format: ''
@@ -511,6 +569,7 @@ columns:
   description: RAS( Clearance) On Hand Stock Value
   compression: '0'
   quote: ''
+  default: ''
 - column_name: ras_stock_value
   column_type: AMOUNT
   column_format: ''
@@ -519,6 +578,7 @@ columns:
   description: RAS( next lowest price) On Hand Stock Units
   compression: '0'
   quote: ''
+  default: ''
 - column_name: price_action_week
   column_type: INTEGER
   column_format: ''
@@ -527,6 +587,7 @@ columns:
   description: The Year Week the price was set
   compression: '0'
   quote: ''
+  default: ''
 - column_name: price_status
   column_type: VARCHAR(20)
   column_format: ''
@@ -535,6 +596,7 @@ columns:
   description: The price status Regular,Clearance,Promotion
   compression: Regular'
   quote: ''
+  default: ''
 BUILD:
 - jobname: ''
   databasename: DWP01T_TMP_ACC_FND

@@ -1,4 +1,6 @@
 control_columns: .nan
+description: Initialize Staging Sales  Pivot Table
+job_name: FND2201
 job_name_from_file: FND2201
 job_name_from_mapping: FND2201
 mapping_columns:
@@ -8,18 +10,18 @@ mapping_columns:
   column_sequence_reverse: 4
   source_column_name: nan
   target_column_name: business_date
-- column_action: nan
+- column_action: key
   column_order: nan
   column_sequence: 2
   column_sequence_reverse: 3
   source_column_name: nan
-  target_column_name: loc_id
-- column_action: nan
+  target_column_name: loc_wid
+- column_action: key
   column_order: nan
   column_sequence: 3
   column_sequence_reverse: 2
   source_column_name: nan
-  target_column_name: item_id
+  target_column_name: item_wid
 - column_action: nan
   column_order: nan
   column_sequence: 4
@@ -31,8 +33,8 @@ mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid
 sql_steps: {}
 steps:
 - description: ''
@@ -48,6 +50,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
@@ -64,7 +67,8 @@ steps:
   source_database: ''
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
-  stats: COLUMN(business_date,location_id,item_id)
+  stats: COLUMN(business_date,loc_wid,item_wid)
+  stats_target_database: T_TMP_ACC_FND
   step_pattern: DELETE_TARGET
   steps: '300'
   target_database: T_TMP_ACC_FND
@@ -82,13 +86,15 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+stream_id: FND_FACT_DAILY
 target_database_name: T_TMP_ACC_FND
 target_table_name: FND_SLS_FCT_PVT_STG
 transformation_key:
 - business_date
-- location_id
-- item_id
+- loc_wid
+- item_wid

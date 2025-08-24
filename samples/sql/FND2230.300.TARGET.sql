@@ -7,7 +7,7 @@
 --
 -- Business Logic:
 -- 1. Uses FND_SLS_FCT_PVT_STG as the driver to ensure all combinations of
---    business_date, location_id, and item_id are included.
+--    business_date, loc_wid, and item_wid are included.
 -- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve the actual sales measures.
 -- 3. COALESCE is used on all measure columns to convert NULLs to 0.
 -- 4. Default values (0 or NULL) are provided for target columns that do not have a direct source.
@@ -32,8 +32,8 @@ WHERE
 -- Insert the aggregated data into the final fact table.
 INSERT INTO DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (
     business_dt,
-    loc_id,
-    item_id,
+    loc_wid,
+    item_wid,
     sales_value,
     sales_units,
     sales_transaction_count,
@@ -151,8 +151,8 @@ INSERT INTO DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (
 SELECT
     -- Key columns from the pivot table, which acts as the driver for the join.
     pvt.business_date AS business_dt,
-    pvt.location_id AS loc_id,
-    pvt.item_id AS item_id,
+    pvt.loc_wid AS loc_wid,
+    pvt.item_wid AS item_wid,
     -- Measures from the source table (FCT1). COALESCE ensures no nulls are inserted.
     COALESCE(fct1.sales_value, 0) AS sales_value,
     COALESCE(fct1.sales_units, 0) AS sales_units,
@@ -274,8 +274,8 @@ FROM
 LEFT OUTER JOIN
     DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG AS fct1
         ON pvt.business_date = fct1.business_date
-        AND pvt.location_id = fct1.location_id
-        AND pvt.item_id = fct1.item_id;
+        AND pvt.loc_wid = fct1.loc_wid
+        AND pvt.item_wid = fct1.item_wid;
 -- Check for errors after the INSERT statement. If an error occurred, quit the script.
 .IF ERRORCODE <> 0 THEN .QUIT 101;
 -- If no rows were inserted, quit the script. This can be a useful check to ensure the source tables were not empty.

@@ -101,13 +101,22 @@ config:
   log_level: INFO
   log_path: ./log
   output_dir: ./output
-  project_name: Primark Reclassification
+  project_name: Primark Reclassification Foundation 
   template_path: ./templates
   yaml_path: ./yaml
   mapping_yaml_path: ./mapping_yaml
   job_path: ./samples/jobs
   steps_path: ./samples/steps
   sql_path: ./samples/sql
+  robot_path: ./robot
+  ddl_robot_tests:
+    - object_validation:
+        path: tests/ddl/validation
+        filename_template: TEST_DDL_VALIDATION.filename.j2
+        template: TEST_DDL_VALIDATION.robot.j2
+
+  
+  #sample_path: C:/tmp/Reclass_Foundation/reclass_foundation
   sample_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define (Req. & Solution Design)/Design/Detailed Design/Samples
 
 excel_path: C:/Users/cwatts/OneDrive - Primark/General - Reclassification/2. Define

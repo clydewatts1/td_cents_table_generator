@@ -1,11 +1,299 @@
 control_columns: .nan
+description: .nan
+job_name: FND1025
 job_name_from_file: FND1025
-job_name_from_mapping: T_TMP_ACC_FND
-mapping_sheet_name: FND1025
-pattern: .nan
+job_name_from_mapping: FND1025
+mapping_columns:
+- column_action: ''
+  column_order: nan
+  column_sequence: 1
+  column_sequence_reverse: 87
+  mapping_notes: nan
+  source_column_name: 'HVS.org_hiery_wid                 '
+  target_column_name: 'org_hiery_wid                 '
+- column_action: ''
+  column_order: nan
+  column_sequence: 2
+  column_sequence_reverse: 86
+  mapping_notes: nan
+  source_column_name: 'HVS.org_hier_country_cd           '
+  target_column_name: 'org_hier_country_cd           '
+- column_action: ''
+  column_order: nan
+  column_sequence: 3
+  column_sequence_reverse: 85
+  mapping_notes: nan
+  source_column_name: 'HIER.org_hier_country_name         '
+  target_column_name: 'org_hier_country_name         '
+- column_action: ''
+  column_order: nan
+  column_sequence: 4
+  column_sequence_reverse: 84
+  mapping_notes: nan
+  source_column_name: HVS.org_hiery_vers_num
+  target_column_name: org_hiery_vers_num
+- column_action: ''
+  column_order: nan
+  column_sequence: 5
+  column_sequence_reverse: 83
+  mapping_notes: nan
+  source_column_name: 'HVS.company_cd                    '
+  target_column_name: 'company_cd                    '
+- column_action: ''
+  column_order: nan
+  column_sequence: 6
+  column_sequence_reverse: 82
+  mapping_notes: nan
+  source_column_name: 'HIER.company_name                  '
+  target_column_name: 'company_name                  '
+- column_action: ''
+  column_order: nan
+  column_sequence: 7
+  column_sequence_reverse: 81
+  mapping_notes: nan
+  source_column_name: HVS.company_vers_num
+  target_column_name: company_vers_num
+- column_action: ''
+  column_order: nan
+  column_sequence: 8
+  column_sequence_reverse: 80
+  mapping_notes: nan
+  source_column_name: 'HVS.zone_cd                       '
+  target_column_name: 'zone_cd                       '
+- column_action: ''
+  column_order: nan
+  column_sequence: 9
+  column_sequence_reverse: 79
+  mapping_notes: nan
+  source_column_name: 'HIER.zone_name                     '
+  target_column_name: 'zone_name                     '
+- column_action: ''
+  column_order: nan
+  column_sequence: 10
+  column_sequence_reverse: 78
+  mapping_notes: nan
+  source_column_name: HVS.zone_vers_num
+  target_column_name: zone_vers_num
+- column_action: ''
+  column_order: nan
+  column_sequence: 11
+  column_sequence_reverse: 77
+  mapping_notes: nan
+  source_column_name: 'HVS.region_cd                     '
+  target_column_name: 'region_cd                     '
+- column_action: ''
+  column_order: nan
+  column_sequence: 12
+  column_sequence_reverse: 76
+  mapping_notes: nan
+  source_column_name: 'HIER.region_name                   '
+  target_column_name: 'region_name                   '
+- column_action: ''
+  column_order: nan
+  column_sequence: 13
+  column_sequence_reverse: 75
+  mapping_notes: nan
+  source_column_name: 'HIER.region_old                    '
+  target_column_name: 'region_old                    '
+- column_action: ''
+  column_order: nan
+  column_sequence: 14
+  column_sequence_reverse: 74
+  mapping_notes: nan
+  source_column_name: HVS.region_vers_num
+  target_column_name: region_vers_num
+- column_action: ''
+  column_order: nan
+  column_sequence: 15
+  column_sequence_reverse: 73
+  mapping_notes: nan
+  source_column_name: 'HVS.area_cd                       '
+  target_column_name: 'area_cd                       '
+- column_action: ''
+  column_order: nan
+  column_sequence: 16
+  column_sequence_reverse: 72
+  mapping_notes: nan
+  source_column_name: 'HIER.area_name                     '
+  target_column_name: 'area_name                     '
+- column_action: ''
+  column_order: nan
+  column_sequence: 17
+  column_sequence_reverse: 71
+  mapping_notes: nan
+  source_column_name: HVS.area_vers_num
+  target_column_name: area_vers_num
+- column_action: ''
+  column_order: nan
+  column_sequence: 18
+  column_sequence_reverse: 70
+  mapping_notes: nan
+  source_column_name: 'HIER.zone_manager_name             '
+  target_column_name: 'zone_manager_name             '
+- column_action: ''
+  column_order: nan
+  column_sequence: 19
+  column_sequence_reverse: 69
+  mapping_notes: nan
+  source_column_name: 'HIER.region_manager_name           '
+  target_column_name: 'region_manager_name           '
+- column_action: ''
+  column_order: nan
+  column_sequence: 20
+  column_sequence_reverse: 68
+  mapping_notes: nan
+  source_column_name: 'HIER.area_manager_name             '
+  target_column_name: 'area_manager_name             '
+- column_action: ''
+  column_order: nan
+  column_sequence: 21
+  column_sequence_reverse: 67
+  mapping_notes: nan
+  source_column_name: 'HIER.org_hier_country_mgr_name     '
+  target_column_name: 'org_hier_country_mgr_name     '
+- column_action: ''
+  column_order: nan
+  column_sequence: 22
+  column_sequence_reverse: 66
+  mapping_notes: nan
+  source_column_name: "WITH DST AS (SELECT * FROM DWP01A_IDW.DSTRCT DST WHERE CUR_FLG='Y')\n\
+    \    ,AREA AS (SELECT * FROM DWP01A_IDW.PMK_AREA AREA WHERE CUR_FLG='Y')\n\t,RGN\
+    \ AS (SELECT * FROM DWP01A_IDW.RGN WHERE CUR_FLG='Y')\n\t,ZN AS (SELECT * FROM\
+    \ DWP01A_IDW.PMK_ZN WHERE CUR_FLG='Y')\n\t,CO AS (SELECT * FROM DWP01A_IDW.PMK_CO\
+    \ WHERE CUR_FLG='Y')\n\t,OHIER AS (SELECT\n\t\t\t\tDST.DSTRCT_WID AS org_hiery_wid,\n\
+    \t\t\t\tDECODE(DST.DSTRCT_CD,'DBO','0',DST.DSTRCT_CD) AS org_hier_country_cd,\n\
+    \t\t\t\tDST.DSTRCT_NAME AS org_hier_country_name,\n\t\t\t\tCO.PMK_CO_CD AS company_cd,\n\
+    \t\t\t\tCO.PMK_CO_NAME AS company_name,\n\t\t\t\tZN.PMK_ZN_CD AS zone_cd,\n\t\t\
+    \t\tZN.PMK_ZN_NAME AS zone_name,\n\t\t\t\tRGN.RGN_CD AS region_cd,\n\t\t\t\tRGN.RGN_NAME\
+    \ AS region_name,\n\t\t\t\tDECODE(AREA.PMK_AREA_CD,'DBO','0',AREA.PMK_AREA_CD)\
+    \ AS area_cd,\n\t\t\t\tAREA.PMK_AREA_NAME AS area_vers_num,\n\t\t\t\tZN.PMK_TCTCL_MGR_NAME\
+    \ AS zone_manager_name ,\n\t\t\t\tRGN.PMK_TCTCL_MGR_NAME AS region_manager_name\
+    \ ,\n\t\t\t\tAREA.PMK_TCTCL_MGR_NAME AS area_manager_name,\n\t\t\t\tDST.PMK_TCTCL_MGR_NAME\
+    \ AS org_hier_country_mgr_name\t\n\t\tFROM DST\n\t\tLEFT OUTER JOIN AREA\n\t\t\
+    ON AREA.PMK_AREA_WID = DST.PMK_AREA_WID\n\t\tLEFT OUTER JOIN RGN\n\t\tON RGN.RGN_WID\
+    \ = AREA.RGN_WID\n\t\tLEFT OUTER JOIN ZN\n\t\tON ZN.PMK_ZN_WID = RGN.PMK_ZN_WID\n\
+    \t\tLEFT OUTER JOIN CO\n\t\tON CO.PMK_CO_WID = ZN.PMK_CO_WID\n\t\t)\nSELECT *\
+    \ FROM OHIER\n;\n\n;"
+  target_column_name: HIER
+- column_action: ''
+  column_order: nan
+  column_sequence: 23
+  column_sequence_reverse: 65
+  mapping_notes: Join HVR to HIER on org_hier_wid
+  source_column_name: "SELECT org_hiery_wid\n/* Find the max version number for non\
+    \ deleted styles in hierarchy */\n,MAX(DECODE(RECORD_DEL_IND,'Y',loc_org_hier_vers_num,0))\
+    \ AS max_version_no\n/* Find the max versionnumber for deleted styles in hierarchy\
+    \ */\n,MAX(DECODE(RECORD_DEL_IND,'N',loc_org_hier_vers_num,0)) AS max_del_version_no\n\
+    FROM DWP01T_TMP_ACC_FND.FND_RECLASFCN_LOC_ORG_XREF \nWHERE CUR_FLG='Y' \nGROUP\
+    \ BY 1"
+  target_column_name: HVR
+- column_action: ''
+  column_order: nan
+  column_sequence: 87
+  column_sequence_reverse: 1
+  mapping_notes: 'This is the joins and alias.  The base table is specified as either
+    CTE or Sub query '
+  source_column_name: nan
+  target_column_name: nan
+mapping_columns_count: 24
+mapping_sheet_name: MAPPING
+pattern: Staging
 primary_key:
 - org_hiery_wid
-target_database_name: DM_FND_STORE_HIER_DIM
-target_table_name: Staging
+sql_steps: {}
+steps:
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND1025
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 5
+  sequence_no: 1
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_START
+  steps: Start
+  target_database: ''
+  target_table: ''
+- description: This will increment the sequence number by one
+  file_name: FND_IncAndGetSeqNo.sql
+  file_present: false
+  job_name: FND1025
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 4
+  sequence_no: 2
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: SEQUENCE_NO,SEQ_NAME='ORG_HIER_VER_NO'
+  steps: '100'
+  target_database: ''
+  target_table: ''
+- description: This will do a insert into target table based on mapping
+  file_name: FND1010.300.TARGET.sql
+  file_present: false
+  job_name: FND1025
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 3
+  sequence_no: 3
+  source_database: See Mapping
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: See Mapping
+  step_pattern: DELETE_INSERT,VERSION_NO=${ORG_HIER_VER_NO}
+  steps: '300'
+  target_database: See Mapping
+  target_table: ''
+- description: Used standard update
+  file_name: FND1022.300.TARGET.sql
+  file_present: false
+  job_name: FND1025
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 2
+  sequence_no: 4
+  source_database: T_TMP_ACC_FND
+  source_table: FND1022_VALID
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: T_ACC_FND(via view)
+  step_pattern: UPDATE_TARGET
+  steps: '300'
+  target_database: T_ACC_FND(via view)
+  target_table: DM_FND_STORE_HIER_DIM
+- description: ''
+  file_name: ''
+  file_present: false
+  job_name: FND1025
+  notes: ''
+  post_sql: ''
+  pre_sql: ''
+  reverse_sequence_no: 1
+  sequence_no: 5
+  source_database: ''
+  source_table: ''
+  sql_statement: '/* ERROR : no steps found for this step */'
+  stats: ''
+  stats_target_database: ''
+  step_pattern: STANDARD_END
+  steps: End
+  target_database: ''
+  target_table: ''
+stream_id: nan
+target_database_name: T_TMP_ACC_FND
+target_table_name: DM_FND_STORE_HIER_DIM
 transformation_key:
-- nan
+- org_hiery_wid

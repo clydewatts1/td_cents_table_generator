@@ -4,18 +4,19 @@
 #
 # ===============================================================================
 # ===============================================================================
-# File Name           : 
+# File Name           : FND1010.job
 # Pattern             : Staging
-# Purpose             : 
-# Author              : 
+# Purpose             :Populate temporary Date dimension table FND1010_DW_FND_DATE_DIM
+#                     : Second Line
+# Author              : Mr Primark
 # File Type           : JOB
-# Creation Date       : 
-# Version             : 
+# Creation Date       : 2025-08-22 
+# Build Time          : 2025-08-22 11:32:09
 # -------------------------------------------------------------------------------
 # Change History :
 # Ver  | Date        |  Modified By           |  Change Description
 # -------------------------------------------------------------------------------
-# 1.0  | 18 Oct 2021 |  TERADATA              |  INITIAL VERSION
+# 0.0  | 2025-08-22 |  Mr Primark              |  INITIAL VERSION
 # ===============================================================================
 
 FPATH=$FPATH:$HOME/includes
@@ -25,125 +26,19 @@ echo ---------------------------------------
 echo JOB=${JOB:?}
 echo ---------------------------------------
 
+STREAMID=DATE
 
-## job specific
-
-SKIP_STEPS_CONTROL=1
-INSERTED_STAGING=0
-REJECTED_STAGING=0
-DUPLICATE_STAGING=0
-INSERTED_TARGET=0
-REJECTED_TARGET=0
-DUPLICATE_TARGET=0
-
-
-tjc_stepout -e
-tjc_onerror "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT"
-tjc_ontimeout "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT  > /dev/null 2>&1"
-tjc_stepout -e
-tjc_onerror "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT"
-tjc_ontimeout "tjc_alert -u '${LOGON}' -s '${SERVER}' -G TJC_${INSTANCE}_ALERT  > /dev/null 2>&1"
+#-------------------------------------------------------------------
+# Include common start script for job execution
+#-------------------------------------------------------------------
+. $HOME/jobs/FNDSTART.job
 
 #-------------------------------------------------------------------------------
-# Step 001 : Log start of job by running FND_JobStart.sql
-#-------------------------------------------------------------------------------
-
-step 001 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v STEP_NO=001 \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v JOB="${JOB:?}" ${STEP_DIR:?}/FND_JobStart.sql
-
-#-------------------------------------------------------------------------------
-# Step 003 : Get the RUNID parameter
-#-------------------------------------------------------------------------------
-
-# need to grab the run id so we can append it to the report files to make it unique
-step 003 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
-              -v STEP_NO="003" -v INSTANCE="${INSTANCE:?}" \
-              -v MET_V="${MET_V:?}" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetRunId.sql
-
-RUN_ID=$(tjc_stepout -l | awk '/^RUN_ID;/{print $2}')
-
-
-
-#-------------------------------------------------------------------------------
-# Step 020 : Get the parameters
-#-------------------------------------------------------------------------------
-
-# Set default time parameter
-JOB_PARAM_TS_FORMAT=${JOB_PARAM_TS_FORMAT:="YYYY-MM-DD HH:MI:SS"}
-# Set Work file
-JOB_PARAM_WORKFILE=$(tjc_workfile -c JOB_PARAM)
-step 020 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v JOB_PARAM_DT_FORMAT="${JOB_PARAM_DT_FORMAT:=YYYY-MM-DD}"\
-              -v JOB_PARAM_DT_ALT_FORMAT="${JOB_PARAM_DT_FORMAT:=IGNORE}"\
-              -v JOB_PARAM_TS_FORMAT="${JOB_PARAM_TS_FORMAT}"\
-              -v JOB_PARAM_INT_FORMAT="${JOB_PARAM_INT_FORMAT:=TM}"\
-              -v STEP_NO="020" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetALLParams.sql
-
-tjc_stepout -l|grep ^\!|cut -d\! -f2 >${JOB_PARAM_WORKFILE}
-
-# Set environment parameters
-. ${JOB_PARAM_WORKFILE}
-
-# Overwrite parameters with command line
-export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
-
-
-#-------------------------------------------------------------------------------
-# Step 025 : Get Stream
-#-------------------------------------------------------------------------------
-
-
-# Set Work file
-STREAM_PARAM_WORKFILE=$(tjc_workfile -c JOB_PARAM)
-step 025 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v STEP_NO="025" \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v STREAMID="${STREAMID:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetStream.sql
-
-tjc_stepout -l|grep ^\!|cut -d\! -f2 >${STREAM_PARAM_WORKFILE}
-
-# Set environment parameters
-. ${STREAM_PARAM_WORKFILE}
-
-# Overwrite parameters with command line
-export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})
-
-
-#-------------------------------------------------------------------------------
-# Step 030 : Get Load Token
-#-------------------------------------------------------------------------------
-
-
-# Set Work file
-LDTK_PARAM_WORKFILE=$(tjc_workfile -c JOB_PARAM)
-step 030 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v STEP_NO="030" \
-              -v INSTANCE="${INSTANCE:?}" \
-              -v STREAMID="${STREAMID:?}" \
-              -v LDTK_DATE="${LDTK_DATE:?}" \
-              -v LDTK_PREV_DATE="${LDTK_PREV_DATE:?}" \
-              -v LDTK_NEXT_DATE="${LDTK_NEXT_DATE:?}" \
-              -v JOB=${JOB:?} ${STEP_DIR:?}/FND_GetLoadToken.sql
-
-tjc_stepout -l|grep ^\!|cut -d\! -f2 >${LDTK_PARAM_WORKFILE}
-
-# Set environment parameters
-. ${LDTK_PARAM_WORKFILE}
-
-# Overwrite parameters with command line
-export $(MY_TMP=${TJC_OPTIONS//-v };echo ${MY_TMP//\"})#-------------------------------------------------------------------------------
 # Step 300 : This will do a insert into target table based on mapping
-# Step Pattern JOB_TRANS_DELETE_INSERT
-# TODO: Add step parameters
 #-------------------------------------------------------------------------------
 
 step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
--v MET_V="${MET_V}" \
+              -v MET_V="${MET_V}" \
               -v JOB="${JOB:?}" \
               -v STEP_NO=300 \
               -v INSTANCE="${INSTANCE:?}" \
@@ -153,7 +48,6 @@ step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
               -v LDTK_NEXT_DATE="${LDTK_NEXT_DATE:?}" \
               -v RUN_ID="${RUN_ID:?}" \
               -v RUNID="${RUN_ID:?}" \
-              -v JOB="${JOB:?}" \
               -v EFF_FROM_DT="${EFF_FROM_DT:?}" \
               -v CALENDAR_DT="${CALENDAR_DT:?}" \
               -v YEAR_START_DT="${YEAR_START_DT:?}" \
@@ -240,22 +134,12 @@ step 300 Bteq -s "${SERVER:?}" -u "${LOGON:?}" \
               -v NY_YEAR_NUM="${NY_YEAR_NUM:?}" \
               ${STEP_DIR:?}/FND1010.300.TARGET.sql
 
-#------------------------------------------------------------------------------------
-# Step 900 : Job Stop
-#------------------------------------------------------------------------------------
 
-step 900 Bteq -s "${SERVER:?}" -u "${LOGON:?}" -v MET_V="${MET_V}" \
-              -v INSERTED_STAGING="${INSERTED_STAGING}" \
-              -v REJECTED_STAGING="${REJECTED_STAGING}" \
-              -v DUPLICATE_STAGING="${DUPLICATE_STAGING}" \
-              -v INSERTED_TARGET="${INSERTED_TARGET}" \
-              -v REJECTED_TARGET="${REJECTED_TARGET}" \
-              -v DUPLICATE_TARGET="${DUPLICATE_TARGET}" \
-              -v RUN_ID="${RUN_ID}" \
-              -v STEP_NO="900" -v INSTANCE="${INSTANCE:?}" \
-              -v JOB="${JOB:?}" ${STEP_DIR:?}/FND_JobStop.sql
+#-------------------------------------------------------------------
+# Include common stop script for job execution
+#-------------------------------------------------------------------
+. $HOME/jobs/FNDSTOP.job
+
 #-----------------------------------------------------------
-# End
-#-----------------------------------------------------------#-----------------------------------------------------------
 # End
 #-----------------------------------------------------------

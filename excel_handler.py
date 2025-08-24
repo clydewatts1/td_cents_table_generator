@@ -183,6 +183,7 @@ def read_excel_file(file_path,config:dict):
     column_description = config['excel_sheets']['TABLE']['column_description']
     column_compression = config['excel_sheets']['TABLE']['column_compression']
     column_quote = config['excel_sheets']['TABLE']['column_quote']
+    column_default = config['excel_sheets']['TABLE']['column_default']
     # get number of rows in datafram
     num_rows = df_table.shape[0]
     config_table['columns'] = []
@@ -198,6 +199,7 @@ def read_excel_file(file_path,config:dict):
         column_description_value = column_description_value.replace("'","''")
         column_compression_value = df_table.iat[i, column_compression]
         column_quote_value = df_table.iat[i, column_quote]
+        column_default_value = df_table.iat[i, column_default]
 
         if not isinstance(column_name_value, str) or not isinstance(column_type_value, str):
             logging.error("Column name or type is not a string.")
@@ -227,6 +229,7 @@ def read_excel_file(file_path,config:dict):
         column_config['description'] = column_description_value
         column_config['compression'] = column_compression_value
         column_config['quote'] = column_quote_value
+        column_config['default'] = column_default_value
 
         config_table['columns'].append(column_config)
     print("Config table: %s", config_table)

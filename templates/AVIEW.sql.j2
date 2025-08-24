@@ -1,6 +1,6 @@
 {% import 'ddl_helper.sql.j2' as dd -%}
 {% set table_quote = '"' if table_quote=='Y' else ''-%}
-{{ dd.header(filename,project_name,build.databasename,schema_name,config.author_name,config.created_date)-}}
+{{ dd.header(build.filename,build.project_name,build.databasename,schema_name,config.author_name,config.created_date)-}}
 /* Create table for {{ table_name }} */
 REPLACE VIEW DW${INSTANCE}{{ build.databasename}}.{{table_quote}}{{ build.tablename }}{{table_quote}}
     AS LOCKING ROW FOR ACCESS

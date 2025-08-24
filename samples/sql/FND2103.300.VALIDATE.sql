@@ -2,23 +2,23 @@
 -- Script Name: Duplicate Primary Key Check
 -- Description: This script checks for duplicate records in the staging table
 --              'DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG' based on the
---              composite primary key (business_date, location_id, item_id).
+--              composite primary key (business_date, loc_wid, item_wid).
 --              It will exit with an error code if duplicates are found.
 -- =============================================================================
 -- Use a Common Table Expression (CTE) to identify duplicate records.
 WITH TST AS (
     SELECT
         business_date,
-        location_id,
-        item_id,
+        loc_wid,
+        item_wid,
         COUNT(*) AS dupl_count
     FROM
         DW${INSTANCE}T_TMP_ACC_FND.FND_STK_FCT_01_FCT_STG
     GROUP BY
         -- Group by the columns that form the unique key to find duplicates.
         business_date,
-        location_id,
-        item_id
+        loc_wid,
+        item_wid
     HAVING
         -- Filter for groups with more than one record, which indicates a duplicate.
         dupl_count > 1
@@ -30,7 +30,7 @@ SELECT TOP 10
 FROM
     TST
 ORDER BY
-    -- Order by location_id to make the output consistent.
+    -- Order by loc_wid to make the output consistent.
     dupl_count DESC
 ;
 -- =============================================================================

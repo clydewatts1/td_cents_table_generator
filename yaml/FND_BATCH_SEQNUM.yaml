@@ -21,6 +21,7 @@ columns:
   description: The name of the sequence number , this is unique
   compression: ''
   quote: ''
+  default: ''
 - column_name: seq_id
   column_type: BIGINT
   column_format: ''
@@ -29,6 +30,7 @@ columns:
   description: This is the sequence number
   compression: ''
   quote: ''
+  default: '1'
 - column_name: seq_incrmt
   column_type: SMALLINT
   column_format: ''
@@ -37,6 +39,7 @@ columns:
   description: This is the value to increment with
   compression: ''
   quote: ''
+  default: '1'
 - column_name: seq_init_id
   column_type: BIGINT
   column_format: ''
@@ -45,4 +48,5 @@ columns:
   description: This is the first value , usually 1
   compression: ''
   quote: ''
+  default: '1'
 BUILD: []

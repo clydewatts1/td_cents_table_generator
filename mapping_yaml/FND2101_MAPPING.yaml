@@ -1,4 +1,6 @@
 control_columns: .nan
+description: Deletes FND_STK_FCT_PVT_STG in preparation for run
+job_name: FND2101
 job_name_from_file: FND2101
 job_name_from_mapping: FND2101
 mapping_columns:
@@ -48,6 +50,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
@@ -65,6 +68,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: T_TMP_ACC_FND
   step_pattern: DELETE_TARGET
   steps: '300'
   target_database: T_TMP_ACC_FND
@@ -82,10 +86,12 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_END
   steps: End
   target_database: ''
   target_table: ''
+stream_id: FND_FACT_DAILY
 target_database_name: T_TMP_ACC_FND
 target_table_name: FND_STK_FCT_PVT_STG
 transformation_key:

@@ -26,6 +26,7 @@ columns:
   description: ITEM_ID or SKU ORIN
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_wid
   column_type: BIGINT
   column_format: ''
@@ -34,6 +35,7 @@ columns:
   description: ITEM WID
   compression: ''
   quote: ''
+  default: ''
 - column_name: style_id
   column_type: BIGINT
   column_format: ''
@@ -43,6 +45,7 @@ columns:
     one or many items(SKU) determined by a single design.
   compression: ''
   quote: ''
+  default: ''
 - column_name: styl_wid
   column_type: BIGINT
   column_format: ''
@@ -51,6 +54,7 @@ columns:
   description: Style Wid
   compression: ''
   quote: ''
+  default: ''
 - column_name: product_id
   column_type: BIGINT
   column_format: ''
@@ -59,6 +63,7 @@ columns:
   description: The product id , is style id and color ( style id * 1000 + color )
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_name
   column_type: VARCHAR(128)
   column_format: ''
@@ -67,6 +72,7 @@ columns:
   description: Short text reference or label for an item
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_desc
   column_type: VARCHAR(128)
   column_format: ''
@@ -75,6 +81,7 @@ columns:
   description: Narrative text describing the item or SKU Description
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_kimball_num
   column_type: INTEGER
   column_format: '''9999999'''
@@ -84,6 +91,7 @@ columns:
     (Equivalent to SKU Orin)
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_cd
   column_type: SMALLINT
   column_format: '''99'''
@@ -92,6 +100,7 @@ columns:
   description: This is the primark company code
   compression: ''
   quote: ''
+  default: ''
 - column_name: company_version_num
   column_type: SMALLINT
   column_format: ''
@@ -100,6 +109,7 @@ columns:
   description: This is the current version associated with style and company code
   compression: ''
   quote: ''
+  default: ''
 - column_name: division_cd
   column_type: SMALLINT
   column_format: '''99'''
@@ -108,6 +118,7 @@ columns:
   description: This is the division code
   compression: ''
   quote: ''
+  default: ''
 - column_name: division_version_num
   column_type: SMALLINT
   column_format: ''
@@ -116,6 +127,7 @@ columns:
   description: This is the current version associated with style and division code
   compression: ''
   quote: ''
+  default: ''
 - column_name: department_cd
   column_type: SMALLINT
   column_format: '''99'''
@@ -124,6 +136,7 @@ columns:
   description: The is the department code
   compression: ''
   quote: ''
+  default: ''
 - column_name: department_version_num
   column_type: SMALLINT
   column_format: ''
@@ -132,6 +145,7 @@ columns:
   description: This is the current version associated with style and department code
   compression: ''
   quote: ''
+  default: ''
 - column_name: section_cd
   column_type: SMALLINT
   column_format: '''999'''
@@ -140,6 +154,7 @@ columns:
   description: This is the class / section code
   compression: ''
   quote: ''
+  default: ''
 - column_name: section_version_num
   column_type: SMALLINT
   column_format: ''
@@ -149,6 +164,7 @@ columns:
     code
   compression: ''
   quote: ''
+  default: ''
 - column_name: subsection_grp_cd
   column_type: SMALLINT
   column_format: '''999'''
@@ -157,6 +173,7 @@ columns:
   description: This is the group subclass - group section
   compression: ''
   quote: ''
+  default: ''
 - column_name: subsection_grp_version_num
   column_type: SMALLINT
   column_format: ''
@@ -165,6 +182,7 @@ columns:
   description: This is the current version associated with style and subclass - group
   compression: ''
   quote: ''
+  default: ''
 - column_name: subsection_cd
   column_type: SMALLINT
   column_format: '''999'''
@@ -173,6 +191,7 @@ columns:
   description: This is the sub-classa / subsection code
   compression: ''
   quote: ''
+  default: ''
 - column_name: subsection_version_num
   column_type: VARCHAR(255)
   column_format: ''
@@ -181,6 +200,7 @@ columns:
   description: This is the current version associated with style and section - group
   compression: ''
   quote: ''
+  default: ''
 - column_name: division_name
   column_type: VARCHAR(255)
   column_format: ''
@@ -189,6 +209,7 @@ columns:
   description: This Column is used to identify the Primark Company Name
   compression: ''
   quote: ''
+  default: ''
 - column_name: department_name
   column_type: VARCHAR(255)
   column_format: ''
@@ -197,6 +218,7 @@ columns:
   description: Name of the Primark division
   compression: ''
   quote: ''
+  default: ''
 - column_name: section_name
   column_type: VARCHAR(255)
   column_format: ''
@@ -205,6 +227,7 @@ columns:
   description: Short text reference or label for a department
   compression: ''
   quote: ''
+  default: ''
 - column_name: subsection_grp_name
   column_type: VARCHAR(255)
   column_format: ''
@@ -213,6 +236,7 @@ columns:
   description: This Column is used identify the Merch Hierarchy section name
   compression: ''
   quote: ''
+  default: ''
 - column_name: subsection_name
   column_type: VARCHAR(255)
   column_format: ''
@@ -224,6 +248,7 @@ columns:
     case.
   compression: ''
   quote: ''
+  default: ''
 - column_name: buyer_cd
   column_type: VARCHAR(30)
   column_format: ''
@@ -234,6 +259,7 @@ columns:
     or similar detailed elements or intended for a common or similar specific case.
   compression: ''
   quote: ''
+  default: ''
 - column_name: buyer_name
   column_type: VARCHAR(255)
   column_format: ''
@@ -244,6 +270,7 @@ columns:
     of STYLEs and for the delivery of the STYLEs with the MERCHANDISER.'
   compression: ''
   quote: ''
+  default: ''
 - column_name: super_sku_num
   column_type: BIGINT
   column_format: ''
@@ -254,6 +281,7 @@ columns:
     and for the delivery of the STYLEs with the MERCHANDISER.'
   compression: ''
   quote: ''
+  default: ''
 - column_name: style_desc
   column_type: VARCHAR(128)
   column_format: ''
@@ -264,6 +292,7 @@ columns:
     more than 1 style with the same description)
   compression: ''
   quote: ''
+  default: ''
 - column_name: colour_cd
   column_type: SMALLINT
   column_format: ''
@@ -275,6 +304,7 @@ columns:
     colour.
   compression: ''
   quote: ''
+  default: ''
 - column_name: size_cd
   column_type: SMALLINT
   column_format: ''
@@ -283,6 +313,7 @@ columns:
   description: Uniquely identifies a size within a size type
   compression: ''
   quote: ''
+  default: ''
 - column_name: pack_ind
   column_type: CHAR(1)
   column_format: ''
@@ -293,6 +324,7 @@ columns:
     Concatenation of Pack ORIN Number and Pack Name
   compression: ''
   quote: ''
+  default: ''
 - column_name: sellable_item_ind
   column_type: CHAR(1)
   column_format: ''
@@ -301,6 +333,7 @@ columns:
   description: Unit quantity of goods indicator
   compression: ''
   quote: ''
+  default: ''
 - column_name: inventory_item_ind
   column_type: CHAR(1)
   column_format: ''
@@ -311,6 +344,7 @@ columns:
     and service items.
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_barcode_id
   column_type: CHAR(1)
   column_format: ''
@@ -322,6 +356,7 @@ columns:
     device
   compression: ''
   quote: ''
+  default: ''
 - column_name: barcode_type
   column_type: VARCHAR(10)
   column_format: ''
@@ -331,6 +366,7 @@ columns:
     will be used to control the type of entry into the coupon barcode field.
   compression: ''
   quote: ''
+  default: ''
 - column_name: barcode_desc
   column_type: VARCHAR(30)
   column_format: ''
@@ -342,6 +378,7 @@ columns:
     device.
   compression: ''
   quote: ''
+  default: ''
 - column_name: dtr_cd
   column_type: VARCHAR(10)
   column_format: ''
@@ -352,6 +389,7 @@ columns:
     to pay directly to the Licensor.
   compression: ''
   quote: ''
+  default: ''
 - column_name: licensor_cd
   column_type: VARCHAR(30)
   column_format: ''
@@ -361,6 +399,7 @@ columns:
     Concatenation of Licensor code and Licensor Description
   compression: ''
   quote: ''
+  default: ''
 - column_name: licensor_desc
   column_type: VARCHAR(64)
   column_format: ''
@@ -369,6 +408,7 @@ columns:
   description: The licence owner for the design of the copyright of a product
   compression: ''
   quote: ''
+  default: ''
 - column_name: property_cd
   column_type: VARCHAR(10)
   column_format: ''
@@ -377,6 +417,7 @@ columns:
   description: Id for the Copyright of the company. Defined for DTR items.
   compression: ''
   quote: ''
+  default: ''
 - column_name: property_desc
   column_type: VARCHAR(64)
   column_format: ''
@@ -385,6 +426,7 @@ columns:
   description: Description of asset held by the organization. Real property.
   compression: ''
   quote: ''
+  default: ''
 - column_name: character_cd
   column_type: VARCHAR(10)
   column_format: ''
@@ -394,6 +436,7 @@ columns:
     DTR items & all other licenced product.
   compression: ''
   quote: ''
+  default: ''
 - column_name: character_desc
   column_type: VARCHAR(64)
   column_format: ''
@@ -403,6 +446,7 @@ columns:
     DTR items & all other licenced product
   compression: ''
   quote: ''
+  default: ''
 - column_name: item_created_dt
   column_type: DATE
   column_format: ''
@@ -411,6 +455,7 @@ columns:
   description: This is the date in which an item classification relationship begins
   compression: ''
   quote: ''
+  default: ''
 - column_name: product_type
   column_type: VARCHAR(64)
   column_format: ''
@@ -419,6 +464,7 @@ columns:
   description: Type of product has been categorized
   compression: ''
   quote: ''
+  default: ''
 - column_name: hazardous
   column_type: VARCHAR(3)
   column_format: ''
@@ -427,6 +473,7 @@ columns:
   description: specialized equipment like Hazardous materials
   compression: ''
   quote: ''
+  default: ''
 - column_name: keylines
   column_type: VARCHAR(3)
   column_format: ''
@@ -435,6 +482,7 @@ columns:
   description: UDA Flag (User Defined Attribute)that indicates if item is a Keyline.
   compression: ''
   quote: ''
+  default: ''
 - column_name: story
   column_type: VARCHAR(4)
   column_format: ''
@@ -443,6 +491,7 @@ columns:
   description: Name of the look/ story that the product is assigned to
   compression: ''
   quote: ''
+  default: ''
 - column_name: sustainability
   column_type: VARCHAR(64)
   column_format: ''
@@ -451,6 +500,7 @@ columns:
   description: 'Warranty of the product (ex: Sustainable Cotton, Oeko-tex).'
   compression: ''
   quote: ''
+  default: ''
 - column_name: washes
   column_type: VARCHAR(32)
   column_format: ''
@@ -459,6 +509,7 @@ columns:
   description: Classifies the treatment of some FABRICs most often used with denim
   compression: ''
   quote: ''
+  default: ''
 - column_name: carryover
   column_type: CHAR(1)
   column_format: ''
@@ -469,6 +520,7 @@ columns:
     at sku ORIN level
   compression: ''
   quote: ''
+  default: ''
 - column_name: changemadeby
   column_type: VARCHAR(30)
   column_format: ''
@@ -478,6 +530,7 @@ columns:
     who last modified the record in the source system.
   compression: ''
   quote: ''
+  default: ''
 - column_name: size_group_code
   column_type: VARCHAR(10)
   column_format: ''
@@ -486,6 +539,7 @@ columns:
   description: unique identifier of size group
   compression: ''
   quote: ''
+  default: ''
 - column_name: size_group_description
   column_type: VARCHAR(64)
   column_format: ''
@@ -494,6 +548,7 @@ columns:
   description: contains the description of size group of the item
   compression: ''
   quote: ''
+  default: ''
 - column_name: size_display_sequence
   column_type: SMALLINT
   column_format: ''
@@ -502,6 +557,7 @@ columns:
   description: This Column is used identify the Size display Sequence number
   compression: ''
   quote: ''
+  default: ''
 - column_name: season_lookup
   column_type: BYTE(14)
   column_format: ''
@@ -510,6 +566,7 @@ columns:
   description: This is a bitmap lookup of each of the seasons based on the SSON_WID
   compression: ''
   quote: ''
+  default: ''
 BUILD:
 - jobname: FND1044
   databasename: DWP01T_TMP_ACC_FND

@@ -1,7 +1,7 @@
 
 /*----------------------------------------------------------------------
-* FileName: 
-* Project: 
+* FileName: A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.ddl
+* Project: Primark Reclassification Foundation
 * Database: DW${INSTANCE}A_ACC_FND
 * Schema: 
 * Author: Mr Primark
@@ -13,7 +13,7 @@ REPLACE VIEW DW${INSTANCE}A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT
 
 SELECT
     business_dt ,
-    loc_id ,
+    loc_wid ,
     item_wid ,
     sales_value ,
     sales_units ,
@@ -142,7 +142,7 @@ COMMENT ON VIEW DW${INSTANCE}A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT AS ''
 COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.business_dt AS 'Business Date (PK)'
 ;
 
-COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.loc_id AS 'Location ID Surrogate KEY (PK)'
+COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.loc_wid AS 'Location ID Surrogate KEY (PK)'
 ;
 
 COMMENT ON COLUMN DW${INSTANCE}A_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT.item_wid AS 'Item ID Surrogate Key (PK)'

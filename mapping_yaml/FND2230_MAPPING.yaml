@@ -1,4 +1,6 @@
 control_columns: .nan
+description: TBD
+job_name: FND2230
 job_name_from_file: FND2230
 job_name_from_mapping: FND2230
 mapping_columns:
@@ -13,13 +15,13 @@ mapping_columns:
   column_sequence: 2
   column_sequence_reverse: 108
   source_column_name: nan
-  target_column_name: loc_id
+  target_column_name: loc_wid
 - column_action: key
   column_order: nan
   column_sequence: 3
   column_sequence_reverse: 107
   source_column_name: nan
-  target_column_name: item_id
+  target_column_name: item_wid
 - column_action: nan
   column_order: nan
   column_sequence: 4
@@ -285,21 +287,21 @@ mapping_columns:
   column_sequence_reverse: 63
   source_column_name: nan
   target_column_name: cash_return_units
-- column_action: "    on lc.loc_id = stk.location_id\n    and lc.cur_flg = 'y'\n \
-    \   and lc.loc_sbtype_cd in ('w' 's')"
+- column_action: "    on lc.loc_wid = stk.loc_wid\n    and lc.cur_flg = 'y'\n    and\
+    \ lc.loc_sbtype_cd in ('w' 's')"
   column_order: nan
   column_sequence: 48
   column_sequence_reverse: 62
   source_column_name: nan
   target_column_name: cash_return_transaction_count
-- column_action: "    on itm.item_id = stk.item_id\n    and itm.cur_flg = 'y' "
+- column_action: "    on itm.item_wid = stk.item_wid\n    and itm.cur_flg = 'y' "
   column_order: nan
   column_sequence: 49
   column_sequence_reverse: 61
   source_column_name: nan
   target_column_name: card_return_value
-- column_action: "left join stpsel\n    on stk.item_id = stpsel.item_id\n    and stk.location_id\
-    \ = stpsel.loc_id"
+- column_action: "left join stpsel\n    on stk.item_wid = stpsel.item_wid\n    and\
+    \ stk.loc_wid = stpsel.loc_wid"
   column_order: nan
   column_sequence: 50
   column_sequence_reverse: 60
@@ -663,14 +665,14 @@ mapping_columns_count: 109
 mapping_sheet_name: MAPPING
 pattern: Staging
 primary_key:
-- business_datelocation_iditem_id
+- business_dateloc_widitem_wid
 sql_steps:
   FND2230.300.TARGET: "-- =================================================================================================\n\
     -- Populates the daily aggregated sales fact table by joining the pivoted staging\
     \ table\n-- with the source fact staging table.\n--\n-- Template: FND2130_SAMPLE.sql\n\
     -- Data: FND2230_Data.sql\n--\n-- Business Logic:\n-- 1. Uses FND_SLS_FCT_PVT_STG\
-    \ as the driver to ensure all combinations of\n--    business_date, location_id,\
-    \ and item_id are included.\n-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve\
+    \ as the driver to ensure all combinations of\n--    business_date, loc_wid, and\
+    \ item_wid are included.\n-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve\
     \ the actual sales measures.\n-- 3. COALESCE is used on all measure columns to\
     \ convert NULLs to 0.\n-- 4. Default values (0 or NULL) are provided for target\
     \ columns that do not have a direct source.\n-- 5. The script is designed to be\
@@ -687,7 +689,7 @@ sql_steps:
     WHERE\n    business_dt = date '${LDTK_DATE}'\n;\n.IF ERRORCODE <> 0 THEN .QUIT\
     \ 101;\n-- Insert the aggregated data into the final fact table.\nINSERT INTO\
     \ DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (\n    business_dt,\n\
-    \    loc_id,\n    item_id,\n    sales_value,\n    sales_units,\n    sales_transaction_count,\n\
+    \    loc_wid,\n    item_wid,\n    sales_value,\n    sales_units,\n    sales_transaction_count,\n\
     \    promotion_sales_value,\n    promotion_sales_units,\n    promotion_sales_transaction_count,\n\
     \    clearance_sales_value,\n    clearance_sales_units,\n    clearance_sales_transaction_count,\n\
     \    regular_sales_value,\n    regular_sales_units,\n    regular_sales_transaction_count,\n\
@@ -724,8 +726,8 @@ sql_steps:
     \    item_selling_price,\n    eff_from_dt,\n    eff_to_dt,\n    del_ind,\n   \
     \ run_id,\n    update_run_id,\n    job_id,\n    update_job_id\n)\nSELECT\n   \
     \ -- Key columns from the pivot table, which acts as the driver for the join.\n\
-    \    pvt.business_date AS business_dt,\n    pvt.location_id AS loc_id,\n    pvt.item_id\
-    \ AS item_id,\n    -- Measures from the source table (FCT1). COALESCE ensures\
+    \    pvt.business_date AS business_dt,\n    pvt.loc_wid AS loc_wid,\n    pvt.item_wid\
+    \ AS item_wid,\n    -- Measures from the source table (FCT1). COALESCE ensures\
     \ no nulls are inserted.\n    COALESCE(fct1.sales_value, 0) AS sales_value,\n\
     \    COALESCE(fct1.sales_units, 0) AS sales_units,\n    COALESCE(fct1.sales_transaction_count,\
     \ 0) AS sales_transaction_count,\n    COALESCE(fct1.promotion_sales_value, 0)\
@@ -823,8 +825,8 @@ sql_steps:
     \ Populated from a script variable.\n    NULL AS update_job_id -- NULL for new\
     \ records.\nFROM\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS pvt\n\
     LEFT OUTER JOIN\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG AS fct1\n\
-    \        ON pvt.business_date = fct1.business_date\n        AND pvt.location_id\
-    \ = fct1.location_id\n        AND pvt.item_id = fct1.item_id;\n-- Check for errors\
+    \        ON pvt.business_date = fct1.business_date\n        AND pvt.loc_wid =\
+    \ fct1.loc_wid\n        AND pvt.item_wid = fct1.item_wid;\n-- Check for errors\
     \ after the INSERT statement. If an error occurred, quit the script.\n.IF ERRORCODE\
     \ <> 0 THEN .QUIT 101;\n-- If no rows were inserted, quit the script. This can\
     \ be a useful check to ensure the source tables were not empty.\n.IF ACTIVITYCOUNT\
@@ -844,6 +846,7 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
@@ -863,8 +866,8 @@ steps:
     -- Populates the daily aggregated sales fact table by joining the pivoted staging\
     \ table\n-- with the source fact staging table.\n--\n-- Template: FND2130_SAMPLE.sql\n\
     -- Data: FND2230_Data.sql\n--\n-- Business Logic:\n-- 1. Uses FND_SLS_FCT_PVT_STG\
-    \ as the driver to ensure all combinations of\n--    business_date, location_id,\
-    \ and item_id are included.\n-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve\
+    \ as the driver to ensure all combinations of\n--    business_date, loc_wid, and\
+    \ item_wid are included.\n-- 2. LEFT JOINs to FND_SLS_FCT_01_FCT_STG to retrieve\
     \ the actual sales measures.\n-- 3. COALESCE is used on all measure columns to\
     \ convert NULLs to 0.\n-- 4. Default values (0 or NULL) are provided for target\
     \ columns that do not have a direct source.\n-- 5. The script is designed to be\
@@ -881,7 +884,7 @@ steps:
     WHERE\n    business_dt = date '${LDTK_DATE}'\n;\n.IF ERRORCODE <> 0 THEN .QUIT\
     \ 101;\n-- Insert the aggregated data into the final fact table.\nINSERT INTO\
     \ DW${INSTANCE}T_ACC_FND.DW_FND_LOC_AGG_DAILY_SALES_FCT (\n    business_dt,\n\
-    \    loc_id,\n    item_id,\n    sales_value,\n    sales_units,\n    sales_transaction_count,\n\
+    \    loc_wid,\n    item_wid,\n    sales_value,\n    sales_units,\n    sales_transaction_count,\n\
     \    promotion_sales_value,\n    promotion_sales_units,\n    promotion_sales_transaction_count,\n\
     \    clearance_sales_value,\n    clearance_sales_units,\n    clearance_sales_transaction_count,\n\
     \    regular_sales_value,\n    regular_sales_units,\n    regular_sales_transaction_count,\n\
@@ -918,8 +921,8 @@ steps:
     \    item_selling_price,\n    eff_from_dt,\n    eff_to_dt,\n    del_ind,\n   \
     \ run_id,\n    update_run_id,\n    job_id,\n    update_job_id\n)\nSELECT\n   \
     \ -- Key columns from the pivot table, which acts as the driver for the join.\n\
-    \    pvt.business_date AS business_dt,\n    pvt.location_id AS loc_id,\n    pvt.item_id\
-    \ AS item_id,\n    -- Measures from the source table (FCT1). COALESCE ensures\
+    \    pvt.business_date AS business_dt,\n    pvt.loc_wid AS loc_wid,\n    pvt.item_wid\
+    \ AS item_wid,\n    -- Measures from the source table (FCT1). COALESCE ensures\
     \ no nulls are inserted.\n    COALESCE(fct1.sales_value, 0) AS sales_value,\n\
     \    COALESCE(fct1.sales_units, 0) AS sales_units,\n    COALESCE(fct1.sales_transaction_count,\
     \ 0) AS sales_transaction_count,\n    COALESCE(fct1.promotion_sales_value, 0)\
@@ -1017,14 +1020,15 @@ steps:
     \ Populated from a script variable.\n    NULL AS update_job_id -- NULL for new\
     \ records.\nFROM\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_PVT_STG AS pvt\n\
     LEFT OUTER JOIN\n    DW${INSTANCE}T_TMP_ACC_FND.FND_SLS_FCT_01_FCT_STG AS fct1\n\
-    \        ON pvt.business_date = fct1.business_date\n        AND pvt.location_id\
-    \ = fct1.location_id\n        AND pvt.item_id = fct1.item_id;\n-- Check for errors\
+    \        ON pvt.business_date = fct1.business_date\n        AND pvt.loc_wid =\
+    \ fct1.loc_wid\n        AND pvt.item_wid = fct1.item_wid;\n-- Check for errors\
     \ after the INSERT statement. If an error occurred, quit the script.\n.IF ERRORCODE\
     \ <> 0 THEN .QUIT 101;\n-- If no rows were inserted, quit the script. This can\
     \ be a useful check to ensure the source tables were not empty.\n.IF ACTIVITYCOUNT\
     \ = 0 THEN .QUIT 101;\n-- End the transaction, committing all the changes made.\n\
     END TRANSACTION;\n.IF ERRORCODE <> 0 THEN .QUIT 101;"
   stats: ''
+  stats_target_database: T_ACC_FND
   step_pattern: TRANS_BESPOKE
   steps: '300'
   target_database: V_ACC_FND
@@ -1042,11 +1046,13 @@ steps:
   source_table: ''
   sql_statement: '/* ERROR : no steps found for this step */'
   stats: ''
+  stats_target_database: ''
   step_pattern: STANDARD_START
   steps: Start
   target_database: ''
   target_table: ''
+stream_id: nan
 target_database_name: T_ACC_FND
 target_table_name: DW_FND_AGG_DAILY_STOCK_FCT
 transformation_key:
-- business_datelocation_iditem_id
+- business_dateloc_widitem_wid
